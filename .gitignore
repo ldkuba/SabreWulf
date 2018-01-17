@@ -1,3 +1,6 @@
+/Server/target
+/Server/.iml
+/Server/.idea
 *.class
 /bin
 .classpath
