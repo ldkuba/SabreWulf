@@ -1,6 +1,10 @@
 # SabreWulf
 
-### Initial Project Structure:
-README.md
-Server
-Client
+##### Project Structure:  
+SabreWulf  
+├── README.md  
+├── Server  
+│   ├── src  
+│   │   └── Wrapper  
+│   └── pom.xml  
+└── Client

@@ -1,7 +1,7 @@
 /Server/target
-/Server/.iml
 /Server/.idea
 *.class
+*.iml
 /bin
 .classpath
 .project
