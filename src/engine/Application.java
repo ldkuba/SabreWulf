@@ -6,20 +6,21 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
+import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
 
-/*Initialise the game window 
- * Currently this is basically just the code of the template given   
+/*
+ * Initialises the game window, creating the application
 */
 
 public class Application {
 
 	private long window;
-
+	
 	public void initialise() {
 		// Initialise GLFW
 		if (!glfwInit())
@@ -31,25 +32,19 @@ public class Application {
 			throw new RuntimeException("Failed to create window");
 		}
 		
-		// Setup a key callback - It will be called every time a key is pressed, repeated or released.
+		// Setup a key callback - if esc is pressed the program is terminated
 		glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
 			if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
-				glfwSetWindowShouldClose(window, true); // Detected in rendering loop
+				glfwSetWindowShouldClose(window, true); // Detected in loop()
 		});
 
 		// Get the thread stack and push a new frame
 		try (MemoryStack stack = stackPush()) {
 			IntBuffer pWidth = stack.mallocInt(1);
 			IntBuffer pHeight = stack.mallocInt(1);
-
-			// Get the window size passed to glfwCreateWindow
 			glfwGetWindowSize(window, pWidth, pHeight);
-
-			// Get the resolution of the primary monitor
 			GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-
-			// Centre the window
-			glfwSetWindowPos(window, (vidmode.width() - pWidth.get(0)) / 2, (vidmode.height() - pHeight.get(0)) / 2);
+			glfwSetWindowPos(window, (vidmode.width() - pWidth.get(0)) / 2, (vidmode.height() - pHeight.get(0)) / 2);// Centre the window
 		} 
 
 		// Make the OpenGL context current
@@ -61,12 +56,13 @@ public class Application {
 	}
 
 	private void loop() {
+		StateManager states = new StateManager();
 		GL.createCapabilities();
-		// Run the rendering loop until the user has attempted to close the window or has pressed the ESCAPE key.
+		// Run the rendering loop until the user presses esc or quits
 		while (!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the frame buffer
 			glfwSwapBuffers(window); // swap the colour buffers (called after drawing)
-			glfwPollEvents(); // Poll for window events. The key callback above will only be invoked during this call.			
+			glfwPollEvents(); // Poll for window events. The key callback above will only be invoked during this call.	
 		}
 	}
 	
