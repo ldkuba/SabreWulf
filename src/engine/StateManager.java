@@ -1,16 +1,17 @@
 package engine;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 /*
  * Game State Manager - rather self explanatory name
  */
 public class StateManager {
 	ArrayList<AbstractState> registered;
-	private GameState activeState;
+	long window;
 	
-	public StateManager(){
+	public StateManager(long window){
+		this.window = window;
 		registered = new ArrayList<AbstractState>();
 	}
 	
@@ -40,12 +41,14 @@ public class StateManager {
 		}
 	}
 	
-	private void switchToState(AbstractState state){
+	public void switchToState(AbstractState state){
+		System.out.println("Hello");
 		//switch to a specified game state if it exists
 		if (isRegistered(state)){
 			state.init();
 		} else {
-			System.err.println("Cannot switch to state, it does not exist");
+			addState(state);
 		}
 	}
+	
 }

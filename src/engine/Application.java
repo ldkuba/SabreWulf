@@ -1,17 +1,15 @@
 package engine;
 
-import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryStack.stackPush;
+import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
-
-import org.lwjgl.glfw.GLFWKeyCallback;
-import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.opengl.GL;
-import org.lwjgl.system.MemoryStack;
+import static org.lwjgl.system.MemoryStack.stackPush;
 
 import java.nio.IntBuffer;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.system.MemoryStack;
 
 /*
  * Initialises the game window, creating the application
@@ -56,13 +54,14 @@ public class Application {
 	}
 
 	private void loop() {
-		StateManager states = new StateManager();
+		//StateManager states = new StateManager(window);
 		GL.createCapabilities();
 		// Run the rendering loop until the user presses esc or quits
 		while (!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the frame buffer
 			glfwSwapBuffers(window); // swap the colour buffers (called after drawing)
 			glfwPollEvents(); // Poll for window events. The key callback above will only be invoked during this call.	
+			//states.switchToState(null);
 		}
 	}
 	
