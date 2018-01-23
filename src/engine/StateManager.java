@@ -7,18 +7,22 @@ import java.util.ArrayList;
  * Game State Manager - rather self explanatory name
  */
 public class StateManager {
-	ArrayList<AbstractState> registered;
-	long window;
+	
+	private ArrayList<AbstractState> registered;
+	private long window;
+	
+	private Application app;
 	
 	private AbstractState activeState;
 	
-	public StateManager(long window){
-		this.window = window;
+	public StateManager(Application app){
+		this.app = app;
+		this.window = app.getWindow();
 		registered = new ArrayList<AbstractState>();
 	}
 	
 	public void addState(AbstractState newState){
-		registered.add(newState);		
+		registered.add(newState);	
 	}
 	
 	private void printStates(){
@@ -66,10 +70,16 @@ public class StateManager {
 			if(activeState != null)
 			{
 				activeState.deactivate();
+				app.getInputManager().removeKeyboardListener(activeState);
+				app.getInputManager().removeMouseListener(activeState);
 			}
 			
 			state.init();
 			activeState = state;
+			
+			app.getInputManager().addKeyboardListener(activeState);
+			app.getInputManager().addMouseListener(activeState);
+			
 		} else {
 			System.out.println("Error: Switching to unregistered state");
 		}

@@ -1,5 +1,6 @@
 package temp;
 
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import engine.AbstractState;
@@ -41,6 +42,24 @@ public class TestState2 extends AbstractState
 		counter += 0.05f;
 	}
 
+	@Override
+	public void keyAction(int key, int action)
+	{
+		if(key == GLFW.GLFW_KEY_SPACE && action == GLFW.GLFW_PRESS)
+		{
+			System.out.println("Key pressed in state 2");
+		}else if(key == GLFW.GLFW_KEY_A && action == GLFW.GLFW_PRESS)
+		{
+			app.getStateManager().setState(Main.testState);
+		}
+	}
+	
+	@Override 
+	public void mouseAction(int key, int action)
+	{
+		
+	}
+	
 	@Override
 	public void deactivate()
 	{

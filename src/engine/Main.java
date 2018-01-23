@@ -9,8 +9,8 @@ import temp.TestState2;
 
 public class Main extends Application {
 	
-	private TestState testState;
-	private TestState2 testState2;
+	public static TestState testState;
+	public static TestState2 testState2;
 	
 	public Main()
 	{		

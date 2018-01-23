@@ -40,11 +40,24 @@ public class TestState extends AbstractState
 	public void update()
 	{
 		counter += 0.05f;
-		
-		if(isPressed(GLFW.GLFW_KEY_SPACE))
+	}
+	
+	@Override
+	public void keyAction(int key, int action)
+	{
+		if(key == GLFW.GLFW_KEY_SPACE && action == GLFW.GLFW_PRESS)
 		{
-			
+			System.out.println("Key pressed in state 1");
+		}else if(key == GLFW.GLFW_KEY_A && action == GLFW.GLFW_PRESS)
+		{
+			app.getStateManager().setState(Main.testState2);
 		}
+	}
+	
+	@Override 
+	public void mouseAction(int key, int action)
+	{
+		
 	}
 
 	@Override
