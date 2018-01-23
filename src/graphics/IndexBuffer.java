@@ -20,12 +20,12 @@ public class IndexBuffer
 		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, data, GL15.GL_STATIC_DRAW);
 	}
 	
-	public void Bind()
+	public void bind()
 	{
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, m_ID);
 	}
 	
-	public void Unbind()
+	public void unbind()
 	{
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
