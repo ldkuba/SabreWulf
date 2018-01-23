@@ -1,7 +1,9 @@
-package engine;
+package engine.state;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import engine.Application;
 
 /*
  * Game State Manager - rather self explanatory name

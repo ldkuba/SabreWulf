@@ -3,7 +3,7 @@ package temp;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
-import engine.AbstractState;
+import engine.state.AbstractState;
 
 public class TestState2 extends AbstractState
 {

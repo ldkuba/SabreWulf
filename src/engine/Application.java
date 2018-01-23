@@ -28,6 +28,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
 import engine.input.InputManager;
+import engine.state.StateManager;
 
 /*
  * Initialises the game window, creating the application
