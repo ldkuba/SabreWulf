@@ -64,9 +64,8 @@ public class StateManager {
 	}
 	
 	public void setState(AbstractState state){
-		System.out.println("Hello");
-		//switch to a specified game state if it exists
 		
+		//switch to a specified game state if it exists
 		if (isRegistered(state)){
 			
 			if(activeState != null)
