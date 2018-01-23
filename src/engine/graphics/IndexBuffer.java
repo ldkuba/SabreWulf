@@ -1,10 +1,6 @@
-package graphics;
-
-import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
+package engine.graphics;
 
 import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL31;
 
 public class IndexBuffer
 {

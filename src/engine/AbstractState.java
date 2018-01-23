@@ -1,9 +1,7 @@
 package engine;
 
-import org.lwjgl.glfw.GLFWKeyCallback;
-
-import input.KeyboardListener;
-import input.MouseListener;
+import engine.input.KeyboardListener;
+import engine.input.MouseListener;
 
 /*
  * AbstractState is a class that is extended by all different

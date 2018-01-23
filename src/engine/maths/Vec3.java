@@ -1,4 +1,4 @@
-package maths;
+package engine.maths;
 
 public class Vec3
 {

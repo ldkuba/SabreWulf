@@ -4,7 +4,6 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import engine.AbstractState;
-import engine.Main;
 
 public class TestState2 extends AbstractState
 {

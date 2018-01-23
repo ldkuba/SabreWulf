@@ -1,6 +1,6 @@
-package graphics;
+package engine.graphics;
 
-import graphics.VertexLayout.AttributeTypes;
+import engine.graphics.VertexLayout.AttributeTypes;
 
 public class VertexAttribute
 {

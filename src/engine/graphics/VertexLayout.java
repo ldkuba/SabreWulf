@@ -1,4 +1,4 @@
-package graphics;
+package engine.graphics;
 
 import java.util.ArrayList;
 
