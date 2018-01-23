@@ -10,16 +10,14 @@ public class StateManager {
 	ArrayList<AbstractState> registered;
 	long window;
 	
+	private AbstractState activeState;
+	
 	public StateManager(long window){
 		this.window = window;
 		registered = new ArrayList<AbstractState>();
 	}
 	
-	private enum GameState {
-		MENU, LOBBY, GAME, QUIT
-	}
-	
-	private void addState(AbstractState newState){
+	public void addState(AbstractState newState){
 		registered.add(newState);		
 	}
 	
@@ -32,7 +30,7 @@ public class StateManager {
 		}
 	}
 	
-	private boolean isRegistered(AbstractState state){
+	public boolean isRegistered(AbstractState state){
 		//checks to see if given state is registered
 		if(registered.contains(state)){
 			return true;
@@ -41,13 +39,39 @@ public class StateManager {
 		}
 	}
 	
-	public void switchToState(AbstractState state){
+	public void updateState()
+	{
+		for(AbstractState state : registered)
+		{
+			if(state.equals(activeState))
+				state.update();
+		}
+	}
+	
+	public void renderState()
+	{
+		for(AbstractState state : registered)
+		{
+			if(state.equals(activeState))
+				state.render();
+		}
+	}
+	
+	public void setState(AbstractState state){
 		System.out.println("Hello");
 		//switch to a specified game state if it exists
+		
 		if (isRegistered(state)){
+			
+			if(activeState != null)
+			{
+				activeState.deactivate();
+			}
+			
 			state.init();
+			activeState = state;
 		} else {
-			addState(state);
+			System.out.println("Error: Switching to unregistered state");
 		}
 	}
 	

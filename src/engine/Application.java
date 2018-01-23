@@ -8,6 +8,7 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 
 import java.nio.IntBuffer;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.system.MemoryStack;
 
@@ -17,7 +18,14 @@ import org.lwjgl.system.MemoryStack;
 
 public class Application {
 
-	private long window;
+	protected long window;
+	
+	protected StateManager stateManager;
+	
+	public Application()
+	{
+		initialise();
+	}
 	
 	public void initialise() {
 		// Initialise GLFW
@@ -51,29 +59,36 @@ public class Application {
 		glfwSwapInterval(1);
 		// Make the window visible
 		glfwShowWindow(window);
+		
+		stateManager = new StateManager(window);
 	}
 
-	private void loop() {
-		//StateManager states = new StateManager(window);
+	public void run() {
+		
 		GL.createCapabilities();
 		// Run the rendering loop until the user presses esc or quits
 		while (!glfwWindowShouldClose(window)) {
+			
+			stateManager.updateState();
+			
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the frame buffer
+		
+			stateManager.renderState();
+			
 			glfwSwapBuffers(window); // swap the colour buffers (called after drawing)
 			glfwPollEvents(); // Poll for window events. The key callback above will only be invoked during this call.	
 			//states.switchToState(null);
 		}
-	}
-	
-	public void run() {
-		initialise();
-		loop();
-		// Free the window callbacks and destroy the window
+		
 		glfwFreeCallbacks(window);
 		glfwDestroyWindow(window);
 		// Terminate GLFW
 		glfwTerminate();
 		System.err.println("Successfully Quit");
 	}
-
+	
+	public StateManager getStateManager()
+	{
+		return stateManager;
+	}
 }
