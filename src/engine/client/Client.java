@@ -5,6 +5,7 @@ class Client extends Thread
 {
     
     {
+        int i;
         BufferedReader inFromUser =
                 new BufferedReader(new InputStreamReader(System.in));
         DatagramSocket clientSocket = new DatagramSocket();
