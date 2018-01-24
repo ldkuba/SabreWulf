@@ -8,7 +8,7 @@ import engine.state.AbstractState;
 public class TestState extends AbstractState
 {
 	float xPos = 0.0f;
-	double counter = 0.0f;
+	float yPos = 0.0f;
 	
 	private Main app;
 	
@@ -24,21 +24,20 @@ public class TestState extends AbstractState
 	}
 
 	@Override
-	public void render()
+	public void update()
 	{
-		xPos = (float) Math.sin(counter);
-		
-		GL11.glBegin(GL11.GL_TRIANGLES);
-			GL11.glVertex2f(-0.5f, -0.5f);
-			GL11.glVertex2f(0.5f, -0.5f);
-			GL11.glVertex2f(xPos, 0.5f);
-		GL11.glEnd();
+		xPos = (float) app.getInputManager().getMouseX() / 400.0f - 1.0f;
+		yPos = 1.0f - (float) (app.getInputManager().getMouseY() / 300.0f);
 	}
 
 	@Override
-	public void update()
+	public void render()
 	{
-		counter += 0.05f;
+		GL11.glBegin(GL11.GL_TRIANGLES);
+			GL11.glVertex2f(-0.5f, -0.5f);
+			GL11.glVertex2f(0.5f, -0.5f);
+			GL11.glVertex2f(xPos, yPos);
+		GL11.glEnd();
 	}
 	
 	@Override

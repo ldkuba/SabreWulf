@@ -24,6 +24,12 @@ public class TestState2 extends AbstractState
 	}
 
 	@Override
+	public void update()
+	{
+		counter += 0.05f;
+	}
+	
+	@Override
 	public void render()
 	{
 		yPos = (float) Math.sin(counter);
@@ -36,12 +42,6 @@ public class TestState2 extends AbstractState
 	}
 
 	@Override
-	public void update()
-	{
-		counter += 0.05f;
-	}
-
-	@Override
 	public void keyAction(int key, int action)
 	{
 		if(key == GLFW.GLFW_KEY_SPACE && action == GLFW.GLFW_PRESS)
@@ -50,6 +50,9 @@ public class TestState2 extends AbstractState
 		}else if(key == GLFW.GLFW_KEY_A && action == GLFW.GLFW_PRESS)
 		{
 			app.getStateManager().setState(Main.testState);
+		}else if(key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_PRESS)
+		{
+			 GLFW.glfwSetWindowShouldClose(app.getWindow(), true);
 		}
 	}
 	

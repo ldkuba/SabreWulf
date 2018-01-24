@@ -55,7 +55,7 @@ public class Application {
 			throw new IllegalStateException("Unable to initialize GLFW");
 
 		// Create the window
-		window = glfwCreateWindow(750, 650, "SabreWulf", NULL, NULL); //width, height
+		window = glfwCreateWindow(800, 600, "SabreWulf", NULL, NULL); //width, height
 		if (window == NULL) {
 			throw new RuntimeException("Failed to create window");
 		}
