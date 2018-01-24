@@ -7,12 +7,9 @@ import engine.state.AbstractState;
 
 public class TestState extends AbstractState
 {
-	
 	//stuff for checking if networking works
 	float xPos = 0.0f;
-	float yPos = 0.0f;
 	float speed = 0.03f;
-	
 	
 	private Main app;
 	
@@ -65,7 +62,6 @@ public class TestState extends AbstractState
 		{
 			app.getStateManager().setState(Main.testState2);
 		}
-		
 	}
 	
 	@Override 
