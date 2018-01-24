@@ -7,8 +7,12 @@ import engine.state.AbstractState;
 
 public class TestState extends AbstractState
 {
+	
+	//stuff for checking if networking works
 	float xPos = 0.0f;
-	double counter = 0.0f;
+	float yPos = 0.0f;
+	float speed = 0.03f;
+	
 	
 	private Main app;
 	
@@ -26,11 +30,9 @@ public class TestState extends AbstractState
 	@Override
 	public void render()
 	{
-		xPos = (float) Math.sin(counter);
-		
 		GL11.glBegin(GL11.GL_TRIANGLES);
-			GL11.glVertex2f(-0.5f, -0.5f);
-			GL11.glVertex2f(0.5f, -0.5f);
+			GL11.glVertex2f(xPos - 0.5f, -0.5f);
+			GL11.glVertex2f(xPos + 0.5f, -0.5f);
 			GL11.glVertex2f(xPos, 0.5f);
 		GL11.glEnd();
 	}
@@ -38,7 +40,19 @@ public class TestState extends AbstractState
 	@Override
 	public void update()
 	{
-		counter += 0.05f;
+		if(app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_LEFT))
+		{
+			if(xPos > -1.0f)
+			{
+				xPos -= speed;
+			}
+		}else if(app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_RIGHT))
+		{
+			if(xPos < 1.0f)
+			{
+				xPos += speed;
+			}
+		}
 	}
 	
 	@Override
@@ -51,6 +65,7 @@ public class TestState extends AbstractState
 		{
 			app.getStateManager().setState(Main.testState2);
 		}
+		
 	}
 	
 	@Override 
