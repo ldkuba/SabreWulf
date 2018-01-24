@@ -18,7 +18,7 @@ public class MainServer {
 	public MainServer(int port) {
 		this.port = port;
 	}
-
+/*
 	public static void main(String[] args) {
 		
 			MainServer server = new MainServer(6666);
@@ -27,7 +27,7 @@ public class MainServer {
 			System.out.println("It works");
 			
 	}
-	
+*/	
 	public void startServer() {
 		
 		//Start the lobby. (TCP)
