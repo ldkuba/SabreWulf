@@ -1,4 +1,4 @@
-package engine.client;
+package client;
 
 public class startClient {
 
