@@ -11,15 +11,15 @@ public class Main extends Application {
 	public static TestState testState;
 	public static TestState2 testState2;
 	
-	public Main()
-	{		
-		super();
+	public Main() {		
+		super(750, 650); //pass through width and height of window
 		testState = new TestState(this);
 		testState2 = new TestState2(this);
 		stateManager.addState(testState);
 		stateManager.addState(testState2);
 		
-		stateManager.setState(testState);
+		//set starting state 
+		stateManager.setCurrentState(testState);
 	}
 	
 	public static void main(String[] args){

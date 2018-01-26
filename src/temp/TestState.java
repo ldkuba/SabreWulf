@@ -60,7 +60,7 @@ public class TestState extends AbstractState
 			System.out.println("Key pressed in state 1");
 		}else if(key == GLFW.GLFW_KEY_A && action == GLFW.GLFW_PRESS)
 		{
-			app.getStateManager().setState(Main.testState2);
+			app.getStateManager().setCurrentState(Main.testState2);
 		}
 	}
 	

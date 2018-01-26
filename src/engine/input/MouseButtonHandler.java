@@ -1,7 +1,6 @@
 package engine.input;
 
 import java.util.ArrayList;
-
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
 public class MouseButtonHandler extends GLFWMouseButtonCallback{
