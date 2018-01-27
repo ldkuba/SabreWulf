@@ -50,6 +50,7 @@ public class Application {
 	}
 	
 	public void initialiseGLFW() {
+		
 		// Initialise GLFW
 		if (!glfwInit())
 			throw new IllegalStateException("Unable to initialize GLFW");

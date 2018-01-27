@@ -38,6 +38,8 @@ public class TestState extends AbstractState
 			GL11.glVertex2f(0.5f, -0.5f);
 			GL11.glVertex2f(xPos, yPos);
 		GL11.glEnd();
+		
+		
 	}
 	
 	@Override
