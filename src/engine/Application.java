@@ -41,13 +41,13 @@ public class Application {
 	protected StateManager stateManager;
 	protected InputManager inputManager;
 
-	public Application(int width, int height) {
-		initialise(width, height);
+	public Application(int width, int height, int vsyncInterval) {
+		initialise(width, height, vsyncInterval);
 		stateManager = new StateManager(this);
 		inputManager = new InputManager(this);
 	}
 
-	public void initialise(int width, int height) {
+	public void initialise(int width, int height, int vsyncInterval) {
 		// Initialise GLFW
 		if (!glfwInit()) {
 			throw new IllegalStateException("Unable to initialize GLFW");
@@ -69,7 +69,7 @@ public class Application {
 		// Make the OpenGL context current
 		glfwMakeContextCurrent(window);
 		// Enable v-sync
-		glfwSwapInterval(1);
+		glfwSwapInterval(vsyncInterval);
 		// Make the window visible
 		glfwShowWindow(window);
 	}
