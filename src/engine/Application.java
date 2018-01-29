@@ -63,7 +63,7 @@ public class Application {
 
 	public void run() {
 		GL.createCapabilities();
-		// Run the rendering loop until the user presses esc or quits
+		// Run the rendering loop until user quits
 		while (!glfwWindowShouldClose(window)) {
 			stateManager.updateState();
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear frame buffer
@@ -71,11 +71,7 @@ public class Application {
 			glfwSwapBuffers(window); // swap the colour buffers
 			glfwPollEvents(); // Poll for window events. The key callback above will only be invoked during this call.
 		}
-		glfwFreeCallbacks(window);
-		glfwDestroyWindow(window);
-		// Terminate GLFW
-		glfwTerminate();
-		System.err.println("Successfully Quit");
+		exit();
 	}
 
 	public StateManager getStateManager() {
@@ -89,5 +85,13 @@ public class Application {
 
 	public InputManager getInputManager() {
 		return inputManager;
+	}
+	
+	public void exit (){
+		glfwFreeCallbacks(window);
+		glfwDestroyWindow(window);
+		// Terminate GLFW
+		glfwTerminate();
+		System.err.println("Successfully Quit");
 	}
 }
