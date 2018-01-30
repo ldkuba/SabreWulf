@@ -67,4 +67,18 @@ public class Vec4
 	{
 		this.z = z;
 	}	
+	
+	public Vec4 mult(Mat4 matrix)
+	{
+		Vec4 result = new Vec4();
+		
+		float[] elements = matrix.getElements();
+		
+		result.setW(elements[0] * w + elements[1] * x + elements[2] * y + elements[3] * z);
+		result.setX(elements[4] * w + elements[5] * x + elements[6] * y + elements[7] * z);
+		result.setY(elements[8] * w + elements[9] * x + elements[10] * y + elements[11] * z);
+		result.setZ(elements[12] * w + elements[13] * x + elements[14] * y + elements[15] * z);
+		
+		return result;
+	}
 }

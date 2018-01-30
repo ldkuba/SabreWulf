@@ -18,7 +18,9 @@ public class Camera
 		m_ProjectionMatrix = Mat4.identity();
 		
 		m_Position = new Vec3();
-		m_Direction = new Vec3();
+		m_Direction = new Vec3(0, 0, 1.0f);
+		
+		m_ViewMatrix = MathUtil.simpleViewMat(m_Position, m_Direction, new Vec3(0, 1.0f, 0));
 	}
 		
 	public Vec3 getPosition()
