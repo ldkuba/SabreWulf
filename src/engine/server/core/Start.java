@@ -6,6 +6,7 @@ public class Start {
         GameServer gs = new GameServer();
 
         gs.start();
+    test123
     }
 
 }
