@@ -1,6 +1,6 @@
 package temp;
 
-import engine.Application;
+import engine.application.Application;
 
 /*
  * 	Only used to test that a window is still loaded

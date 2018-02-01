@@ -2,7 +2,7 @@ package engine.state;
 
 import java.util.ArrayList;
 
-import engine.Application;
+import engine.application.Application;
 
 /*
  * Game State Manager

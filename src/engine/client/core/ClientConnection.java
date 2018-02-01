@@ -1,4 +1,4 @@
-package client.core;
+package engine.client.core;
 
 import engine.client.tcp.ClientReceiverTCP;
 import engine.client.tcp.ClientSenderTCP;
