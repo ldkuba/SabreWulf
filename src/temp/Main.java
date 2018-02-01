@@ -12,7 +12,7 @@ public class Main extends Application {
 	public static TestState2 testState2;
 	
 	public Main() {		
-		super(750, 650); //pass through width and height of window
+		super(750, 650, 1, "SabreWulf"); //window width, window height, vsync interval
 		testState = new TestState(this);
 		testState2 = new TestState2(this);
 		stateManager.addState(testState);

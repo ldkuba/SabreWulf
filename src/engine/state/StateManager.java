@@ -12,17 +12,15 @@ public class StateManager {
 	private Application app;
 	private ArrayList<AbstractState> registered;
 	private AbstractState activeState;
-	//private long window;
 
 	public StateManager(Application app) {
 		this.app = app;
-		//this.window = app.getWindow();
 		registered = new ArrayList<AbstractState>();
 	}
 
 	public void addState(AbstractState newState) {
-		// register new state if it doesnt already exist
-		if (!registered.contains(newState)) {
+		// register new state if it doesn't already exist
+		if (!isRegistered(newState)) {
 			registered.add(newState);
 		} else {
 			System.err.println("State already registered");
@@ -39,29 +37,22 @@ public class StateManager {
 	}
 
 	public void updateState() {
-		//update a state - if its active
-		for (AbstractState state : registered) {
-			if (state.equals(activeState))
-				state.update();
-		}
+		//update active state 
+		activeState.update();
 	}
 
 	public void renderState() {
-		//render a state - if its active
-		for (AbstractState state : registered) {
-			if (state.equals(activeState)) {
-				state.render();
-			}
-		}
+		//render active state
+		activeState.render();
 	}
 
 	public void setCurrentState(AbstractState state) {
 		// switch to a specified game state if it exists
 		if (isRegistered(state)) {
 			if (activeState != null) {
-				activeState.deactivate();
 				app.getInputManager().removeKeyboardListener(activeState);
 				app.getInputManager().removeMouseListener(activeState);
+				activeState.deactivate();	
 			}
 			state.init();
 			activeState = state;
