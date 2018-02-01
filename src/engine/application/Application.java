@@ -1,4 +1,4 @@
-package application;
+package engine.application;
 
 import engine.input.InputManager;
 import engine.state.StateManager;
@@ -21,23 +21,22 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 public class Application {
 
 	protected long window;
-
 	protected StateManager stateManager;
 	protected InputManager inputManager;
 
-	public Application(int width, int height) {
-		initialise(width, height);
+	public Application(int width, int height, int vsyncInterval, String name) {
+		initialise(width, height, vsyncInterval, name);
 		stateManager = new StateManager(this);
 		inputManager = new InputManager(this);
 	}
 
-	public void initialise(int width, int height) {
+	public void initialise(int width, int height, int vsyncInterval, String name) {
 		// Initialise GLFW
 		if (!glfwInit()) {
 			throw new IllegalStateException("Unable to initialize GLFW");
 		}
 		// Create the window
-		window = glfwCreateWindow(width, height, "SabreWulf", NULL, NULL); // width, height
+		window = glfwCreateWindow(width, height, name, NULL, NULL); // width, height, window name
 		if (window == NULL) {
 			throw new RuntimeException("Failed to create window");
 		}
@@ -53,7 +52,7 @@ public class Application {
 		// Make the OpenGL context current
 		glfwMakeContextCurrent(window);
 		// Enable v-sync
-		glfwSwapInterval(1);
+		glfwSwapInterval(vsyncInterval);
 		// Make the window visible
 		glfwShowWindow(window);
 	}
@@ -68,11 +67,7 @@ public class Application {
 			glfwSwapBuffers(window); // swap the colour buffers
 			glfwPollEvents(); // Poll for window events. The key callback above will only be invoked during this call.
 		}
-		glfwFreeCallbacks(window);
-		glfwDestroyWindow(window);
-		// Terminate GLFW
-		glfwTerminate();
-		System.err.println("Successfully Quit");
+		exit();
 	}
 
 	public StateManager getStateManager() {
@@ -86,5 +81,13 @@ public class Application {
 
 	public InputManager getInputManager() {
 		return inputManager;
+	}
+
+	public void exit(){
+		glfwFreeCallbacks(window);
+		glfwDestroyWindow(window);
+		// Terminate GLFW
+		glfwTerminate();
+		System.out.println("Successfully Quit");
 	}
 }
