@@ -1,4 +1,4 @@
-package temp;
+package game;
 
 import engine.application.Application;
 

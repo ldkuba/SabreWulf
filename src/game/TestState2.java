@@ -1,4 +1,4 @@
-package temp;
+package game;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
