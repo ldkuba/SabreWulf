@@ -33,7 +33,6 @@ public class CoreClientThread extends Thread {
                     } catch (InterruptedException e) {
                     }
                 }
-
         }
     }
 }
