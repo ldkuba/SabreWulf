@@ -10,10 +10,12 @@ public class ClientSenderUDP extends Thread{
 	private int port;
 	private InetAddress serverIP;
 	private static DatagramSocket CSocket;
+	private int MAX_PACKET_SIZE;
 	
-	public ClientSenderUDP(int port, InetAddress serverIP) {
+	public ClientSenderUDP(int port, InetAddress serverIP, int packetSize) {
 		this.port = port;
 		this.serverIP = serverIP;
+		MAX_PACKET_SIZE = packetSize;
 	}
 	
 	public void run() {
@@ -26,11 +28,11 @@ public class ClientSenderUDP extends Thread{
 		while(true) {
 			//Bombard the server with packets
 			sendPacket(buffer, buffer.length, serverIP, port);
-		}
-		
+		}	
 	}
 	
 	private void sendPacket(byte[] data, int dataLength, InetAddress serverAddress, int port) {
+		
 		DatagramPacket packet = new DatagramPacket(data, dataLength, serverAddress, port);
 		try {
 			CSocket.send(packet);
