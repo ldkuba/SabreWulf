@@ -8,11 +8,11 @@ class _PlayerMonitor extends Thread {
         numberOfPlayers = 0;
     }
 
-    public void addPlayer(){
+    synchronized public void addPlayer(){
         numberOfPlayers++;
     }
 
-    public void removePlayer(){
+    synchronized public void removePlayer(){
         numberOfPlayers--;
     }
 

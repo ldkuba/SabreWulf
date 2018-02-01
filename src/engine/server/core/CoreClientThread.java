@@ -1,32 +1,39 @@
 package engine.server.core;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.Socket;
 
 public class CoreClientThread extends Thread {
     Socket clientSocket;
+    ByteArrayOutputStream baos;
     int timeout = 2000;
     _PlayerMonitor playerMonitor;
     CoreClientThread(Socket clientSocket, _PlayerMonitor pMonitor){
         this.clientSocket = clientSocket;
         this.playerMonitor = pMonitor;
-        playerMonitor.setName("Player Monitor");
-        playerMonitor.run();
-
     }
 
     public void run(){
         playerMonitor.addPlayer();
-        while(true){
-            if(!clientSocket.isConnected()){
-                try {
-                    sleep(timeout);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                playerMonitor.removePlayer();
-                Thread.currentThread().interrupt();
-            }
-        }
 
+        // Naive client cutoff
+        while(true){
+                if(clientSocket.isConnected()) {
+                    try {
+                        OutputStream os = clientSocket.getOutputStream();
+                        os.write(1);
+                    } catch (IOException e) {
+                        Thread.currentThread().interrupt();
+                        playerMonitor.removePlayer();
+                    }
+                    try {
+                        Thread.currentThread().sleep(100);
+                    } catch (InterruptedException e) {
+                    }
+                }
+
+        }
     }
 }

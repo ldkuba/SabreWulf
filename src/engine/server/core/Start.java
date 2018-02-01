@@ -5,7 +5,7 @@ public class Start {
     public static void main(String[] args) {
         GameServer gs = new GameServer();
 
-        gs.start();
+        gs.run();
     }
 
 }
