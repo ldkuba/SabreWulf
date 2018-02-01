@@ -26,7 +26,12 @@ public class ClientBroadcastReceiverUDP extends Thread{
 			System.err.println("Unable to connect to Broadcast port.");
 		}
 		while(true) {
-			BCSocket.receive(gamePacket);
+			try {
+				BCSocket.receive(gamePacket);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			System.out.println("Received Packet");
 		}
 	}

@@ -27,12 +27,17 @@ public class ClientSenderUDP extends Thread{
 			//Bombard the server with packets
 			sendPacket(buffer, buffer.length, serverIP, port);
 		}
-		closeSocket();
+		
 	}
 	
 	private void sendPacket(byte[] data, int dataLength, InetAddress serverAddress, int port) {
 		DatagramPacket packet = new DatagramPacket(data, dataLength, serverAddress, port);
-		CSocket.send(packet);
+		try {
+			CSocket.send(packet);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private void closeSocket() {
