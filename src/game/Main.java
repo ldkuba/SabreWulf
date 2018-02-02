@@ -1,12 +1,15 @@
-package temp;
+package game;
 
 import engine.application.Application;
+import game.client.Client;
 
 /*
  * 	Only used to test that a window is still loaded
  */
 
 public class Main extends Application {
+	
+	Client client;
 	
 	public static TestState testState;
 	public static TestState2 testState2;
