@@ -17,29 +17,22 @@ public class Entity {
 	}
 
 	public void addComponent(AbstractComponent comp) {
-		if (componentExists(comp) == false) {
+		if (!hasComponent(comp.getClass())) {
 			components.add(comp);
 		}
 	}
 
 	public void removeComponent(AbstractComponent comp) {
-		if (componentExists(comp) == true) {
+		if (hasComponent(comp.getClass())) {
 			components.remove(comp);
 		}
 	}
 
-	public boolean componentExists(AbstractComponent comp) {
-		if (components.contains(comp)) {
-			return true;
-		}
-		return false;
-	}
-
-	public ArrayList<AbstractComponent> getClassesComponents() {
+	public ArrayList<AbstractComponent> getComponents() {
 		return components;
 	}
 
-	public boolean hasComponent(Class<AbstractComponent> componentType) {
+	public boolean hasComponent(Class componentType) {
 		for (int i = 0; i < components.size(); i++) {
 			AbstractComponent comp = components.get(i);
 			if (comp.getClass().equals(componentType)) {
