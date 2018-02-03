@@ -26,6 +26,11 @@ public class IndexBuffer
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 	
+	public int getCount()
+	{
+		return m_Count;
+	}
+	
 	public void close()
 	{
 		GL15.glDeleteBuffers(m_ID);
