@@ -8,20 +8,24 @@ import engine.entity.component.TransformComponent;
 import engine.graphics.camera.Camera;
 import engine.graphics.renderer.Renderer;
 import engine.graphics.renderer.Renderer2D;
+import engine.graphics.renderer.Renderer3D;
+import engine.maths.Mat4;
 
 public class Scene
 {
 	private int m_ID;
 	private ArrayList<Entity> m_Entities;
 	
-	private Renderer m_Renderer;
-	private Camera camera;
+	private Renderer m_Renderer2D;
+	private Renderer m_Renderer3D; //Currently not used
+	private Camera m_Camera;
 	
 	public Scene(int id)
 	{
 		m_ID = id;
 		
-		m_Renderer = new Renderer2D();
+		m_Renderer2D = new Renderer2D();
+		m_Renderer3D = new Renderer3D();
 		
 	}
 	
@@ -57,8 +61,19 @@ public class Scene
 			if(e.hasComponent(SpriteComponent.class))
 			{
 				SpriteComponent sprite = (SpriteComponent) e.getComponent(SpriteComponent.class);
-				//sprite.render();
+				
+				Mat4 transformation = Mat4.identity();
+				
+				if(e.hasComponent(TransformComponent.class))
+				{
+					TransformComponent transform = (TransformComponent) e.getComponent(TransformComponent.class);
+					transformation = transform.getTransformationMatrix();
+				}
+				
+				//TODO sprite.submit(m_Renderer2D, transformation);
 			}
 		}
+		
+		//TODO m_Renderer2D.drawAll();
 	}
 }
