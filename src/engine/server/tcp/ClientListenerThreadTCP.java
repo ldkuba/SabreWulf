@@ -1,6 +1,7 @@
 package engine.server.tcp;
 
 import engine.common_net.TCPTalks_trial;
+import engine.server.core._PlayerMonitor;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,14 +11,19 @@ public class ClientListenerThreadTCP extends Thread{
     TCPTalks_trial trial = null;
     ObjectInputStream ois = null;
     Socket SCSocket = null;
+    _PlayerMonitor playerMonitor;
 
-    public ClientListenerThreadTCP(Socket SCSocket) throws IOException {
+    public ClientListenerThreadTCP(Socket SCSocket, _PlayerMonitor playerMonitor) {
+        this.playerMonitor = playerMonitor;
         this.SCSocket = SCSocket;
-        ois = new ObjectInputStream(SCSocket.getInputStream());
     }
     public void run(){
+        try {
+            ois = new ObjectInputStream(SCSocket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         while(true){
-
             try {
 
                 trial = (TCPTalks_trial) ois.readObject();
@@ -26,7 +32,7 @@ public class ClientListenerThreadTCP extends Thread{
 
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
+            } catch (IOException e){
                 e.printStackTrace();
             }
 

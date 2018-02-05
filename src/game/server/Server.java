@@ -17,7 +17,8 @@ public class Server
 	public Server()
 	{
 		gameServer = new GameServer(this);
-		gameServer.run();
+		gameServer.setName("GAME");
+		gameServer.start();
 	}
 	
 	public void registerMessageListener(MessageListener msgL)

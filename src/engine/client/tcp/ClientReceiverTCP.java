@@ -9,20 +9,29 @@ public class ClientReceiverTCP extends Thread{
 	game.client.Client client = null;
 	ObjectInputStream ois = null;
 
-	public ClientReceiverTCP(Socket CSSocket, game.client.Client client) throws IOException {
+	public ClientReceiverTCP(Socket CSSocket, game.client.Client client){
 	    this.client = client;
 	    this.CSSocket = CSSocket;
-	    ois = new ObjectInputStream(CSSocket.getInputStream());
 	}
 
 	public void run() {
+
+
+
 		while(true){
+
+
+			System.out.println("asd");
+
 			try {
 
-				// Just sleeps for now
+				ois = new ObjectInputStream(CSSocket.getInputStream());
 
 				Thread.currentThread().sleep(500);
 			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				System.out.println("Zdrang");
 				e.printStackTrace();
 			}
 		}

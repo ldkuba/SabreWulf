@@ -22,14 +22,37 @@ public class ClientConnection extends Thread{
 	public void run(){
 		try {
 			CSSocket = new Socket("localhost",5800);
-			client.notifyConnectionListenersConnected();
-			this.creceiver = new ClientReceiverTCP(CSSocket, client);
-			this.csender = new ClientSenderTCP(CSSocket, client);
+			//client.notifyConnectionListenersConnected();
+
+
+
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		while(true);
+
+		csender = new ClientSenderTCP(CSSocket, client);
+		csender.setName("sender");
+		csender.start();
+
+
+
+		creceiver = new ClientReceiverTCP(CSSocket, client);
+		creceiver.setName("listener");
+		creceiver.start();
+
+
+
+
+
+
+		while(true){
+			try {
+				Thread.currentThread().sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
 

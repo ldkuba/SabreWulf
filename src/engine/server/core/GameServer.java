@@ -24,6 +24,7 @@ public class GameServer extends Thread{
         // Creating a server socket on some random port for TCP
         try {
             pMonitor = new _PlayerMonitor();
+            pMonitor.setName("PlayerMonitor");
             pMonitor.start();
             coreSocket = new ServerSocket(5800);
         } catch (IOException e) {
@@ -36,13 +37,18 @@ public class GameServer extends Thread{
             while(true) {
                 SCSocket = coreSocket.accept();
                 clientCoreThread = new CoreClientThread(SCSocket, pMonitor);
-                server.notifyConnectionListenersConnected();
+
+               // server.notifyConnectionListenersConnected();
                 clientCoreThread.setName("player_"+SCSocket.getInetAddress());
                 clientCoreThread.start();
+
             }
         } catch (IOException e) {
                 e.printStackTrace();
+
+
         }
+
 
 
     }

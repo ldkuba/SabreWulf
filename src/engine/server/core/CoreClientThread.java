@@ -21,17 +21,26 @@ public class CoreClientThread extends Thread {
 
     public void run(){
 
-        CSTTCP = new ClientSenderThreadTCP(SCSocket);
-        try {
-            CLTTCP = new ClientListenerThreadTCP(SCSocket);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        playerMonitor.addPlayer();
 
+        CSTTCP = new ClientSenderThreadTCP(SCSocket, playerMonitor);
+        CSTTCP.setName("player."+SCSocket.getInetAddress()+".sender");
         CSTTCP.start();
+
+
+        CLTTCP = new ClientListenerThreadTCP(SCSocket, playerMonitor);
+        CLTTCP.setName("player."+SCSocket.getInetAddress()+".listener");
         CLTTCP.start();
 
-        playerMonitor.addPlayer();
+        while(true){
+            try {
+                Thread.currentThread().sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+
 
     }
 }

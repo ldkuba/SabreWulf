@@ -17,6 +17,8 @@ public class  Main extends Application {
 	public Main() {
 
 		super(750, 650, 1, "SabreWulf"); //window width, window height, vsync interval
+
+		client = new Client();
 		testState = new game.TestState(this);
 		testState2 = new game.TestState2(this);
 		stateManager.addState(testState);
@@ -27,7 +29,6 @@ public class  Main extends Application {
 		stateManager.setCurrentState(testState);
 
 		// provisional invocation of the client (by Mihai)
-		client = new Client();
 	}
 	
 	public static void main(String[] args){
