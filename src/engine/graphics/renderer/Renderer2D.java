@@ -5,6 +5,7 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
 
 import engine.graphics.IndexBuffer;
 import engine.graphics.VertexArray;
@@ -89,7 +90,8 @@ public class Renderer2D extends Renderer
 		
 		if(textureSlot == -1)
 		{
-			m_Textures.add(renderable.getTexture());
+			textureSlot = m_Textures.size();
+			m_Textures.add(renderable.getTexture());		
 		}
 		
 		float[] vertices = new float[]
@@ -108,7 +110,10 @@ public class Renderer2D extends Renderer
 		m_IndexData.put(3 + 4 * m_SpriteCount);
 		m_IndexData.put(0 + 4 * m_SpriteCount);
 		
-		
+		for(int i = 0; i < vertices.length; i++)
+		{
+			m_VertexData.putFloat(vertices[i]);
+		}
 
 		m_SpriteCount++;
 	}
@@ -125,6 +130,12 @@ public class Renderer2D extends Renderer
 		m_IndexBuffer.bind();
 		m_IndexBuffer.updateData(m_IndexData, m_SpriteCount * 6);		
 		
+		GL11.glDrawElements(GL11.GL_TRIANGLES, m_SpriteCount * 6, GL11.GL_UNSIGNED_INT, 0);
 		
+		m_IndexBuffer.unbind();
+		m_VertexBuffer.unbind();
+		m_VertexArray.unbind();
+		
+		m_Shader.unbind();
 	}
 }
