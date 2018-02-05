@@ -25,8 +25,6 @@ public class Renderable2D
 	private static VertexLayout s_VertexLayout;
 	private float m_Width, m_Height;
 	
-	private ByteBuffer m_VertexData;
-	
 	private Texture m_Texture;
 	private Vec4 m_Color;
 	
@@ -35,26 +33,11 @@ public class Renderable2D
 		this(width, height, color);
 		
 		m_Texture = new Texture(imagePath);
-		
 	}
 	
 	public Renderable2D(int width, int height, Vec4 color)
 	{
 		m_Color = color;
-		
-		float[] vertices = new float[] {
-			width, 0.0f, 1.0f, 1.0f, 0.0f, m_Color.getW(), m_Color.getX(), m_Color.getY(), m_Color.getZ(),
-			0.0f, 0.0f, 1.0f, 0.0f, 0.0f, m_Color.getW(), m_Color.getX(), m_Color.getY(), m_Color.getZ(),
-			0.0f, height, 1.0f, 1.0f, 0.0f, m_Color.getW(), m_Color.getX(), m_Color.getY(), m_Color.getZ(),
-			width, height, 1.0f, 1.0f, 1.0f, m_Color.getW(), m_Color.getX(), m_Color.getY(), m_Color.getZ()
-		};
-		
-		m_VertexData = BufferUtils.createByteBuffer(s_VertexLayout.getVertexSizeInBytes() * 8);
-		
-		for(int i = 0; i < VERTEX_PRIMITIVE_ATTRIB_COUNT; i++)
-		{
-			m_VertexData.putFloat(vertices[i]);
-		}
 	}
 	
 	public static VertexLayout getVertexLayout()
@@ -69,9 +52,24 @@ public class Renderable2D
 		
 		return s_VertexLayout;
 	}
-
-	public ByteBuffer getVertexData()
+	
+	public float getWidth()
 	{
-		return m_VertexData;
-	}	
+		return m_Width;
+	}
+	
+	public float getHeight()
+	{
+		return m_Height;
+	}
+	
+	public Vec4 getColor()
+	{
+		return m_Color;
+	}
+	
+	public Texture getTexture()
+	{
+		return m_Texture;
+	}
 }
