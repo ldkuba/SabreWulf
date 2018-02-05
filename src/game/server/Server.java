@@ -41,10 +41,11 @@ public class Server
 	
 	public void notifyConnectionListenersConnected(/*Format to be decided*/)
 	{
-		for(ConnectionListener connListener : connectionListeners)
+		//for(ConnectionListener connListener : connectionListeners)
 		{
-			connListener.clientConnected(/* tbd */);
+			//connListener.clientConnected(/* tbd */);
 		}
+		//
 	}
 	
 	public void notifyConnectionListenersDisconnected(/*Format to be decided*/)

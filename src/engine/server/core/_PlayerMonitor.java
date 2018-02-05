@@ -22,7 +22,7 @@ class _PlayerMonitor extends Thread {
 
     public void run(){
         while(true){
-            System.out.println(  numberOfPlayers);
+            System.out.println(numberOfPlayers);
             try {
                 sleep(1500);
             } catch (InterruptedException e) {

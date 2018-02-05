@@ -9,21 +9,22 @@ import java.net.Socket;
 
 public class ClientConnection extends Thread{
 	
-	private static String playerName;
-	private static ClientReceiverTCP CReceiver;
-	private static ClientSenderTCP CSender;
-	
 	private Client client; // for informing the listeners with notifyXXListeners();
 	
 	public ClientConnection(Client client) {
 		this.client = client;
 	}
+	private ClientSenderTCP csender = null;
+	private ClientReceiverTCP creceiver = null;
+	private Socket CSSocket=null; //Client-Server Socket TCP
 
-	Socket CSSocket=null; //Client-Server Socket TCP
+
 	public void run(){
 		try {
 			CSSocket = new Socket("localhost",5800);
 			client.notifyConnectionListenersConnected();
+			this.creceiver = new ClientReceiverTCP(CSSocket, client);
+			this.csender = new ClientSenderTCP(CSSocket, client);
 
 		} catch (IOException e) {
 			e.printStackTrace();

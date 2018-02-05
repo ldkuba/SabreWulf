@@ -21,13 +21,7 @@ public class CoreClientThread extends Thread {
         // Naive client cutoff
         while(true){
                 if(clientSocket.isConnected()) {
-                    try {
-                        OutputStream os = clientSocket.getOutputStream();
-                        os.write(1);
-                    } catch (IOException e) {
-                        Thread.currentThread().interrupt();
-                        playerMonitor.removePlayer();
-                    }
+
                     try {
                         Thread.currentThread().sleep(100);
                     } catch (InterruptedException e) {
