@@ -1,9 +1,10 @@
-package game;
+package game.states;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import engine.state.AbstractState;
+import game.Main;
 
 public class TestState2 extends AbstractState
 {
