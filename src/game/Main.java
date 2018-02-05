@@ -2,6 +2,8 @@ package game;
 
 import engine.application.Application;
 import game.client.Client;
+import game.states.TestState;
+import game.states.TestState2;
 
 /*
  * 	Only used to test that a window is still loaded
@@ -11,14 +13,14 @@ public class  Main extends Application {
 
 	Client client;
 
-	public static game.TestState testState;
-	public static game.TestState2 testState2;
+	public static TestState testState;
+	public static TestState2 testState2;
 	
 	public Main() {
 
 		super(750, 650, 1, "SabreWulf"); //window width, window height, vsync interval
-		testState = new game.TestState(this);
-		testState2 = new game.TestState2(this);
+		testState = new TestState(this);
+		testState2 = new TestState2(this);
 		stateManager.addState(testState);
 		stateManager.addState(testState2);
 
