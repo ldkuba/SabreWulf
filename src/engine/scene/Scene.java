@@ -16,8 +16,8 @@ public class Scene
 	private int m_ID;
 	private ArrayList<Entity> m_Entities;
 	
-	private Renderer m_Renderer2D;
-	private Renderer m_Renderer3D; //Currently not used
+	private Renderer2D m_Renderer2D;
+	private Renderer3D m_Renderer3D; //Currently not used
 	private Camera m_Camera;
 	
 	public Scene(int id)
@@ -70,10 +70,10 @@ public class Scene
 					transformation = transform.getTransformationMatrix();
 				}
 				
-				//TODO sprite.submit(m_Renderer2D, transformation);
+				sprite.submit(m_Renderer2D, transformation);
 			}
 		}
 		
-		//TODO m_Renderer2D.drawAll();
+		m_Renderer2D.drawAll();
 	}
 }
