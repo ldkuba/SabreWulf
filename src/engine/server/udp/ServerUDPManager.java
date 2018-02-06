@@ -22,10 +22,12 @@ public class ServerUDPManager extends Thread{
 		
 	}
 	
+	/*
 	public static void main(String args[]) {
 		ServerUDPManager UDPManager = new ServerUDPManager();
 		UDPManager.run();
 	}
+	*/
 	
 	public void run() {
 		ClientBroadcasterThreadUDP BSocket = new ClientBroadcasterThreadUDP("230.0.0.0", 6667);
