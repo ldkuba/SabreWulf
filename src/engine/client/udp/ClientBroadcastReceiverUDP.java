@@ -8,8 +8,8 @@ import java.net.SocketException;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import engine.common_net.Deserialization;
 import engine.common_net.AbstractMessage;
+import engine.common_net.Deserialization;
 
 /*
  * groupID -> 230.0.0.0
@@ -24,7 +24,10 @@ public class ClientBroadcastReceiverUDP extends Thread{
 	private InetAddress groupID;
 	private DatagramPacket gamePacket;
 	
-	private Queue<AbstractMessage> queueStates = new LinkedList<AbstractMessage>();
+	private int MAX_PACKET_SIZE = 1024;
+	
+	//States received by the server.
+	private volatile Queue<AbstractMessage> queueStates = new LinkedList<AbstractMessage>();
 	private Deserialization NetTools = new Deserialization();
 	
 	public ClientBroadcastReceiverUDP(int groupPort, String group) {
@@ -41,14 +44,13 @@ public class ClientBroadcastReceiverUDP extends Thread{
 			System.err.println("Unable to connect to Broadcast port.");
 		}
 		
-		byte[] buffer = new byte[1024];
+		byte[] buffer = new byte[MAX_PACKET_SIZE];
 		gamePacket = new DatagramPacket(buffer,buffer.length);
 		
 		while(true) {
 			try {
 				BCSocket.receive(gamePacket);
-				//queueStates.add(NetTools.deserialize(gamePacket.getData()));
-				testBroadcastReceiver();
+				queueStates.add(NetTools.deserialize(gamePacket.getData()));
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -89,6 +91,7 @@ public class ClientBroadcastReceiverUDP extends Thread{
 			e.printStackTrace();
 		}
 		BCSocket.close();
+		this.interrupt();
 	}
 	
 }

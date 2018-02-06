@@ -12,6 +12,7 @@ import java.net.InetAddress;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import game.networking.ExampleMessage;
 import engine.common_net.AbstractMessage;
 import engine.common_net.Serialization;
 
@@ -21,7 +22,7 @@ public class ClientSenderUDP extends Thread{
 	BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 	
 	//Receive messages to send to server.
-	private Queue<AbstractMessage> queueMessages = new LinkedList<AbstractMessage>();
+	private volatile Queue<AbstractMessage> queueMessages = new LinkedList<AbstractMessage>();
 	
 	//Test Array states
 	//private int[] gamePacket = {1,1,0,1,2,1};
@@ -55,7 +56,6 @@ public class ClientSenderUDP extends Thread{
 				sendPacket(buffer, buffer.length, serverIP, port);
 				
 			}
-			testUDPSender(buffer);
 		}	
 	}
 	
@@ -95,6 +95,7 @@ public class ClientSenderUDP extends Thread{
 	
 	private void closeSocket() {
 		CSocket.close();
+		this.interrupt();
 	}
 
 }

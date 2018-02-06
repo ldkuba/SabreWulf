@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.util.LinkedList;
+import java.util.Queue;
+
+import engine.common_net.Serialization;
 
 /*
  * Not recommended to run as a thread.
@@ -16,21 +20,24 @@ import java.net.MulticastSocket;
  * 
  */
 
-public class ClientBroadcasterThreadUDP extends Thread {
+public class ClientBroadcasterThreadUDP extends Thread{
 	
 	private static MulticastSocket MCSocket;
 	private String groupID;
 	private static InetAddress group;
 	private int groupPort;
 	
+	private Serialization NetTools = new Serialization();
 	
 	ClientBroadcasterThreadUDP(String groupID, int groupPort) {
 		this.groupID = groupID;
 		this.groupPort = groupPort;
 	}
 	
+	
     public void run(){
-    	
+    	//Get access to the new state packets.
+    	ServerUDPManager ServerQueue = new ServerUDPManager();
     	try {
 			MCSocket = new MulticastSocket(groupPort);
 			group = InetAddress.getByName(groupID);
@@ -40,7 +47,13 @@ public class ClientBroadcasterThreadUDP extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+    	//Check new game states to send to all the players
+    	while (true) {
+    		if(!ServerUDPManager.queueGameStates.isEmpty()) {
+    			byte[] gameStateByte = ServerUDPManager.queueGameStates.poll();
+    			multicast(gameStateByte);
+    		}
+    	}
     }
     
     //Send packet to all clients connected to the group.
@@ -55,7 +68,14 @@ public class ClientBroadcasterThreadUDP extends Thread {
     }
     
     public void closeMulticast() {
-    	MCSocket.close();
+    	try {
+    		MCSocket.close();
+			MCSocket.leaveGroup(group);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     }
 
 }

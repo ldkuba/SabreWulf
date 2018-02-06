@@ -5,11 +5,15 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+import engine.common_net.AbstractMessage;
+import engine.common_net.Deserialization;
+
 public class ClientListenerThreadUDP extends Thread{
     private static DatagramSocket UDPsocket;
     private int port;
     private int MAX_PACKET_SIZE;
-    private byte[] data = new byte[MAX_PACKET_SIZE];
+    
+    private Deserialization NetTools = new Deserialization();
     
     ClientListenerThreadUDP(int port, int packetSize) {
     	this.port = port;
@@ -17,19 +21,27 @@ public class ClientListenerThreadUDP extends Thread{
     }
     
     public void run() {
-    	
+    	ServerUDPManager ServerQueue = new ServerUDPManager();
     	try {
 			UDPsocket = new DatagramSocket(port);
-			byte[] data = new byte[MAX_PACKET_SIZE];
 		} catch (SocketException e1) {
-			// TODO Auto-generated catch block
+			System.err.println("Port in use.");
 			e1.printStackTrace();
 		}
     	
+    	System.out.println("Ready to listen for packets");
+    	
     	while(true) {
+    		byte[] data = new byte[MAX_PACKET_SIZE];
     		DatagramPacket receivePacket = new DatagramPacket(data, data.length);
     		try {
 				UDPsocket.receive(receivePacket);
+				System.out.println("Received Packet");
+				
+				//-------------Receiving Objects---------
+				AbstractMessage gameMessage = NetTools.deserialize(receivePacket.getData());
+				ServerQueue.addToQueueMessages(gameMessage);
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -37,5 +49,6 @@ public class ClientListenerThreadUDP extends Thread{
     	}
     	
     }
+    
     
 }
