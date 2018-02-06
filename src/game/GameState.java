@@ -30,12 +30,12 @@ public class GameState extends AbstractState
 
 	@Override
 	public void render() {
-		
+		scene.render();
 	}
 
 	@Override
 	public void update() {
-		
+		scene.update();
 	}
 
 	@Override

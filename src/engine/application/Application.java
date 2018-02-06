@@ -55,10 +55,11 @@ public class Application {
 		glfwSwapInterval(vsyncInterval);
 		// Make the window visible
 		glfwShowWindow(window);
+		
+		GL.createCapabilities();
 	}
 
 	public void run() {
-		GL.createCapabilities();
 		// Run the rendering loop until the user presses esc or quits
 		while (!glfwWindowShouldClose(window)) {
 			stateManager.updateState();

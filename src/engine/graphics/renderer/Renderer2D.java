@@ -77,7 +77,7 @@ public class Renderer2D extends Renderer
 		v3 = v3.mult(transformation);
 		v4 = v4.mult(transformation);
 		
-		int textureSlot = -1;
+		float textureSlot = -1;
 		
 		for(int i = 0; i < m_Textures.size(); i++)
 		{
@@ -88,7 +88,7 @@ public class Renderer2D extends Renderer
 			}
 		}
 		
-		if(textureSlot == -1)
+		if(textureSlot == -1.0f)
 		{
 			textureSlot = m_Textures.size();
 			m_Textures.add(renderable.getTexture());		
