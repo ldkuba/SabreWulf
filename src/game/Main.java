@@ -11,18 +11,22 @@ public class Main extends Application {
 	
 	Client client;
 	
-	public static TestState testState;
-	public static TestState2 testState2;
+	public static MenuState menuState;
+	public static LobbyState lobbyState;
+	public static GameState gameState;
 	
 	public Main() {		
 		super(750, 650, 1, "SabreWulf"); //window width, window height, vsync interval
-		testState = new TestState(this);
-		testState2 = new TestState2(this);
-		stateManager.addState(testState);
-		stateManager.addState(testState2);
+		menuState = new MenuState(this);
+		lobbyState = new LobbyState(this);
+		gameState = new GameState(this);
+		stateManager.addState(menuState);
+		stateManager.addState(lobbyState);
+		stateManager.addState(gameState);
+		
 		
 		//set starting state 
-		stateManager.setCurrentState(testState);
+		stateManager.setCurrentState(gameState);
 	}
 	
 	public static void main(String[] args){

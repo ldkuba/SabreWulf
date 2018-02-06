@@ -7,6 +7,11 @@ import engine.state.AbstractState;
 
 public class LobbyState extends AbstractState
 {
+	
+	public LobbyState(Main app)
+	{
+		
+	}
 
 	@Override
 	public void keyAction(int key, int action) {
