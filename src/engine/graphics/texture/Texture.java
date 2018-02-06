@@ -57,4 +57,9 @@ public class Texture
 	{
 		return m_Height;
 	}
+	
+	public int getID()
+	{
+		return m_ID;
+	}
 }

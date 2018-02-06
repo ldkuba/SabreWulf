@@ -1,5 +1,7 @@
 package engine.entity.component;
 
+import engine.maths.Mat4;
+import engine.maths.MathUtil;
 import engine.maths.Vec3;
 
 public class TransformComponent extends AbstractComponent
@@ -48,5 +50,16 @@ public class TransformComponent extends AbstractComponent
 	/*
 	 * TODO implement util functions like move, rotate, scale
 	 */
+	
+	//first scale then translate then rotate
+	public Mat4 getTransformationMatrix()
+	{
+		Mat4 scaleMat = MathUtil.createScaleMatrix(scale);
+		Mat4 translationMat = MathUtil.createTranslationMatrix(position);
+		Mat4 rotationMat = MathUtil.createRotationMatrix(eulerAngles);
+		
+		//inverse order
+		return rotationMat.mult(translationMat).mult(scaleMat);
+	}
 	
 }
