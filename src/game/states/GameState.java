@@ -1,5 +1,9 @@
 package game.states;
 
+import engine.entity.Entity;
+import engine.entity.component.SpriteComponent;
+import engine.entity.component.TransformComponent;
+import engine.maths.Vec4;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.Main;
@@ -12,6 +16,7 @@ public class GameState extends AbstractState
 	public GameState(Main app)
 	{
 		this.app = app;
+		scene = new Scene(0);
 	}
 	
 	@Override
@@ -26,7 +31,11 @@ public class GameState extends AbstractState
 
 	@Override
 	public void init() {
+		Entity testEntity = new Entity(0, "Test Entity");
+		testEntity.addComponent(new TransformComponent());
+		testEntity.addComponent(new SpriteComponent(new Vec4(1.0f, 0.0f, 0.0f, 1.0f), 1, 1));
 		
+		scene.addEntity(testEntity);
 	}
 
 	@Override

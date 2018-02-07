@@ -1,4 +1,4 @@
-package engine.map;
+package game.map;
 
 import java.util.ArrayList;
 

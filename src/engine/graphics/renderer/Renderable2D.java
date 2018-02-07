@@ -38,6 +38,8 @@ public class Renderable2D
 	public Renderable2D(int width, int height, Vec4 color)
 	{
 		m_Color = color;
+		m_Width = width;
+		m_Height = height;
 	}
 	
 	public static VertexLayout getVertexLayout()

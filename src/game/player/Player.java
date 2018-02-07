@@ -1,4 +1,4 @@
-package engine.player;
+package game.player;
 
 import java.util.ArrayList;
 
@@ -10,16 +10,12 @@ public class Player {
 	
 	private int id;
 	private String name;
-	private ArrayList<AbstractComponent> components;
 	
 	public Entity player;
 	
 	public void createPlayer(int id, String name){
 		this.id = id;
 		this.name = name;
-		components = new ArrayList<AbstractComponent>();
-		for(int i = 0; i < components.size(); i++){
-			player.addComponent(components.get(i));
-		}
+		
 	}
 }
