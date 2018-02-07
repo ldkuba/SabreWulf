@@ -7,11 +7,15 @@ import engine.maths.Vec4;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.Main;
+import game.player.Player;
+import game.player.PlayerManager;
 
 public class GameState extends AbstractState
 {
 	private Main app;
 	private Scene scene;
+	private Player[] players;
+	private PlayerManager manager;
 	
 	public GameState(Main app)
 	{
@@ -46,6 +50,7 @@ public class GameState extends AbstractState
 	@Override
 	public void update() {
 		scene.update();
+		manager.getStatuses(players);
 	}
 
 	@Override
