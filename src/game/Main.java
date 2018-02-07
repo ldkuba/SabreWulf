@@ -20,7 +20,7 @@ public class Main extends Application {
 	public static GameState gameState;
 	
 	public Main() {		
-		super(750, 650, 1, "SabreWulf"); //window width, window height, vsync interval
+		super(800, 600, 1, "SabreWulf"); //window width, window height, vsync interval
 		menuState = new MenuState(this);
 		lobbyState = new LobbyState(this);
 		gameState = new GameState(this);

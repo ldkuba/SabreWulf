@@ -33,7 +33,7 @@ public class GameState extends AbstractState
 	public void init() {
 		Entity testEntity = new Entity(0, "Test Entity");
 		testEntity.addComponent(new TransformComponent());
-		testEntity.addComponent(new SpriteComponent(new Vec4(1.0f, 0.0f, 0.0f, 1.0f), 1, 1));
+		testEntity.addComponent(new SpriteComponent(new Vec4(1.0f, 0.0f, 0.0f, 1.0f), 2, 2));
 		
 		scene.addEntity(testEntity);
 	}

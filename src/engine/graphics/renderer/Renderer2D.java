@@ -51,9 +51,9 @@ public class Renderer2D extends Renderer
 		m_Shader = new ShaderProgram();
 		m_Shader.loadShader("res/shaders/shader.txt"); // Later proper shader
 		
-		m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("ModelMatrix"), 1);
-		m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("ViewMatrix"), 1);
-		m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("ProjectionMatrix"), 1);
+		m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("modelMatrix"), 1);
+		m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("viewMatrix"), 1);
+		m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("projectionMatrix"), 1);
 		m_Shader.locateUniforms();
 	}
 
@@ -79,7 +79,7 @@ public class Renderer2D extends Renderer
 		//Projection matrix
 		int projLoc = m_Shader.getUniformLayout().getUniformLocation(2);
 		GL20.glUniformMatrix4fv(projLoc, true, camera.getProjectionMatrix().getElements());		
-		 
+		 System.out.println();
 	}
 
 	public void submit(Renderable2D renderable, Mat4 transformation)
@@ -143,32 +143,22 @@ public class Renderer2D extends Renderer
 	}
 
 	public void drawAll()
-	{	
-		for(int i = 0; i < 40; i++)
-		{
-			System.out.println(m_VertexData.getFloat(i*4));
-		}
-		
+	{				
 		m_VertexData.flip();
 		m_IndexData.flip();
-		
-		System.out.println("///////");
-		
-		for(int i = 0; i < 40; i++)
-		{
-			System.out.println(m_VertexData.getFloat(i*4));
-		}
-		
 		m_VertexArray.bind();
-		m_VertexBuffer.bind();
+		//m_VertexBuffer.bind();
 		m_VertexBuffer.updateData(Renderable2D.getVertexLayout(), m_VertexData, m_SpriteCount * 4, VertexBufferUsage.DYNAMIC, true);
 
 		m_IndexBuffer.bind();
 		m_IndexBuffer.updateData(m_IndexData, m_SpriteCount * 6);	
 		
-		
+		while(GL11.glGetError() != GL11.GL_NO_ERROR)
+		{}
 		
 		GL11.glDrawElements(GL11.GL_TRIANGLES, m_SpriteCount * 6, GL11.GL_UNSIGNED_INT, 0);
+		
+		System.out.println(GL11.glGetError());
 		
 		m_IndexBuffer.unbind();
 		m_VertexBuffer.unbind();
