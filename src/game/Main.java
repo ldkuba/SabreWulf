@@ -2,6 +2,9 @@ package game;
 
 import engine.application.Application;
 import game.client.Client;
+import game.states.GameState;
+import game.states.LobbyState;
+import game.states.MenuState;
 
 /*
  * 	Only used to test that a window is still loaded
