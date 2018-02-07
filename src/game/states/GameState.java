@@ -1,5 +1,7 @@
 package game.states;
 
+import java.util.ArrayList;
+
 import engine.entity.Entity;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TransformComponent;
@@ -14,13 +16,15 @@ public class GameState extends AbstractState
 {
 	private Main app;
 	private Scene scene;
-	private Player[] players;
+	private ArrayList<Player> players;
 	private PlayerManager manager;
 	
 	public GameState(Main app)
 	{
 		this.app = app;
 		scene = new Scene(0);
+		manager = new PlayerManager();
+		players = new ArrayList<>();
 	}
 	
 	@Override

@@ -30,5 +30,5 @@ uniform sampler2D textureSampler;
 
 void main()
 {
-    outputColor = textureSampler(textureSampler, UVs).rgb;
+    outputColor = theColor;
 }
