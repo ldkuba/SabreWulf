@@ -3,4 +3,9 @@ package game.player;
 public class PlayerController {
 	//movePlayer
 	//playerInteract
+	
+	public void update()
+	{
+		//input
+	}
 }

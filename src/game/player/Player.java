@@ -7,17 +7,19 @@ public class Player {
 	
 	private int id;
 	private String name;
-	private int[] currentPosition;
 	private int health;
 	private int energy;
 	String status;
+	private boolean isLocal;
 	
 	public Entity player;
 	
-	public void createPlayer(int id, String name){
+	public Player(int id, String name, boolean isLocal){
 		this.id = id;
 		this.name = name;
+		this.isLocal = isLocal;
 		
+		player = new Entity(0, "Player " + name);
 	}
 
 	public void getPosition() {

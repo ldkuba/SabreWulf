@@ -16,15 +16,13 @@ public class GameState extends AbstractState
 {
 	private Main app;
 	private Scene scene;
-	private ArrayList<Player> players;
 	private PlayerManager manager;
-	
+		
 	public GameState(Main app)
 	{
 		this.app = app;
 		scene = new Scene(0);
 		manager = new PlayerManager();
-		players = new ArrayList<>();
 	}
 	
 	@Override
@@ -54,7 +52,7 @@ public class GameState extends AbstractState
 	@Override
 	public void update() {
 		scene.update();
-		manager.getStatuses(players);
+		manager.getStatuses();
 	}
 
 	@Override
