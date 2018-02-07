@@ -58,7 +58,7 @@ public class VertexBuffer
 				GL15.glBufferData(GL15.GL_ARRAY_BUFFER, data, GL15.GL_DYNAMIC_DRAW);
 			}else
 			{
-				//GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER, data, GL15.GL_DYNAMIC_DRAW);
+				GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER, 0, data);
 			}
 		}
 		

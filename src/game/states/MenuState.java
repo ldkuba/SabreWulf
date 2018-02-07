@@ -1,16 +1,31 @@
-package game;
+package game.states;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 
+import engine.scene.Scene;
 import engine.state.AbstractState;
+import game.Main;
 
 public class MenuState extends AbstractState
 {
-
+	private Main app;
+	private Scene scene;
+	
+	
+	
+	public MenuState(Main app)
+	{
+		this.app = app;
+		scene = new Scene(0);
+	}
+	
 	@Override
 	public void keyAction(int key, int action) {
-		
+		if(key == GLFW.GLFW_KEY_J && action == GLFW.GLFW_PRESS)
+		{
+//			app.client.
+//			app.getStateManager().setCurrentState(Main.lobbyState);
+		}
 	}
 
 	@Override

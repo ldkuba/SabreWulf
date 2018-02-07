@@ -2,6 +2,8 @@ package engine.maths;
 
 public class MathUtil
 {
+	private static final double DEG2RAD = Math.PI/180.0f;
+	
 	public static Mat4 orthoProjMat(float bottom, float top, float left, float right, float near, float far)
 	{
 		// initialises ortho to all 0.0f
@@ -123,6 +125,60 @@ public class MathUtil
 	{
 		Mat4 lookAt = new Mat4();
 
+		/*
+		 * TODO
+		 */
+		
 		return lookAt;
+	}
+	
+	public static Mat4 createRotationMatrix(Vec3 angles)
+	{
+		Mat4 result = Mat4.identity();
+		
+		Mat4 rotationX = Mat4.identity();
+		Mat4 rotationY = Mat4.identity();
+		Mat4 rotationZ = Mat4.identity();
+		
+		rotationX.setElement(5, (float) Math.cos(angles.getX()*DEG2RAD));
+		rotationX.setElement(6, (float) -Math.sin(angles.getX()*DEG2RAD));
+		rotationX.setElement(9, (float) Math.sin(angles.getX()*DEG2RAD));
+		rotationX.setElement(10, (float) Math.cos(angles.getX()*DEG2RAD));
+		
+		rotationY.setElement(0, (float) Math.cos(angles.getY()*DEG2RAD));
+		rotationY.setElement(2, (float) Math.sin(angles.getY()*DEG2RAD));
+		rotationY.setElement(8, (float) -Math.sin(angles.getY()*DEG2RAD));
+		rotationY.setElement(10, (float) Math.cos(angles.getX()*DEG2RAD));
+		
+		rotationZ.setElement(0, (float) Math.cos(angles.getZ()*DEG2RAD));
+		rotationZ.setElement(1, (float) -Math.sin(angles.getZ()*DEG2RAD));
+		rotationZ.setElement(4, (float) Math.sin(angles.getZ()*DEG2RAD));
+		rotationZ.setElement(5, (float) Math.cos(angles.getZ()*DEG2RAD));
+		
+		result = rotationZ.mult(rotationY).mult(rotationX);
+		
+		return result;
+	}
+	
+	public static Mat4 createTranslationMatrix(Vec3 position)
+	{
+		Mat4 result = Mat4.identity();
+		
+		result.setElement(3, position.getX());
+		result.setElement(7, position.getY());
+		result.setElement(11, position.getZ());
+		
+		return result;
+	}
+	
+	public static Mat4 createScaleMatrix(Vec3 scale)
+	{
+		Mat4 result = Mat4.identity();
+		
+		result.setElement(0, scale.getX());
+		result.setElement(5, scale.getY());
+		result.setElement(10, scale.getZ());
+		
+		return result;
 	}
 }

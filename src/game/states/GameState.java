@@ -1,13 +1,19 @@
-package game;
+package game.states;
 
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
-
+import engine.scene.Scene;
 import engine.state.AbstractState;
+import game.Main;
 
-public class LobbyState extends AbstractState
+public class GameState extends AbstractState
 {
-
+	private Main app;
+	private Scene scene;
+	
+	public GameState(Main app)
+	{
+		this.app = app;
+	}
+	
 	@Override
 	public void keyAction(int key, int action) {
 		
@@ -25,12 +31,12 @@ public class LobbyState extends AbstractState
 
 	@Override
 	public void render() {
-		
+		scene.render();
 	}
 
 	@Override
 	public void update() {
-		
+		scene.update();
 	}
 
 	@Override

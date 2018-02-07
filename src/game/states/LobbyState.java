@@ -1,12 +1,18 @@
-package game;
+package game.states;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import engine.state.AbstractState;
+import game.Main;
 
-public class GameState extends AbstractState
+public class LobbyState extends AbstractState
 {
+	
+	public LobbyState(Main app)
+	{
+		
+	}
 
 	@Override
 	public void keyAction(int key, int action) {
