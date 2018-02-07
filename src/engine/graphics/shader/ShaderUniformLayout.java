@@ -37,4 +37,9 @@ public class ShaderUniformLayout
 			uniform.locateUniform(programID);
 		}
 	}
+	
+	public int getUniformLocation(int index)
+	{
+		return m_ShaderUniforms.get(index).getLocation();
+	}
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL20;
 
 import engine.graphics.IndexBuffer;
 import engine.graphics.VertexArray;
@@ -57,8 +58,18 @@ public class Renderer2D extends Renderer
 		m_Shader.bind();
 
 		// Set Shader uniforms
+		//Model matrix
+		int modelLoc = m_Shader.getUniformLayout().getUniformLocation(0);
+		GL20.glUniformMatrix4fv(modelLoc, true, Mat4.identity().getElements());
 		
+		//View matrix
+		int viewLoc = m_Shader.getUniformLayout().getUniformLocation(1);
+		GL20.glUniformMatrix4fv(viewLoc, true, camera.getViewMatrix().getElements());
 		
+		//Projection matrix
+		int projLoc = m_Shader.getUniformLayout().getUniformLocation(2);
+		GL20.glUniformMatrix4fv(projLoc, true, camera.getProjectionMatrix().getElements());		
+		 
 	}
 
 	public void submit(Renderable2D renderable, Mat4 transformation)
