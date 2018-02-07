@@ -17,7 +17,8 @@ public class Server
 	public Server()
 	{
 		gameServer = new GameServer(this);
-		gameServer.run();
+		gameServer.setName("GAME");
+		gameServer.start();
 	}
 	
 	public void registerMessageListener(MessageListener msgL)
@@ -41,10 +42,11 @@ public class Server
 	
 	public void notifyConnectionListenersConnected(/*Format to be decided*/)
 	{
-		for(ConnectionListener connListener : connectionListeners)
+		//for(ConnectionListener connListener : connectionListeners)
 		{
-			connListener.clientConnected(/* tbd */);
+			//connListener.clientConnected(/* tbd */);
 		}
+		//
 	}
 	
 	public void notifyConnectionListenersDisconnected(/*Format to be decided*/)
