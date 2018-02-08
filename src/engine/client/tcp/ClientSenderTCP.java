@@ -38,7 +38,6 @@ public class ClientSenderTCP extends Thread{
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 

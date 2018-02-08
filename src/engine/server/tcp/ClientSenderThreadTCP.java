@@ -1,15 +1,16 @@
 package engine.server.tcp;
 
 import engine.server.core._PlayerMonitor;
+import game.server.Server;
 
 import java.net.Socket;
 
 public class ClientSenderThreadTCP extends Thread{
-    Socket SCSocket = null;
-    _PlayerMonitor pMonitor;
-    public ClientSenderThreadTCP(Socket SCSocket, _PlayerMonitor pMonitor){
+    Socket SCSocket;
+    Server server;
+    public ClientSenderThreadTCP(Socket SCSocket, Server server){
         this.SCSocket = SCSocket;
-        this.pMonitor = pMonitor;
+        this.server = server;
     }
 
     public void run(){
