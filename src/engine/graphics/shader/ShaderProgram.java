@@ -12,8 +12,12 @@ import org.lwjgl.opengl.GL20;
 public class ShaderProgram
 {
 	private int m_ID;
+	private ShaderUniformLayout m_UniformLayout;
 	
-	public ShaderProgram() {}
+	public ShaderProgram() 
+	{
+		m_UniformLayout = new ShaderUniformLayout();
+	}
 	
 	public int getID()
 	{
@@ -28,6 +32,16 @@ public class ShaderProgram
 	public void unbind()
 	{
 		GL20.glUseProgram(0);
+	}
+	
+	public ShaderUniformLayout getUniformLayout()
+	{
+		return m_UniformLayout;
+	}
+	
+	public void locateUniforms()
+	{
+		m_UniformLayout.locateUniforms(m_ID);
 	}
 	
 	public void loadShader(final String filepath)

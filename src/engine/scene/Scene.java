@@ -6,10 +6,11 @@ import engine.entity.Entity;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TransformComponent;
 import engine.graphics.camera.Camera;
-import engine.graphics.renderer.Renderer;
 import engine.graphics.renderer.Renderer2D;
 import engine.graphics.renderer.Renderer3D;
 import engine.maths.Mat4;
+import engine.maths.MathUtil;
+import engine.maths.Vec3;
 
 public class Scene
 {
@@ -26,6 +27,14 @@ public class Scene
 		
 		m_Renderer2D = new Renderer2D();
 		m_Renderer3D = new Renderer3D();
+		
+		m_Entities = new ArrayList<Entity>();
+		
+		float aspectRatio = 4.0f/3.0f;
+		
+		m_Camera = new Camera();
+		m_Camera.setPosition(new Vec3(0.0f, 0.0f, -10.0f));
+		m_Camera.setProjectionMatrix(MathUtil.orthoProjMat(-10.0f, 10.0f, -10.0f*aspectRatio, 10.0f*aspectRatio, 0.1f, 100.0f));
 		
 	}
 	
@@ -56,6 +65,8 @@ public class Scene
 	
 	public void render()
 	{
+		m_Renderer2D.init(m_Camera);
+		
 		for(Entity e : m_Entities)
 		{
 			if(e.hasComponent(SpriteComponent.class))

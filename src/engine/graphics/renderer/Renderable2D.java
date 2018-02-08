@@ -38,6 +38,8 @@ public class Renderable2D
 	public Renderable2D(int width, int height, Vec4 color)
 	{
 		m_Color = color;
+		m_Width = width;
+		m_Height = height;
 	}
 	
 	public static VertexLayout getVertexLayout()
@@ -47,6 +49,7 @@ public class Renderable2D
 			s_VertexLayout = new VertexLayout();
 			s_VertexLayout.addAttribute(new VertexAttribute(AttributeTypes.Float, 3, false), 1); // position (x, y, z)
 			s_VertexLayout.addAttribute(new VertexAttribute(AttributeTypes.Float, 2, false), 1); // UV (x, z)
+			s_VertexLayout.addAttribute(new VertexAttribute(AttributeTypes.Float, 1, false), 1); // textureSlot
 			s_VertexLayout.addAttribute(new VertexAttribute(AttributeTypes.Float, 4, false), 1); // colour (r, g, b, a)
 		}
 		
