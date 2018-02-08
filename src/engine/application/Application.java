@@ -1,5 +1,6 @@
 package engine.application;
 
+import static javax.swing.UIManager.getString;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
@@ -16,11 +17,10 @@ import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
+
 
 import java.nio.IntBuffer;
 
@@ -73,10 +73,11 @@ public class Application {
 		glfwSwapInterval(vsyncInterval);
 		// Make the window visible
 		glfwShowWindow(window);
+
+		GL.createCapabilities();
 	}
 
 	public void run() {
-		GL.createCapabilities();
 		// Run the rendering loop until the user presses esc or quits
 		while (!glfwWindowShouldClose(window)) {
 			stateManager.updateState();

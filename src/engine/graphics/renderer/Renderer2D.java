@@ -5,6 +5,8 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL20;
 
 import engine.graphics.IndexBuffer;
 import engine.graphics.VertexArray;
@@ -56,8 +58,18 @@ public class Renderer2D extends Renderer
 		m_Shader.bind();
 
 		// Set Shader uniforms
+		//Model matrix
+		int modelLoc = m_Shader.getUniformLayout().getUniformLocation(0);
+		GL20.glUniformMatrix4fv(modelLoc, true, Mat4.identity().getElements());
 		
+		//View matrix
+		int viewLoc = m_Shader.getUniformLayout().getUniformLocation(1);
+		GL20.glUniformMatrix4fv(viewLoc, true, camera.getViewMatrix().getElements());
 		
+		//Projection matrix
+		int projLoc = m_Shader.getUniformLayout().getUniformLocation(2);
+		GL20.glUniformMatrix4fv(projLoc, true, camera.getProjectionMatrix().getElements());		
+		 
 	}
 
 	public void submit(Renderable2D renderable, Mat4 transformation)
@@ -89,7 +101,8 @@ public class Renderer2D extends Renderer
 		
 		if(textureSlot == -1)
 		{
-			m_Textures.add(renderable.getTexture());
+			textureSlot = m_Textures.size();
+			m_Textures.add(renderable.getTexture());		
 		}
 		
 		float[] vertices = new float[]
@@ -108,7 +121,10 @@ public class Renderer2D extends Renderer
 		m_IndexData.put(3 + 4 * m_SpriteCount);
 		m_IndexData.put(0 + 4 * m_SpriteCount);
 		
-		
+		for(int i = 0; i < vertices.length; i++)
+		{
+			m_VertexData.putFloat(vertices[i]);
+		}
 
 		m_SpriteCount++;
 	}
@@ -125,6 +141,12 @@ public class Renderer2D extends Renderer
 		m_IndexBuffer.bind();
 		m_IndexBuffer.updateData(m_IndexData, m_SpriteCount * 6);		
 		
+		GL11.glDrawElements(GL11.GL_TRIANGLES, m_SpriteCount * 6, GL11.GL_UNSIGNED_INT, 0);
 		
+		m_IndexBuffer.unbind();
+		m_VertexBuffer.unbind();
+		m_VertexArray.unbind();
+		
+		m_Shader.unbind();
 	}
 }

@@ -31,14 +31,13 @@ public class ClientSenderTCP extends Thread{
 		while(true){
 			try {
 				Thread.currentThread().sleep(100);
-				oos.writeObject(trial);
+				oos.writeObject(client.abs.take());
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 

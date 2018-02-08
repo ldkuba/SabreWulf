@@ -12,7 +12,7 @@ public class GameServer extends Thread{
     private static Socket SCSocket; //(SERVER_CLIENT_SOCKET)
     private static CoreClientThread clientCoreThread;
     private static _PlayerMonitor pMonitor;
-    
+
     private Server server; //For notifying listeners
     
     public GameServer(Server gs)
@@ -36,7 +36,7 @@ public class GameServer extends Thread{
             // While(true) for the moment, listen to incoming connections
             while(true) {
                 SCSocket = coreSocket.accept();
-                clientCoreThread = new CoreClientThread(SCSocket, pMonitor);
+                clientCoreThread = new CoreClientThread(SCSocket, pMonitor, server);
 
                // server.notifyConnectionListenersConnected();
                 clientCoreThread.setName("player_"+SCSocket.getInetAddress());
