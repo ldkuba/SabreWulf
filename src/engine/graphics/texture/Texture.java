@@ -5,6 +5,9 @@ import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL21;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.stb.STBImage;
 
@@ -28,27 +31,29 @@ public class Texture
 		
 		m_ID = GL11.glGenTextures();
 		
-		bind();
+		bind(0);
 		
 		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGB, m_Width, m_Height, 0, GL11.GL_RGB, GL11.GL_UNSIGNED_BYTE, m_ImageData);
 		GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
 		
-		unbind();
+		unbind(0);
 		
 		STBImage.stbi_image_free(m_ImageData);
 	}
 	
-	public void bind()
+	public void bind(int slot)
 	{
+		GL13.glActiveTexture(GL13.GL_TEXTURE0 + slot);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, m_ID);
 	}
 	
-	public void unbind()
+	public void unbind(int slot)
 	{
+		GL13.glActiveTexture(GL13.GL_TEXTURE0 + slot);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 	}
 	
-	public int getWidth()
+	public int getWidth(int slot)
 	{
 		return m_Width;
 	}

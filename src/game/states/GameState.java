@@ -1,15 +1,13 @@
 package game.states;
 
-import java.util.ArrayList;
-
 import engine.entity.Entity;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TransformComponent;
+import engine.maths.Vec3;
 import engine.maths.Vec4;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.Main;
-import game.player.Player;
 import game.player.PlayerManager;
 
 public class GameState extends AbstractState
@@ -37,9 +35,17 @@ public class GameState extends AbstractState
 
 	@Override
 	public void init() {
+		
+		scene.init();
+		
 		Entity testEntity = new Entity(0, "Test Entity");
 		testEntity.addComponent(new TransformComponent());
 		testEntity.addComponent(new SpriteComponent(new Vec4(1.0f, 0.0f, 0.0f, 1.0f), 2, 2));
+		TransformComponent transform = (TransformComponent) testEntity.getComponent(TransformComponent.class);
+		
+		transform.setPosition(new Vec3(0.0f, 0.0f, 0.0f));
+		
+		//scene.getCamera().setPosition(new Vec3(5.0f, 0.0f, 0.0f));
 		
 		scene.addEntity(testEntity);
 	}

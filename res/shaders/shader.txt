@@ -22,11 +22,12 @@ void main()
 
 #version 330 core
 
+uniform sampler2D texture0;
+
 in vec4 theColor;
 in vec2 UVs;
 
 out vec4 outputColor;
-uniform sampler2D textureSampler;
 
 void main()
 {

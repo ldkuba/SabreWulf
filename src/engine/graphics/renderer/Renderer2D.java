@@ -15,9 +15,10 @@ import engine.graphics.VertexBuffer.VertexBufferUsage;
 import engine.graphics.camera.Camera;
 import engine.graphics.shader.ShaderProgram;
 import engine.graphics.shader.ShaderUniform;
-import engine.graphics.shader.ShaderUniformLayout.ShaderUniformType;
 import engine.graphics.texture.Texture;
 import engine.maths.Mat4;
+import engine.maths.MathUtil;
+import engine.maths.Vec3;
 import engine.maths.Vec4;
 
 public class Renderer2D extends Renderer
@@ -48,13 +49,20 @@ public class Renderer2D extends Renderer
 		m_VertexData = BufferUtils.createByteBuffer(0);
 		m_IndexData = BufferUtils.createIntBuffer(0);
 		
+		m_Textures = new ArrayList<>();
+		
 		m_Shader = new ShaderProgram();
 		m_Shader.loadShader("res/shaders/shader.txt"); // Later proper shader
+		
+		m_Shader.bind();
 		
 		m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("modelMatrix"), 1);
 		m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("viewMatrix"), 1);
 		m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("projectionMatrix"), 1);
+		//m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("myMatrix"), 1);
 		m_Shader.locateUniforms();
+		
+		m_Shader.unbind();
 	}
 
 	// called every frame before submitting sprites
@@ -63,14 +71,16 @@ public class Renderer2D extends Renderer
 		m_VertexData = BufferUtils.createByteBuffer(MAX_VERTS*Renderable2D.getVertexLayout().getVertexSizeInBytes());
 		m_IndexData = BufferUtils.createIntBuffer(MAX_INDEX);
 
+		m_Textures.clear();
+		
 		m_SpriteCount = 0;
 
 		m_Shader.bind();
-
+		
 		// Set Shader uniforms
 		//Model matrix
 		int modelLoc = m_Shader.getUniformLayout().getUniformLocation(0);
-		GL20.glUniformMatrix4fv(modelLoc, true, Mat4.identity().getElements());
+		GL20.glUniformMatrix4fv(modelLoc, true, MathUtil.createTranslationMatrix(new Vec3(0.0f, 0.0f, 0.0f)).getElements());
 		
 		//View matrix
 		int viewLoc = m_Shader.getUniformLayout().getUniformLocation(1);
@@ -78,8 +88,13 @@ public class Renderer2D extends Renderer
 		
 		//Projection matrix
 		int projLoc = m_Shader.getUniformLayout().getUniformLocation(2);
-		GL20.glUniformMatrix4fv(projLoc, true, camera.getProjectionMatrix().getElements());		
-		 System.out.println();
+		GL20.glUniformMatrix4fv(projLoc, true, camera.getProjectionMatrix().getElements());	
+		
+//		int locTest = m_Shader.getUniformLayout().getUniformLocation(3);
+//		GL20.glUniformMatrix4fv(projLoc, true, Mat4.identity().getElements());	
+//		//System.out.println(projLoc);
+		
+		m_Shader.unbind();	
 	}
 
 	public void submit(Renderable2D renderable, Mat4 transformation)
@@ -144,21 +159,39 @@ public class Renderer2D extends Renderer
 
 	public void drawAll()
 	{				
+		m_Shader.bind();
+		
 		m_VertexData.flip();
 		m_IndexData.flip();
 		m_VertexArray.bind();
-		//m_VertexBuffer.bind();
+		m_VertexBuffer.bind();
 		m_VertexBuffer.updateData(Renderable2D.getVertexLayout(), m_VertexData, m_SpriteCount * 4, VertexBufferUsage.DYNAMIC, true);
 
 		m_IndexBuffer.bind();
 		m_IndexBuffer.updateData(m_IndexData, m_SpriteCount * 6);	
 		
+		//bind textures
+		for(int i = 0; i < m_Textures.size(); i++)
+			m_Textures.get(i).bind(i);
+		
+		//set texture units
+		//for(int i = 0; i < 32; i++)
+		//{
+		
+		
+		int loc = GL20.glGetUniformLocation(m_Shader.getID(), "matrix");
+		//}
+		
+		//System.out.println(loc);
+		
 		while(GL11.glGetError() != GL11.GL_NO_ERROR)
 		{}
 		
 		GL11.glDrawElements(GL11.GL_TRIANGLES, m_SpriteCount * 6, GL11.GL_UNSIGNED_INT, 0);
+		//System.out.println(GL11.glGetError());
 		
-		System.out.println(GL11.glGetError());
+		for(int i = 0; i < m_Textures.size(); i++)
+			m_Textures.get(i).unbind(i);
 		
 		m_IndexBuffer.unbind();
 		m_VertexBuffer.unbind();
