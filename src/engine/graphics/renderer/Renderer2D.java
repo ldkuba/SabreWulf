@@ -80,7 +80,7 @@ public class Renderer2D extends Renderer
 		// Set Shader uniforms
 		//Model matrix
 		int modelLoc = m_Shader.getUniformLayout().getUniformLocation(0);
-		GL20.glUniformMatrix4fv(modelLoc, true, MathUtil.createTranslationMatrix(new Vec3(0.0f, 0.0f, 0.0f)).getElements());
+		GL20.glUniformMatrix4fv(modelLoc, true, Mat4.identity().getElements());
 		
 		//View matrix
 		int viewLoc = m_Shader.getUniformLayout().getUniformLocation(1);
@@ -89,10 +89,6 @@ public class Renderer2D extends Renderer
 		//Projection matrix
 		int projLoc = m_Shader.getUniformLayout().getUniformLocation(2);
 		GL20.glUniformMatrix4fv(projLoc, true, camera.getProjectionMatrix().getElements());	
-		
-//		int locTest = m_Shader.getUniformLayout().getUniformLocation(3);
-//		GL20.glUniformMatrix4fv(projLoc, true, Mat4.identity().getElements());	
-//		//System.out.println(projLoc);
 		
 		m_Shader.unbind();	
 	}
@@ -104,9 +100,9 @@ public class Renderer2D extends Renderer
 		Vec4 color = renderable.getColor();
 		
 		Vec4 v1 = new Vec4(0.0f, 0.0f, 1.0f, 1.0f);
-		Vec4 v2 = new Vec4(width, 0.0f, 1.0f, 1.0f);
-		Vec4 v3 = new Vec4(width, height, 1.0f, 1.0f);
-		Vec4 v4 = new Vec4(0.0f, height, 1.0f, 1.0f);
+		Vec4 v2 = new Vec4(0.0f, -height, 1.0f, 1.0f);
+		Vec4 v3 = new Vec4(width, -height, 1.0f, 1.0f);
+		Vec4 v4 = new Vec4(width, 0.0f, 1.0f, 1.0f);
 		
 		v1 = v1.mult(transformation);
 		v2 = v2.mult(transformation);
@@ -136,9 +132,9 @@ public class Renderer2D extends Renderer
 		float[] vertices = new float[]
 		{ 
 				v1.getW(), v1.getX(), v1.getY(), 0.0f, 0.0f, textureSlot, color.getW(), color.getX(), color.getY(), color.getZ(),
-				v2.getW(), v2.getX(), v2.getY(), 1.0f, 0.0f, textureSlot, color.getW(), color.getX(), color.getY(), color.getZ(),
+				v2.getW(), v2.getX(), v2.getY(), 0.0f, 1.0f, textureSlot, color.getW(), color.getX(), color.getY(), color.getZ(),
 				v3.getW(), v3.getX(), v3.getY(), 1.0f, 1.0f, textureSlot, color.getW(), color.getX(), color.getY(), color.getZ(),
-				v4.getW(), v4.getX(), v4.getY(), 0.0f, 1.0f, textureSlot, color.getW(), color.getX(), color.getY(), color.getZ() 
+				v4.getW(), v4.getX(), v4.getY(), 1.0f, 0.0f, textureSlot, color.getW(), color.getX(), color.getY(), color.getZ() 
 		};
 
 		m_IndexData.put(0 + 4 * m_SpriteCount);
@@ -175,14 +171,11 @@ public class Renderer2D extends Renderer
 			m_Textures.get(i).bind(i);
 		
 		//set texture units
-		//for(int i = 0; i < 32; i++)
-		//{
-		
-		
-		int loc = GL20.glGetUniformLocation(m_Shader.getID(), "matrix");
-		//}
-		
-		//System.out.println(loc);
+		for(int i = 0; i < m_Textures.size(); i++)
+		{
+			int loc = GL20.glGetUniformLocation(m_Shader.getID(), "texture[" + i + "]");
+			GL20.glUniform1i(loc, i);
+		}
 		
 		while(GL11.glGetError() != GL11.GL_NO_ERROR)
 		{}

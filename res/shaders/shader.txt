@@ -11,25 +11,36 @@ uniform mat4 projectionMatrix;
 
 out vec4 theColor;
 out vec2 UVs;
+out float texSlot;
 
 void main()
 {
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
     theColor = color;
     UVs = uv;
+    texSlot = textureSlot;
 }
 <SEPARATOR>
 
 #version 330 core
 
-uniform sampler2D texture0;
+uniform sampler2D texture[32];
 
 in vec4 theColor;
 in vec2 UVs;
+in float texSlot;
 
 out vec4 outputColor;
 
 void main()
 {
-    outputColor = theColor;
+	outputColor = theColor;
+
+	if(texSlot >= 0.0)
+	{
+		int tid = int(texSlot + 0.5);
+		outputColor = texture2D(texture[tid], UVs);
+	}
+	
+  	
 }
