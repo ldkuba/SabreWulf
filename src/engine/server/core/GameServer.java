@@ -57,7 +57,7 @@ public class GameServer extends Thread{
 
     }
     
-    private void startUDPServer() {
+    public void startUDPManager() {
     	serverUDPManager.start();
     }
     

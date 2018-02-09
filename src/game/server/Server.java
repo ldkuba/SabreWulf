@@ -193,8 +193,14 @@ public class Server
 		// TODO gameServer.sendTCP(msg);
 	}
 	
+	public void startUDPManager() {
+		gameServer.startUDPManager();
+	}
+	
 	public void sendUDP(AbstractMessage msg) // SEND OR BROADCAST, WHATEVER YOU WANNA CALL IT
 	{
+		//startUDPManager should be called before sending any UDP packets.
+		
 		// TODO gameServer.sendUDP(msg);
 		gameServer.sendUDP(msg);
 	}
