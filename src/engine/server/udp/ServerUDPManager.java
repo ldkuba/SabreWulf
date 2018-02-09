@@ -7,16 +7,18 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import engine.common_net.AbstractMessage;
-import game.networking.ExampleMessage;
 
 public class ServerUDPManager extends Thread{
 	
 	//Listeners add messages to this queue.
 	protected static volatile Queue<AbstractMessage> queueMessages = new LinkedList<AbstractMessage>();
 	//Gamelogic gives new game states onto this queue.
-	protected static volatile Queue<byte[]> queueGameStates = new LinkedList<byte[]>();
+	protected static volatile Queue<AbstractMessage> queueGameStates = new LinkedList<AbstractMessage>();
 	//Current Game State.
 	protected static AbstractMessage gameStates = new AbstractMessage();
+	
+	ServerBroadcasterThreadUDP BSocket;
+	ServerListenerThreadUDP SListener;
 	
 	protected ServerUDPManager() {
 		
@@ -30,21 +32,28 @@ public class ServerUDPManager extends Thread{
 	*/
 	
 	public void run() {
-		ClientBroadcasterThreadUDP BSocket = new ClientBroadcasterThreadUDP("230.0.0.0", 6667);
-		ClientListenerThreadUDP SLThread = new ClientListenerThreadUDP(6666,1024);
+		
+		startListener(6666,1024);
+		startBroadcastSender("230.0.0.0", 6667);
 		
 		//GameLogicThreadUDP GLThread = new GameLogicThreadUDP();
-		
-		SLThread.start();
-		BSocket.start();
 		
 		//GLThread.start();
 	}
 	
-	public void addToQueueStates(byte[] newState) {
-		queueGameStates.add(newState);
+	private void startListener(int serverPort, int MAX_PACKET_SIZE) {
+		SListener = new ServerListenerThreadUDP(serverPort, MAX_PACKET_SIZE);
 	}
 	
+	private void startBroadcastSender(String groupID, int groupPort) {
+		BSocket = new ServerBroadcasterThreadUDP(groupID, groupPort);
+	}
+	
+	//Used by the Broadcaster
+	public void addToQueueStates(AbstractMessage newState) {
+		queueGameStates.add(newState);
+	}
+	//Game Logic uses these packets to update game.
 	public void addToQueueMessages(AbstractMessage msg) {
 		queueMessages.add(msg);
 	}

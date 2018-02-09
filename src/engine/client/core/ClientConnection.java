@@ -2,6 +2,9 @@ package engine.client.core;
 
 import engine.client.tcp.ClientReceiverTCP;
 import engine.client.tcp.ClientSenderTCP;
+import engine.client.udp.ClientBroadcastReceiverUDP;
+import engine.client.udp.ClientSenderUDP;
+import engine.common_net.AbstractMessage;
 import game.client.Client;
 
 import java.io.IOException;
@@ -16,16 +19,17 @@ public class ClientConnection extends Thread{
 	}
 	private ClientSenderTCP csender = null;
 	private ClientReceiverTCP creceiver = null;
+	
+	protected ClientSenderUDP udpSender;
+	protected ClientBroadcastReceiverUDP udpReceiver;
+	
 	private Socket CSSocket=null; //Client-Server Socket TCP
 
 
 	public void run(){
 		try {
 			CSSocket = new Socket("localhost",5800);
-			//client.notifyConnectionListenersConnected();
-
-
-
+			//cliennnectClient.t.notifyConnectionListenersConnected();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -53,6 +57,20 @@ public class ClientConnection extends Thread{
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void startUDPSender(int portSender, String serverAddress, int packetSize) {
+		udpSender = new ClientSenderUDP(portSender, serverAddress, packetSize);
+		//*TO-DO: Add checks.
+	}
+	
+	public void startUDPReceiver(int groupPort, String groupID) {
+		udpReceiver = new ClientBroadcastReceiverUDP(groupPort, groupID);
+		//TO-DO: Add checks.
+	}
+	
+	public void sendUDP(AbstractMessage msg) {
+		udpSender.addMessage(msg);
 	}
 }
 

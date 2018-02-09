@@ -196,6 +196,7 @@ public class Server
 	public void sendUDP(AbstractMessage msg) // SEND OR BROADCAST, WHATEVER YOU WANNA CALL IT
 	{
 		// TODO gameServer.sendUDP(msg);
+		gameServer.sendUDP(msg);
 	}
 	
 	public static void main(String[] args)

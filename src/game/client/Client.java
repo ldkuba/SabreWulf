@@ -197,6 +197,7 @@ public class Client
 	public void sendUDP(AbstractMessage msg) // SEND OR BROADCAST, WHATEVER YOU WANNA CALL IT
 	{
 		// TODO connectClient.sendUDP(msg);
+		connectClient.sendUDP(msg);
 		
 	}
 }

@@ -50,11 +50,11 @@ public class ClientSenderUDP extends Thread{
 		}
 		byte[] buffer = new byte[MAX_PACKET_SIZE];
 		while(true) {
-			
+			//Sends packets in queue
 			if(!queueMessages.isEmpty()) {
-				buffer = NetTools.serialize(queueMessages.poll());
+				AbstractMessage messageToSend = queueMessages.poll();
+				buffer = NetTools.serialize(messageToSend);
 				sendPacket(buffer, buffer.length, serverIP, port);
-				
 			}
 		}	
 	}
@@ -66,11 +66,13 @@ public class ClientSenderUDP extends Thread{
 			CSocket.send(packet);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			System.err.println("Unable to send packet.");
 			e.printStackTrace();
 		}
 	}
 	
 	private void testUDPSender(byte[] buffer) {
+		//Do not expect response from server.
 		System.out.println("Send and int from 0-9");
 		String position;
 		try {
@@ -90,6 +92,7 @@ public class ClientSenderUDP extends Thread{
 	}
 	
 	public void addMessage(AbstractMessage msg) {
+		//Client adds messages onto the queueMessages to be sent over to the server
 		queueMessages.add(msg);
 	}
 	
