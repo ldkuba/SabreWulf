@@ -16,6 +16,9 @@ public class Player {
 	
 	public Entity player;
 	public TransformComponent transform;
+	public SpriteComponent sprite;
+	public InteractComponent interact;
+	public ActionComponent act;
 	
 	public Player(int id, String name, boolean isLocal){
 		this.id = id;
@@ -23,7 +26,9 @@ public class Player {
 		this.isLocal = isLocal;
 		
 		player = new Entity(0, "Player " + name);
+		sprite = new SpriteComponent(null, name, id, id);
 		transform = new TransformComponent();
+		player.addComponent(sprite);
 		player.addComponent(transform);
 	}
 
