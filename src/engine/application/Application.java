@@ -24,6 +24,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 import java.nio.IntBuffer;
 
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
@@ -74,6 +75,8 @@ public class Application {
 		glfwMakeContextCurrent(window);
 		// Enable v-sync
 		glfwSwapInterval(vsyncInterval);
+		// Enable Antialiasing
+		GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 4);
 		// Make the window visible
 		glfwShowWindow(window);
 		

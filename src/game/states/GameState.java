@@ -61,7 +61,7 @@ public class GameState extends AbstractState
 		}
 			
 //		float aspectRatio = 4.0f/3.0f;
-		scene.getCamera().setProjectionMatrix(MathUtil.orthoProjMat(-300.0f, 300.0f, -400.0f, 400.0f, 0.1f, 100.0f));
+		scene.getCamera().setProjectionMatrix(MathUtil.orthoProjMat(-600.0f, 600.0f, -800.0f, 800.0f, 0.1f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
 	}
 
