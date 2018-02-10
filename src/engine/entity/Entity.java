@@ -3,6 +3,7 @@ package engine.entity;
 import java.util.ArrayList;
 
 import engine.entity.component.AbstractComponent;
+import engine.entity.component.TransformComponent;
 
 public class Entity
 {
@@ -62,5 +63,11 @@ public class Entity
 			}
 		}
 		return false;
+	}
+	
+	//for simplicity because its used often	
+	public TransformComponent getTransform()
+	{
+		return (TransformComponent) getComponent(TransformComponent.class);
 	}
 }

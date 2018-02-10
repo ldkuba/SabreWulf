@@ -63,4 +63,11 @@ public class Camera
 	{
 		m_ProjectionMatrix = projectionMatrix;
 	}
+	
+	//Helper methods
+	
+	public void move(Vec3 movement)
+	{
+		this.setPosition(Vec3.add(m_Position, movement));
+	}
 }
