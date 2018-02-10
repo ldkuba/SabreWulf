@@ -1,6 +1,7 @@
 /Server/target
 /Server/.idea
 *.class
+*.log
 *.iml
 /bin
 .classpath
