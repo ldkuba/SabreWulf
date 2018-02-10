@@ -191,7 +191,7 @@ public class Client
 	
 	public void sendTCP(AbstractMessage msg) // OPTIONALLY ADD A PARAMETER TO SEND TO A SPECIFIC CLIENT
 	{
-		// TODO connectClient.sendTCP(msg);
+		abs.add(msg);
 	}
 	
 	public void sendUDP(AbstractMessage msg) // SEND OR BROADCAST, WHATEVER YOU WANNA CALL IT

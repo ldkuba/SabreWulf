@@ -46,10 +46,6 @@ public class ClientConnection extends Thread{
 		creceiver.start();
 
 
-
-
-
-
 		while(true){
 			try {
 				Thread.currentThread().sleep(100);

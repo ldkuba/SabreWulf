@@ -1,6 +1,8 @@
 package game;
 
 import engine.application.Application;
+import engine.common_net.AbstractMessage;
+import engine.common_net.tcpMessage;
 import game.client.Client;
 
 /*
@@ -35,5 +37,7 @@ public class Main extends Application {
 	public static void main(String[] args){
 		Main game = new Main();		
 		game.run();
+		AbstractMessage connect = new tcpMessage("lobby");
+		game.client.sendTCP(connect);
 	}
 }

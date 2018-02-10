@@ -1,7 +1,6 @@
 package engine.client.tcp;
 
 import engine.common_net.AbstractMessage;
-import engine.common_net.TCPTalks_trial;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -18,8 +17,6 @@ public class ClientReceiverTCP extends Thread{
 	}
 
 	public void run() {
-
-
 
 		while(true){
 

@@ -1,7 +1,6 @@
 package engine.server.tcp;
 
 import engine.common_net.AbstractMessage;
-import engine.common_net.TCPTalks_trial;
 import engine.server.core._PlayerMonitor;
 import game.server.Server;
 
@@ -10,7 +9,6 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 
 public class ClientListenerThreadTCP extends Thread{
-    TCPTalks_trial trial = null;
     ObjectInputStream ois = null;
     Socket SCSocket;
     Server server;
@@ -27,7 +25,6 @@ public class ClientListenerThreadTCP extends Thread{
         while(true){
             try {
 
-                trial = (TCPTalks_trial) ois.readObject();
                 server.notifyMessageListeners((AbstractMessage) ois.readObject());
 
 
