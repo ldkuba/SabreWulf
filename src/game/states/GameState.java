@@ -11,6 +11,7 @@ import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.Main;
 import game.player.PlayerManager;
+import javafx.scene.transform.Transform;
 
 public class GameState extends AbstractState
 {
@@ -18,6 +19,8 @@ public class GameState extends AbstractState
 	private Scene scene;
 	private PlayerManager manager;
 
+	private Entity testEntity;
+	
 	public GameState(Main app)
 	{
 		this.app = app;
@@ -42,7 +45,7 @@ public class GameState extends AbstractState
 	{
 		scene.init();
 
-		Entity testEntity = new Entity(0, "Test Entity");
+		testEntity = new Entity(0, "Test Entity");
 		testEntity.addComponent(new TransformComponent());
 		testEntity.addComponent(
 				new SpriteComponent(new Vec4(1.0f, 0.0f, 0.0f, 1.0f), "res/textures/testNoxus.png", 5.0f, 5.0f));
@@ -69,13 +72,33 @@ public class GameState extends AbstractState
 		
 		if(app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_UP))
 		{
-			scene.getCamera().move(new Vec3(0.0f, 0.02f, 0.0f));
+			scene.getCamera().move(new Vec3(0.0f, 0.08f, 0.0f));
 		}
 		
 		if(app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_DOWN))
 		{
-			scene.getCamera().move(new Vec3(0.0f, -0.02f, 0.0f));
+			scene.getCamera().move(new Vec3(0.0f, -0.08f, 0.0f));
 		}
+		
+		if(app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_A))
+		{
+			testEntity.getTransform().rotate(new Vec3(0.0f, 0.0f, 1.0f));
+		}
+		
+		if(app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_D))
+		{
+			testEntity.getTransform().rotate(new Vec3(0.0f, 0.0f, -1.0f));
+		}
+		
+		if(app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_W))
+		{
+			testEntity.getTransform().rotate(new Vec3(0.0f, 0.0f, 1.0f));
+		}
+		
+		if(app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_S))
+		{
+			testEntity.getTransform().rotate(new Vec3(0.0f, 0.0f, -1.0f));
+		}		
 		
 		System.out.println("Cam Pos: " + scene.getCamera().getPosition().getX() + "  " + scene.getCamera().getPosition().getY() + "  " + scene.getCamera().getPosition().getZ());
 	}

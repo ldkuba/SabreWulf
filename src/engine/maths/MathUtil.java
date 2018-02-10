@@ -181,4 +181,25 @@ public class MathUtil
 		
 		return result;
 	}
+	
+	public Vec3 globalToLocal(Vec3 vector, Vec3 system)
+	{
+		Vec3 result = new Vec3();
+		
+		Mat3 transformation = Mat3.identity();
+		
+//		transformation.setElement(0, );
+//		transformation.setElement(1, val);
+//		transformation.setElement(2, val);
+//		
+//		transformation.setElement(3, val);
+//		transformation.setElement(4, val);
+//		transformation.setElement(5, val);
+//		
+//		transformation.setElement(6, val);
+//		transformation.setElement(7, val);
+//		transformation.setElement(8, val);
+
+		return result;
+	}
 }

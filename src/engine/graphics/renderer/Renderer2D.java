@@ -99,10 +99,10 @@ public class Renderer2D extends Renderer
 		float height = renderable.getHeight();
 		Vec4 color = renderable.getColor();
 		
-		Vec4 v1 = new Vec4(0.0f, 0.0f, 1.0f, 1.0f);
-		Vec4 v2 = new Vec4(0.0f, -height, 1.0f, 1.0f);
-		Vec4 v3 = new Vec4(width, -height, 1.0f, 1.0f);
-		Vec4 v4 = new Vec4(width, 0.0f, 1.0f, 1.0f);
+		Vec4 v1 = new Vec4(-width/2.0f, height/2.0f, 1.0f, 1.0f);
+		Vec4 v2 = new Vec4(-width/2.0f, -height/2.0f, 1.0f, 1.0f);
+		Vec4 v3 = new Vec4(width/2.0f, -height/2.0f, 1.0f, 1.0f);
+		Vec4 v4 = new Vec4(width/2.0f, height/2.0f, 1.0f, 1.0f);
 		
 		v1 = v1.mult(transformation);
 		v2 = v2.mult(transformation);
