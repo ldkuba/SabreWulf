@@ -15,9 +15,10 @@ import engine.common_net.MessageListener;
 public class Client
 {
 	private ClientConnection connectClient;
-	
-	private ArrayList<MessageListener> messageListeners;
-	private ArrayList<ConnectionListener> connectionListeners;
+
+	private ClientConnectionListener connectionListener;
+	private ClientMessageListener messageListener;
+
 	public BlockingQueue<AbstractMessage> abs = new BlockingQueue<AbstractMessage>() {
 		@Override
 		public boolean add(AbstractMessage abstractMessage) {
@@ -147,46 +148,26 @@ public class Client
 
 	public Client()
 	{
-		messageListeners = new ArrayList<>();
-		connectionListeners = new ArrayList<>();
+		connectionListener = new ClientConnectionListener();
+		messageListener = new ClientMessageListener();
 		
 		connectClient = new ClientConnection(this);
 		connectClient.start();
 	}
-	
-	public void registerMessageListener(MessageListener msgL)
-	{
-		messageListeners.add(msgL);
-	}
-	
 
-	public void registerConnectionListener(ConnectionListener connL)
-	{
-		connectionListeners.add(connL);
-	}
-	
 	public void notifyMessageListeners(AbstractMessage msg)
 	{
-		for(MessageListener msgListener : messageListeners)
-		{
-			msgListener.receiveMessage(msg);
-		}
+		messageListener.receiveMessage(msg);
 	}
 	
 	public void notifyConnectionListenersConnected(/*Format to be decided*/)
 	{
-		for(ConnectionListener connListener : connectionListeners)
-		{
-			connListener.clientConnected(/* tbd */);
-		}
+		connectionListener.clientConnected();
 	}
 	
 	public void notifyConnectionListenersDisconnected(/*Format to be decided*/)
 	{
-		for(ConnectionListener connListener : connectionListeners)
-		{
-			connListener.clientDisconnected(/* tbd */);
-		}
+		connectionListener.clientDisconnected();
 	}
 	
 	public void sendTCP(AbstractMessage msg) // OPTIONALLY ADD A PARAMETER TO SEND TO A SPECIFIC CLIENT

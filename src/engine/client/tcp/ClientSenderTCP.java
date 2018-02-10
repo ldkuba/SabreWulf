@@ -3,6 +3,7 @@ package engine.client.tcp;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class ClientSenderTCP extends Thread{
 
@@ -28,6 +29,8 @@ public class ClientSenderTCP extends Thread{
 			try {
 				Thread.currentThread().sleep(100);
 				oos.writeObject(client.abs.take());
+			} catch (SocketException se){
+				client.notifyConnectionListenersDisconnected();
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {

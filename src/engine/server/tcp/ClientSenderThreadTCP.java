@@ -1,5 +1,6 @@
 package engine.server.tcp;
 
+import engine.common_net.AbstractMessage;
 import engine.server.core.GameServer;
 import engine.server.core._PlayerMonitor;
 import game.server.Server;
@@ -7,6 +8,7 @@ import game.server.Server;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class ClientSenderThreadTCP extends Thread{
     Socket SCSocket;
@@ -25,16 +27,21 @@ public class ClientSenderThreadTCP extends Thread{
         }
 
         while(true){
-            try {
-                oos.writeObject(server.abs.take());
-                Thread.currentThread().sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
         }
 
+    }
+
+    public boolean sendMessage(AbstractMessage message){
+        try {
+            oos.writeObject(message);
+            return true;
+        } catch (SocketException se){
+            server.notifyConnectionListenersDisconnected(SCSocket);
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

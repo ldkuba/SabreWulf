@@ -11,20 +11,19 @@ import java.net.Socket;
 
 public class CoreClientThread extends Thread {
     Socket SCSocket=null;
-    _PlayerMonitor playerMonitor;
     ClientSenderThreadTCP CSTTCP=null;
     ClientListenerThreadTCP CLTTCP = null;
     Server server;
+    Player player;
 
-    CoreClientThread(Socket clientSocket, _PlayerMonitor pMonitor, Server server){
+    CoreClientThread(Socket clientSocket, Server server){
         this.SCSocket = clientSocket;
-        this.playerMonitor = pMonitor;
         this.server = server;
+        this.player = player;
     }
 
     public void run(){
 
-        playerMonitor.addPlayer();
 
         CSTTCP = new ClientSenderThreadTCP(SCSocket, server);
         CSTTCP.setName("player."+SCSocket.getInetAddress()+".sender");

@@ -24,10 +24,7 @@ public class ClientListenerThreadTCP extends Thread{
         }
         while(true){
             try {
-
                 server.notifyMessageListeners((AbstractMessage) ois.readObject());
-
-
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e){
