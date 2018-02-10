@@ -26,7 +26,7 @@ public class GameServer extends Thread{
     public void run(){
         // Creating a server socket on some random port for TCP
         try {
-            coreSocket = new ServerSocket(5800);
+            coreSocket = new ServerSocket();
         } catch (IOException e) {
             System.out.println("Port busy. Try another one");
             e.printStackTrace();
