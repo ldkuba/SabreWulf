@@ -1,7 +1,6 @@
 package engine.application;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
 import static org.lwjgl.glfw.GLFW.glfwDestroyWindow;
 import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
@@ -11,6 +10,7 @@ import static org.lwjgl.glfw.GLFW.glfwInit;
 import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowPos;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwShowWindow;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
@@ -24,12 +24,12 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 import java.nio.IntBuffer;
 
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 
+import engine.assets.AssetManager;
 import engine.input.InputManager;
 import engine.state.StateManager;
 
@@ -42,11 +42,13 @@ public class Application {
 	protected long window;
 	protected StateManager stateManager;
 	protected InputManager inputManager;
+	protected AssetManager assetManager;
 
 	public Application(int width, int height, int vsyncInterval, String name) {
 		initialise(width, height, vsyncInterval, name);
 		stateManager = new StateManager(this);
 		inputManager = new InputManager(this);
+		assetManager = new AssetManager();
 	}
 
 	public void initialise(int width, int height, int vsyncInterval, String name) {
@@ -76,13 +78,15 @@ public class Application {
 		glfwShowWindow(window);
 		
 		GL.createCapabilities();
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 	public void run() {
 		// Run the rendering loop until the user presses esc or quits
 		while (!glfwWindowShouldClose(window)) {
 			stateManager.updateState();
-			GL11.glEnable(GL11.GL_DEPTH_TEST);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear frame buffer
 			stateManager.renderState();
 			glfwSwapBuffers(window); // swap the colour buffers
@@ -102,6 +106,11 @@ public class Application {
 
 	public InputManager getInputManager() {
 		return inputManager;
+	}
+	
+	public AssetManager getAssetManager()
+	{
+		return assetManager;
 	}
 
 	public void exit()

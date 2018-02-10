@@ -28,11 +28,11 @@ public class Renderable2D
 	private Texture m_Texture;
 	private Vec4 m_Color;
 	
-	public Renderable2D(float width, float height, Vec4 color, String imagePath)
+	public Renderable2D(float width, float height, Vec4 color, Texture texture)
 	{
 		this(width, height, color);
 		
-		m_Texture = new Texture(imagePath);
+		m_Texture = texture;
 	}
 	
 	public Renderable2D(float width, float height, Vec4 color)

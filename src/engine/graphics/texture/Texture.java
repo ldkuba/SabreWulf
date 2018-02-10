@@ -15,6 +15,8 @@ public class Texture
 	private ByteBuffer m_ImageData;
 	private int m_Width, m_Height, m_ColourChannels;
 	
+	private String m_Path;
+	
 	public Texture(String filename)
 	{
 		IntBuffer x = BufferUtils.createIntBuffer(1);
@@ -42,6 +44,8 @@ public class Texture
 		unbind(0);
 		
 		STBImage.stbi_image_free(m_ImageData);
+		
+		m_Path = filename;
 	}
 	
 	public void bind(int slot)
@@ -69,5 +73,10 @@ public class Texture
 	public int getID()
 	{
 		return m_ID;
+	}
+	
+	public String getPath()
+	{
+		return m_Path;
 	}
 }

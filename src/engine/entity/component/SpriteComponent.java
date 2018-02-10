@@ -10,9 +10,9 @@ public class SpriteComponent extends AbstractComponent
 {
 	private Renderable2D m_Sprite;
 	
-	public SpriteComponent(Vec4 color, String textureImage, float width, float height)
+	public SpriteComponent(Vec4 color, Texture texture, float width, float height)
 	{
-		m_Sprite = new Renderable2D(width, height, color, textureImage);
+		m_Sprite = new Renderable2D(width, height, color, texture);
 	}
 	
 	public SpriteComponent(Vec4 color, float width, float height)

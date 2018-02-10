@@ -23,7 +23,7 @@ import engine.maths.Vec4;
 
 public class Renderer2D extends Renderer
 {
-	private final int MAX_SPRITES = 1;
+	private final int MAX_SPRITES = 10000;
 	private final int MAX_VERTS = MAX_SPRITES * 4;
 	private final int MAX_INDEX = MAX_SPRITES * 6;
 
