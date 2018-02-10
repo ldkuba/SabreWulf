@@ -26,6 +26,8 @@ public class Main extends Application {
 		stateManager.addState(menuState);
 		stateManager.addState(lobbyState);
 		stateManager.addState(gameState);
+
+		client = new Client();
 		
 		
 		//set starting state 
