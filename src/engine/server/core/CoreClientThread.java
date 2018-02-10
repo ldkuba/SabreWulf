@@ -31,15 +31,5 @@ public class CoreClientThread extends Thread {
         CLTTCP.setName("player."+SCSocket.getInetAddress()+".listener");
         CLTTCP.start();
 
-        while(true){
-            try {
-                Thread.currentThread().sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-
     }
 }

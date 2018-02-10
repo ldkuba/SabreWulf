@@ -18,14 +18,20 @@ public class ServerSenderTCP extends Thread{
     }
 
     public void run(){
+        boolean connection=true;
         try {
             oos = new ObjectOutputStream(SCSocket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        while(true){
-
+        while(!SCSocket.isClosed()){
+            try {
+                sleep(123);
+                sendMessage(new AbstractMessage());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
     }

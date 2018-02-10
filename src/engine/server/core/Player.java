@@ -8,9 +8,7 @@ public class Player {
     private String name;
 
     public Player(InetAddress ip){
-        this.name=name;
         this.ip = ip;
-        this.playerID = playerID;
     }
 
     public void setIp(InetAddress ip) {
