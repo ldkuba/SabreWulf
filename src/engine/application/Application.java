@@ -1,6 +1,5 @@
 package engine.application;
 
-import static javax.swing.UIManager.getString;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
@@ -17,16 +16,18 @@ import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
-
 
 import java.nio.IntBuffer;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 
 import engine.input.InputManager;
@@ -73,7 +74,7 @@ public class Application {
 		glfwSwapInterval(vsyncInterval);
 		// Make the window visible
 		glfwShowWindow(window);
-
+		
 		GL.createCapabilities();
 	}
 
@@ -81,6 +82,7 @@ public class Application {
 		// Run the rendering loop until the user presses esc or quits
 		while (!glfwWindowShouldClose(window)) {
 			stateManager.updateState();
+			GL11.glEnable(GL11.GL_DEPTH_TEST);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear frame buffer
 			stateManager.renderState();
 			glfwSwapBuffers(window); // swap the colour buffers
