@@ -9,7 +9,7 @@ import engine.input.MouseListener;
  */
 
 public abstract class AbstractState implements KeyboardListener, MouseListener {
-	
+
 	public abstract void init(); //initialise state
 	public abstract void render(); //draw state
 	public abstract void update(); //update state

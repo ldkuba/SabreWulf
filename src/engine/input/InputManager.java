@@ -5,7 +5,7 @@ import java.nio.DoubleBuffer;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
 
-import engine.Application;
+import engine.application.Application;
 
 public class InputManager {
 	
