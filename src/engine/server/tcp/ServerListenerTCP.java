@@ -27,7 +27,7 @@ public class ServerListenerTCP extends Thread{
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e){
-                e.printStackTrace();
+                server.notifyConnectionListenersDisconnected(SCSocket);
             }
 
         }

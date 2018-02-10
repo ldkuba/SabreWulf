@@ -2,16 +2,11 @@ package game.server;
 
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 import engine.common_net.AbstractMessage;
-import engine.common_net.ConnectionListener;
-import engine.common_net.MessageListener;
 import engine.server.core.GameServer;
 import engine.server.core.Player;
+import engine.server.core.ServerStateManager;
 
 public class Server
 {
@@ -19,6 +14,8 @@ public class Server
 
 	private ServerConnectionListener connectionListener;
 	private ServerMessageListener messageListener;
+
+	private ServerStateManager smg;
 
 	ArrayList<Player> players;
 
@@ -36,6 +33,9 @@ public class Server
 
 	public Server()
 	{
+		smg = new ServerStateManager(this);
+		smg.setName("state manager");
+		smg.start();
 		connectionListener = new ServerConnectionListener(this);
 		messageListener = new ServerMessageListener(this);
 		players = new ArrayList<Player>();
