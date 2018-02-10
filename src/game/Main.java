@@ -14,7 +14,6 @@ public class Main extends Application {
 	
 	Client client;
 	
-	
 	public static MenuState menuState;
 	public static LobbyState lobbyState;
 	public static GameState gameState;
