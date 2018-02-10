@@ -1,8 +1,6 @@
 package engine.server.tcp;
 
 import engine.common_net.AbstractMessage;
-import engine.server.core.GameServer;
-import engine.server.core._PlayerMonitor;
 import game.server.Server;
 
 import java.io.IOException;
@@ -10,11 +8,11 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
-public class ClientSenderThreadTCP extends Thread{
+public class ServerSenderTCP extends Thread{
     Socket SCSocket;
     Server server;
     ObjectOutputStream oos;
-    public ClientSenderThreadTCP(Socket SCSocket, Server server){
+    public ServerSenderTCP(Socket SCSocket, Server server){
         this.SCSocket = SCSocket;
         this.server = server;
     }

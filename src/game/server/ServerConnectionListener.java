@@ -17,11 +17,14 @@ public class ServerConnectionListener implements ConnectionListener
 	public void clientConnected(Socket socket){
 		Player player = new Player(socket.getInetAddress());
 		server.addPlayer(player);
-
 	}
 
 	@Override
 	public void clientDisconnected(Socket socket) {
-
+		for(int i = 0; i< server.players.size(); i++){
+			if(server.players.get(i).getIp().equals(socket.getInetAddress())){
+				server.removePlayer(server.players.get(i));
+			}
+		}
 	}
 }

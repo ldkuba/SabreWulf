@@ -1,18 +1,17 @@
 package engine.server.tcp;
 
 import engine.common_net.AbstractMessage;
-import engine.server.core._PlayerMonitor;
 import game.server.Server;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
-public class ClientListenerThreadTCP extends Thread{
+public class ServerListenerTCP extends Thread{
     ObjectInputStream ois = null;
     Socket SCSocket;
     Server server;
-    public ClientListenerThreadTCP(Socket SCSocket, Server server) {
+    public ServerListenerTCP(Socket SCSocket, Server server) {
         this.SCSocket = SCSocket;
         this.server = server;
     }

@@ -1,5 +1,6 @@
 package game.client;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -148,7 +149,7 @@ public class Client
 
 	public Client()
 	{
-		connectionListener = new ClientConnectionListener();
+		connectionListener = new ClientConnectionListener(this);
 		messageListener = new ClientMessageListener();
 		
 		connectClient = new ClientConnection(this);
@@ -160,14 +161,14 @@ public class Client
 		messageListener.receiveMessage(msg);
 	}
 	
-	public void notifyConnectionListenersConnected(/*Format to be decided*/)
+	public void notifyConnectionListenersConnected(Socket socket)
 	{
-		connectionListener.clientConnected();
+		connectionListener.clientConnected(socket);
 	}
 	
-	public void notifyConnectionListenersDisconnected(/*Format to be decided*/)
+	public void notifyConnectionListenersDisconnected(Socket socket)
 	{
-		connectionListener.clientDisconnected();
+		connectionListener.clientDisconnected(socket);
 	}
 	
 	public void sendTCP(AbstractMessage msg) // OPTIONALLY ADD A PARAMETER TO SEND TO A SPECIFIC CLIENT

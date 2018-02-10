@@ -1,18 +1,15 @@
 package engine.server.core;
 
-import engine.server.tcp.ClientListenerThreadTCP;
-import engine.server.tcp.ClientSenderThreadTCP;
+import engine.server.tcp.ServerListenerTCP;
+import engine.server.tcp.ServerSenderTCP;
 import game.server.Server;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.net.Socket;
 
 public class CoreClientThread extends Thread {
     Socket SCSocket=null;
-    ClientSenderThreadTCP CSTTCP=null;
-    ClientListenerThreadTCP CLTTCP = null;
+    ServerSenderTCP CSTTCP=null;
+    ServerListenerTCP CLTTCP = null;
     Server server;
     Player player;
 
@@ -25,12 +22,12 @@ public class CoreClientThread extends Thread {
     public void run(){
 
 
-        CSTTCP = new ClientSenderThreadTCP(SCSocket, server);
+        CSTTCP = new ServerSenderTCP(SCSocket, server);
         CSTTCP.setName("player."+SCSocket.getInetAddress()+".sender");
         CSTTCP.start();
 
 
-        CLTTCP = new ClientListenerThreadTCP(SCSocket, server);
+        CLTTCP = new ServerListenerTCP(SCSocket, server);
         CLTTCP.setName("player."+SCSocket.getInetAddress()+".listener");
         CLTTCP.start();
 

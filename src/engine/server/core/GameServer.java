@@ -13,7 +13,6 @@ public class GameServer extends Thread{
     private static ServerSocket coreSocket; // Server Socket, named core (it's only one there)
     private static Socket SCSocket; //(SERVER_CLIENT_SOCKET)
     private static CoreClientThread clientCoreThread;
-    private static _PlayerMonitor pMonitor;
     
     private static ServerUDPManager serverUDPManager = null;	//Receives and sends UDP packets.
 

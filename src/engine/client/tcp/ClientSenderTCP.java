@@ -30,7 +30,7 @@ public class ClientSenderTCP extends Thread{
 				Thread.currentThread().sleep(100);
 				oos.writeObject(client.abs.take());
 			} catch (SocketException se){
-				client.notifyConnectionListenersDisconnected();
+				client.notifyConnectionListenersDisconnected(CSSocket);
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {

@@ -20,24 +20,18 @@ public class Server
 	private ServerConnectionListener connectionListener;
 	private ServerMessageListener messageListener;
 
-	private int connectionCount=0;
-
 	ArrayList<Player> players;
 
-	public void setConnectionCount(int connectionCount) {
-		this.connectionCount = connectionCount;
-	}
-
-	public int getConnectionCount() {
-		return connectionCount;
+	public int getNoPlayers() {
+		return players.size();
 	}
 
 	public void addPlayer(Player player){
 		players.add(player);
 	}
 
-	public void removePlayer(){
-		connectionCount--;
+	public void removePlayer(Player player){
+		players.remove(player);
 	}
 
 	public Server()
