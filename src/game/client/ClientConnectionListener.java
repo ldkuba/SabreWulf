@@ -2,16 +2,18 @@ package game.client;
 
 import engine.common_net.ConnectionListener;
 
+import java.net.Socket;
+
 public class ClientConnectionListener implements ConnectionListener
 {
 	@Override
-	public void clientConnected(/*To be decided*/)
+	public void clientConnected(Socket socket)
 	{
 		// do shit 
 	}
 
 	@Override
-	public void clientDisconnected(/*To be decided*/)
+	public void clientDisconnected(Socket socket)
 	{
 		//do other shit
 	}
