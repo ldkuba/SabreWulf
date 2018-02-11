@@ -70,6 +70,11 @@ public class Camera
 		m_ViewPort = viewPort;
 	}
 	
+	public Vec2 getViewport()
+	{
+		return m_ViewPort;
+	}
+	
 	//Helper methods
 	
 	public void move(Vec3 movement)
