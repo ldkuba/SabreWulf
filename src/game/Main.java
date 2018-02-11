@@ -7,35 +7,37 @@ import game.states.LobbyState;
 import game.states.MenuState;
 
 /*
- * 	Only used to test that a window is still loaded
+ * 	Main method - used to run the game
  */
 
 public class Main extends Application {
-	
+
 	Client client;
-	
+
 	public static MenuState menuState;
 	public static LobbyState lobbyState;
 	public static GameState gameState;
-	
-	public Main() {		
-		super(800, 600, 1, "SabreWulf"); //window width, window height, vsync interval
+
+	public Main() {
+		super(800, 600, 1, "SabreWulf"); // window width, window height, vsync
+											// interval
 		menuState = new MenuState(this);
 		lobbyState = new LobbyState(this);
 		gameState = new GameState(this);
+
+		// register all states
 		stateManager.addState(menuState);
 		stateManager.addState(lobbyState);
 		stateManager.addState(gameState);
 
 		client = new Client();
-		
-		
-		//set starting state 
+
+		// set starting state
 		stateManager.setCurrentState(gameState);
 	}
-	
-	public static void main(String[] args){
-		Main game = new Main();		
+
+	public static void main(String[] args) {
+		Main game = new Main();
 		game.run();
 	}
 }
