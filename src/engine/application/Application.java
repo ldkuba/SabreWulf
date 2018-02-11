@@ -157,6 +157,11 @@ public class Application
 		return assetManager;
 	}
 
+	public GUI getGui()
+	{
+		return gui;
+	}
+	
 	public void exit()
 	{
 		glfwSetWindowShouldClose(window, true);

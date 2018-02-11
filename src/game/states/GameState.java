@@ -36,6 +36,7 @@ public class GameState extends AbstractState
 		this.app = app;
 		scene = new Scene(0);
 		manager = new PlayerManager(scene);
+		playerController = new PlayerController(app, this);
 	}
 
 	@Override
@@ -53,9 +54,10 @@ public class GameState extends AbstractState
 	
 	@Override
 	public void init()
-	{
+	{		
 		scene.init();
-
+		app.getGui().init(scene);
+		
 		for(int i = 0; i < 100; i++)
 		{
 			Entity testEntity = new Entity(0, "Test Entity");
