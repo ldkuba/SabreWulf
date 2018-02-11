@@ -2,6 +2,7 @@ package engine.graphics.camera;
 
 import engine.maths.Mat4;
 import engine.maths.MathUtil;
+import engine.maths.Vec2;
 import engine.maths.Vec3;
 
 public class Camera
@@ -11,11 +12,15 @@ public class Camera
 	
 	private Vec3 m_Position;
 	private Vec3 m_Direction;
+		
+	private Vec2 m_ViewPort;
 	
 	public Camera()
 	{
 		m_ViewMatrix = Mat4.identity();
 		m_ProjectionMatrix = Mat4.identity();
+		
+		m_ViewPort = new Vec2();
 		
 		m_Position = new Vec3();
 		m_Direction = new Vec3(0, 0, 1.0f);
@@ -59,9 +64,10 @@ public class Camera
 		return m_ProjectionMatrix;
 	}
 	
-	public void setProjectionMatrix(Mat4 projectionMatrix)
+	public void setProjectionMatrix(Mat4 projectionMatrix, Vec2 viewPort)
 	{
 		m_ProjectionMatrix = projectionMatrix;
+		m_ViewPort = viewPort;
 	}
 	
 	//Helper methods
