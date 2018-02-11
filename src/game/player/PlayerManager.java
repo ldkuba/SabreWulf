@@ -2,6 +2,8 @@ package game.player;
 
 import java.util.ArrayList;
 
+import engine.graphics.renderer.Renderer2D;
+import engine.maths.Mat4;
 import engine.scene.Scene;
 
 //For managing which players are issued which instructions
@@ -49,6 +51,13 @@ public class PlayerManager {
 	}
 	
 	public void render(){
+		for(int i = 0; i < players.size(); i++){
+			players.get(i).render(scene.getRenderer2D(), players.get(i).transform.getTransformationMatrix());			
+		}
+	}
+	
+	public void update()
+	{
 		
 	}
 }

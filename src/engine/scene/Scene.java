@@ -96,4 +96,8 @@ public class Scene
 	{
 		return m_Camera;
 	}
+	
+	public Renderer2D getRenderer2D(){
+		return m_Renderer2D;
+	}
 }

@@ -42,6 +42,11 @@ public class Main extends Application {
 		return playerManager;
 	}
 
+	public Client getClient()
+	{
+		return this.client;
+	}
+	
 	public static void main(String[] args) {
 		Main game = new Main();
 		game.run();

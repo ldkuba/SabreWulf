@@ -3,14 +3,15 @@ package game.player;
 import engine.entity.Entity;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TransformComponent;
+import engine.graphics.renderer.Renderer2D;
 import engine.graphics.texture.Texture;
+import engine.maths.Mat4;
 
 //Will contain an Entity object with components and holds data of it's own profile (health, status, position etc)
 public class Player {
 	
 	private int id;
 	private String name;
-	private int[] position;
 	private int health;
 	private int energy;
 	String status;
@@ -31,14 +32,6 @@ public class Player {
 		transform = new TransformComponent();
 		player.addComponent(sprite);
 		player.addComponent(transform);
-	}
-
-	public int[] getPosition() {
-		return position;
-	}
-	
-	public void setPosition(int[] pos){
-		position = pos;
 	}
 
 	public int getHealth() {
@@ -73,8 +66,12 @@ public class Player {
 		return id; 
 	}
 	
-	public void render()
+	public void render(Renderer2D renderer, Mat4 transformation)
 	{
-		
+		sprite.submit(renderer, transformation);
+	}
+
+	public Entity getEntity() {
+		return player;
 	}
 }
