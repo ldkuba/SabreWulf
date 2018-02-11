@@ -57,6 +57,7 @@ public class GUI implements MouseListener
 			Vec3 result = new Vec3();
 			
 			//scene.getCamera().getViewport()
+			//app.getWindowSize()
 			
 			transform.setPosition(result);
 		}
