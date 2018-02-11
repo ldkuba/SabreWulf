@@ -1,24 +1,29 @@
 package engine.server.core;
 
+import engine.common_net.AbstractMessage;
+import engine.common_net.PeerList;
+
 import java.net.InetAddress;
+import java.net.Socket;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.concurrent.*;
 
 public class Player {
-    private int playerID;
-    private InetAddress ip;
+    private Socket socket;
     private String name;
 
-    public Player(InetAddress ip){
-        this.ip = ip;
+    private BlockingQueue<AbstractMessage> pbq;
+
+    public Player(Socket socket){
+        this.socket=socket;
+        pbq = new LinkedBlockingQueue<AbstractMessage>(1000);
+
     }
 
-    public void setIp(InetAddress ip) {
-        this.ip = ip;
+    public Socket getSocket() {
+        return socket;
     }
-
-    public InetAddress getIp() {
-        return ip;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -27,13 +32,29 @@ public class Player {
         return name;
     }
 
-    public int getPlayerID() {
-        return this.playerID;
+    public AbstractMessage takeMessage() {
+
+        try {
+            return pbq.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
     }
 
-    public void setPlayerID(int playerID) {
-        this.playerID = playerID;
+    public void addMsg(PeerList msg){
+
+            pbq.add(msg);
+
     }
+
+    public int getMsgCount(){
+        return pbq.size();
+    }
+
+
 
 
 }

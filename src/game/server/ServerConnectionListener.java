@@ -15,24 +15,17 @@ public class ServerConnectionListener implements ConnectionListener
 	}
 
 	@Override
-	public void clientConnected(Socket socket){
-		System.out.println("Hello");
-		Player player = new Player(socket.getInetAddress());
-		server.addPlayer(player);
+	public void clientConnected(Player player){
+		System.out.println("Connection");
 	}
 
 	@Override
-	public void clientDisconnected(Socket socket) {
-
-		for(int i = 0; i< server.players.size(); i++){
-			if(server.players.get(i).getIp().equals(socket.getInetAddress())){
-				server.removePlayer(server.players.get(i));
-				try {
-					socket.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+	public void clientDisconnected(Player player) {
+		server.players.remove(player);
+		try {
+			player.getSocket().close();
+		} catch (IOException e) {
+			System.out.println("EXCEPTION PLAYER LEAVING");
 		}
 	}
 }

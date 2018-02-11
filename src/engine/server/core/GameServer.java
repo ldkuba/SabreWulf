@@ -36,16 +36,15 @@ public class GameServer extends Thread{
             // While(true) for the moment, listen to incoming connections
             while(true) {
                 SCSocket = coreSocket.accept();
-                clientCoreThread = new CoreClientThread(SCSocket, server);
-
+                Player player = new Player(SCSocket);
+                server.addPlayer(player);
+                server.notifyConnectionListenersConnected(player);
+                clientCoreThread = new CoreClientThread(player, server);
                 clientCoreThread.setName("player_"+SCSocket.getInetAddress());
-                server.notifyConnectionListenersConnected(SCSocket);
                 clientCoreThread.start();
             }
         } catch (IOException e) {
                 e.printStackTrace();
-
-
         }
 
     }

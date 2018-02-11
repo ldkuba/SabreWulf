@@ -1,5 +1,7 @@
 package engine.client.tcp;
 
+import engine.server.core.Player;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -30,7 +32,8 @@ public class ClientSenderTCP extends Thread{
 				Thread.currentThread().sleep(100);
 				oos.writeObject(client.abs.take());
 			} catch (SocketException se){
-				client.notifyConnectionListenersDisconnected(CSSocket);
+				//stop threads
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {

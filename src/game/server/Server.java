@@ -1,9 +1,12 @@
 package game.server;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
 import engine.common_net.AbstractMessage;
+import engine.common_net.PeerList;
 import engine.server.core.GameServer;
 import engine.server.core.Player;
 import engine.server.core.ServerStateManager;
@@ -17,7 +20,7 @@ public class Server
 
 	private ServerStateManager smg;
 
-	ArrayList<Player> players;
+	public ArrayList<Player> players = null;
 
 	public int getNoPlayers() {
 		return players.size();
@@ -33,15 +36,18 @@ public class Server
 
 	public Server()
 	{
-		smg = new ServerStateManager(this);
-		smg.setName("state manager");
-		smg.start();
+
 		connectionListener = new ServerConnectionListener(this);
 		messageListener = new ServerMessageListener(this);
-		players = new ArrayList<Player>();
+		players = new ArrayList<Player>(6);
 		gameServer = new GameServer(this);
 		gameServer.setName("GAME");
 		gameServer.start();
+
+
+		smg = new ServerStateManager(this);
+		smg.setName("state manager");
+		smg.start();
 	}
 
 	public void notifyMessageListeners(AbstractMessage msg)
@@ -49,26 +55,27 @@ public class Server
 		messageListener.receiveMessage(msg);
 	}
 	
-	public void notifyConnectionListenersConnected(Socket socket)
+	public void notifyConnectionListenersConnected(Player player)
 	{
-		connectionListener.clientConnected(socket);
+		connectionListener.clientConnected(player);
 	}
 	
-	public void notifyConnectionListenersDisconnected(Socket socket)
+	public void notifyConnectionListenersDisconnected(Player player)
 	{
-		connectionListener.clientDisconnected(socket);
+		connectionListener.clientDisconnected(player);
 	}
 	
-	public void sendTCP(AbstractMessage msg, Player player){
-
+	public void sendTCP(PeerList msg, Player p){
+		p.addMsg(msg);
 	}
 
-	public void broadcastTCP(AbstractMessage msg, ArrayList<Player> players){
-		for(int i = 1; i<=players.size(); i++){
+	public void broadcastTCP(PeerList msg, ArrayList<Player> players){
+		for(int i = 0; i<players.size(); i++){
 			sendTCP(msg, players.get(i));
 		}
 	}
-	
+
+
 	public void startUDPManager() {
 		gameServer.startUDPManager();
 	}
