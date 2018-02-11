@@ -2,10 +2,9 @@ package game.map;
 
 import java.util.ArrayList;
 
-import engine.entity.Entity;<<<<<<<HEAD
-import engine.scene.Scene;=======
+import engine.entity.Entity;
 import engine.graphics.camera.Camera;
-import engine.maths.Vec3;>>>>>>>refs/remotes/origin/engine
+import engine.maths.Vec3;
 
 public class Map
 {
