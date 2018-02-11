@@ -58,11 +58,8 @@ public class Application {
 			// Centre the window
 			glfwSetWindowPos(window, (vidmode.width() - pWidth.get(0)) / 2, (vidmode.height() - pHeight.get(0)) / 2);
 		}
-		// Make the OpenGL context current
 		glfwMakeContextCurrent(window);
-		// Enable v-sync
 		glfwSwapInterval(vsyncInterval);
-		// Make the window visible
 		glfwShowWindow(window);
 
 		GL.createCapabilities();
@@ -73,11 +70,10 @@ public class Application {
 		while (!glfwWindowShouldClose(window)) {
 			stateManager.updateState();
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear frame
-																// buffer
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear frame buffer
 			stateManager.renderState();
 			glfwSwapBuffers(window); // swap the colour buffers
-			glfwPollEvents(); // Poll for window events. The key callback above will only be invoked during this call.
+			glfwPollEvents(); // Poll for window events
 		}
 		cleanup();
 	}
@@ -108,6 +104,7 @@ public class Application {
 	}
 
 	public void resize(long window, int width, int height) {
+		//resize window 
 		if(!isFullScreen){
 			glfwSetWindowSizeCallback(window, windowSizeCallback = new GLFWWindowSizeCallback() {
 				@Override

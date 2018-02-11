@@ -12,25 +12,81 @@ public class Map {
 	Camera camera;
 	Entity shownEntity;
 	ArrayList<Entity> hiddenEntities;
+	Vec3 currentPos;
+	int i = 0; 
 	private final int MAP_SIZE = 10;
 
 	public Map() {
 		entities = new ArrayList<Entity>();
 		hiddenEntities = new ArrayList<Entity>();
 		background = new Entity[MAP_SIZE * MAP_SIZE]; // map is 10 x 10
+		//starting position of camera 
+		currentPos = new Vec3(getCameraPosX(), getCameraPosY(), getCameraPosZ());
 	}
-
-	public void addEntity(Entity entity) {
-		if (!entities.contains(entity)) {
-			entities.add(entity);
+	
+	public void init() {
+		// initialise entities ???
+		
+		//set hidden and current shown entity
+		for (Entity entity : entities) {
+			hiddenEntities.add(entity);
 		}
+		shownEntity = background[i];
+	}
+	
+	public Entity getShownEntity() {
+		//return the current visible map background
+		return shownEntity;
+	}
+	
+	public void render(){
+		//get new cameraPos
+		Vec3 cameraPos = new Vec3(getCameraPosX(), getCameraPosY(), getCameraPosZ());
+		float diffx = cameraPos.getX() - currentPos.getX();
+		float diffy = cameraPos.getY() - currentPos.getY();
+		float diffz = cameraPos.getZ() - currentPos.getZ();
+		/* if camera has moved left the x difference will be positive
+		*                moved up the y difference will be positive
+		*/
+		if (diffx > 0) {
+			moveLeft(diffx);
+		} else if (diffx < 0) {
+			moveRight(diffx);
+		} 
+		if (diffy > 0) {
+			moveUp(diffy);
+		} else if (diffy < 0) {
+			moveDown(diffy);
+		}		
 	}
 
-	public void setShownEntity() {
-		// returns correct part of background[] depending on camera position
+	private void moveLeft(float diffx){
+		int steps = (int) diffx;
+		i = i - steps;
+		setBackground();
+	}
+	
+	private void moveRight(float diffx){
+		int steps = (int) diffx;
+		i = i + steps;
+		setBackground();
+	}
+	
+	private void moveUp(float diffy){
+		int steps = (int) diffy;
+		i = i + -(steps * MAP_SIZE);
+		setBackground();
+	}
+	
+	private void moveDown(float diffy){
+		int steps = (int) diffy;
+		i = i + (steps * MAP_SIZE);
+		setBackground();
+	}
+	
+	private void setBackground(){
 		Entity temp;
-		Vec3 cameraPos = new Vec3(getCameraPosX(), getCameraPosY(), getCameraPosZ());
-		int i = (int) (cameraPos.getX() + ((float) MAP_SIZE * cameraPos.getY()));
+		int i = (int) (currentPos.getX() + ((float) MAP_SIZE * currentPos.getY()));
 		temp = background[i];
 		if (entities.contains(temp)) {
 			if (temp != shownEntity) {
@@ -42,58 +98,37 @@ public class Map {
 			}
 		}
 	}
-
+		
 	public void setCameraInBounds() {
 		// if camera goes out of map bounds bring it back in.
 		boolean changePos = false;
 		Vec3 position = new Vec3(getCameraPosX(), getCameraPosY(), getCameraPosZ());
-		if (position.getX() > (float) MAP_SIZE) {
-			position.setX((float) MAP_SIZE);
+		if (position.getX() > (float) MAP_SIZE / 2) {
+			position.setX((float) MAP_SIZE / 2);
 			changePos = true;
-		} else if (position.getX() < 0) {
-			position.setX(0);
-			changePos = true;
-		}
-		if (position.getY() > (float) MAP_SIZE) {
-			position.setY((float) MAP_SIZE);
-			changePos = true;
-		} else if (position.getY() < 0) {
-			position.setY(0);
+		} else if (position.getX() < -(MAP_SIZE / 2)) {
+			position.setX(-(MAP_SIZE / 2));
 			changePos = true;
 		}
-		if (position.getZ() > (float) MAP_SIZE) {
-			position.setZ((float) MAP_SIZE);
+		if (position.getY() > (float) MAP_SIZE / 2) {
+			position.setY((float) MAP_SIZE / 2);
 			changePos = true;
-		} else if (position.getZ() < 0) {
-			position.setZ(0);
+		} else if (position.getY() < -(MAP_SIZE / 2)) {
+			position.setY(-(MAP_SIZE / 2));
+			changePos = true;
+		}
+		if (position.getZ() > (float) MAP_SIZE / 2) {
+			position.setZ((float) MAP_SIZE / 2);
+			changePos = true;
+		} else if (position.getZ() < -(MAP_SIZE / 2)) {
+			position.setZ(-(MAP_SIZE / 2));
 			changePos = true;
 		}
 		if (changePos) {
 			camera.setPosition(position);
 		}
 	}
-
-	public boolean inInScope() {
-		// to do
-		return true;
-	}
-
-	public void init() {
-		// initialise entities
-		for (Entity entity : entities) {
-			hiddenEntities.add(entity);
-		}
-		setShownEntity();
-	}
-
-	public Entity getShownEntity() {
-		return shownEntity;
-	}
-
-	public void renderer() {
-
-	}
-
+	
 	private float getCameraPosX() {
 		return camera.getPosition().getX();
 	}
