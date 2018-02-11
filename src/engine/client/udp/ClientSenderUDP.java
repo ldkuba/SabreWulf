@@ -23,7 +23,7 @@ public class ClientSenderUDP extends Thread{
 	BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 	
 	//Receive messages to send to server.
-	private volatile Queue<udpMessage> queueMessages = new LinkedList<udpMessage>();
+	private volatile Queue<AbstractMessage> queueMessages = new LinkedList<AbstractMessage>();
 	
 	//Test Array states
 	//private int[] gamePacket = {1,1,0,1,2,1};
@@ -60,7 +60,7 @@ public class ClientSenderUDP extends Thread{
 		while(true) {
 			//Sends packets in queue
 			if(!queueMessages.isEmpty()) {
-				udpMessage messageToSend = queueMessages.poll();
+				AbstractMessage messageToSend = queueMessages.poll();
 				buffer = NetTools.serialize(messageToSend);
 				sendPacket(buffer, buffer.length, serverIP, port);
 			}
@@ -80,7 +80,7 @@ public class ClientSenderUDP extends Thread{
 		}
 	}
 	
-	public void addMessage(udpMessage msg) {
+	public void addMessage(AbstractMessage msg) {
 		//Client adds messages onto the queueMessages to be sent over to the server
 		queueMessages.add(msg);
 	}

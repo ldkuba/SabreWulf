@@ -17,6 +17,7 @@ public class ServerUDPManager extends Thread{
 	
 	
 	private boolean defaultSettings = true;
+	private boolean protoLogic = true;
 	
 	//Listeners add messages to this queue.
 	protected static volatile Queue<AbstractMessage> queueMessages = new LinkedList<AbstractMessage>();
@@ -33,9 +34,7 @@ public class ServerUDPManager extends Thread{
 	String groupID;
 	String serverIP;
 	
-	private boolean protoLogic = true;
-	
-	//Default & protoLogic are true;
+	//Default settings & protoLogic are true;
 	protected ServerUDPManager() {
 		portListener = 6666;
 		portBroadcast = 6667;

@@ -57,7 +57,7 @@ public class ClientBroadcastReceiverUDP extends Thread{
 				//Add received message to the queueStates for the client to take.
 				byte[] gameBuffer = gamePacket.getData();
 				AbstractMessage newMessage = NetTools.deserialize(gameBuffer);
-				testBroadcastReceiver(newMessage);
+				//testBroadcastReceiver(newMessage);
 				//queueStates.add(newMessage);
 				
 			} catch (IOException e) {
