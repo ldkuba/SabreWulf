@@ -1,7 +1,5 @@
 package game.player;
 
-import engine.entity.component.ActionComponent;
-import engine.entity.component.InteractComponent;
 import engine.entity.component.TransformComponent;
 import engine.maths.Vec3;
 
@@ -11,8 +9,7 @@ public class PlayerController {
 	//playerInteract
 	//action
 	private TransformComponent transformer;
-	private InteractComponent interaction;
-	private ActionComponent act;
+	
 	
 	public void update()
 	{
@@ -24,10 +21,10 @@ public class PlayerController {
 	}
 	
 	public void playerInteract(){
-		//TODO interact component methods
+		//TODO interaction methods
 	}
 	
 	public void action(){
-		//TODO action component methods
+		//TODO action methods
 	}
 }

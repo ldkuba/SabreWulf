@@ -1,8 +1,6 @@
 package game.player;
 
 import engine.entity.Entity;
-import engine.entity.component.ActionComponent;
-import engine.entity.component.InteractComponent;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TransformComponent;
 import engine.graphics.texture.Texture;
@@ -21,8 +19,6 @@ public class Player {
 	public Entity player;
 	public TransformComponent transform;
 	public SpriteComponent sprite;
-	public InteractComponent interact;
-	public ActionComponent act;
 	
 	public Player(int id, String name, boolean isLocal, Texture texture){
 		this.id = id;
@@ -40,16 +36,40 @@ public class Player {
 	public int[] getPosition() {
 		return position;
 	}
+	
+	public void setPosition(int[] pos){
+		position = pos;
+	}
 
 	public int getHealth() {
 		return health;
+	}
+	
+	public void setHealth(int hp){
+		health = hp;
 	}
 
 	public int getEnergy() {
 		return energy;
 	}
+	
+	public void setEnergy(int mana){
+		energy = mana;
+	}
 
 	public String getStatus() {
 		return status;
+	}
+	
+	public void setStatus(String newStatus){
+		status = newStatus;
+	}
+	
+	public boolean checkLocal(){
+		return isLocal;
+	}
+	
+	public int checkID(){
+		return id; 
 	}
 }
