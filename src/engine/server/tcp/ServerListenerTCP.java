@@ -16,17 +16,19 @@ public class ServerListenerTCP extends Thread{
         this.server = server;
     }
     public void run(){
+        boolean connection = true;
         try {
             ois = new ObjectInputStream(SCSocket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        while(true){
+        while(!SCSocket.isClosed()){
             try {
                 server.notifyMessageListeners((AbstractMessage) ois.readObject());
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e){
+                connection = false;
                 server.notifyConnectionListenersDisconnected(SCSocket);
             }
 

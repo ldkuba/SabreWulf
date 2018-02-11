@@ -14,7 +14,7 @@ public class Button extends GuiComponent
 		releasedTexture = released;
 		
 		entity = new Entity(0, "button");
-				
+		
 		
 	}
 	

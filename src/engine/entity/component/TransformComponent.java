@@ -47,10 +47,6 @@ public class TransformComponent extends AbstractComponent
 		this.scale = scale;
 	}
 	
-	/*
-	 * TODO implement util functions like move, rotate, scale
-	 */
-	
 	public void move(Vec3 movement)
 	{
 		this.position = Vec3.add(this.position, movement);

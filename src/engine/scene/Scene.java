@@ -89,4 +89,8 @@ public class Scene {
 	public Camera getCamera() {
 		return m_Camera;
 	}
+	
+	public Renderer2D getRenderer2D(){
+		return m_Renderer2D;
+	}
 }

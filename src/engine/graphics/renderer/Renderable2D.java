@@ -75,4 +75,9 @@ public class Renderable2D
 	{
 		return m_Texture;
 	}
+	
+	public void setTexture(Texture texture)
+	{
+		m_Texture = texture;
+	}
 }
