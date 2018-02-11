@@ -1,6 +1,7 @@
 package engine.application;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
+import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
 import static org.lwjgl.glfw.GLFW.glfwDestroyWindow;
 import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
@@ -11,13 +12,16 @@ import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowPos;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
 import static org.lwjgl.glfw.GLFW.glfwShowWindow;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
+import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
@@ -26,6 +30,7 @@ import java.nio.IntBuffer;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
@@ -33,10 +38,11 @@ import org.lwjgl.system.MemoryStack;
 import engine.assets.AssetManager;
 import engine.gui.GUI;
 import engine.input.InputManager;
+import engine.maths.Vec2;
 import engine.state.StateManager;
 
 /*
- * Initialises the game window, creating the application
+ * Initialise and terminate the application window
 */
 
 public class Application {
@@ -48,18 +54,28 @@ public class Application {
 	
 	protected GUI gui;
 
+	protected GLFWWindowSizeCallback windowSizeCallback;
+	protected Vec2 windowSize;
+	protected boolean isFullScreen; 
+	
 	public Application(int width, int height, int vsyncInterval, String name) {
 		initialise(width, height, vsyncInterval, name);
 		stateManager = new StateManager(this);
 		inputManager = new InputManager(this);
 		assetManager = new AssetManager();
 		gui = new GUI(this);
+		windowSize = new Vec2();
 	}
 
 	public void initialise(int width, int height, int vsyncInterval, String name) {
 		// Initialise GLFW
 		if (!glfwInit()) {
 			throw new IllegalStateException("Unable to initialize GLFW");
+		}
+		GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+		if(vidmode.width() == width && vidmode.height() == height){
+			isFullScreen = true;
+			glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 		}
 		// Create the window
 		window = glfwCreateWindow(width, height, name, NULL, NULL); // width, height, window name
@@ -71,7 +87,6 @@ public class Application {
 			IntBuffer pWidth = stack.mallocInt(1);
 			IntBuffer pHeight = stack.mallocInt(1);
 			glfwGetWindowSize(window, pWidth, pHeight);
-			GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 			// Centre the window
 			glfwSetWindowPos(window, (vidmode.width() - pWidth.get(0)) / 2, (vidmode.height() - pHeight.get(0)) / 2);
 		}
@@ -83,7 +98,7 @@ public class Application {
 		GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 4);
 		// Make the window visible
 		glfwShowWindow(window);
-		
+
 		GL.createCapabilities();
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_BLEND);
@@ -120,16 +135,27 @@ public class Application {
 		return assetManager;
 	}
 
-	public void exit()
-	{
+	public void exit() {
 		glfwSetWindowShouldClose(window, true);
 	}
-	
-	public void cleanup(){
+
+	public void cleanup() {
 		glfwFreeCallbacks(window);
 		glfwDestroyWindow(window);
 		// Terminate GLFW
 		glfwTerminate();
 		System.out.println("Successfully Quit");
+	}
+
+	public void resize(long window, int width, int height) {
+		if(!isFullScreen){
+			glfwSetWindowSizeCallback(window, windowSizeCallback = new GLFWWindowSizeCallback() {
+				@Override
+				public void invoke(long window, int width, int height) {
+					System.out.println("invoked window size callback");
+					glfwSetWindowSizeCallback(window, windowSizeCallback);
+				};
+			});
+		}
 	}
 }

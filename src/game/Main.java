@@ -2,12 +2,10 @@ package game;
 
 import engine.application.Application;
 import game.client.Client;
-import game.states.GameState;
-import game.states.LobbyState;
-import game.states.MenuState;
+import game.states.*;
 
 /*
- * 	Only used to test that a window is still loaded
+ * 	Main method - used to run the game
  */
 
 public class Main extends Application {
@@ -23,11 +21,12 @@ public class Main extends Application {
 		menuState = new MenuState(this);
 		lobbyState = new LobbyState(this);
 		gameState = new GameState(this);
+		
+		//register all states
 		stateManager.addState(menuState);
 		stateManager.addState(lobbyState);
 		stateManager.addState(gameState);
-		
-		
+				
 		//set starting state 
 		stateManager.setCurrentState(gameState);
 	}
