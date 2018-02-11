@@ -28,7 +28,6 @@ public class PlayerManager {
 			getPlayerStatus(players.get(i));
 		}
 	}
-	
 	public Player getPlayer(int id){
 		Player correctId = null;
 		for(int i = 0; i < players.size(); i++){

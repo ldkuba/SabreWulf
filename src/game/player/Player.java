@@ -60,7 +60,7 @@ public class Player {
 	public String getStatus() {
 		return status;
 	}
-	
+
 	public void setStatus(String newStatus){
 		status = newStatus;
 	}
@@ -71,5 +71,10 @@ public class Player {
 	
 	public int checkID(){
 		return id; 
+	}
+	
+	public void render()
+	{
+		
 	}
 }
