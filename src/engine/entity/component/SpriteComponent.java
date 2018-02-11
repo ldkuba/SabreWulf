@@ -20,6 +20,11 @@ public class SpriteComponent extends AbstractComponent
 		m_Sprite = new Renderable2D(width, height, color);
 	}
 	
+	public void setTexture(Texture texture)
+	{
+		m_Sprite.setTexture(texture);
+	}
+	
 	public void submit(Renderer2D renderer, Mat4 transformation)
 	{
 		renderer.submit(m_Sprite, transformation);
