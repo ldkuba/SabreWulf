@@ -1,5 +1,10 @@
 package engine.application;
 
+
+import static org.lwjgl.glfw.Callbacks.*;
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
+
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
@@ -52,7 +57,6 @@ public class Application
 	protected StateManager stateManager;
 	protected InputManager inputManager;
 	protected AssetManager assetManager;
-
 	protected GUI gui;
 
 	protected GLFWWindowSizeCallback windowSizeCallback;
@@ -100,7 +104,6 @@ public class Application
 			// Centre the window
 			glfwSetWindowPos(window, (vidmode.width() - pWidth.get(0)) / 2, (vidmode.height() - pHeight.get(0)) / 2);
 		}
-		// Make the OpenGL context current
 		glfwMakeContextCurrent(window);
 		// set resizeCallback
 		glfwSetWindowSizeCallback(window, windowSizeCallback);
@@ -109,6 +112,7 @@ public class Application
 		// Enable Antialiasing
 		GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 4);
 		// Make the window visible
+
 		glfwShowWindow(window);
 
 		GL.createCapabilities();
@@ -123,8 +127,7 @@ public class Application
 		while (!glfwWindowShouldClose(window))
 		{
 			stateManager.updateState();
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear frame
-																// buffer
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear frame buffer
 			stateManager.renderState();
 			glfwSwapBuffers(window); // swap the colour buffers
 			glfwPollEvents(); // Poll for window events. The key callback above
