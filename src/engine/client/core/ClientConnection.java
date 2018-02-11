@@ -52,16 +52,17 @@ public class ClientConnection extends Thread{
 				e.printStackTrace();
 			}
 		}
+		
 	}
 	
 	public void startUDPSender(int portSender, String serverAddress, int packetSize) {
 		udpSender = new ClientSenderUDP(portSender, serverAddress, packetSize);
-		//*TO-DO: Add checks.
+		udpSender.start();
 	}
 	
-	public void startUDPReceiver(int groupPort, String groupID) {
-		udpReceiver = new ClientBroadcastReceiverUDP(groupPort, groupID);
-		//TO-DO: Add checks.
+	public void startUDPReceiver(int groupPort, String groupID, Client client) {
+		udpReceiver = new ClientBroadcastReceiverUDP(groupPort, groupID, client);
+		udpReceiver.start();
 	}
 	
 	public void sendUDP(AbstractMessage msg) {

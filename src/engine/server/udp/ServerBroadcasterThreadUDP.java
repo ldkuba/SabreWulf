@@ -10,7 +10,6 @@ import java.util.Queue;
 
 import engine.common_net.AbstractMessage;
 import engine.common_net.Serialization;
-import engine.common_net.udpMessage;
 
 
 /*
@@ -50,6 +49,7 @@ public class ServerBroadcasterThreadUDP extends Thread{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return;
 		}
     	//Send updates to all players.
     	while (true) {
@@ -57,6 +57,7 @@ public class ServerBroadcasterThreadUDP extends Thread{
     			AbstractMessage gameState = ServerUDPManager.queueGameStates.poll();
     			byte[] gameStateByte = NetTools.serialize(gameState);
     			multicast(gameStateByte);
+    			System.out.println("Broadcast sent");
     		}
     	}
     }

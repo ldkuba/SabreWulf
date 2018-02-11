@@ -10,7 +10,7 @@ import java.util.Queue;
 
 import engine.common_net.AbstractMessage;
 import engine.common_net.Deserialization;
-import engine.common_net.udpMessage;
+import game.client.Client;
 
 /*
  * groupID -> 230.0.0.0
@@ -18,7 +18,7 @@ import engine.common_net.udpMessage;
  */
 
 public class ClientBroadcastReceiverUDP extends Thread{
-
+ 
 	private static MulticastSocket BCSocket;	//(BROADCAST_CLIENT_SOCKET)
 	private int groupPort;
 	private String group;
@@ -31,9 +31,12 @@ public class ClientBroadcastReceiverUDP extends Thread{
 	private volatile Queue<AbstractMessage> queueStates = new LinkedList<AbstractMessage>();
 	private Deserialization NetTools = new Deserialization();
 	
-	public ClientBroadcastReceiverUDP(int groupPort, String group) {
+	private Client client;
+	
+	public ClientBroadcastReceiverUDP(int groupPort, String group, Client client) {
 		this.groupPort = groupPort;
 		this.group = group;
+		this.client = client;
 	}
 	
 	public void run() {
@@ -58,6 +61,8 @@ public class ClientBroadcastReceiverUDP extends Thread{
 				byte[] gameBuffer = gamePacket.getData();
 				AbstractMessage newMessage = NetTools.deserialize(gameBuffer);
 				//testBroadcastReceiver(newMessage);
+				//Tell client message has been received.
+				client.notifyMessageListeners(newMessage);
 				//queueStates.add(newMessage);
 				
 			} catch (IOException e) {
@@ -67,22 +72,13 @@ public class ClientBroadcastReceiverUDP extends Thread{
 		}
 	}
 	
-	//ClientConnect takes new game state.
+	//ClientConnect takes new game state. Client Connects updates.
 	public AbstractMessage getNewState() {
 		return queueStates.poll();
 	}
 	
 	public void testBroadcastReceiver(AbstractMessage msg) {
-		udpMessage updateMessage = (udpMessage) msg;
-		System.out.println(updateMessage.getType());
-	}
-	
-	public String testPacket(DatagramPacket packet) {
-		String received = new String(packet.getData(), 0, packet.getLength());
-		String[] gameState = received.split(",");
-		//System.out.println(received);
-		System.out.println(received);
-		return received;
+		AbstractMessage updateMessage = msg;
 	}
 	
 	public void closeBCSocket(InetAddress group) {
