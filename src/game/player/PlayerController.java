@@ -5,26 +5,34 @@ import engine.maths.Vec3;
 
 //For handling actual instruction sets to be passed to transformation and interaction components of the players
 public class PlayerController {
-	//movePlayer
-	//playerInteract
-	//action
-	private TransformComponent transformer;
 	
+	private TransformComponent transformer;
 	
 	public void update()
 	{
-		//input
+		//input 
+		
+	}
+	
+	public void onKeyPress(int button, int action)
+	{
+		
+	}
+	
+	public void onMousePress(int button, int action)
+	{
+		
 	}
 	
 	public void movePlayer(Vec3 position){
 		transformer.setPosition(position);
 	}
 	
-	public void playerInteract(){
-		//TODO interaction methods
+	public void rotatePlayer(Vec3 angle){
+		transformer.setRotationAngles(angle);
 	}
 	
-	public void action(){
-		//TODO action methods
+	public void scalePlayer(Vec3 scale){
+		transformer.setScale(scale);
 	}
 }

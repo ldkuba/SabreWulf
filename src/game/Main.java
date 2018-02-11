@@ -2,6 +2,7 @@ package game;
 
 import engine.application.Application;
 import game.client.Client;
+import game.player.PlayerManager;
 import game.states.GameState;
 import game.states.LobbyState;
 import game.states.MenuState;
@@ -17,6 +18,7 @@ public class Main extends Application {
 	public static MenuState menuState;
 	public static LobbyState lobbyState;
 	public static GameState gameState;
+	public static PlayerManager playerManager;
 	
 	public Main() {		
 		super(800, 600, 1, "SabreWulf"); //window width, window height, vsync interval

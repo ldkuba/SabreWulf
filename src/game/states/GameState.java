@@ -12,6 +12,7 @@ import engine.maths.Vec4;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.Main;
+import game.player.PlayerController;
 import game.player.PlayerManager;
 
 public class GameState extends AbstractState
@@ -19,6 +20,7 @@ public class GameState extends AbstractState
 	private Main app;
 	private Scene scene;
 	private PlayerManager manager;
+	private PlayerController playerController;
 	
 	private int frame = 0;
 	
@@ -28,19 +30,19 @@ public class GameState extends AbstractState
 	{
 		this.app = app;
 		scene = new Scene(0);
-		manager = new PlayerManager();
+		manager = new PlayerManager(scene);
 	}
 
 	@Override
 	public void keyAction(int key, int action)
 	{
-		
+		playerController.onKeyPress(key, action);
 	}
 
 	@Override
 	public void mouseAction(int button, int action)
 	{
-
+		playerController.onMousePress(button, action);
 	}
 
 	@Override
@@ -69,6 +71,7 @@ public class GameState extends AbstractState
 	public void render()
 	{
 		scene.render();
+		manager.render();
 	}
 
 	@Override
@@ -85,6 +88,7 @@ public class GameState extends AbstractState
 		
 		scene.update();
 		manager.getStatuses();
+		playerController.update();
 		
 		if(app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_A))
 		{
