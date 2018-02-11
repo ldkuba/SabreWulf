@@ -33,7 +33,7 @@ public class GameState extends AbstractState {
 
 	public GameState(Main app) {
 		this.app = app;
-		scene = new Scene(0);
+		scene = new Scene(0, app);
 		manager = new PlayerManager(scene);
 	}
 
@@ -45,11 +45,6 @@ public class GameState extends AbstractState {
 	@Override
 	public void mouseAction(int button, int action) {
 		playerController.onMousePress(button, action);
-	}
-
-	@Override
-	public void mouseAction(int button, int action) {
-
 	}
 
 	@Override
