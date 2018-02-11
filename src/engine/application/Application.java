@@ -31,6 +31,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
 
 import engine.assets.AssetManager;
+import engine.gui.GUI;
 import engine.input.InputManager;
 import engine.state.StateManager;
 
@@ -44,12 +45,15 @@ public class Application {
 	protected StateManager stateManager;
 	protected InputManager inputManager;
 	protected AssetManager assetManager;
+	
+	protected GUI gui;
 
 	public Application(int width, int height, int vsyncInterval, String name) {
 		initialise(width, height, vsyncInterval, name);
 		stateManager = new StateManager(this);
 		inputManager = new InputManager(this);
 		assetManager = new AssetManager();
+		gui = new GUI(this);
 	}
 
 	public void initialise(int width, int height, int vsyncInterval, String name) {

@@ -24,4 +24,6 @@ public class PlayerManager {
 			getPlayerStatus(players.get(i));
 		}
 	}
+	
+	
 }

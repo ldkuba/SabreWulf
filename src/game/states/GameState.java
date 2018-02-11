@@ -93,6 +93,8 @@ public class GameState extends AbstractState
 			frame = 0;
 		}
 		
+		System.out.println("MouseX: " + app.getInputManager().getMouseX() + "  MouseY: " + app.getInputManager().getMouseY());
+		
 		frame++;
 		
 		scene.update();

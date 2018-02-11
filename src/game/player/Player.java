@@ -21,6 +21,7 @@ public class Player {
 	public Entity player;
 	public TransformComponent transform;
 	public SpriteComponent sprite;
+	
 	public InteractComponent interact;
 	public ActionComponent act;
 	
@@ -51,5 +52,10 @@ public class Player {
 
 	public String getStatus() {
 		return status;
+	}
+	
+	public void render()
+	{
+		
 	}
 }

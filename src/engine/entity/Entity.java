@@ -3,6 +3,7 @@ package engine.entity;
 import java.util.ArrayList;
 
 import engine.entity.component.AbstractComponent;
+import engine.entity.component.SpriteComponent;
 import engine.entity.component.TransformComponent;
 
 public class Entity
@@ -69,5 +70,10 @@ public class Entity
 	public TransformComponent getTransform()
 	{
 		return (TransformComponent) getComponent(TransformComponent.class);
+	}
+	
+	public SpriteComponent getSprite()
+	{
+		return (SpriteComponent) getComponent(SpriteComponent.class);
 	}
 }
