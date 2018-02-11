@@ -19,7 +19,6 @@ public class PlayerManager {
 	}
 	
 	public void getPlayerStatus(Player local){
-		local.getPosition();
 		local.getHealth();
 		local.getEnergy();
 		local.getStatus();
