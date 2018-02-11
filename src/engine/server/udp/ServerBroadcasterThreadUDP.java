@@ -1,5 +1,6 @@
 package engine.server.udp;
 
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
@@ -9,6 +10,8 @@ import java.util.Queue;
 
 import engine.common_net.AbstractMessage;
 import engine.common_net.Serialization;
+import engine.common_net.udpMessage;
+
 
 /*
  * Not recommended to run as a thread.
@@ -43,7 +46,7 @@ public class ServerBroadcasterThreadUDP extends Thread{
 			MCSocket = new MulticastSocket(groupPort);
 			group = InetAddress.getByName(groupID);
 			MCSocket.joinGroup(group);
-			
+			System.out.println("ServerBroadcaster: Activated.");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,6 +76,8 @@ public class ServerBroadcasterThreadUDP extends Thread{
     	try {
     		MCSocket.close();
 			MCSocket.leaveGroup(group);
+			System.out.println("Multicast close.");
+			return;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

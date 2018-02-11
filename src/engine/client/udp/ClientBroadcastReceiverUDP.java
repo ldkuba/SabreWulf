@@ -10,6 +10,7 @@ import java.util.Queue;
 
 import engine.common_net.AbstractMessage;
 import engine.common_net.Deserialization;
+import engine.common_net.udpMessage;
 
 /*
  * groupID -> 230.0.0.0
@@ -40,8 +41,9 @@ public class ClientBroadcastReceiverUDP extends Thread{
 			BCSocket = new MulticastSocket(groupPort);
 			groupID = InetAddress.getByName(group);
 			BCSocket.joinGroup(groupID);
+			System.out.println("Client UDP Receiver: Activated.");
 		} catch (IOException e) {
-			System.err.println("Unable to connect to Broadcast port.");
+			System.err.println("Client UDP Receiver: DEACTIVATED. Use another port.");
 		}
 		
 		//Prepare buffer to store packet.
@@ -51,17 +53,17 @@ public class ClientBroadcastReceiverUDP extends Thread{
 		while(true) {
 			try {
 				BCSocket.receive(gamePacket);
-				
+				System.out.println("Received Packet");
 				//Add received message to the queueStates for the client to take.
 				byte[] gameBuffer = gamePacket.getData();
 				AbstractMessage newMessage = NetTools.deserialize(gameBuffer);
-				queueStates.add(newMessage);
+				testBroadcastReceiver(newMessage);
+				//queueStates.add(newMessage);
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				System.err.println("Error: Can not proccess broadcast packet from server.");
 			}
-			System.out.println("Received Packet");
 		}
 	}
 	
@@ -70,14 +72,9 @@ public class ClientBroadcastReceiverUDP extends Thread{
 		return queueStates.poll();
 	}
 	
-	public void testBroadcastReceiver() {
-		String word = testPacket(gamePacket);
-		//System.out.println("Received Packet");
-		if (word.equals("end")) {
-			System.out.println("Ending connection");
-			closeBCSocket(groupID);
-			
-		}
+	public void testBroadcastReceiver(AbstractMessage msg) {
+		udpMessage updateMessage = (udpMessage) msg;
+		System.out.println(updateMessage.getType());
 	}
 	
 	public String testPacket(DatagramPacket packet) {
@@ -96,7 +93,7 @@ public class ClientBroadcastReceiverUDP extends Thread{
 			e.printStackTrace();
 		}
 		BCSocket.close();
-		this.interrupt();
+		return;
 	}
 	
 }
