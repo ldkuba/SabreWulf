@@ -1,8 +1,10 @@
 package engine.common_net;
 
+import java.net.Socket;
+
 public interface ConnectionListener
 {
-	public void clientConnected(/* To be decided what kind of client identifier you use */);
+	public void clientConnected(Socket socket);
 	
-	public void clientDisconnected(/* Same as above */);
+	public void clientDisconnected(Socket socket);
 }

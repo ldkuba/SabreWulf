@@ -26,7 +26,7 @@ public class ClientBroadcastReceiverUDP extends Thread{
 	
 	private int MAX_PACKET_SIZE = 1024;
 	
-	//States received by the server.
+	//States that are given by the server. Client takes these states to update its game.
 	private volatile Queue<AbstractMessage> queueStates = new LinkedList<AbstractMessage>();
 	private Deserialization NetTools = new Deserialization();
 	
@@ -44,17 +44,22 @@ public class ClientBroadcastReceiverUDP extends Thread{
 			System.err.println("Unable to connect to Broadcast port.");
 		}
 		
+		//Prepare buffer to store packet.
 		byte[] buffer = new byte[MAX_PACKET_SIZE];
 		gamePacket = new DatagramPacket(buffer,buffer.length);
 		
 		while(true) {
 			try {
 				BCSocket.receive(gamePacket);
-				queueStates.add(NetTools.deserialize(gamePacket.getData()));
+				
+				//Add received message to the queueStates for the client to take.
+				byte[] gameBuffer = gamePacket.getData();
+				AbstractMessage newMessage = NetTools.deserialize(gameBuffer);
+				queueStates.add(newMessage);
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.err.println("Error: Can not proccess broadcast packet from server.");
 			}
 			System.out.println("Received Packet");
 		}

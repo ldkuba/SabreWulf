@@ -8,14 +8,14 @@ import java.net.SocketException;
 import engine.common_net.AbstractMessage;
 import engine.common_net.Deserialization;
 
-public class ClientListenerThreadUDP extends Thread{
+public class ServerListenerThreadUDP extends Thread{
     private static DatagramSocket UDPsocket;
     private int port;
     private int MAX_PACKET_SIZE;
     
     private Deserialization NetTools = new Deserialization();
     
-    ClientListenerThreadUDP(int port, int packetSize) {
+    ServerListenerThreadUDP(int port, int packetSize) {
     	this.port = port;
     	MAX_PACKET_SIZE = packetSize;
     }
@@ -29,7 +29,7 @@ public class ClientListenerThreadUDP extends Thread{
 			e1.printStackTrace();
 		}
     	
-    	System.out.println("Ready to listen for packets");
+    	System.out.println("Server UDP Listener Activated.");
     	
     	while(true) {
     		byte[] data = new byte[MAX_PACKET_SIZE];

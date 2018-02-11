@@ -6,15 +6,15 @@ import game.networking.ExampleMessage;
 
 public class ServerMessageListener implements MessageListener
 {
+	private Server server;
+	ServerMessageListener(Server server){
+		this.server=server;
+	}
+
+
 	@Override
-	public void receiveMessage(AbstractMessage msg)
-	{
-		if(msg instanceof ExampleMessage)
-		{
-			ExampleMessage message = (ExampleMessage) msg;
-			int a = message.getA();
-			
-			// Do shit with A
-		}
-	}	
+	public void receiveMessage(AbstractMessage msg) {
+
+	}
+
 }

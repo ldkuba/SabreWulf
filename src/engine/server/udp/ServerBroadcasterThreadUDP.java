@@ -7,6 +7,7 @@ import java.net.MulticastSocket;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import engine.common_net.AbstractMessage;
 import engine.common_net.Serialization;
 
 /*
@@ -20,7 +21,7 @@ import engine.common_net.Serialization;
  * 
  */
 
-public class ClientBroadcasterThreadUDP extends Thread{
+public class ServerBroadcasterThreadUDP extends Thread{
 	
 	private static MulticastSocket MCSocket;
 	private String groupID;
@@ -29,7 +30,7 @@ public class ClientBroadcasterThreadUDP extends Thread{
 	
 	private Serialization NetTools = new Serialization();
 	
-	ClientBroadcasterThreadUDP(String groupID, int groupPort) {
+	ServerBroadcasterThreadUDP(String groupID, int groupPort) {
 		this.groupID = groupID;
 		this.groupPort = groupPort;
 	}
@@ -47,10 +48,11 @@ public class ClientBroadcasterThreadUDP extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	//Check new game states to send to all the players
+    	//Send updates to all players.
     	while (true) {
     		if(!ServerUDPManager.queueGameStates.isEmpty()) {
-    			byte[] gameStateByte = ServerUDPManager.queueGameStates.poll();
+    			AbstractMessage gameState = ServerUDPManager.queueGameStates.poll();
+    			byte[] gameStateByte = NetTools.serialize(gameState);
     			multicast(gameStateByte);
     		}
     	}

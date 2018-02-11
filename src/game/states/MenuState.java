@@ -35,7 +35,7 @@ public class MenuState extends AbstractState
 
 	@Override
 	public void init() {
-		
+		scene.init();
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import engine.entity.Entity;
 import engine.graphics.camera.Camera;
 import engine.maths.Vec3;
+import engine.scene.Scene;
 
 public class Map {
 	ArrayList<Entity> entities;
@@ -15,8 +16,10 @@ public class Map {
 	Vec3 currentPos;
 	int i = 0; 
 	private final int MAP_SIZE = 10;
-
-	public Map() {
+	Scene scene;
+	
+	public Map(Scene scene) {
+		this.scene = scene;
 		entities = new ArrayList<Entity>();
 		hiddenEntities = new ArrayList<Entity>();
 		background = new Entity[MAP_SIZE * MAP_SIZE]; // map is 10 x 10
