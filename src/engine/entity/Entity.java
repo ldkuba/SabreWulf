@@ -3,62 +3,50 @@ package engine.entity;
 import java.util.ArrayList;
 
 import engine.entity.component.AbstractComponent;
+import engine.entity.component.SpriteComponent;
 import engine.entity.component.TransformComponent;
 
-public class Entity
-{
+public class Entity {
 
 	private int id;
 	private String name;
 	private ArrayList<AbstractComponent> components;
 
-	public Entity(int id, String name)
-	{
+	public Entity(int id, String name) {
 		this.id = id;
 		this.name = name;
 		components = new ArrayList<AbstractComponent>();
 	}
 
-	public void addComponent(AbstractComponent comp)
-	{
-		if(!hasComponent(comp.getClass()))
-		{
+	public void addComponent(AbstractComponent comp) {
+		if (!hasComponent(comp.getClass())) {
 			components.add(comp);
 		}
 	}
 
-	public void removeComponent(AbstractComponent comp)
-	{
-		if(hasComponent(comp.getClass()))
-		{
+	public void removeComponent(AbstractComponent comp) {
+		if (hasComponent(comp.getClass())) {
 			components.remove(comp);
 		}
 	}
 
-	public ArrayList<AbstractComponent> getComponents()
-	{
+	public ArrayList<AbstractComponent> getComponents() {
 		return components;
 	}
 
-	public AbstractComponent getComponent(Class componentType)
-	{
-		for (int i = 0; i < components.size(); i++)
-		{
-			if(components.get(i).getClass().equals(componentType))
-			{
+	public AbstractComponent getComponent(Class componentType) {
+		for (int i = 0; i < components.size(); i++) {
+			if (components.get(i).getClass().equals(componentType)) {
 				return components.get(i);
 			}
 		}
-		
+
 		return null;
 	}
-	
-	public boolean hasComponent(Class componentType)
-	{
-		for (int i = 0; i < components.size(); i++)
-		{
-			if(components.get(i).getClass().equals(componentType))
-			{
+
+	public boolean hasComponent(Class componentType) {
+		for (int i = 0; i < components.size(); i++) {
+			if (components.get(i).getClass().equals(componentType)) {
 				return true;
 			}
 		}
@@ -69,5 +57,10 @@ public class Entity
 	public TransformComponent getTransform()
 	{
 		return (TransformComponent) getComponent(TransformComponent.class);
+	}
+	
+	public SpriteComponent getSprite()
+	{
+		return (SpriteComponent) getComponent(SpriteComponent.class);
 	}
 }
