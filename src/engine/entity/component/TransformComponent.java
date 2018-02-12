@@ -47,9 +47,20 @@ public class TransformComponent extends AbstractComponent
 		this.scale = scale;
 	}
 	
-	/*
-	 * TODO implement util functions like move, rotate, scale
-	 */
+	public void move(Vec3 movement)
+	{
+		this.position = Vec3.add(this.position, movement);
+	}
+	
+	public void moveLocal(Vec3 movement)
+	{
+		
+	}
+	
+	public void rotate(Vec3 angles)
+	{
+		this.eulerAngles = Vec3.add(this.eulerAngles, angles);
+	}
 	
 	//first scale then translate then rotate
 	public Mat4 getTransformationMatrix()
@@ -59,7 +70,7 @@ public class TransformComponent extends AbstractComponent
 		Mat4 rotationMat = MathUtil.createRotationMatrix(eulerAngles);
 		
 		//inverse order
-		return rotationMat.mult(translationMat).mult(scaleMat);
+		return translationMat.mult(rotationMat).mult(scaleMat);
 	}
 	
 }

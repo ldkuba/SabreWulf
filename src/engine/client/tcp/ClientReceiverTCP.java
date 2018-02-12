@@ -18,17 +18,20 @@ public class ClientReceiverTCP extends Thread{
 
 	public void run() {
 
+		try {
+			ois = new ObjectInputStream(CSSocket.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
 		while(true){
 
 			try {
-				ois = new ObjectInputStream(CSSocket.getInputStream());
-
-				client.notifyMessageListeners((AbstractMessage) ois.readObject());
-
-				Thread.currentThread().sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
+				AbstractMessage abs = (AbstractMessage) ois.readObject();
+				if(abs != null)
+				client.notifyMessageListeners(abs);
+			}catch (IOException e) {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();

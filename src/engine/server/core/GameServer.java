@@ -22,11 +22,11 @@ public class GameServer extends Thread{
     {
     	this.server = gs;
     }
-    
+
     public void run(){
         // Creating a server socket on some random port for TCP
         try {
-            coreSocket = new ServerSocket();
+            coreSocket = new ServerSocket(4445);
         } catch (IOException e) {
             System.out.println("Port busy. Try another one");
             e.printStackTrace();
@@ -36,20 +36,20 @@ public class GameServer extends Thread{
             // While(true) for the moment, listen to incoming connections
             while(true) {
                 SCSocket = coreSocket.accept();
-                clientCoreThread = new CoreClientThread(SCSocket, server);
-
+                Player player = new Player(SCSocket);
+                server.addPlayer(player);
+                server.notifyConnectionListenersConnected(player);
+                clientCoreThread = new CoreClientThread(player, server);
                 clientCoreThread.setName("player_"+SCSocket.getInetAddress());
-                server.notifyConnectionListenersConnected(SCSocket);
                 clientCoreThread.start();
             }
         } catch (IOException e) {
                 e.printStackTrace();
-
-
         }
 
     }
-    
+
+
     public void startUDPManager() {
     	serverUDPManager.start();
     }

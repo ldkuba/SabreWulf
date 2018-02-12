@@ -39,6 +39,11 @@ public class ShaderProgram
 		return m_UniformLayout;
 	}
 	
+	public void locateUniforms()
+	{
+		m_UniformLayout.locateUniforms(m_ID);
+	}
+	
 	public void loadShader(final String filepath)
 	{
 		String vertexShaderSource = "";

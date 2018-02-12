@@ -1,9 +1,10 @@
-package game;
+package game.states;
 
 import org.lwjgl.glfw.GLFW;
 
 import engine.scene.Scene;
 import engine.state.AbstractState;
+import game.Main;
 
 public class MenuState extends AbstractState
 {
@@ -34,7 +35,7 @@ public class MenuState extends AbstractState
 
 	@Override
 	public void init() {
-		
+		scene.init();
 	}
 
 	@Override

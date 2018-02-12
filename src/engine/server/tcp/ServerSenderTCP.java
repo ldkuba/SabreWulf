@@ -1,45 +1,58 @@
 package engine.server.tcp;
 
 import engine.common_net.AbstractMessage;
+import game.networking.PeerList;
+import engine.server.core.Player;
 import game.server.Server;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.net.SocketException;
 
 public class ServerSenderTCP extends Thread{
-    Socket SCSocket;
+    Player player;
     Server server;
     ObjectOutputStream oos;
-    public ServerSenderTCP(Socket SCSocket, Server server){
-        this.SCSocket = SCSocket;
+    public ServerSenderTCP(Player player, Server server){
+        this.player = player;
         this.server = server;
     }
 
     public void run(){
         try {
-            oos = new ObjectOutputStream(SCSocket.getOutputStream());
+            oos = new ObjectOutputStream(player.getSocket().getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        while(true){
+        while(!player.getSocket().isClosed()){
+            try {
+                sleep(1);
+                oos.writeObject(player.takeMessage());
 
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
 
-    public boolean sendMessage(AbstractMessage message){
+    public void sendMessage(AbstractMessage message){
+        player.addMsg(new PeerList(123));
+        /*
         try {
-            oos.writeObject(message);
-            return true;
+
+            //oos.writeObject(player.takeMessage());
+
         } catch (SocketException se){
-            server.notifyConnectionListenersDisconnected(SCSocket);
-            return false;
+            server.notifyConnectionListenersDisconnected(player);
+
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+         */
     }
 }

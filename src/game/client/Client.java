@@ -12,12 +12,13 @@ import engine.client.core.ClientConnection;
 import engine.common_net.AbstractMessage;
 import engine.common_net.ConnectionListener;
 import engine.common_net.MessageListener;
+import engine.server.core.Player;
+import org.lwjgl.system.CallbackI;
 
 public class Client
 {
 	private ClientConnection connectClient;
 
-	private ClientConnectionListener connectionListener;
 	private ClientMessageListener messageListener;
 
 	public BlockingQueue<AbstractMessage> abs = new BlockingQueue<AbstractMessage>() {
@@ -149,7 +150,6 @@ public class Client
 
 	public Client()
 	{
-		connectionListener = new ClientConnectionListener(this);
 		messageListener = new ClientMessageListener();
 		
 		connectClient = new ClientConnection(this);
@@ -161,22 +161,12 @@ public class Client
 		messageListener.receiveMessage(msg);
 	}
 	
-	public void notifyConnectionListenersConnected(Socket socket)
-	{
-		connectionListener.clientConnected(socket);
-	}
-	
-	public void notifyConnectionListenersDisconnected(Socket socket)
-	{
-		connectionListener.clientDisconnected(socket);
-	}
-	
-	public void sendTCP(AbstractMessage msg) // OPTIONALLY ADD A PARAMETER TO SEND TO A SPECIFIC CLIENT
+	public void sendTCP(AbstractMessage msg)
 	{
 		abs.add(msg);
 	}
 	
-	public void sendUDP(AbstractMessage msg) // SEND OR BROADCAST, WHATEVER YOU WANNA CALL IT
+	public void sendUDP(AbstractMessage msg)
 	{
 		// TODO connectClient.sendUDP(msg);
 		connectClient.sendUDP(msg);

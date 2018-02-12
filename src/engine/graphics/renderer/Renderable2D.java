@@ -28,16 +28,18 @@ public class Renderable2D
 	private Texture m_Texture;
 	private Vec4 m_Color;
 	
-	public Renderable2D(int width, int height, Vec4 color, String imagePath)
+	public Renderable2D(float width, float height, Vec4 color, Texture texture)
 	{
 		this(width, height, color);
 		
-		m_Texture = new Texture(imagePath);
+		m_Texture = texture;
 	}
 	
-	public Renderable2D(int width, int height, Vec4 color)
+	public Renderable2D(float width, float height, Vec4 color)
 	{
 		m_Color = color;
+		m_Width = width;
+		m_Height = height;
 	}
 	
 	public static VertexLayout getVertexLayout()
@@ -47,6 +49,7 @@ public class Renderable2D
 			s_VertexLayout = new VertexLayout();
 			s_VertexLayout.addAttribute(new VertexAttribute(AttributeTypes.Float, 3, false), 1); // position (x, y, z)
 			s_VertexLayout.addAttribute(new VertexAttribute(AttributeTypes.Float, 2, false), 1); // UV (x, z)
+			s_VertexLayout.addAttribute(new VertexAttribute(AttributeTypes.Float, 1, false), 1); // textureSlot
 			s_VertexLayout.addAttribute(new VertexAttribute(AttributeTypes.Float, 4, false), 1); // colour (r, g, b, a)
 		}
 		
@@ -71,5 +74,10 @@ public class Renderable2D
 	public Texture getTexture()
 	{
 		return m_Texture;
+	}
+	
+	public void setTexture(Texture texture)
+	{
+		m_Texture = texture;
 	}
 }

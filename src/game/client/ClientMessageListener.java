@@ -2,8 +2,8 @@ package game.client;
 
 import engine.common_net.AbstractMessage;
 import engine.common_net.MessageListener;
+import game.networking.PeerList;
 import game.Main;
-import game.networking.ExampleMessage;
 
 public class ClientMessageListener implements MessageListener
 {
@@ -14,13 +14,13 @@ public class ClientMessageListener implements MessageListener
 	@Override
 	public void receiveMessage(AbstractMessage msg)
 	{
-		if(msg instanceof ExampleMessage)
+		if(msg instanceof PeerList)
 		{
-			ExampleMessage message = (ExampleMessage) msg;
-			int a = message.getA();
-			
-			
-			// Do shit with A
+			PeerList plm = (PeerList) msg;
+			System.out.println(plm.getNoPlayers());
 		}
+		else
+			System.out.println(msg.getClass());
+
 	}
 }

@@ -7,39 +7,23 @@ import game.server.Server;
 import java.net.Socket;
 
 public class CoreClientThread extends Thread {
-    Socket SCSocket=null;
+    Player player;
     ServerSenderTCP CSTTCP=null;
     ServerListenerTCP CLTTCP = null;
     Server server;
-    Player player;
 
-    CoreClientThread(Socket clientSocket, Server server){
-        this.SCSocket = clientSocket;
+    CoreClientThread(Player player, Server server){
+        this.player=player;
         this.server = server;
-        this.player = player;
     }
 
     public void run(){
-
-
-        CSTTCP = new ServerSenderTCP(SCSocket, server);
-        CSTTCP.setName("player."+SCSocket.getInetAddress()+".sender");
+        CSTTCP = new ServerSenderTCP(player, server);
+        CSTTCP.setName("player."+player.getSocket().getInetAddress()+".sender");
         CSTTCP.start();
 
-
-        CLTTCP = new ServerListenerTCP(SCSocket, server);
-        CLTTCP.setName("player."+SCSocket.getInetAddress()+".listener");
+        CLTTCP = new ServerListenerTCP(player, server);
+        CLTTCP.setName("player."+player.getSocket().getInetAddress()+".listener");
         CLTTCP.start();
-
-        while(true){
-            try {
-                Thread.currentThread().sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-
     }
 }
