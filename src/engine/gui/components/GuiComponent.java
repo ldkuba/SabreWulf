@@ -1,13 +1,16 @@
 package engine.gui.components;
 
+import engine.application.Application;
 import engine.entity.Entity;
 
 public class GuiComponent
 {
-	protected int x, y;
-	protected int width, height;
+	protected float x, y;
+	protected float width, height;
 	
 	protected Entity entity;
+	
+	protected boolean enabled;
 	
 	public void onPress(int button)
 	{
@@ -23,49 +26,78 @@ public class GuiComponent
 	{
 		
 	}
-
+	
+	public void setEnabled(boolean enabled)
+	{
+		this.enabled = enabled;
+	}
+	
+	public boolean isEnabled()
+	{
+		return enabled;
+	}
 	
 	public Entity getEntity()
 	{
 		return entity;
 	}
 	
-	public int getX()
+	public float getX()
 	{
 		return x;
 	}
+	
+	public float getXAbsolute()
+	{
+		return x*Application.s_WindowSize.getX()/100.0f;
+	}
 
-	public void setX(int x)
+	public void setX(float x)
 	{
 		this.x = x;
 	}
 
-	public int getY()
+	public float getY()
 	{
 		return y;
 	}
+	
+	public float getYAbsolute()
+	{
+		return y*Application.s_WindowSize.getY()/100.0f;
+	}
 
-	public void setY(int y)
+	public void setY(float y)
 	{
 		this.y = y;
 	}
 
-	public int getWidth()
+	public float getWidth()
 	{
 		return width;
 	}
+	
+	public float getWidthAbsolute()
+	{
+		return width*Application.s_WindowSize.getX()/100.0f;
+	}
 
-	public void setWidth(int width)
+	public void setWidth(float width)
 	{
 		this.width = width;
 	}
 
-	public int getHeight()
+	public float getHeight()
 	{
 		return height;
 	}
+	
+	public float getHeightAbsolute()
+	{
+		return height*Application.s_WindowSize.getY()/100.0f;
+	}
 
-	public void setHeight(int height)
+	public void setHeight(float height)
 	{
 		this.height = height;
 	};	

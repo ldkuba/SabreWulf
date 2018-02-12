@@ -1,6 +1,7 @@
 package engine.input;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 import org.lwjgl.glfw.GLFWKeyCallback;
 
@@ -14,8 +15,14 @@ public class KeyboardHandler extends GLFWKeyCallback{
 
 	@Override
 	public void invoke(long window, int key, int scancode, int action, int mods) {
-		for(KeyboardListener listener : keyboardListeners) {
-			listener.keyAction(key, action);
+		
+		try {
+			for(KeyboardListener listener : keyboardListeners) {
+				listener.keyAction(key, action);
+			}
+		} catch (ConcurrentModificationException e)
+		{
+			return;
 		}
 	}
 	

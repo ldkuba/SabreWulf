@@ -7,12 +7,14 @@ import engine.entity.component.TransformComponent;
 import engine.graphics.texture.Texture;
 import engine.maths.Vec4;
 
-public class Button extends GuiComponent
-{	
-	private Texture pressedTexture;
-	private Texture releasedTexture;
+public class ToggleButton extends GuiComponent
+{
+	private Texture selectedTexture;
+	private Texture deselectedTexture;
 	
-	public Button(float x, float y, float width, float height, Texture pressed, Texture released)
+	boolean toggled = false;
+	
+	public ToggleButton(float x, float y, float width, float height, Texture selected, Texture deselected)
 	{
 		this.x = x;
 		this.y = y;
@@ -20,19 +22,19 @@ public class Button extends GuiComponent
 		this.height = height;
 		this.enabled = true;
 		
-		pressedTexture = pressed;
-		releasedTexture = released;
+		selectedTexture = selected;
+		deselectedTexture = deselected;
 		
 		float worldWidth = (width*Application.s_WindowSize.getX()/100.0f) * (Application.s_Viewport.getX()/(Application.s_WindowSize.getX()/2.0f));
 		float worldHeight = (height*Application.s_WindowSize.getY()/100.0f) * (Application.s_Viewport.getY()/(Application.s_WindowSize.getY()/2.0f));
 		
 		entity = new Entity(0, "button");
 		entity.addComponent(new TransformComponent());
-		entity.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), released, worldWidth, worldHeight));
+		entity.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), deselected, worldWidth, worldHeight));
 	}
 	
 	//overridable for custom behaviour
-	public void onClick()
+	public void onClick(boolean toggled)
 	{
 		//Implement Button bheaviou here
 	}
@@ -41,18 +43,24 @@ public class Button extends GuiComponent
 	@Override
 	public void onPress(int button)
 	{
-		//change button Texture
-		entity.getSprite().setTexture(pressedTexture);
 	}
 	
 	//internal
 	@Override
 	public void onRelease(int button)
 	{
-		//change button Texture
-		entity.getSprite().setTexture(releasedTexture);
+		//toggle texture
+		if(toggled)
+		{
+			entity.getSprite().setTexture(deselectedTexture);
+			toggled = false;
+		}else
+		{
+			entity.getSprite().setTexture(selectedTexture);
+			toggled = true;
+		}
 		//callback
-		onClick();
+		onClick(toggled);
 	}
 	
 	//internal
@@ -60,5 +68,11 @@ public class Button extends GuiComponent
 	public void onRepeat(int button)
 	{
 		
+	}
+	
+	public void deselect()
+	{
+		entity.getSprite().setTexture(deselectedTexture);
+		toggled = false;
 	}
 }

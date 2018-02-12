@@ -60,7 +60,7 @@ public class Texture
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 	}
 	
-	public int getWidth(int slot)
+	public int getWidth()
 	{
 		return m_Width;
 	}

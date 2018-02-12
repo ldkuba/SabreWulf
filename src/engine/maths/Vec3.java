@@ -17,6 +17,13 @@ public class Vec3
 		this.y = y;
 		this.z = z;
 	}
+	
+	public Vec3(Vec3 other)
+	{
+		this.x = other.getX();
+		this.y = other.getY();
+		this.z = other.getZ();
+	}
 
 	public float getX()
 	{
