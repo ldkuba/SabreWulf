@@ -58,7 +58,7 @@ public class GUI implements MouseListener
 			
 			corner = Vec3.add(corner, result);
 			
-			Vec3 centre = new Vec3(windowSize.getX()/2.0f - corner.getX(), windowSize.getY()/2.0f - corner.getY(), 0.0f);
+			Vec3 centre = new Vec3(corner.getX() - windowSize.getX()/2.0f, windowSize.getY()/2.0f - corner.getY(), 0.0f);
 			
 			float scaleX = viewPort.getX()/(windowSize.getX()/2.0f);
 			float scaleY = viewPort.getY()/(windowSize.getY()/2.0f);
@@ -93,26 +93,24 @@ public class GUI implements MouseListener
 	{
 		for (GuiComponent component : components)
 		{
-			System.out.println("Hello");
-
-			if(action == GLFW.GLFW_PRESS)
+			if(app.getInputManager().getMouseX() >= component.getXAbsolute()
+					&& app.getInputManager().getMouseX() <= component.getXAbsolute() + component.getWidthAbsolute()
+					&& app.getInputManager().getMouseY() >= component.getYAbsolute()
+					&& app.getInputManager().getMouseY() <= component.getYAbsolute() + component.getHeightAbsolute())
 			{
-				if(app.getInputManager().getMouseX() >= component.getXAbsolute()
-						&& app.getInputManager().getMouseX() <= component.getXAbsolute() + component.getWidthAbsolute()
-						&& app.getInputManager().getMouseY() >= component.getYAbsolute()
-						&& app.getInputManager().getMouseY() <= component.getYAbsolute() + component.getHeightAbsolute())
+				if(action == GLFW.GLFW_PRESS)
 				{
-					component.onPress(button);
+					
+						component.onPress(button);
+				
+				}else if(action == GLFW.GLFW_RELEASE)
+				{
+					component.onRelease(button);
+				}else if(action == GLFW.GLFW_REPEAT)
+				{
+					component.onRepeat(button);
 				}
-			
-			}else if(action == GLFW.GLFW_RELEASE)
-			{
-				component.onRelease(button);
-			}else if(action == GLFW.GLFW_REPEAT)
-			{
-				component.onRepeat(button);
 			}
-
 		}
 	}
 }

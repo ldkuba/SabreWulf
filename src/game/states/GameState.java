@@ -3,13 +3,9 @@ package game.states;
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
-import engine.entity.Entity;
-import engine.entity.component.SpriteComponent;
-import engine.entity.component.TransformComponent;
 import engine.gui.components.Button;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
-import engine.maths.Vec4;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.Main;
@@ -65,13 +61,13 @@ public class GameState extends AbstractState
 			@Override
 			public void onClick()
 			{
-				//app.getStateManager().setCurrentState(Main.menuState);
+				app.getStateManager().setCurrentState(Main.menuState);
 			}
 		};
 		app.getGui().add(button);
 
 		float aspectRatio = Application.s_WindowSize.getX()/Application.s_WindowSize.getY();
-		scene.getCamera().setProjectionMatrix(MathUtil.orthoProjMat(-10.0f, 10.0f, -10.0f * aspectRatio, 10.0f * aspectRatio, 0.1f, 100.0f));
+		scene.getCamera().setProjectionMatrix(MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.1f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
 	}
 
@@ -79,7 +75,7 @@ public class GameState extends AbstractState
 	public void render()
 	{
 		scene.render();
-		manager.render();
+		//manager.render(); not used anymore
 	}
 
 	@Override

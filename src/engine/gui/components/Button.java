@@ -42,8 +42,6 @@ public class Button extends GuiComponent
 	{
 		//change button Texture
 		entity.getSprite().setTexture(pressedTexture);
-		//callback
-		onClick();
 	}
 	
 	//internal
@@ -52,6 +50,8 @@ public class Button extends GuiComponent
 	{
 		//change button Texture
 		entity.getSprite().setTexture(releasedTexture);
+		//callback
+		onClick();
 	}
 	
 	//internal

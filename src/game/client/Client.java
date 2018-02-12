@@ -1,19 +1,13 @@
 package game.client;
 
-import java.net.Socket;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import engine.client.udp.*;
 import engine.client.core.ClientConnection;
 import engine.common_net.AbstractMessage;
-import engine.common_net.ConnectionListener;
-import engine.common_net.MessageListener;
-import engine.server.core.Player;
-import org.lwjgl.system.CallbackI;
 
 public class Client
 {
@@ -169,7 +163,25 @@ public class Client
 	public void sendUDP(AbstractMessage msg)
 	{
 		// TODO connectClient.sendUDP(msg);
-		connectClient.sendUDP(msg);
+		connectClient.sendUDP(msg);		
+	}
+	
+	public void stop()
+	{
+		try {
+			connectClient.closeSocket();
+		}catch(IOException ex)
+		{
+			ex.printStackTrace();
+		}
 		
+		try
+		{
+			connectClient.join();
+		}catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

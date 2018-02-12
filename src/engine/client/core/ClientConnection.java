@@ -25,7 +25,6 @@ public class ClientConnection extends Thread{
 	
 	private Socket CSSocket=null; //Client-Server Socket TCP
 
-
 	public void run(){
 		try {
 			CSSocket = new Socket("localhost",4445);
@@ -42,15 +41,6 @@ public class ClientConnection extends Thread{
 		creceiver = new ClientReceiverTCP(CSSocket, client);
 		creceiver.setName("listener");
 		creceiver.start();
-
-
-		while(true){
-			try {
-				Thread.currentThread().sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	public void startUDPSender(int portSender, String serverAddress, int packetSize) {
@@ -65,6 +55,11 @@ public class ClientConnection extends Thread{
 	
 	public void sendUDP(AbstractMessage msg) {
 		udpSender.addMessage(msg);
+	}
+	
+	public void closeSocket() throws IOException
+	{
+		CSSocket.close();
 	}
 }
 

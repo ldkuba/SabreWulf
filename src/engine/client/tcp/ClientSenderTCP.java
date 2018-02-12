@@ -27,13 +27,18 @@ public class ClientSenderTCP extends Thread{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		while(true){
+		while(!CSSocket.isClosed()){
 			try {
 				Thread.currentThread().sleep(100);
 				oos.writeObject(client.abs.take());
 			} catch (SocketException se){
-				//stop threads
-
+				try
+				{
+					CSSocket.close();
+				}catch (IOException e)
+				{
+					//e.printStackTrace();
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
