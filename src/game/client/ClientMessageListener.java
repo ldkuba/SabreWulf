@@ -25,7 +25,7 @@ public class ClientMessageListener implements MessageListener
 		if(msg instanceof PeerList)
 		{
 			PeerList plm = (PeerList) msg;
-			System.out.println(plm.getNoPlayers());
+			//System.out.println(plm.getNoPlayers());
 		}else if(msg instanceof ServerConnectionReplyMessage)
 		{
 			ServerConnectionReplyMessage scrm = (ServerConnectionReplyMessage) msg;
@@ -49,6 +49,6 @@ public class ClientMessageListener implements MessageListener
 			Main.lobbyState.updatePlayer(ulpm.getSlot(), ulpm.getSelection());
 		}
 
-		System.out.println(msg.getClass());
+		//System.out.println(msg.getClass());
 	}
 }

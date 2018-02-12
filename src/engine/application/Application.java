@@ -115,7 +115,6 @@ public class Application
 		glfwMakeContextCurrent(window);
 		// set resizeCallback
 		glfwSetWindowSizeCallback(window, windowSizeCallback);
-		System.out.println("Callback Set");
 		// Enable v-sync
 		glfwSwapInterval(vsyncInterval);
 		// Enable Antialiasing

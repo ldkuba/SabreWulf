@@ -10,7 +10,11 @@ public class GameInstance {
 
     public GameInstance(){
         instance_players = new ArrayList<Player>(6);
-
+    }
+    
+    public ArrayList<Player> getPlayers()
+    {
+    	return instance_players;
     }
 
     public void addPlayer(Player player){

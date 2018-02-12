@@ -3,10 +3,10 @@ package game.server;
 import engine.common_net.AbstractMessage;
 import engine.common_net.MessageListener;
 import engine.server.core.Player;
-import game.networking.*;
-import org.lwjgl.system.CallbackI;
-
-import java.net.ConnectException;
+import game.networking.ConnectionMessage;
+import game.networking.NewLobbyPlayerMessage;
+import game.networking.ServerConnectionReplyMessage;
+import game.networking.UpdateLobbyPlayerMessage;
 
 public class ServerMessageListener implements MessageListener
 {
@@ -39,6 +39,26 @@ public class ServerMessageListener implements MessageListener
 				scrm.setSlot(source.getSlot());
 				server.sendTCP(scrm, source);
 
+				for(Player player : gameInstance.getPlayers())
+				{
+					if(!player.equals(source))
+					{
+						NewLobbyPlayerMessage n = new NewLobbyPlayerMessage();
+						n.setName(player.getName());
+						n.setSlot(player.getSlot());
+						
+						System.out.println("Catching up! " + player.getSlot());
+						
+						if(player.getReady())
+						{
+							UpdateLobbyPlayerMessage ulpm = new UpdateLobbyPlayerMessage();
+							
+						}
+						
+						server.sendTCP(n, source);
+					}
+				}
+				
 				NewLobbyPlayerMessage npm = new NewLobbyPlayerMessage();
 				npm.setName(source.getName());
 				npm.setSlot(source.getSlot());

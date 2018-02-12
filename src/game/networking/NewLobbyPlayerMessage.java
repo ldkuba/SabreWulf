@@ -5,7 +5,7 @@ import engine.common_net.AbstractMessage;
 public class NewLobbyPlayerMessage extends AbstractMessage{
     int slot;
     String name;
-
+   
     public NewLobbyPlayerMessage(){
 
     }

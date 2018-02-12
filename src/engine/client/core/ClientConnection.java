@@ -39,15 +39,6 @@ public class ClientConnection extends Thread{
 		creceiver = new ClientReceiverTCP(CSSocket, client);
 		creceiver.setName("listener");
 		creceiver.start();
-
-
-		while(true){
-			try {
-				Thread.currentThread().sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	public void startUDPSender(int portSender, String serverAddress, int packetSize) {
