@@ -29,4 +29,12 @@ public class SpriteComponent extends AbstractComponent
 	{
 		renderer.submit(m_Sprite, transformation);
 	}
+	
+	public float getHeight(){
+		return m_Sprite.getHeight();
+	}
+	
+	public float getWidth(){
+		return m_Sprite.getWidth();
+	}
 }
