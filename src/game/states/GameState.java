@@ -13,6 +13,7 @@ import engine.maths.Vec4;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.Main;
+import game.map.Map;
 import game.player.PlayerController;
 import game.player.PlayerManager;
 
@@ -24,6 +25,7 @@ public class GameState extends AbstractState
 	private PlayerController playerController;
 	
 	private Entity player;
+	private Map map;
 	
 	private int frame = 0;
 	
@@ -37,6 +39,7 @@ public class GameState extends AbstractState
 		scene = new Scene(0);
 		manager = new PlayerManager(scene);
 		playerController = new PlayerController(app, this);
+		map = new Map(this.scene);
 	}
 
 	@Override
@@ -57,6 +60,7 @@ public class GameState extends AbstractState
 	{		
 		scene.init();
 		app.getGui().init(scene);
+		map.init();
 		
 		for(int i = 0; i < 100; i++)
 		{
@@ -105,6 +109,7 @@ public class GameState extends AbstractState
 		scene.update();
 		manager.getStatuses();
 		playerController.update();
+		map.update();
 		
 		if(app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_A))
 		{

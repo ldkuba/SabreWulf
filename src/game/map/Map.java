@@ -10,15 +10,14 @@ import engine.maths.Vec3;
 import engine.maths.Vec4;
 import engine.scene.Scene;
 
-public class Map
-{
+public class Map {
 	ArrayList<Entity> entities;
 	Entity[] background;
 	Camera camera;
 	Entity shownEntity;
 	ArrayList<Entity> hiddenEntities;
 	Vec2 currentPos;
-	int bkgrdPointer = 0;
+	int bkgrdPointer;
 	private final int MAP_SIZE = 10;
 	Scene scene;
 
@@ -30,51 +29,51 @@ public class Map
 		background = new Entity[MAP_SIZE * MAP_SIZE]; // map is 10 x 10
 		// starting position of camera
 		currentPos = new Vec2(camera.getViewport().getX(), camera.getViewport().getY());
+		bkgrdPointer = (int) (currentPos.getX() + ((float) MAP_SIZE * currentPos.getY()));
 	}
 
 	public void init() {
-		// initialise entities
-		Vec4 colour1 =  new Vec4(2.0f, 3.0f, 1.0f, 0.0f);
-		Vec4 colour2 =  new Vec4(1.0f, 2.0f, 3.0f, 0.0f);
+		// initialise entities - currently just test values
+		Vec4 colour1 = new Vec4(1.0f, 0.0f, 1.0f, 0.0f);
+		Vec4 colour2 = new Vec4(1.0f, 1.0f, 1.0f, 0.0f);
 		SpriteComponent comp1 = new SpriteComponent(colour1, 1.0f, 1.0f);
 		SpriteComponent comp2 = new SpriteComponent(colour2, 1.0f, 1.0f);
-	    for (int i = 0; i < background.length; i++){
+		for (int i = 0; i < background.length; i++) {
 			Entity newEntity = new Entity(i, "");
-			if (i % 2 == 0){
+			if (i % 2 == 0) {
 				newEntity.addComponent(comp1);
 			} else {
 				newEntity.addComponent(comp2);
 			}
 			entities.add(newEntity);
-			
-	    }
-		// set hidden and current shown entity
-		for (Entity entity : entities) {
-			hiddenEntities.add(entity);
 		}
-		bkgrdPointer = (int) (currentPos.getX() + ((float) MAP_SIZE * currentPos.getY()));
+		// set shown and hidden entities
 		shownEntity = background[bkgrdPointer];
+		for (Entity entity : entities) {
+			if (entity != shownEntity) {
+				hiddenEntities.add(entity);
+			}
+		}
+
 	}
 
 	public Entity getShownEntity() {
 		// return the current visible map background
 		return shownEntity;
 	}
-	
-	public ArrayList<Entity> getMapEntities(){
+
+	public ArrayList<Entity> getMapEntities() {
 		return entities;
 	}
-	
-	public void render() {
+
+	public void update() {
+		// update the visible map - called from game state
 		setCameraInBounds();
 		// get new cameraPos
 		Vec2 cameraPos = new Vec2(camera.getViewport().getX(), camera.getViewport().getY());
 		float diffx = cameraPos.getX() - currentPos.getX();
 		float diffy = cameraPos.getY() - currentPos.getY();
-		/*
-		 * if camera has moved left the x difference will be positive, moved up
-		 * the y difference will be positive
-		 */
+		// camera moved left the xdiff = +ve, up then ydiff = +ve
 		if (diffx > 0) {
 			moveLeft(diffx);
 		} else if (diffx < 0) {
@@ -84,6 +83,20 @@ public class Map
 			moveUp(diffy);
 		} else if (diffy < 0) {
 			moveDown(diffy);
+		}
+	}
+
+	private void setBackground() {
+		Entity temp;
+		temp = background[bkgrdPointer];
+		if (entities.contains(temp)) {
+			if (temp != shownEntity) {
+				hiddenEntities.remove(temp);
+				if (shownEntity != null) {
+					hiddenEntities.add(shownEntity);
+				}
+				shownEntity = temp;
+			}
 		}
 	}
 
@@ -101,7 +114,7 @@ public class Map
 
 	private void moveUp(float diffy) {
 		int steps = (int) diffy;
-		bkgrdPointer = bkgrdPointer + -(steps * MAP_SIZE);
+		bkgrdPointer = bkgrdPointer + (-1 * steps * MAP_SIZE);
 		setBackground();
 	}
 
@@ -111,27 +124,9 @@ public class Map
 		setBackground();
 	}
 
-	private void setBackground() {
-		Entity temp;
-
-		temp = background[bkgrdPointer];
-		if (entities.contains(temp)) {
-			if (temp != shownEntity) {
-				hiddenEntities.remove(temp);
-				if(shownEntity != null)
-				{
-					hiddenEntities.add(shownEntity);
-				}
-				shownEntity = temp;
-			}
-		}
-	}
-
-	public void setCameraInBounds()
-	{
+	public void setCameraInBounds() {
 		// if camera goes out of map bounds bring it back in.
 		boolean changePos = false;
-
 		Vec3 position = new Vec3(camera.getPosition().getX(), camera.getPosition().getY(), camera.getPosition().getZ());
 		if (position.getX() > (float) MAP_SIZE / 2) {
 			position.setX((float) MAP_SIZE / 2);

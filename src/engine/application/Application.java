@@ -86,11 +86,8 @@ public class Application
 			isFullScreen = true;
 			glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 		}
-		// Create the window
-		window = glfwCreateWindow(width, height, name, NULL, NULL); // width,
-																	// height,
-																	// window
-																	// name
+		// Create the window (width, height, window name)
+		window = glfwCreateWindow(width, height, name, NULL, NULL); 
 		if(window == NULL)
 		{
 			throw new RuntimeException("Failed to create window");
