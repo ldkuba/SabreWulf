@@ -56,37 +56,46 @@ public class Application
 	protected GUI gui;
 
 	protected GLFWWindowSizeCallback windowSizeCallback;
-	protected Vec2 windowSize;
+	public static Vec2 s_WindowSize;
+	public static Vec2 s_Viewport;
 	protected boolean isFullScreen;
 
-	public Application(int width, int height, int vsyncInterval, String name)
+	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen)
 	{
-		initialise(width, height, vsyncInterval, name);
+		initialise(width, height, vsyncInterval, name, fullscreen);
 		stateManager = new StateManager(this);
 		inputManager = new InputManager(this);
 		assetManager = new AssetManager();
 		gui = new GUI(this);
-		windowSize = new Vec2();
+		
+		setViewport(10.0f*(s_WindowSize.getX()/s_WindowSize.getY()), 10.0f);
 	}
 
-	public void initialise(int width, int height, int vsyncInterval, String name)
+	public void initialise(int width, int height, int vsyncInterval, String name, boolean fullscreen)
 	{
 		// Initialise GLFW
 		if(!glfwInit())
 		{
 			throw new IllegalStateException("Unable to initialize GLFW");
 		}
+		
+		isFullScreen = fullscreen;
+		
 		GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-		if(vidmode.width() == width && vidmode.height() == height)
+		
+		if(!isFullScreen)
 		{
-			isFullScreen = true;
-			glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+			glfwWindowHint(GLFW_RESIZABLE, GLFW.GLFW_TRUE);
+			// Create the window
+			window = glfwCreateWindow(width, height, name, NULL, NULL); // width, height, window name
+			setResolution(width, height);
+		}else
+		{
+			glfwWindowHint(GLFW_RESIZABLE, GLFW.GLFW_FALSE);
+			window = glfwCreateWindow(vidmode.width(), vidmode.height(), name, GLFW.glfwGetPrimaryMonitor(), NULL);
+			setResolution(vidmode.width(), vidmode.height());
 		}
-		// Create the window
-		window = glfwCreateWindow(width, height, name, NULL, NULL); // width,
-																	// height,
-																	// window
-																	// name
+		
 		if(window == NULL)
 		{
 			throw new RuntimeException("Failed to create window");
@@ -123,6 +132,7 @@ public class Application
 		while (!glfwWindowShouldClose(window))
 		{
 			stateManager.updateState();
+			gui.update();
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear frame
 																// buffer
 			stateManager.renderState();
@@ -153,6 +163,11 @@ public class Application
 	{
 		return assetManager;
 	}
+	
+	public GUI getGui()
+	{
+		return gui;
+	}
 
 	public void exit()
 	{
@@ -170,12 +185,12 @@ public class Application
 	
 	public void setResolution(int width, int height)
 	{
-		windowSize = new Vec2(width, height);
+		s_WindowSize = new Vec2(width, height);
 	}
 	
-	public Vec2 getWindowSize()
+	public void setViewport(float right, float top)
 	{
-		return windowSize;
+		s_Viewport = new Vec2(right, top);
 	}
 
 	public void resize(long window, int width, int height)

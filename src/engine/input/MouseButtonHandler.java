@@ -1,6 +1,8 @@
 package engine.input;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
 public class MouseButtonHandler extends GLFWMouseButtonCallback{
@@ -13,8 +15,14 @@ public class MouseButtonHandler extends GLFWMouseButtonCallback{
 	
 	@Override
 	public void invoke(long window, int button, int action, int mods){
-		for(MouseListener listener : mouseListeners) {
-			listener.mouseAction(button, action);
+		
+		try {
+			for(MouseListener listener : mouseListeners) {
+				listener.mouseAction(button, action);
+			}
+		} catch (ConcurrentModificationException e)
+		{
+			return;
 		}
 	}
 	

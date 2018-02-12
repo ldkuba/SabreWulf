@@ -22,21 +22,16 @@ public class Scene {
 	private Renderer3D m_Renderer3D; // Currently not used
 	private Camera m_Camera;
 
-	private Application m_App;
-
-	public Scene(int id, Application app) {
+	public Scene(int id) {
 		m_ID = id;
-		m_App = app;
 
 		m_Entities = new ArrayList<Entity>();
 
 		float aspectRatio = 4.0f / 3.0f;
-
-		m_Camera = new Camera(m_App);
+		
+		m_Camera = new Camera();
 		m_Camera.setPosition(new Vec3(0.0f, 0.0f, -10.0f));
-		m_Camera.setProjectionMatrix(
-				MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.01f, 100.0f),
-				new Vec2(10.0f, 10.0f * aspectRatio));
+		m_Camera.setProjectionMatrix(MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.01f, 100.0f));
 
 	}
 
