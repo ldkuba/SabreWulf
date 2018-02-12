@@ -1,10 +1,6 @@
 package engine.application;
 
 
-import static org.lwjgl.glfw.Callbacks.*;
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
-
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
@@ -26,7 +22,6 @@ import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
@@ -45,6 +40,7 @@ import engine.gui.GUI;
 import engine.input.InputManager;
 import engine.maths.Vec2;
 import engine.state.StateManager;
+import game.method.MethodExecutor;
 
 /*
  * Initialise and terminate the application window
@@ -58,6 +54,8 @@ public class Application
 	protected InputManager inputManager;
 	protected AssetManager assetManager;
 	protected GUI gui;
+	
+	protected MethodExecutor methodExecutor;
 
 	protected GLFWWindowSizeCallback windowSizeCallback;
 	public static Vec2 s_WindowSize;
@@ -71,6 +69,7 @@ public class Application
 		inputManager = new InputManager(this);
 		assetManager = new AssetManager();
 		gui = new GUI(this);
+		methodExecutor = new MethodExecutor();
 		
 		setViewport(10.0f*(s_WindowSize.getX()/s_WindowSize.getY()), 10.0f);
 	}
@@ -116,6 +115,7 @@ public class Application
 		glfwMakeContextCurrent(window);
 		// set resizeCallback
 		glfwSetWindowSizeCallback(window, windowSizeCallback);
+		System.out.println("Callback Set");
 		// Enable v-sync
 		glfwSwapInterval(vsyncInterval);
 		// Enable Antialiasing
@@ -135,8 +135,9 @@ public class Application
 		// Run the rendering loop until the user presses esc or quits
 		while (!glfwWindowShouldClose(window))
 		{
+			methodExecutor.execute();
 			stateManager.updateState();
-			gui.update();
+			gui.update();			
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear frame
 																// buffer
 			stateManager.renderState();
@@ -171,6 +172,11 @@ public class Application
 	public GUI getGui()
 	{
 		return gui;
+	}
+	
+	public MethodExecutor getMethodExecutor()
+	{
+		return methodExecutor;
 	}
 	
 	public void exit()

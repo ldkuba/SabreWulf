@@ -46,6 +46,7 @@ public class StateManager {
 		activeState.render();
 	}
 
+	
 	public void setCurrentState(AbstractState state) {
 		// switch to a specified game state if it exists
 		if (isRegistered(state)) {

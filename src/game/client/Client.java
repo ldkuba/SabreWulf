@@ -25,7 +25,7 @@ public class Client
 	public Client(Main app)
 	{
 		this.app = app;
-		messageListener = new ClientMessageListener(app);
+		messageListener = new ClientMessageListener(this);
 		connectionListener = new ClientConnectionListener(this);
 		
 		connectClient = new ClientConnection(this);
@@ -66,9 +66,7 @@ public class Client
 		{
 			ex.printStackTrace();
 		}
-		
-		try
-		{
+		try {
 			connectClient.join();
 		}catch (InterruptedException e)
 		{
