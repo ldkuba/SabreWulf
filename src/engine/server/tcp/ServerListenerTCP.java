@@ -1,13 +1,11 @@
 package engine.server.tcp;
 
 import engine.common_net.AbstractMessage;
-import engine.common_net.PeerList;
 import engine.server.core.Player;
 import game.server.Server;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.net.Socket;
 
 public class ServerListenerTCP extends Thread{
     ObjectInputStream ois = null;

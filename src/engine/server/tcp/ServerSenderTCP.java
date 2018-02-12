@@ -1,15 +1,12 @@
 package engine.server.tcp;
 
 import engine.common_net.AbstractMessage;
-import engine.common_net.PeerList;
+import game.networking.PeerList;
 import engine.server.core.Player;
 import game.server.Server;
-import org.lwjgl.system.CallbackI;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.net.SocketException;
 
 public class ServerSenderTCP extends Thread{
     Player player;

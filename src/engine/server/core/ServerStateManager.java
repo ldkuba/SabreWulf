@@ -1,8 +1,7 @@
 package engine.server.core;
 
-import engine.common_net.PeerList;
+import game.networking.PeerList;
 import game.server.Server;
-import org.w3c.dom.ls.LSSerializerFilter;
 
 public class ServerStateManager extends Thread {
     private Server server;
@@ -18,11 +17,8 @@ public class ServerStateManager extends Thread {
              } catch (InterruptedException e) {
                  e.printStackTrace();
              }
-
-             if(server.getNoPlayers()>0) {
-                System.out.println(server.getNoPlayers());
+             if(server.getNoPlayers()>0){
                 try {
-
                     server.broadcastTCP(new PeerList(server.getNoPlayers()), server.players);
                     Thread.currentThread().sleep(1000);
                 } catch (InterruptedException e) {

@@ -2,9 +2,8 @@ package game.client;
 
 import engine.common_net.AbstractMessage;
 import engine.common_net.MessageListener;
-import engine.common_net.PeerList;
+import game.networking.PeerList;
 import game.Main;
-import game.networking.ExampleMessage;
 
 public class ClientMessageListener implements MessageListener
 {

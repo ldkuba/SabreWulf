@@ -1,6 +1,8 @@
-package engine.common_net;
+package game.networking;
 
-public class PeerList extends AbstractMessage{
+import engine.common_net.AbstractMessage;
+
+public class PeerList extends AbstractMessage {
     int noPlayers=0;
     public PeerList(int noPlayers){
         this.noPlayers=noPlayers;

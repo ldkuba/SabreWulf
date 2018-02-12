@@ -1,12 +1,9 @@
 package game.server;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 
 import engine.common_net.AbstractMessage;
-import engine.common_net.PeerList;
+import game.networking.PeerList;
 import engine.server.core.GameServer;
 import engine.server.core.Player;
 import engine.server.core.ServerStateManager;
@@ -21,6 +18,8 @@ public class Server
 	private ServerStateManager smg;
 
 	public ArrayList<Player> players = null;
+
+	public ArrayList<GameInstance> games = null;
 
 	public int getNoPlayers() {
 		return players.size();
@@ -39,7 +38,8 @@ public class Server
 
 		connectionListener = new ServerConnectionListener(this);
 		messageListener = new ServerMessageListener(this);
-		players = new ArrayList<Player>(6);
+		players = new ArrayList<Player>(60);
+		games = new ArrayList<GameInstance>(5);
 		gameServer = new GameServer(this);
 		gameServer.setName("GAME");
 		gameServer.start();

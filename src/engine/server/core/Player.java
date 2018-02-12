@@ -1,17 +1,15 @@
 package engine.server.core;
 
 import engine.common_net.AbstractMessage;
-import engine.common_net.PeerList;
+import game.networking.PeerList;
 
-import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.concurrent.*;
 
 public class Player {
     private Socket socket;
     private String name;
+    private boolean isReady=false;
 
     private BlockingQueue<AbstractMessage> pbq;
 
@@ -45,13 +43,19 @@ public class Player {
     }
 
     public void addMsg(PeerList msg){
-
             pbq.add(msg);
-
     }
 
-    public int getMsgCount(){
+    synchronized public int getMsgCount(){
         return pbq.size();
+    }
+
+    public void setReady(boolean ready){
+        isReady=ready;
+    }
+
+    public boolean getReady(){
+        return isReady;
     }
 
 
