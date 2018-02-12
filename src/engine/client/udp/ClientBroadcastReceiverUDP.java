@@ -62,7 +62,7 @@ public class ClientBroadcastReceiverUDP extends Thread{
 				AbstractMessage newMessage = NetTools.deserialize(gameBuffer);
 				//testBroadcastReceiver(newMessage);
 				//Tell client message has been received.
-				client.notifyMessageListeners(newMessage);
+				client.notifyMessageListeners(newMessage, null);
 				//queueStates.add(newMessage);
 				
 			} catch (IOException e) {

@@ -9,6 +9,8 @@ import engine.maths.Vec3;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.Main;
+import game.networking.ConnectionMessage;
+import game.networking.ExampleMessage;
 
 public class MenuState extends AbstractState
 {
@@ -55,7 +57,10 @@ public class MenuState extends AbstractState
 			@Override
 			public void onClick()
 			{
-				app.getStateManager().setCurrentState(Main.lobbyState);
+				System.out.println("Clicked play");
+				ConnectionMessage cnm = new ConnectionMessage();
+				cnm.setName("bob");
+				app.getClient().sendTCP(cnm);
 			}
 		};
 		app.getGui().add(playButton);
@@ -99,7 +104,6 @@ public class MenuState extends AbstractState
 	public void update()
 	{
 		scene.update();
-		
 	}
 
 	@Override

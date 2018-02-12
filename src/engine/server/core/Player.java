@@ -10,7 +10,7 @@ public class Player {
     private Socket socket;
     private String name;
     private boolean isReady=false;
-
+    private int slot;
     private BlockingQueue<AbstractMessage> pbq;
 
     public Player(Socket socket){
@@ -42,7 +42,7 @@ public class Player {
 
     }
 
-    public void addMsg(PeerList msg){
+    public void addMsg(AbstractMessage msg){
             pbq.add(msg);
     }
 
@@ -58,7 +58,11 @@ public class Player {
         return isReady;
     }
 
+    public int getSlot() {
+        return slot;
+    }
 
-
-
+    public void setSlot(int slot) {
+        this.slot = slot;
+    }
 }

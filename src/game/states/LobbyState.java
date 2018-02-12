@@ -12,6 +12,7 @@ import engine.maths.Vec3;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.Main;
+import game.networking.UpdateLobbyPlayerMessage;
 
 public class LobbyState extends AbstractState
 {
@@ -93,9 +94,9 @@ public class LobbyState extends AbstractState
 				if(characterChoice.getSelectedId() != -1)
 				{
 					//Lock in champ and notify server that player is ready
-					
-					//temporary for testing
-					playerAvatars.get(localPlayerIndex).getEntity().getSprite().setTexture(characterAvatars.get(characterChoice.getSelectedId()));
+					UpdateLobbyPlayerMessage msg = new UpdateLobbyPlayerMessage();
+					msg.setSelection(characterChoice.getSelectedId());
+					app.getClient().sendTCP(msg);
 					
 					lockInButton.setEnabled(false);
 					characterChoice.setEnabled(false);

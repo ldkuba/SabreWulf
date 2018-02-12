@@ -43,16 +43,16 @@ public class Server
 		gameServer = new GameServer(this);
 		gameServer.setName("GAME");
 		gameServer.start();
-
+		games.add(new GameInstance());
 
 		smg = new ServerStateManager(this);
 		smg.setName("state manager");
 		smg.start();
 	}
 
-	public void notifyMessageListeners(AbstractMessage msg)
+	public void notifyMessageListeners(AbstractMessage msg, Player player)
 	{
-		messageListener.receiveMessage(msg);
+		messageListener.receiveMessage(msg, player);
 	}
 	
 	public void notifyConnectionListenersConnected(Player player)
@@ -65,11 +65,19 @@ public class Server
 		connectionListener.clientDisconnected(player);
 	}
 	
-	public void sendTCP(PeerList msg, Player p){
+	public void sendTCP(AbstractMessage msg, Player p){
 		p.addMsg(msg);
 	}
 
-	public void broadcastTCP(PeerList msg, ArrayList<Player> players){
+	public void informTheRest(AbstractMessage msg, Player p){
+		for(int i = 0; i<players.size(); i++){
+			if(!p.equals(players.get(i)))
+			sendTCP(msg, players.get(i));
+		}
+
+	}
+
+	public void broadcastTCP(AbstractMessage msg){
 		for(int i = 0; i<players.size(); i++){
 			sendTCP(msg, players.get(i));
 		}
@@ -77,7 +85,7 @@ public class Server
 
 
 	public void startUDPManager() {
-		gameServer.startUDPManager();
+		//gameServer.startUDPManager();
 	}
 	
 	public void sendUDP(AbstractMessage msg) // SEND OR BROADCAST, WHATEVER YOU WANNA CALL IT
@@ -85,11 +93,30 @@ public class Server
 		//startUDPManager should be called before sending any UDP packets.
 		
 		// TODO gameServer.sendUDP(msg);
-		gameServer.sendUDP(msg);
+		//gameServer.sendUDP(msg);
 	}
 	
 	public static void main(String[] args)
 	{
 		Server serverMain = new Server();
+	}
+	public boolean isFreeGameInstance(){
+		if(games.size()<=10){
+			for (int i = 0; i < games.size(); i++) {
+				if(!games.get(i).isFull()){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public GameInstance getFreeGameInstance(){
+		for(int i=0; i<games.size(); i++){
+			if(!games.get(i).isFull()){
+				return games.get(i);
+			}
+		}
+		return null;
 	}
 }

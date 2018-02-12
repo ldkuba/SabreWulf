@@ -2,25 +2,45 @@ package game.client;
 
 import engine.common_net.AbstractMessage;
 import engine.common_net.MessageListener;
+import engine.server.core.Player;
+import game.networking.NewLobbyPlayerMessage;
 import game.networking.PeerList;
 import game.Main;
+import game.networking.ServerConnectionReplyMessage;
+import game.networking.UpdateLobbyPlayerMessage;
 
 public class ClientMessageListener implements MessageListener
 {
 	private Main app;
-	
-	
+
+	public ClientMessageListener(Main app)
+	{
+		this.app = app;
+	}
 	
 	@Override
-	public void receiveMessage(AbstractMessage msg)
+	public void receiveMessage(AbstractMessage msg, Player source)
 	{
 		if(msg instanceof PeerList)
 		{
 			PeerList plm = (PeerList) msg;
 			System.out.println(plm.getNoPlayers());
+		} else if(msg instanceof ServerConnectionReplyMessage) {
+			ServerConnectionReplyMessage scrm = (ServerConnectionReplyMessage) msg;
+			if(scrm.isAccepted()){
+				Main.lobbyState.setLocalPlayerIndex(scrm.getSlot());
+				app.getStateManager().setCurrentState(Main.lobbyState);
+			} else{
+				System.out.println(scrm.getMessage());
+			}
+		}  else if(msg instanceof NewLobbyPlayerMessage){
+			//todo display name when font rendering is done and that a player connected
+			NewLobbyPlayerMessage nlpm = (NewLobbyPlayerMessage) msg;
+		} else if(msg instanceof UpdateLobbyPlayerMessage){
+			UpdateLobbyPlayerMessage ulpm = (UpdateLobbyPlayerMessage) msg;
+			Main.lobbyState.updatePlayer(ulpm.getSlot(), ulpm.getSelection());
 		}
-		else
-			System.out.println(msg.getClass());
 
+		System.out.println(msg.getClass());
 	}
 }

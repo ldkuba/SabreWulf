@@ -31,7 +31,7 @@ public class ClientReceiverTCP extends Thread{
 			try {
 				AbstractMessage abs = (AbstractMessage) ois.readObject();
 				if(abs != null)
-				client.notifyMessageListeners(abs);
+				client.notifyMessageListeners(abs, null);
 			} catch (SocketException ex)
 			{
 				try

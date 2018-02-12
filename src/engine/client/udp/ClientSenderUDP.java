@@ -2,19 +2,15 @@ package engine.client.udp;
 
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import game.networking.ExampleMessage;
 import engine.common_net.AbstractMessage;
-import engine.common_net.udpMessage;
 import engine.common_net.Serialization;
 
 public class ClientSenderUDP extends Thread{

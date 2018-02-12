@@ -23,7 +23,7 @@ public class ServerListenerTCP extends Thread{
         }
         while(!player.getSocket().isClosed()){
             try {
-                server.notifyMessageListeners((AbstractMessage) ois.readObject());
+                server.notifyMessageListeners((AbstractMessage) ois.readObject(), player);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e){

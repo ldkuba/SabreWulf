@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import engine.server.udp.ServerUDPManager;
 import engine.common_net.AbstractMessage;
 import game.server.Server;
 
@@ -14,7 +13,7 @@ public class GameServer extends Thread{
     private static Socket SCSocket; //(SERVER_CLIENT_SOCKET)
     private static CoreClientThread clientCoreThread;
     
-    private static ServerUDPManager serverUDPManager = null;	//Receives and sends UDP packets.
+   // private static ServerUDPManager serverUDPManager = null;	//Receives and sends UDP packets.
 
     private Server server; //For notifying listeners
     
@@ -50,11 +49,12 @@ public class GameServer extends Thread{
     }
 
 
-    public void startUDPManager() {
+   /* public void startUDPManager() {
     	serverUDPManager.start();
     }
     
     public void sendUDP(AbstractMessage msg) {
     	serverUDPManager.addToQueueStates(msg);
     }
+    */
 }

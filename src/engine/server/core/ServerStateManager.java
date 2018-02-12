@@ -19,7 +19,7 @@ public class ServerStateManager extends Thread {
              }
              if(server.getNoPlayers()>0){
                 try {
-                    server.broadcastTCP(new PeerList(server.getNoPlayers()), server.players);
+                    //server.broadcastTCP(new PeerList(server.getNoPlayers()));
                     Thread.currentThread().sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

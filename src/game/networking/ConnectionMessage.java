@@ -5,7 +5,6 @@ import engine.common_net.AbstractMessage;
 public class ConnectionMessage extends AbstractMessage {
     public ConnectionMessage(){
         this.name = name;
-
     }
     String name;
 

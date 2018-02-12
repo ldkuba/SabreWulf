@@ -8,18 +8,15 @@ public class GameInstance {
     int MAX_SIZE_GAME_SIZE=6;
     ArrayList<Player> instance_players;
 
-    public GameInstance(Player player){
+    public GameInstance(){
         instance_players = new ArrayList<Player>(6);
+
     }
 
-    public boolean addPlayer(Player player){
-        if (instance_players.size()<=MAX_SIZE_GAME_SIZE){
+    public void addPlayer(Player player){
+            player.setSlot(instance_players.size());
             instance_players.add(player);
-            return true;
-        }
-        else{
-            return false;
-        }
+
     }
 
     public boolean removePlayer(Player player){
