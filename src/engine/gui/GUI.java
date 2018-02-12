@@ -100,15 +100,17 @@ public class GUI implements MouseListener
 			{
 				if(action == GLFW.GLFW_PRESS)
 				{
-					
+					if(component.isEnabled())
 						component.onPress(button);
 				
 				}else if(action == GLFW.GLFW_RELEASE)
 				{
-					component.onRelease(button);
+					if(component.isEnabled())
+						component.onRelease(button);
 				}else if(action == GLFW.GLFW_REPEAT)
 				{
-					component.onRepeat(button);
+					if(component.isEnabled())
+						component.onRepeat(button);
 				}
 			}
 		}

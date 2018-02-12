@@ -10,6 +10,8 @@ public class GuiComponent
 	
 	protected Entity entity;
 	
+	protected boolean enabled;
+	
 	public void onPress(int button)
 	{
 		
@@ -24,7 +26,16 @@ public class GuiComponent
 	{
 		
 	}
-
+	
+	public void setEnabled(boolean enabled)
+	{
+		this.enabled = enabled;
+	}
+	
+	public boolean isEnabled()
+	{
+		return enabled;
+	}
 	
 	public Entity getEntity()
 	{

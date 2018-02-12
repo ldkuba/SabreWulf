@@ -55,7 +55,7 @@ public class MenuState extends AbstractState
 			@Override
 			public void onClick()
 			{
-				app.getStateManager().setCurrentState(Main.gameState);
+				app.getStateManager().setCurrentState(Main.lobbyState);
 			}
 		};
 		app.getGui().add(playButton);

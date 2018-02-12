@@ -3,7 +3,7 @@ package game.states;
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
-import engine.gui.components.Button;
+import engine.gui.components.ToggleButton;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
 import engine.scene.Scene;
@@ -26,8 +26,7 @@ public class GameState extends AbstractState
 	private int frame = 0;
 	private float second = 0;
 
-	private Button button;
-
+	private ToggleButton button;
 
 	public GameState(Main app)
 	{
@@ -56,12 +55,12 @@ public class GameState extends AbstractState
 		scene.init();
 		app.getGui().init(scene);
 		
-		button = new Button(20.0f, 20.0f, 10.0f, 10.0f, app.getAssetManager().getTexture("res/textures/testNoxus.png"), app.getAssetManager().getTexture("res/textures/background.png"))
+		button = new ToggleButton(20.0f, 20.0f, 10.0f, 10.0f, app.getAssetManager().getTexture("res/textures/testNoxus.png"), app.getAssetManager().getTexture("res/textures/background.png"))
 		{
 			@Override
-			public void onClick()
+			public void onClick(boolean toggled)
 			{
-				app.getStateManager().setCurrentState(Main.menuState);
+				//app.getStateManager().setCurrentState(Main.menuState);
 			}
 		};
 		app.getGui().add(button);

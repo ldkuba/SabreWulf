@@ -35,6 +35,7 @@ public class ClientSenderTCP extends Thread{
 				try
 				{
 					CSSocket.close();
+					client.notifyConnectionListenerDisconnect(null);
 				}catch (IOException e)
 				{
 					//e.printStackTrace();

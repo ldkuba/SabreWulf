@@ -36,8 +36,6 @@ public class ClientConnection extends Thread{
 		csender.setName("sender");
 		csender.start();
 
-
-
 		creceiver = new ClientReceiverTCP(CSSocket, client);
 		creceiver.setName("listener");
 		creceiver.start();
