@@ -10,6 +10,7 @@ public class Player {
     private Socket socket;
     private String name;
     private boolean isReady=false;
+    private int characterSelection = -1;
     private int slot;
     private BlockingQueue<AbstractMessage> pbq;
 
@@ -28,6 +29,16 @@ public class Player {
 
     public String getName() {
         return name;
+    }
+    
+    public void setCharacterSelection(int selection)
+    {
+    	characterSelection = selection;
+    }
+    
+    public int getCharacterSelection()
+    {
+    	return characterSelection;
     }
 
     public AbstractMessage takeMessage() {

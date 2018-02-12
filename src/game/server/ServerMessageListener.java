@@ -48,14 +48,16 @@ public class ServerMessageListener implements MessageListener
 						n.setSlot(player.getSlot());
 						
 						System.out.println("Catching up! " + player.getSlot());
+						server.sendTCP(n, source);
 						
 						if(player.getReady())
 						{
 							UpdateLobbyPlayerMessage ulpm = new UpdateLobbyPlayerMessage();
+							ulpm.setSlot(player.getSlot());
+							ulpm.setSelection(player.getCharacterSelection());
 							
+							server.sendTCP(ulpm, source);
 						}
-						
-						server.sendTCP(n, source);
 					}
 				}
 				
@@ -75,6 +77,7 @@ public class ServerMessageListener implements MessageListener
 		} else if(msg instanceof UpdateLobbyPlayerMessage) {
 			source.setReady(true);
 			UpdateLobbyPlayerMessage ulpm = (UpdateLobbyPlayerMessage) msg;
+			source.setCharacterSelection(ulpm.getSelection());
 			ulpm.setSlot(source.getSlot());
 			server.broadcastTCP(msg);
 		}

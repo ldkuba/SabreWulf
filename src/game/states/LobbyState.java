@@ -1,6 +1,7 @@
 package game.states;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 import engine.application.Application;
 import engine.graphics.texture.Texture;
@@ -12,6 +13,7 @@ import engine.maths.Vec3;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.Main;
+import game.method.UpdateLobbyPlayer;
 import game.networking.UpdateLobbyPlayerMessage;
 
 public class LobbyState extends AbstractState
