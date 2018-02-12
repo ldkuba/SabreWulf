@@ -23,6 +23,7 @@ public class Map {
 		visible = new ArrayList<Entity>();
 		background = new Entity[MAP_SIZE * MAP_SIZE];
 		vpLength = Application.s_Viewport.getLength();
+		init();
 	}
 
 	public void init() {
