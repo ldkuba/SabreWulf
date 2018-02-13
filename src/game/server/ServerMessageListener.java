@@ -43,6 +43,5 @@ public class ServerMessageListener implements MessageListener
 				server.sendTCP(lobbyConn, source);
 			}
 		}
-
 	}
 }
