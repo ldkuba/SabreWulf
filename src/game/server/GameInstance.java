@@ -2,24 +2,25 @@ package game.server;
 
 import engine.server.core.Player;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameInstance {
     int MAX_SIZE_GAME_SIZE=6;
-    HashMap<Integer, Player> playersInLobby;
+    private ArrayList<Player> playersInLobby;
 
     public GameInstance(){
-        playersInLobby = new HashMap<Integer, Player>(6);
+        playersInLobby = new ArrayList<>(MAX_SIZE_GAME_SIZE);
     }
-    
-    public HashMap<Integer, Player> getPlayers()
-    {
-    	return playersInLobby;
+
+
+    public ArrayList<Player> getPlayersInLobby(){
+        return playersInLobby;
     }
 
     public void addPlayer(Player player){
-            playersInLobby.put(playersInLobby.size()+1, player);
+            playersInLobby.add(player);
     }
 
     public boolean isFull(){

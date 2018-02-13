@@ -33,7 +33,7 @@ public class ServerMessageListener implements MessageListener
 				server.sendTCP(lobbyConn, source);
 
 				LobbyUpdateMessage lobbyUpd = new LobbyUpdateMessage();
-				lobbyUpd.setPlayersInLobby(gameInstance.getPlayers());
+				lobbyUpd.setPlayersInLobby(gameInstance.getPlayersInLobby());
 				server.sendTCP(lobbyUpd, source);
 			}
 			else{

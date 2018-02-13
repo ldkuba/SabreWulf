@@ -28,7 +28,7 @@ public class ClientMessageListener implements MessageListener
 		}
 		else if(msg instanceof LobbyConnectionResponse){
 			LobbyConnectionResponse lobbyConn = (LobbyConnectionResponse) msg;
-			if(lobbyConn.isAccepted())
+			if(!lobbyConn.isAccepted())
 			{
 				SetCurrentGameState setGameState = new SetCurrentGameState(client.getMain(), Main.lobbyState);
 				client.getMain().getMethodExecutor().add(setGameState);

@@ -15,7 +15,7 @@ public class Player {
 
     public Player(Socket socket){
         this.socket=socket;
-        pbq = new LinkedBlockingQueue<AbstractMessage>(1000);
+        pbq = new LinkedBlockingQueue<>(1000);
     }
 
     public Socket getSocket() {
