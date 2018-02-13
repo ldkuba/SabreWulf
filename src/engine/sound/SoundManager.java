@@ -43,6 +43,34 @@ public class SoundManager {
 		alcMakeContextCurrent(context);
 		AL.createCapabilities(deviceCaps);
 	}
-	
 	//add other methods
+	
+	public void setListener(SoundListener lis){
+		listener = lis;
+	}
+	
+	public SoundListener getListener(){
+		return listener;
+	}
+	
+	public void addSoundSource(String sourceName, SoundSource sound){
+		soundSourceMap.put(sourceName, sound);
+	}
+	
+	public SoundSource getSoundSource(String sourceName){
+		SoundSource source = soundSourceMap.get(sourceName);
+		return source;
+		
+	}
+	
+	public void playSoundSource(String sourceName){
+		SoundSource source = soundSourceMap.get(sourceName);
+		if (source != null || !source.isPlaying()){
+			source.play();
+		}
+	}
+	
+	public void removeSoundSource(String sourceName){
+		
+	}
 }
