@@ -1,5 +1,4 @@
 package engine.sound;
-//Imports here
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -12,8 +11,6 @@ import org.lwjgl.openal.*;
 import org.lwjgl.openal.ALCCapabilities;
 
 import static org.lwjgl.openal.ALC10.*;
-
-import engine.maths.Mat4;
 
 public class SoundManager {
 
@@ -43,7 +40,6 @@ public class SoundManager {
 		alcMakeContextCurrent(context);
 		AL.createCapabilities(deviceCaps);
 	}
-	//add other methods
 	
 	public void setListener(SoundListener lis){
 		listener = lis;
@@ -58,19 +54,46 @@ public class SoundManager {
 	}
 	
 	public SoundSource getSoundSource(String sourceName){
-		SoundSource source = soundSourceMap.get(sourceName);
-		return source;
-		
+		SoundSource source = null;
+		if (sourceName != null){
+			source = soundSourceMap.get(sourceName);
+		}
+		return source;		
 	}
 	
 	public void playSoundSource(String sourceName){
 		SoundSource source = soundSourceMap.get(sourceName);
-		if (source != null || !source.isPlaying()){
+		if (source != null && !source.isPlaying()){
 			source.play();
 		}
 	}
 	
 	public void removeSoundSource(String sourceName){
-		
+		if(sourceName != null){
+			soundSourceMap.remove(sourceName);
+		}
 	}
+	
+	public void addBuffer(SoundBuffer buffer){
+		soundBufferList.add(buffer);
+	}
+	
+	public void cleanup(){
+		for (SoundSource source :  soundSourceMap.values()){
+			source.cleanup();
+		}
+		soundSourceMap.clear();
+		for (SoundBuffer buffer : soundBufferList){
+			buffer.cleanup();
+		}
+		soundBufferList.clear();
+		if(context != longNull){
+			alcDestroyContext(context);
+		} 
+		if (device != longNull){
+			alcCloseDevice(device);
+		}
+	}
+	
+	
 }
