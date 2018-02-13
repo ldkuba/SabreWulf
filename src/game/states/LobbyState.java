@@ -146,8 +146,6 @@ public class LobbyState extends AbstractState
 	public void update()
 	{
 		scene.update();
-		
-		//System.out.println(characterChoice.getSelectedId());
 	}
 
 	//Set from message listener when a accept message from a lobby is received

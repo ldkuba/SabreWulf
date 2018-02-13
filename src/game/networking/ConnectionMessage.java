@@ -13,6 +13,6 @@ public class ConnectionMessage extends AbstractMessage {
     }
 
     public void setName(String name){
-
+        this.name = name;
     }
 }

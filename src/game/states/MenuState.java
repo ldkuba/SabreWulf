@@ -56,7 +56,6 @@ public class MenuState extends AbstractState
 			@Override
 			public void onClick()
 			{
-				System.out.println("Clicked play");
 				ConnectionMessage cnm = new ConnectionMessage();
 				cnm.setName("bob");
 				app.getClient().sendTCP(cnm);

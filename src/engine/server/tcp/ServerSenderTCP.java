@@ -37,22 +37,4 @@ public class ServerSenderTCP extends Thread{
         }
 
     }
-
-    public void sendMessage(AbstractMessage message){
-        player.addMsg(new PeerList(123));
-        /*
-        try {
-
-            //oos.writeObject(player.takeMessage());
-
-        } catch (SocketException se){
-            server.notifyConnectionListenersDisconnected(player);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-         */
-    }
 }

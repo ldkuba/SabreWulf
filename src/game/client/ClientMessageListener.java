@@ -39,9 +39,7 @@ public class ClientMessageListener implements MessageListener
 		}
 		else if(msg instanceof LobbyUpdateMessage){
 		    LobbyUpdateMessage lobbyUpd = (LobbyUpdateMessage) msg;
-		    for(int i=0; i<lobbyUpd.getPlayersInLobby().size(); i++){
-		        System.out.println(lobbyUpd.getPlayersInLobby().get(i).getName());
-            }
+		    // Here's message containing all the players and their state
         }
 		else System.out.println(msg.getClass());
 	}

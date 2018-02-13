@@ -34,7 +34,7 @@ public class ServerMessageListener implements MessageListener
 
 				LobbyUpdateMessage lobbyUpd = new LobbyUpdateMessage();
 				lobbyUpd.setPlayersInLobby(gameInstance.getPlayerPayload());
-				server.sendTCP(lobbyUpd, source);
+				server.broadcastTCP(lobbyUpd);
 			}
 			else{
 				LobbyConnectionResponse lobbyConn = new LobbyConnectionResponse();

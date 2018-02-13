@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 public class GameInstance {
     int MAX_SIZE_GAME_SIZE=6;
+
     private ArrayList<Player> playersInLobby;
 
     public GameInstance(){
@@ -33,7 +34,6 @@ public class GameInstance {
             pld.add(playersInLobby.get(i).getPayload());
         }
         return pld;
-
     }
 
 
