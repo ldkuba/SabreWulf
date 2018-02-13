@@ -83,6 +83,7 @@ public class MenuState extends AbstractState
 			public void onClick()
 			{
 				app.exit();
+				app.getClient().stop();
 			}
 		};
 		app.getGui().add(exitButton);

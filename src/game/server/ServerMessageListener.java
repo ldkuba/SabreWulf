@@ -3,9 +3,9 @@ package game.server;
 import engine.common_net.AbstractMessage;
 import engine.common_net.MessageListener;
 import engine.server.core.Player;
-import game.networking.ConnectionMessage;
-import game.networking.LobbyConnectionResponse;
-import game.networking.LobbyUpdateMessage;
+import game.networking.*;
+
+import java.util.concurrent.locks.Lock;
 
 public class ServerMessageListener implements MessageListener
 {
@@ -42,6 +42,16 @@ public class ServerMessageListener implements MessageListener
 				lobbyConn.setMessage("Server is full");
 				server.sendTCP(lobbyConn, source);
 			}
+		} else if(msg instanceof LockInMessage){
+			LockInMessage lim = (LockInMessage) msg;
+			source.setReady(true);
+			source.setChar(lim.getCharacterSelected());
+
+		} else if(msg instanceof QuitMessage){
+			source.setChar(-1);
+			source.setReady(false);
+			gameInstance.removePlayer(source);
 		}
+
 	}
 }

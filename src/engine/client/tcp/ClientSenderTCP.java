@@ -1,6 +1,9 @@
 package engine.client.tcp;
 
+import engine.common_net.AbstractMessage;
 import engine.server.core.Player;
+import game.networking.InternalQuit;
+import game.networking.QuitMessage;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -29,8 +32,12 @@ public class ClientSenderTCP extends Thread{
 		}
 		while(!CSSocket.isClosed()){
 			try {
-				Thread.currentThread().sleep(100);
-				oos.writeObject(client.abs.take());
+				AbstractMessage msg = client.abs.take();
+				if(msg instanceof InternalQuit){
+					CSSocket.close();
+				}
+				else oos.writeObject(msg);
+
 			} catch (SocketException se){
 				try
 				{

@@ -36,5 +36,9 @@ public class GameInstance {
         return pld;
     }
 
+    public void removePlayer(Player player){
+        playersInLobby.remove(player);
+    }
+
 
 }

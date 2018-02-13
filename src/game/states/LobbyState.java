@@ -12,6 +12,8 @@ import engine.maths.Vec3;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.Main;
+import game.networking.LockInMessage;
+import game.networking.QuitMessage;
 
 public class LobbyState extends AbstractState
 {
@@ -93,9 +95,11 @@ public class LobbyState extends AbstractState
 				if(characterChoice.getSelectedId() != -1)
 				{
 					//Lock in champ and notify server that player is ready
-
+					LockInMessage lim = new LockInMessage();
+					lim.setCharacterSelected(characterChoice.getSelectedId());
 					lockInButton.setEnabled(false);
 					characterChoice.setEnabled(false);
+					app.getClient().sendTCP(lim);
 				}
 			}
 		};
@@ -108,7 +112,8 @@ public class LobbyState extends AbstractState
 			@Override
 			public void onClick()
 			{
-				
+				QuitMessage quit = new QuitMessage();
+				app.getClient().sendTCP(quit);
 			}
 		};
 		app.getGui().add(quitButton);

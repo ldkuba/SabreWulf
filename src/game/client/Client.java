@@ -11,6 +11,7 @@ import engine.client.core.ClientConnection;
 import engine.common_net.AbstractMessage;
 import engine.server.core.Player;
 import game.Main;
+import game.networking.InternalQuit;
 
 public class Client
 {
@@ -61,6 +62,7 @@ public class Client
 	public void stop()
 	{
 		try {
+			abs.add(new InternalQuit());
 			connectClient.closeSocket();
 		}catch(IOException ex)
 		{
