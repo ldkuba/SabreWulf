@@ -21,8 +21,10 @@ public class Client
 	
 	private Main app;
 
+	// Local blocking queue of messages that will get sent by the Sender thread
 	public BlockingQueue<AbstractMessage> abs = new LinkedBlockingQueue<AbstractMessage>(100);
-	
+
+	// Initiating connection listener
 	public Client(Main app)
 	{
 		this.app = app;
@@ -56,7 +58,7 @@ public class Client
 	public void sendUDP(AbstractMessage msg)
 	{
 		// TODO connectClient.sendUDP(msg);
-		connectClient.sendUDP(msg);		
+		connectClient.sendUDP(msg);
 	}
 	
 	public void stop()
@@ -72,7 +74,6 @@ public class Client
 			connectClient.join();
 		}catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

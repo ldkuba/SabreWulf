@@ -117,8 +117,7 @@ public class LobbyState extends AbstractState
 			}
 		};
 		app.getGui().add(quitButton);
-		
-		// 6 currently later moved to Main or sth
+
 		for(int i = 0; i < 6; i++)
 		{
 			Texture transparent = app.getAssetManager().getTexture("res/textures/transparent.png");
