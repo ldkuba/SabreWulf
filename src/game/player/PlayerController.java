@@ -27,8 +27,7 @@ public class PlayerController {
 	
 	public void update()
 	{
-		//input 
-		
+		//input
 	}
 	
 	public void onKeyPress(int button, int action)
