@@ -1,12 +1,14 @@
 package engine.sound;
 
+import engine.entity.component.AbstractComponent;
 import engine.maths.Vec3;
+
 import static org.lwjgl.openal.AL10.*;
 
-public class SoundListener {
+public class SoundListener extends AbstractComponent {
 
 	public SoundListener() {
-		this(new Vec3(0, 0, 0));
+
 	}
 
 	public SoundListener(Vec3 position) {

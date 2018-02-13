@@ -2,9 +2,10 @@ package engine.sound;
 
 import static org.lwjgl.openal.AL10.*;
 
+import engine.entity.component.AbstractComponent;
 import engine.maths.Vec3;
 
-public class SoundSource {
+public class SoundSource extends AbstractComponent {
 	private final int sourceId;
 
 	public SoundSource(boolean loop, boolean relative) {

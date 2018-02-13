@@ -16,7 +16,6 @@ public class SoundManager {
 
 	private long device;
 	private long context;
-	private Long longNull = null;
 	private SoundListener listener;
 
 	private final List<SoundBuffer> soundBufferList;
@@ -29,71 +28,77 @@ public class SoundManager {
 
 	public void init() throws Exception {
 		this.device = alcOpenDevice((ByteBuffer) null);
-		if (device == longNull) {
-			throw new IllegalStateException("Failed to open the default OpenAL device.");
+		if (device == Utils.longNull) {
+			throw new IllegalStateException("Failed to open OpenAL device.");
 		}
 		ALCCapabilities deviceCaps = ALC.createCapabilities(device);
 		this.context = alcCreateContext(device, (IntBuffer) null);
-		if (context == longNull) {
+		if (context == Utils.longNull) {
 			throw new IllegalStateException("Failed to create OpenAL context.");
 		}
 		alcMakeContextCurrent(context);
 		AL.createCapabilities(deviceCaps);
 	}
-	
-	public void setListener(SoundListener lis){
-		listener = lis;
+
+	public void setListener(SoundListener sndLis) {
+		listener = sndLis;
 	}
-	
-	public SoundListener getListener(){
+
+	public SoundListener getListener() {
 		return listener;
 	}
-	
-	public void addSoundSource(String sourceName, SoundSource sound){
+
+	public void addSoundSource(String sourceName, SoundSource sound) {
 		soundSourceMap.put(sourceName, sound);
 	}
-	
-	public SoundSource getSoundSource(String sourceName){
+
+	public SoundSource getSoundSource(String sourceName) {
 		SoundSource source = null;
-		if (sourceName != null){
+		if (nullChecker(sourceName)) {
 			source = soundSourceMap.get(sourceName);
 		}
-		return source;		
+		return source;
 	}
-	
-	public void playSoundSource(String sourceName){
+
+	public void playSoundSource(String sourceName) {
 		SoundSource source = soundSourceMap.get(sourceName);
-		if (source != null && !source.isPlaying()){
+		if (nullChecker(source) && !source.isPlaying()) {
 			source.play();
 		}
 	}
-	
-	public void removeSoundSource(String sourceName){
-		if(sourceName != null){
+
+	public void removeSoundSource(String sourceName) {
+		if (nullChecker(sourceName)) {
 			soundSourceMap.remove(sourceName);
 		}
 	}
-	
-	public void addBuffer(SoundBuffer buffer){
+
+	public void addBuffer(SoundBuffer buffer) {
 		soundBufferList.add(buffer);
 	}
-	
-	public void cleanup(){
-		for (SoundSource source :  soundSourceMap.values()){
+
+	public void cleanup() {
+		for (SoundSource source : soundSourceMap.values()) {
 			source.cleanup();
 		}
 		soundSourceMap.clear();
-		for (SoundBuffer buffer : soundBufferList){
+		for (SoundBuffer buffer : soundBufferList) {
 			buffer.cleanup();
 		}
 		soundBufferList.clear();
-		if(context != longNull){
+		if (context != Utils.longNull) {
 			alcDestroyContext(context);
-		} 
-		if (device != longNull){
+		}
+		if (device != Utils.longNull) {
 			alcCloseDevice(device);
 		}
 	}
 	
-	
+	private boolean nullChecker(Object a){
+		if (a != null){
+			return true;
+		}
+		return false;
+	}
+
 }

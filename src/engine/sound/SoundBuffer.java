@@ -11,8 +11,6 @@ import java.nio.ShortBuffer;
 import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.stb.STBVorbis.*;
 
-//import engine.sound.Utils;
-
 public class SoundBuffer {
 
 	private final int bufferID;
@@ -38,11 +36,10 @@ public class SoundBuffer {
 
 	private ShortBuffer readVorbis(String resource, int bufferSize, STBVorbisInfo info) throws Exception {
 		try (MemoryStack stack = MemoryStack.stackPush()) {
-			Long longNull = null;
 			vorbis = Utils.ioResourceToByteBuffer(resource, bufferSize);
 			IntBuffer error = stack.mallocInt(1);
 			long decoder = stb_vorbis_open_memory(vorbis, error, null);
-			if (decoder == longNull) {
+			if (decoder == Utils.longNull) {
 				throw new RuntimeException("Failed to open Ogg Vorbis file. Error: " + error.get(0));
 			}
 			stb_vorbis_get_info(decoder, info);

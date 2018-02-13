@@ -16,6 +16,9 @@ import org.lwjgl.BufferUtils;
 import static org.lwjgl.BufferUtils.*;
 
 public class Utils {
+	
+	public static Long longNull = null;
+	
 	public static FloatBuffer asFlippedFloatBuffer(float... values) {
 		FloatBuffer output = BufferUtils.createFloatBuffer(values.length);
 		output.put(values);
