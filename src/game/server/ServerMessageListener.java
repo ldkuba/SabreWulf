@@ -22,9 +22,9 @@ public class ServerMessageListener implements MessageListener
 		if(msg instanceof ConnectionMessage) {
 			ConnectionMessage m = (ConnectionMessage) msg;
 			if (server.isFreeGameInstance()) {
+
 				gameInstance = server.getFreeGameInstance();
 				source.setName(m.getName());
-				System.out.println(m.getName());
 				gameInstance.addPlayer(source);
 
 				LobbyConnectionResponse lobbyConn = new LobbyConnectionResponse();
@@ -33,14 +33,14 @@ public class ServerMessageListener implements MessageListener
 				server.sendTCP(lobbyConn, source);
 
 				LobbyUpdateMessage lobbyUpd = new LobbyUpdateMessage();
-				lobbyUpd.setPlayersInLobby(gameInstance.getPlayersInLobby());
+				lobbyUpd.setPlayersInLobby(gameInstance.getPlayerPayload());
 				server.sendTCP(lobbyUpd, source);
 			}
 			else{
-				LobbyConnectionResponse scrm = new LobbyConnectionResponse();
-				scrm.setAccepted(false);
-				scrm.setMessage("Server is full");
-				server.sendTCP(scrm, source);
+				LobbyConnectionResponse lobbyConn = new LobbyConnectionResponse();
+				lobbyConn.setAccepted(false);
+				lobbyConn.setMessage("Server is full");
+				server.sendTCP(lobbyConn, source);
 			}
 		}
 

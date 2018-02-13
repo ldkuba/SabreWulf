@@ -1,20 +1,20 @@
 package game.networking;
 
 import engine.common_net.AbstractMessage;
-import engine.server.core.Player;
+import engine.server.core.PlayerPayload;
 
 import java.util.ArrayList;
 
 
 public class LobbyUpdateMessage extends AbstractMessage {
 
-    ArrayList<Player> playersInLobby;
+    ArrayList<PlayerPayload> playersInLobby;
 
-    public void setPlayersInLobby(ArrayList<Player> playersInLobby) {
+    public void setPlayersInLobby(ArrayList<PlayerPayload> playersInLobby) {
         this.playersInLobby = playersInLobby;
     }
 
-    public ArrayList<Player> getPlayersInLobby() {
+    public ArrayList<PlayerPayload> getPlayersInLobby() {
         return playersInLobby;
     }
 }

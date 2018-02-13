@@ -1,6 +1,7 @@
 package game.server;
 
 import engine.server.core.Player;
+import engine.server.core.PlayerPayload;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -14,7 +15,6 @@ public class GameInstance {
         playersInLobby = new ArrayList<>(MAX_SIZE_GAME_SIZE);
     }
 
-
     public ArrayList<Player> getPlayersInLobby(){
         return playersInLobby;
     }
@@ -25,6 +25,15 @@ public class GameInstance {
 
     public boolean isFull(){
         return (playersInLobby.size()>=6);
+    }
+
+    public ArrayList<PlayerPayload> getPlayerPayload(){
+        ArrayList<PlayerPayload> pld = new ArrayList<PlayerPayload>();
+        for(int i=0; i<playersInLobby.size(); i++){
+            pld.add(playersInLobby.get(i).getPayload());
+        }
+        return pld;
+
     }
 
 
