@@ -4,7 +4,8 @@ import engine.common_net.AbstractMessage;
 import engine.common_net.MessageListener;
 import engine.server.core.Player;
 import game.networking.ConnectionMessage;
-import game.networking.ServerConnectionReplyMessage;
+import game.networking.LobbyConnectionResponse;
+import game.networking.LobbyUpdateMessage;
 
 public class ServerMessageListener implements MessageListener
 {
@@ -26,14 +27,17 @@ public class ServerMessageListener implements MessageListener
 				System.out.println(m.getName());
 				gameInstance.addPlayer(source);
 
-				ServerConnectionReplyMessage scrm = new ServerConnectionReplyMessage();
-				scrm.setAccepted(true);
-				scrm.setPlayersInLobby(gameInstance.getPlayers());
-				scrm.setMessage("Welcome to the server");
-				server.sendTCP(scrm, source);
+				LobbyConnectionResponse lobbyConn = new LobbyConnectionResponse();
+				lobbyConn.setAccepted(true);
+				lobbyConn.setMessage("Welcome to the server");
+				server.sendTCP(lobbyConn, source);
+
+				LobbyUpdateMessage lobbyUpd = new LobbyUpdateMessage();
+				lobbyUpd.setPlayersInLobby(gameInstance.getPlayers());
+				server.sendTCP(lobbyUpd, source);
 			}
 			else{
-				ServerConnectionReplyMessage scrm = new ServerConnectionReplyMessage();
+				LobbyConnectionResponse scrm = new LobbyConnectionResponse();
 				scrm.setAccepted(false);
 				scrm.setMessage("Server is full");
 				server.sendTCP(scrm, source);

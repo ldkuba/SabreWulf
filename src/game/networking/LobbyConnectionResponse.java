@@ -5,14 +5,11 @@ import engine.server.core.Player;
 
 import java.util.HashMap;
 
-public class ServerConnectionReplyMessage extends AbstractMessage {
+public class LobbyConnectionResponse extends AbstractMessage {
     private boolean accepted;
     private String message;
-    private HashMap<Integer, Player> playersInLobby;
 
-
-    public ServerConnectionReplyMessage(){
-
+    public LobbyConnectionResponse(){
     }
 
     public void setAccepted(boolean accepted) {
@@ -31,11 +28,4 @@ public class ServerConnectionReplyMessage extends AbstractMessage {
         return accepted;
     }
 
-    public void setPlayersInLobby(HashMap<Integer, Player> playersInLobby) {
-        this.playersInLobby = playersInLobby;
-    }
-
-    public HashMap<Integer, Player> getPlayersInLobby() {
-        return playersInLobby;
-    }
 }
