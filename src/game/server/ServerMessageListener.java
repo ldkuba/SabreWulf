@@ -28,6 +28,7 @@ public class ServerMessageListener implements MessageListener
 
 				ServerConnectionReplyMessage scrm = new ServerConnectionReplyMessage();
 				scrm.setAccepted(true);
+				scrm.setPlayersInLobby(gameInstance.getPlayers());
 				scrm.setMessage("Welcome to the server");
 				server.sendTCP(scrm, source);
 			}
