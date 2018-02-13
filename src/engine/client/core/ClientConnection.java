@@ -27,7 +27,7 @@ public class ClientConnection extends Thread{
 
 	public void run(){
 		try {
-			CSSocket = new Socket("localhost",4445);
+			CSSocket = new Socket("localhost",4446);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -11,13 +11,11 @@ public class Player {
     private String name;
     private boolean isReady=false;
     private int characterSelection = -1;
-    private int slot;
     private BlockingQueue<AbstractMessage> pbq;
 
     public Player(Socket socket){
         this.socket=socket;
         pbq = new LinkedBlockingQueue<AbstractMessage>(1000);
-
     }
 
     public Socket getSocket() {
@@ -42,23 +40,16 @@ public class Player {
     }
 
     public AbstractMessage takeMessage() {
-
         try {
             return pbq.take();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         return null;
-
     }
 
     public void addMsg(AbstractMessage msg){
             pbq.add(msg);
-    }
-
-    synchronized public int getMsgCount(){
-        return pbq.size();
     }
 
     public void setReady(boolean ready){
@@ -67,13 +58,5 @@ public class Player {
 
     public boolean getReady(){
         return isReady;
-    }
-
-    public int getSlot() {
-        return slot;
-    }
-
-    public void setSlot(int slot) {
-        this.slot = slot;
     }
 }

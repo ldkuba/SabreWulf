@@ -74,7 +74,6 @@ public class Server
 			if(!p.equals(players.get(i)))
 			sendTCP(msg, players.get(i));
 		}
-
 	}
 
 	public void broadcastTCP(AbstractMessage msg){
@@ -100,6 +99,7 @@ public class Server
 	{
 		Server serverMain = new Server();
 	}
+
 	public boolean isFreeGameInstance(){
 		if(games.size()<=10){
 			for (int i = 0; i < games.size(); i++) {

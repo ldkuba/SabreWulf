@@ -1,7 +1,6 @@
 package game.states;
 
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 
 import engine.application.Application;
 import engine.graphics.texture.Texture;
@@ -13,8 +12,6 @@ import engine.maths.Vec3;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.Main;
-import game.method.UpdateLobbyPlayer;
-import game.networking.UpdateLobbyPlayerMessage;
 
 public class LobbyState extends AbstractState
 {
@@ -96,10 +93,7 @@ public class LobbyState extends AbstractState
 				if(characterChoice.getSelectedId() != -1)
 				{
 					//Lock in champ and notify server that player is ready
-					UpdateLobbyPlayerMessage msg = new UpdateLobbyPlayerMessage();
-					msg.setSelection(characterChoice.getSelectedId());
-					app.getClient().sendTCP(msg);
-					
+
 					lockInButton.setEnabled(false);
 					characterChoice.setEnabled(false);
 				}

@@ -10,7 +10,6 @@ import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.Main;
 import game.networking.ConnectionMessage;
-import game.networking.ExampleMessage;
 
 public class MenuState extends AbstractState
 {
