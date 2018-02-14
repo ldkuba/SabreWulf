@@ -5,20 +5,24 @@ package game.classes.range;
  * RangeDPSIntel Intelligence = 130
  */
 
-public class RangeDPS extends RangeClass{
+public class RangeDPS extends RangeClass {
 
 	private int exIntell = 40;
 	private int exStrength = 60;
 	private int exDefence = 30;
-	private int exHealth = 30;
-	
-	//Intelligent based
+	private int exVitality = 30;
+
+	// Intelligent based
 	public RangeDPS(StatType type) {
 		addExIntelligence(exIntell);
 		addExStrength(exStrength);
 		addExDefence(exDefence);
-		addExHealth(exHealth);
+		addExVitality(exVitality);
 		setStatType(type);
 	}
-	
+
+	public void attack() {
+
+	}
+
 }

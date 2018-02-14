@@ -7,15 +7,17 @@ import engine.entity.component.TransformComponent;
 import engine.graphics.renderer.Renderer2D;
 import engine.graphics.texture.Texture;
 import engine.maths.Mat4;
+import game.classes.AbstractClasses;
 
 //Will contain an Entity object with components and holds data of it's own profile (health, status, position etc)
-public class Player
-{
+public class Player {
 
 	private int id;
 	private String name;
-	private int health;
+	private AbstractClasses charClass;
+	private int vitality;
 	private int energy;
+
 	private float movementSpeed = 2.0f;
 	String status;
 	private boolean isLocal;
@@ -26,8 +28,7 @@ public class Player
 	public TransformComponent transform;
 	public SpriteComponent sprite;
 
-	public Player(int id, String name, boolean isLocal, Texture texture)
-	{
+	public Player(int id, String name, boolean isLocal, Texture texture) {
 		this.id = id;
 		this.name = name;
 		this.isLocal = isLocal;
@@ -40,58 +41,55 @@ public class Player
 		player.addComponent(transform);
 	}
 
-	public int getHealth()
-	{
-		return health;
+	public AbstractClasses getCharClass() {
+		return charClass;
 	}
 
-	public void setHealth(int hp)
-	{
-		health = hp;
+	public void setCharClass(AbstractClasses charClass) {
+		this.charClass = charClass;
 	}
 
-	public int getEnergy()
-	{
+	public int getVitality() {
+		return vitality;
+	}
+
+	public void setVitality(int hp) {
+		vitality = hp;
+	}
+
+	public int getEnergy() {
 		return energy;
 	}
 
-	public void setEnergy(int mana)
-	{
+	public void setEnergy(int mana) {
 		energy = mana;
 	}
 
-	public String getStatus()
-	{
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(String newStatus)
-	{
+	public void setStatus(String newStatus) {
 		status = newStatus;
 	}
 
-	public boolean checkLocal()
-	{
+	public boolean checkLocal() {
 		return isLocal;
 	}
 
-	public int checkID()
-	{
+	public int checkID() {
 		return id;
 	}
 
-	public void render(Renderer2D renderer, Mat4 transformation)
-	{
+	public void render(Renderer2D renderer, Mat4 transformation) {
 		sprite.submit(renderer, transformation);
 	}
-	
-	public void update()
-	{
-		//Follow the path
+
+	public void update() {
+		// Follow the path
 	}
 
-	public Entity getEntity()
-	{
+	public Entity getEntity() {
 		return player;
 	}
 }

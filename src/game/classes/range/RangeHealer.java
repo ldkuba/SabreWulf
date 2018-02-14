@@ -5,21 +5,23 @@ package game.classes.range;
  * RangeHealer Intelligence: 170
  */
 
-public class RangeHealer extends RangeClass{
+public class RangeHealer extends RangeClass {
 
 	private int exIntell = 80;
 	private int exStrength;
 	private int exDefence;
-	privagte int exHealth;
-	
-	
-	
-	public RangeHealer(StatType type)
+	private int exVitality;
+
+	public RangeHealer(StatType type) {
 		addExIntelligence(exIntell);
 		addExStrength(exStrength);
 		addExDefence(exDefence);
-		addExHealth(exHealth);
+		addExVitality(exVitality);
 		setStatType(type);
 	}
-	
+
+	public void heal() {
+
+	}
+
 }

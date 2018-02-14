@@ -5,20 +5,19 @@ package game.classes.melee;
  * MeleeTank Health: 200
  */
 
-public class MeleeTank extends MeleeClass{
+public class MeleeTank extends MeleeClass {
 
-	private int exHealth = 100;
+	private int exVitality = 100;
 	private int exIntell;
 	private int exStrength;
 	private int exDefence;
-	
+
 	public MeleeTank(StatType type) {
 		addExIntelligence(exIntell);
 		addExStrength(exStrength);
 		addExDefence(exDefence);
-		addExHealth(exHealth);
+		addExVitality(exVitality);
 		setStatType(type);
 	}
-	
-	
+
 }
