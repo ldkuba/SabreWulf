@@ -2,8 +2,6 @@ package game.player;
 
 import java.util.ArrayList;
 
-import engine.graphics.renderer.Renderer2D;
-import engine.maths.Mat4;
 import engine.scene.Scene;
 
 //For managing which players are issued which instructions

@@ -90,7 +90,6 @@ public class Player
 	public void update()
 	{
 		//Follow the path
-		
 	}
 
 	public Entity getEntity()
