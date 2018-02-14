@@ -24,6 +24,7 @@ public class ServerConnectionListener implements ConnectionListener
 		server.players.remove(player);
 		try {
 			player.getSocket().close();
+			server.removePlayer(player);
 		} catch (IOException e) {
 			System.out.println("EXCEPTION PLAYER LEAVING");
 		}
