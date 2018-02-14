@@ -8,6 +8,12 @@ import engine.graphics.renderer.Renderer2D;
 import engine.graphics.texture.Texture;
 import engine.maths.Mat4;
 import game.classes.AbstractClasses;
+import game.classes.AbstractClasses.ClassType;
+import game.classes.AbstractClasses.StatType;
+import game.classes.melee.MeleeDPS;
+import game.classes.melee.MeleeTank;
+import game.classes.range.RangeDPS;
+import game.classes.range.RangeHealer;
 
 //Will contain an Entity object with components and holds data of it's own profile (health, status, position etc)
 public class Player {
@@ -28,10 +34,25 @@ public class Player {
 	public TransformComponent transform;
 	public SpriteComponent sprite;
 
-	public Player(int id, String name, boolean isLocal, Texture texture) {
+	public Player(int id, String name, boolean isLocal, Texture texture, ClassType selectedClass,
+			StatType selectedStat) {
 		this.id = id;
 		this.name = name;
 		this.isLocal = isLocal;
+
+		switch (selectedClass) {
+		case RANGEDPS:
+			charClass = new RangeDPS(selectedStat);
+		case RANGEHEALER:
+			charClass = new RangeHealer(selectedStat);
+		case MELEEDPS:
+			charClass = new MeleeDPS(selectedStat);
+		case MELEETANK:
+			charClass = new MeleeTank(selectedStat);
+		}
+
+		this.vitality = charClass.getVitality();
+		this.energy = charClass.getEnergy();
 
 		player = new Entity(0, "Player " + name);
 
@@ -45,24 +66,20 @@ public class Player {
 		return charClass;
 	}
 
-	public void setCharClass(AbstractClasses charClass) {
-		this.charClass = charClass;
+	public void setVitality(int hp) {
+		vitality = hp;
 	}
 
 	public int getVitality() {
 		return vitality;
 	}
 
-	public void setVitality(int hp) {
-		vitality = hp;
+	public void setEnergy(int mana) {
+		energy = mana;
 	}
 
 	public int getEnergy() {
 		return energy;
-	}
-
-	public void setEnergy(int mana) {
-		energy = mana;
 	}
 
 	public String getStatus() {

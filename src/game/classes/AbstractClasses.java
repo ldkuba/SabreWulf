@@ -3,33 +3,40 @@ package game.classes;
 public class AbstractClasses {
 
 	private int vitality = 0;
+	private int energy = 0;
 	private int intelligence = 0;
 	private int strength = 0;
 	private int defence = 0;
+	private int attackDmg = 0;
+	private int healing = 0;
+	private int energyCost = 0;
 
 	private int exIntell;
 	private int exStrength;
 	private int exDefence;
+	private int exEnergy;
 	private int exVitality;
+	private int exAttackDmg;
+	private int exEnergyCost;
 
 	public enum StatType {
-		INTELL, STRENGTH, DEFENCE, VITALITY
+		INTELL, STRENGTH, DEFENCE, VITALITY, ATTACKDMG, ENERGYCOST, ENERGY
+	}
+
+	public enum ClassType {
+		RANGEDPS, RANGEHEALER, MELEEDPS, MELEETANK
 	}
 
 	public AbstractClasses() {
 
 	}
 
-	public void attack() {
-
-	}
-
-	public void takeDamage() {
-
-	}
-
 	public void setVitality(int vitality) {
 		this.vitality = vitality;
+	}
+
+	public void setEnergy(int energy) {
+		this.energy = energy;
 	}
 
 	public void setIntelligence(int intel) {
@@ -44,8 +51,24 @@ public class AbstractClasses {
 		this.defence = defence;
 	}
 
+	public void setAttack(int attackDmg) {
+		this.attackDmg = attackDmg;
+	}
+
+	public void setHealing(int healing) {
+		this.healing = healing;
+	}
+
+	public void setEnergyCost(int energyCost) {
+		this.energyCost = energyCost;
+	}
+
 	public int getVitality() {
 		return vitality;
+	}
+
+	public int getEnergy() {
+		return energy;
 	}
 
 	public int getIntelligence() {
@@ -58,6 +81,18 @@ public class AbstractClasses {
 
 	public int getDefence() {
 		return defence;
+	}
+
+	public int getAttackDmg() {
+		return attackDmg;
+	}
+
+	public int getHealing() {
+		return healing;
+	}
+
+	public int getEnergyCost() {
+		return energyCost;
 	}
 
 	public void addVitality(int exVitality) {
@@ -80,6 +115,18 @@ public class AbstractClasses {
 		defence = defence + exDefence;
 	}
 
+	public void addAttackDmg(int exAttackDmg) {
+		attackDmg = attackDmg + exAttackDmg;
+	}
+
+	public void addEnergyCost(int exEnergyCost) {
+		energyCost = energyCost + exEnergyCost;
+	}
+
+	public void addEnergy(int exEnergy) {
+		energy = energy + exEnergy;
+	}
+
 	public void addExVitality(int exVitality) {
 		this.exVitality = exVitality;
 	}
@@ -96,6 +143,18 @@ public class AbstractClasses {
 		this.exDefence = exDefence;
 	}
 
+	public void addExAttackDmg(int exAttackDmg) {
+		this.exAttackDmg = exAttackDmg;
+	}
+
+	public void addExEnergyCost(int exEnergyCost) {
+		this.exEnergyCost = exEnergyCost;
+	}
+
+	public void addExEnergy(int exEnergy) {
+		this.exEnergy = exEnergy;
+	}
+
 	public void setStatType(StatType type) {
 		switch (type) {
 		case INTELL:
@@ -106,6 +165,12 @@ public class AbstractClasses {
 			addDefence(exDefence);
 		case VITALITY:
 			addVitality(exVitality);
+		case ATTACKDMG:
+			addAttackDmg(exAttackDmg);
+		case ENERGYCOST:
+			addEnergyCost(exEnergyCost);
+		case ENERGY:
+			addEnergy(exEnergy);
 		}
 	}
 
@@ -123,5 +188,17 @@ public class AbstractClasses {
 
 	public static StatType getVitalityType() {
 		return StatType.VITALITY;
+	}
+
+	public static StatType getAttackDmgType() {
+		return StatType.ATTACKDMG;
+	}
+
+	public static StatType getEnergyCostType() {
+		return StatType.ENERGYCOST;
+	}
+
+	public static StatType getEnergyType() {
+		return StatType.ENERGY;
 	}
 }
