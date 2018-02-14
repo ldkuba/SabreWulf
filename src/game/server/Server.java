@@ -101,7 +101,6 @@ public class Server
 	}
 
 	public boolean isFreeGameInstance(){
-		System.out.println("Hello world");
 		if(games.size()<=10){
 			for (int i = 0; i < games.size(); i++) {
 				if(!games.get(i).isFull()){
