@@ -39,6 +39,7 @@ import engine.assets.AssetManager;
 import engine.gui.GUI;
 import engine.input.InputManager;
 import engine.maths.Vec2;
+import engine.sound.SoundManager;
 import engine.state.StateManager;
 import game.method.MethodExecutor;
 
@@ -54,6 +55,7 @@ public class Application
 	protected InputManager inputManager;
 	protected AssetManager assetManager;
 	protected GUI gui;
+	protected SoundManager soundManager;
 	
 	protected MethodExecutor methodExecutor;
 
@@ -70,6 +72,7 @@ public class Application
 		assetManager = new AssetManager();
 		gui = new GUI(this);
 		methodExecutor = new MethodExecutor();
+		soundManager = new SoundManager();
 		
 		setViewport(10.0f*(s_WindowSize.getX()/s_WindowSize.getY()), 10.0f);
 	}
@@ -120,9 +123,15 @@ public class Application
 		// Enable Antialiasing
 		GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 4);
 		// Make the window visible
-
 		glfwShowWindow(window);
-
+		
+		//try initialise sound manager
+		try {
+			soundManager.init();
+		} catch (Exception e) {
+			e.getMessage();
+		}
+		
 		GL.createCapabilities();
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_BLEND);
@@ -185,6 +194,7 @@ public class Application
 
 	public void cleanup()
 	{
+		soundManager.cleanup();
 		glfwFreeCallbacks(window);
 		glfwDestroyWindow(window);
 		// Terminate GLFW

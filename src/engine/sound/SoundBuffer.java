@@ -40,7 +40,7 @@ public class SoundBuffer {
 			IntBuffer error = stack.mallocInt(1);
 			long decoder = stb_vorbis_open_memory(vorbis, error, null);
 			if (decoder == Utils.longNull) {
-				throw new RuntimeException("Failed to open Ogg Vorbis file. Error: " + error.get(0));
+				throw new RuntimeException("Failed to open Vorbis file. Error: " + error.get(0));
 			}
 			stb_vorbis_get_info(decoder, info);
 			int channels = info.channels();
