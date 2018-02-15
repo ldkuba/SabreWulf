@@ -56,7 +56,6 @@ public class Client
 	public void stop()
 	{
 		try {
-			sendTCP(new QuitMessage());
 			connectClient.closeSocket();
 		}catch(IOException ex)
 		{
