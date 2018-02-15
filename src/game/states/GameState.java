@@ -1,12 +1,15 @@
 package game.states;
 
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.openal.AL11;
 
 import engine.application.Application;
 import engine.gui.components.ToggleButton;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
 import engine.scene.Scene;
+import engine.sound.Sound;
+import engine.sound.SoundManager;
 import engine.state.AbstractState;
 import game.Main;
 import game.map.Map;
@@ -22,6 +25,7 @@ public class GameState extends AbstractState
 	private PlayerController playerController;
 
 	private Map map;
+	private SoundManager soundMgr;
 
 	private int frame = 0;
 	private float second = 0;
@@ -35,6 +39,7 @@ public class GameState extends AbstractState
 		manager = new PlayerManager(scene);
 		playerController = new PlayerController(app, this);
 		map = new Map(scene);
+		soundMgr = new SoundManager();
 	}
 
 	@Override
@@ -54,6 +59,7 @@ public class GameState extends AbstractState
 	{		
 		scene.init();
 		app.getGui().init(scene);
+		soundMgr.init();
 		
 		button = new ToggleButton(20.0f, 20.0f, 10.0f, 10.0f, app.getAssetManager().getTexture("res/textures/testNoxus.png"), app.getAssetManager().getTexture("res/textures/background.png"))
 		{
@@ -68,6 +74,11 @@ public class GameState extends AbstractState
 		float aspectRatio = Application.s_WindowSize.getX()/Application.s_WindowSize.getY();
 		scene.getCamera().setProjectionMatrix(MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.1f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
+		
+		// set up background sound
+		this.soundMgr.init();
+		this.soundMgr.setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
+		Sound.setupSounds(soundMgr, "res/sounds/game.ogg", "game");
 	}
 
 	@Override

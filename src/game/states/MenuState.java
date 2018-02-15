@@ -24,7 +24,7 @@ public class MenuState extends AbstractState {
 	private Button settingsButton;
 	private Button exitButton;
 
-	//
+	//each state has its own sound manager
 	private final SoundManager soundMgr;
 
 	public MenuState(Main app) {
@@ -47,8 +47,6 @@ public class MenuState extends AbstractState {
 	public void init() {
 		scene.init();
 		app.getGui().init(scene);
-
-		//
 		soundMgr.init();
 
 		Texture menuBackgroundTexture = app.getAssetManager().getTexture("res/textures/mainmenu_background.png");
@@ -96,23 +94,10 @@ public class MenuState extends AbstractState {
 				MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.1f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
 
-		// sounds
-
+		// set up background sound
 		this.soundMgr.init();
 		this.soundMgr.setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
-		setupSounds();
-		// TODO Auto-generated catch block
-	}
-
-	//
-	private void setupSounds() {
-		SoundBuffer buffFire = new SoundBuffer("res/sounds/wolf.ogg");
-		soundMgr.addSoundBuffer(buffFire);
-		SoundSource sourceFire = new SoundSource(true, false);
-		sourceFire.setBuffer(buffFire.getBufferId());
-		soundMgr.addSoundSource("wolf", sourceFire);
-		sourceFire.play();
-		soundMgr.setListener(new SoundListener());
+		Sound.setupSounds(soundMgr, "res/sounds/menu.ogg", "menu");
 	}
 
 	@Override

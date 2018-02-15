@@ -3,6 +3,8 @@ package game.states;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
+import org.lwjgl.openal.AL11;
+
 import engine.application.Application;
 import engine.graphics.texture.Texture;
 import engine.gui.components.Button;
@@ -11,6 +13,8 @@ import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
 import engine.scene.Scene;
+import engine.sound.Sound;
+import engine.sound.SoundManager;
 import engine.state.AbstractState;
 import game.Main;
 import game.method.UpdateLobbyPlayer;
@@ -29,6 +33,9 @@ public class LobbyState extends AbstractState
 	private ArrayList<Sprite> playerAvatars;
 	
 	private int localPlayerIndex;
+	
+	//each state has its own sound manager
+	private final SoundManager soundMgr;
 
 	public LobbyState(Main app)
 	{
@@ -38,6 +45,8 @@ public class LobbyState extends AbstractState
 		characterAvatars = new ArrayList<>();
 		
 		localPlayerIndex = 0;
+
+		soundMgr = new SoundManager();
 	}
 
 	@Override
@@ -57,6 +66,7 @@ public class LobbyState extends AbstractState
 	{
 		scene.init();
 		app.getGui().init(scene);
+		soundMgr.init();
 		
 		Texture lobbyBackgroundTexture = app.getAssetManager().getTexture("res/textures/lobby_background.png");
 		lobbyBackground = new Sprite(0, 0, 100.0f, 100.0f, lobbyBackgroundTexture);
@@ -140,6 +150,11 @@ public class LobbyState extends AbstractState
 		float aspectRatio = Application.s_WindowSize.getX()/Application.s_WindowSize.getY();
 		scene.getCamera().setProjectionMatrix(MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.1f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
+		
+		// set up background sound
+		this.soundMgr.init();
+		this.soundMgr.setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
+		Sound.setupSounds(soundMgr, "res/sounds/lobby.ogg", "lobby");
 	}
 
 	@Override
