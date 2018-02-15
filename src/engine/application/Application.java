@@ -40,7 +40,6 @@ import engine.gui.GUI;
 import engine.input.InputManager;
 import engine.maths.Vec2;
 import engine.state.StateManager;
-import game.method.MethodExecutor;
 
 /*
  * Initialise and terminate the application window

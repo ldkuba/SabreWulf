@@ -11,8 +11,6 @@ import game.client.states.MenuState;
  */
 
 public class Main extends Application {
-
-	private Client client;
 	
 	public static MenuState menuState;
 	public static LobbyState lobbyState;
@@ -30,30 +28,11 @@ public class Main extends Application {
 		stateManager.addState(menuState);
 		stateManager.addState(lobbyState);
 		stateManager.addState(gameState);
-
-		client = new Client(this);
-
+		
 		// set starting state
 		stateManager.setCurrentState(menuState);
 	}
-	
-	/*public PlayerManager getPlayerManager(){
-		return playerManager;
-	}
-	*/
 
-	public Client getClient()
-	{
-		return this.client;
-	}
-	
-	@Override
-	public void cleanup()
-	{
-		super.cleanup();
-		client.stop();
-	}
-	
 	public static void main(String[] args) {
 		Main game = new Main();
 		game.run();
