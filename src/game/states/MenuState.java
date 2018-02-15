@@ -12,8 +12,7 @@ import engine.scene.Scene;
 import engine.state.AbstractState;
 import engine.sound.*;
 import game.Main;
-import game.networking.ConnectionMessage;
-import game.networking.ExampleMessage;
+import game.networking.LobbyConnectionMessage;
 
 public class MenuState extends AbstractState {
 	private Main app;
@@ -58,10 +57,11 @@ public class MenuState extends AbstractState {
 		Texture playButtonReleasedTexture = app.getAssetManager().getTexture("res/textures/play_button_released.png");
 		Texture playButtonPressedTexture = app.getAssetManager().getTexture("res/textures/play_button_pressed.png");
 		playButton = new Button(45.0f, 90.0f, 10.0f, 6.0f, playButtonPressedTexture, playButtonReleasedTexture) {
+			
 			@Override
-			public void onClick() {
-				System.out.println("Clicked play");
-				ConnectionMessage cnm = new ConnectionMessage();
+			public void onClick()
+			{
+				LobbyConnectionMessage cnm = new LobbyConnectionMessage();
 				cnm.setName("bob");
 				app.getClient().sendTCP(cnm);
 			}
@@ -87,6 +87,7 @@ public class MenuState extends AbstractState {
 			@Override
 			public void onClick() {
 				app.exit();
+				app.getClient().stop();
 			}
 		};
 		app.getGui().add(exitButton);

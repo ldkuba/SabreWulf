@@ -1,6 +1,7 @@
 package engine.client.tcp;
 
-import engine.server.core.Player;
+import engine.common_net.AbstractMessage;
+import engine.server.core.QuitMessage;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -22,15 +23,20 @@ public class ClientSenderTCP extends Thread{
 	public void run(){
 
 		try {
-
 			oos = new ObjectOutputStream(CSSocket.getOutputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		while(!CSSocket.isClosed()){
 			try {
-				Thread.currentThread().sleep(100);
-				oos.writeObject(client.abs.take());
+				AbstractMessage msg = client.abs.take();
+				if(msg instanceof QuitMessage){
+					CSSocket.close();
+				}
+				else {
+					oos.writeObject(msg);
+				}
+
 			} catch (SocketException se){
 				try
 				{

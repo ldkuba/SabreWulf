@@ -3,8 +3,10 @@ package engine.server.udp;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.net.SocketException;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -25,65 +27,61 @@ import engine.common_net.Serialization;
 
 public class ServerBroadcasterThreadUDP extends Thread{
 	
-	private static MulticastSocket MCSocket;
-	private String groupID;
-	private static InetAddress group;
-	private int groupPort;
+	private static DatagramSocket BCSocket;
 	
+	private InetAddress clientIP;
+	
+	private int portBroadcaster;
+	
+	protected static ServerUDPManager ServerQueue = new ServerUDPManager();
 	private Serialization NetTools = new Serialization();
 	
-	ServerBroadcasterThreadUDP(String groupID, int groupPort) {
-		this.groupID = groupID;
-		this.groupPort = groupPort;
+	ServerBroadcasterThreadUDP(int portBroadcaster) {
+		this.portBroadcaster = portBroadcaster;
 	}
 	
 	
     public void run(){
-    	//Get access to the new state packets.
-    	ServerUDPManager ServerQueue = new ServerUDPManager();
-    	try {
-			MCSocket = new MulticastSocket(groupPort);
-			group = InetAddress.getByName(groupID);
-			MCSocket.joinGroup(group);
-			System.out.println("ServerBroadcaster: Activated.");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
+
+    	startBroadcaster();
+    	
     	//Send updates to all players.
     	while (true) {
-    		if(!ServerUDPManager.queueGameStates.isEmpty()) {
+    		if(!/*Queue to get messages*/.isEmpty()) {
     			AbstractMessage gameState = ServerUDPManager.queueGameStates.poll();
     			byte[] gameStateByte = NetTools.serialize(gameState);
-    			multicast(gameStateByte);
+    			broadcast(gameStateByte);
     			System.out.println("Broadcast sent");
     		}
     	}
     }
     
-    //Send packet to all clients connected to the group.
-    public void multicast(byte[] buffer) {
-    	DatagramPacket multiPacket = new DatagramPacket(buffer, buffer.length, group, groupPort);
+    public void startBroadcaster() {
     	try {
-			MCSocket.send(multiPacket);
-		} catch (IOException e) {
+    		portBroadcaster = ServerQueue.getBroadcastPort();
+			BCSocket = new DatagramSocket();
+		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
     
-    public void closeMulticast() {
-    	try {
-    		MCSocket.close();
-			MCSocket.leaveGroup(group);
-			System.out.println("Multicast close.");
-			return;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
+    public void broadcast(byte[] buffer) {
+    	byte[] gameBuffer = buffer;
+    	for(int i = 0; i < ServerUDPManager.Players.size(); i++) {
+    		InetAddress clientIP = ServerUDPManager.Players.get(i).getSocket().getInetAddress();
+    		DatagramPacket multiPacket = new DatagramPacket(gameBuffer, gameBuffer.length, clientIP, portBroadcaster);
+    		try {
+				BCSocket.send(multiPacket);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    }
+    
+    public void closeBroadcast() {
+    	BCSocket.close();
     }
 
 }

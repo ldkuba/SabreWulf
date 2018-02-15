@@ -3,77 +3,62 @@ package engine.server.core;
 import engine.common_net.AbstractMessage;
 import game.networking.PeerList;
 
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.concurrent.*;
 
-public class Player {
+public class Player implements Serializable {
+    private PlayerPayload payload;
     private Socket socket;
-    private String name;
-    private boolean isReady=false;
-    private int characterSelection = -1;
-    private int slot;
     private BlockingQueue<AbstractMessage> pbq;
 
     public Player(Socket socket){
         this.socket=socket;
-        pbq = new LinkedBlockingQueue<AbstractMessage>(1000);
-
+        pbq = new LinkedBlockingQueue<>(1000);
+        payload = new PlayerPayload();
     }
 
     public Socket getSocket() {
         return socket;
     }
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-    
-    public void setCharacterSelection(int selection)
-    {
-    	characterSelection = selection;
-    }
-    
-    public int getCharacterSelection()
-    {
-    	return characterSelection;
-    }
 
     public AbstractMessage takeMessage() {
-
         try {
             return pbq.take();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         return null;
-
     }
-
     public void addMsg(AbstractMessage msg){
             pbq.add(msg);
     }
 
-    synchronized public int getMsgCount(){
-        return pbq.size();
+    public String getName(){
+        return payload.getName();
+    }
+
+    public void setName(String name){
+        payload.setName(name);
     }
 
     public void setReady(boolean ready){
-        isReady=ready;
+        payload.setReady(ready);
     }
 
     public boolean getReady(){
-        return isReady;
+        return payload.getReady();
     }
 
-    public int getSlot() {
-        return slot;
+    public int getChar(){
+        return payload.getCharacterSelection();
     }
 
-    public void setSlot(int slot) {
-        this.slot = slot;
+    public void setChar(int character){
+        payload.setCharacterSelection(character);
+    }
+
+    public PlayerPayload getPayload() {
+        return payload;
     }
 }

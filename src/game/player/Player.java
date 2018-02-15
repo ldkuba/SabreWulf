@@ -8,6 +8,8 @@ import engine.graphics.renderer.Renderer2D;
 import engine.graphics.texture.Texture;
 import engine.maths.Mat4;
 
+import java.io.Serializable;
+
 //Will contain an Entity object with components and holds data of it's own profile (health, status, position etc)
 public class Player
 {
@@ -88,7 +90,6 @@ public class Player
 	public void update()
 	{
 		//Follow the path
-		
 	}
 
 	public Entity getEntity()
