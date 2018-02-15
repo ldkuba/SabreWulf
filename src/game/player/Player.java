@@ -7,6 +7,7 @@ import engine.entity.component.TransformComponent;
 import engine.graphics.renderer.Renderer2D;
 import engine.graphics.texture.Texture;
 import engine.maths.Mat4;
+import game.classes.AbstractClasses;
 
 //Will contain an Entity object with components and holds data of it's own profile (health, status, position etc)
 public class Player
@@ -17,7 +18,8 @@ public class Player
 	private int health;
 	private int energy;
 	private float movementSpeed = 2.0f;
-	String status;
+	private String status;
+	private AbstractClasses role;
 	private boolean isLocal;
 
 	private Path path;
