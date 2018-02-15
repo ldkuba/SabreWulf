@@ -2,7 +2,7 @@ package engine.server.tcp;
 
 import engine.common_net.AbstractMessage;
 import engine.server.core.Player;
-import game.server.Server;
+import game.server.GameServer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,10 +10,10 @@ import java.io.ObjectInputStream;
 public class ServerListenerTCP extends Thread{
     ObjectInputStream ois = null;
     Player player;
-    Server server;
-    public ServerListenerTCP(Player player, Server server) {
+    GameServer gameServer;
+    public ServerListenerTCP(Player player, GameServer gameServer) {
         this.player = player;
-        this.server = server;
+        this.gameServer = gameServer;
     }
     public void run(){
         try {
@@ -23,11 +23,11 @@ public class ServerListenerTCP extends Thread{
         }
         while(!player.getSocket().isClosed()){
             try {
-                server.notifyMessageListeners((AbstractMessage) ois.readObject(), player);
+                gameServer.notifyMessageListeners((AbstractMessage) ois.readObject(), player);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e){
-                server.notifyConnectionListenersDisconnected(player);
+                gameServer.notifyConnectionListenersDisconnected(player);
             }
 
         }

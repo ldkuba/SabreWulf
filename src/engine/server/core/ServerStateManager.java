@@ -1,12 +1,11 @@
 package engine.server.core;
 
-import game.networking.PeerList;
-import game.server.Server;
+import game.server.GameServer;
 
 public class ServerStateManager extends Thread {
-    private Server server;
-    public ServerStateManager(Server server){
-        this.server = server;
+    private GameServer gameServer;
+    public ServerStateManager(GameServer gameServer){
+        this.gameServer = gameServer;
     }
 
     public void run(){
@@ -17,9 +16,9 @@ public class ServerStateManager extends Thread {
              } catch (InterruptedException e) {
                  e.printStackTrace();
              }
-             if(server.getNoPlayers()>0){
+             if(gameServer.getNoPlayers()>0){
                 try {
-                    //server.broadcastTCP(new PeerList(server.getNoPlayers()));
+                    //gameServer.broadcastTCP(new PeerList(gameServer.getNoPlayers()));
                     Thread.currentThread().sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

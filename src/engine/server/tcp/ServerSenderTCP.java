@@ -2,19 +2,18 @@ package engine.server.tcp;
 
 import engine.common_net.AbstractMessage;
 import engine.server.core.Player;
-import engine.server.core.QuitMessage;
-import game.server.Server;
-
+import game.networking.QuitMessage;
+import game.server.GameServer;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 public class ServerSenderTCP extends Thread{
     Player player;
-    Server server;
+    GameServer gameServer;
     ObjectOutputStream oos;
-    public ServerSenderTCP(Player player, Server server){
+    public ServerSenderTCP(Player player, GameServer gameServer){
         this.player = player;
-        this.server = server;
+        this.gameServer = gameServer;
     }
 
     public void run(){
@@ -31,7 +30,7 @@ public class ServerSenderTCP extends Thread{
                 AbstractMessage msg = player.takeMessage();
                 if(msg instanceof QuitMessage){
                     player.getSocket().close();
-                    server.removePlayer(player);
+                    gameServer.removePlayer(player);
                     oos.close();
                 }
                 else {

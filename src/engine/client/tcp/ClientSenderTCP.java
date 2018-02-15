@@ -1,7 +1,7 @@
 package engine.client.tcp;
 
 import engine.common_net.AbstractMessage;
-import engine.server.core.QuitMessage;
+import game.networking.QuitMessage;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

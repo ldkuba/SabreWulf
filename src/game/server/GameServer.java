@@ -3,14 +3,13 @@ package game.server;
 import java.util.ArrayList;
 
 import engine.common_net.AbstractMessage;
-import game.networking.PeerList;
-import engine.server.core.GameServer;
+import engine.server.core.Server;
 import engine.server.core.Player;
 import engine.server.core.ServerStateManager;
 
-public class Server
+public class GameServer
 {
-	private GameServer gameServer;
+	private Server server;
 
 	private ServerConnectionListener connectionListener;
 	private ServerMessageListener messageListener;
@@ -33,16 +32,16 @@ public class Server
 		players.remove(player);
 	}
 
-	public Server()
+	public GameServer()
 	{
 
 		connectionListener = new ServerConnectionListener(this);
 		messageListener = new ServerMessageListener(this);
 		players = new ArrayList<Player>(60);
 		games = new ArrayList<GameInstance>(5);
-		gameServer = new GameServer(this);
-		gameServer.setName("GAME");
-		gameServer.start();
+		server = new Server(this);
+		server.setName("GAME");
+		server.start();
 		games.add(new GameInstance());
 
 		smg = new ServerStateManager(this);
@@ -77,20 +76,20 @@ public class Server
 
 
 	public void startUDPManager() {
-		//gameServer.startUDPManager();
+		//server.startUDPManager();
 	}
 	
 	public void sendUDP(AbstractMessage msg) // SEND OR BROADCAST, WHATEVER YOU WANNA CALL IT
 	{
 		//startUDPManager should be called before sending any UDP packets.
 		
-		// TODO gameServer.sendUDP(msg);
-		//gameServer.sendUDP(msg);
+		// TODO server.sendUDP(msg);
+		//server.sendUDP(msg);
 	}
 	
 	public static void main(String[] args)
 	{
-		Server serverMain = new Server();
+		GameServer gameServerMain = new GameServer();
 	}
 
 	public boolean isFreeGameInstance(){

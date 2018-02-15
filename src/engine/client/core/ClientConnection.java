@@ -20,7 +20,7 @@ public class ClientConnection extends Thread{
 	private ClientReceiverTCP creceiver = null;
 
 	
-	private Socket CSSocket=null; //Client-Server Socket TCP
+	private Socket CSSocket=null; //Client-GameServer Socket TCP
 
 	public void run(){
 		try {

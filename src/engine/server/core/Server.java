@@ -4,26 +4,25 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import engine.common_net.AbstractMessage;
-import game.server.Server;
+import game.server.GameServer;
 
-public class GameServer extends Thread{
+public class Server extends Thread{
 
-    private static ServerSocket coreSocket; // Server Socket, named core (it's only one there)
+    private static ServerSocket coreSocket; // GameServer Socket, named core (it's only one there)
     private static Socket SCSocket; //(SERVER_CLIENT_SOCKET)
     private static CoreClientThread clientCoreThread;
     
    // private static ServerUDPManager serverUDPManager = null;	//Receives and sends UDP packets.
 
-    private Server server; //For notifying listeners
+    private GameServer gameServer; //For notifying listeners
     
-    public GameServer(Server gs)
+    public Server(GameServer gs)
     {
-    	this.server = gs;
+    	this.gameServer = gs;
     }
 
     public void run(){
-        // Creating a server socket on some random port for TCP
+        // Creating a gameServer socket on some random port for TCP
         try {
             coreSocket = new ServerSocket(4446);
         } catch (IOException e) {
@@ -36,9 +35,9 @@ public class GameServer extends Thread{
             while(true) {
                 SCSocket = coreSocket.accept();
                 Player player = new Player(SCSocket);
-                server.addPlayer(player);
-                server.notifyConnectionListenersConnected(player);
-                clientCoreThread = new CoreClientThread(player, server);
+                gameServer.addPlayer(player);
+                gameServer.notifyConnectionListenersConnected(player);
+                clientCoreThread = new CoreClientThread(player, gameServer);
                 clientCoreThread.setName("player_"+SCSocket.getInetAddress());
                 clientCoreThread.start();
             }

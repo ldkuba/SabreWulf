@@ -30,7 +30,7 @@ public class ClientSenderUDP extends Thread{
 	private static DatagramSocket CSocket;
 	private int MAX_PACKET_SIZE;
 	
-	private String testMessage = "Hello, Server";
+	private String testMessage = "Hello, GameServer";
 	
 	private Serialization NetTools = new Serialization();
 	
@@ -46,7 +46,7 @@ public class ClientSenderUDP extends Thread{
 		serverIP = InetAddress.getByName(serverAddress);
 		System.out.println("Client UDP Sender: Activated.");
 		} catch (IOException e){
-			System.err.println("Client UDP Sender: DEACTIVATED -> Server or port unavailable.");
+			System.err.println("Client UDP Sender: DEACTIVATED -> GameServer or port unavailable.");
 			System.err.println("Closing Client Sender.");
 			return;
 		}

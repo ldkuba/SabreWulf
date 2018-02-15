@@ -10,9 +10,9 @@ import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
 import engine.scene.Scene;
-import engine.server.core.LobbyQuitMessage;
 import engine.state.AbstractState;
 import game.Main;
+import game.networking.LobbyQuitMessage;
 import game.networking.LockInMessage;
 
 public class LobbyState extends AbstractState
