@@ -11,6 +11,7 @@ public class MeleeClass extends AbstractClasses {
 	private int strength = 130;
 	private int attackDmg = 10;
 	private int energyCost = 10;
+	private float baseRange = 2.0f;
 
 	public MeleeClass() {
 		setVitality(vitality);
@@ -20,6 +21,7 @@ public class MeleeClass extends AbstractClasses {
 		setStrength(strength);
 		setAttack(attackDmg);
 		setEnergyCost(energyCost);
+		setBaseRange(baseRange);
 	}
 
 }
