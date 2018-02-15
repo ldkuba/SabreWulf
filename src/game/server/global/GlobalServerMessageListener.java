@@ -36,7 +36,6 @@ public class GlobalServerMessageListener implements MessageListener {
         if(msg instanceof LobbyConnectionRequestMessage) {
             LobbyConnectionRequestMessage m = (LobbyConnectionRequestMessage) msg;
             if (gameServer.isFreeGameInstance()) {
-
                 gameInstance = gameServer.getFreeGameInstance();
                 source.setName(m.getName());
                 gameInstance.addPlayer(source);
