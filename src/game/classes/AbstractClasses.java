@@ -10,7 +10,7 @@ public class AbstractClasses {
 	private int attackDmg = 0;
 	private int healing = 0;
 	private int energyCost = 0;
-	private float baseRange = 0.0f;
+	private float attackRange = 0;
 
 	private int exIntell;
 	private int exStrength;
@@ -64,8 +64,8 @@ public class AbstractClasses {
 		this.energyCost = energyCost;
 	}
 
-	public void setBaseRange(float baseRange) {
-		this.baseRange = baseRange;
+	public void setAttackrange(float range) {
+		attackRange = range;
 	}
 
 	public int getVitality() {
@@ -100,8 +100,8 @@ public class AbstractClasses {
 		return energyCost;
 	}
 
-	public float getBaseRange() {
-		return baseRange;
+	public float getAttackRange() {
+		return attackRange;
 	}
 
 	public void addVitality(int exVitality) {
@@ -134,6 +134,10 @@ public class AbstractClasses {
 
 	public void addEnergy(int exEnergy) {
 		energy = energy + exEnergy;
+	}
+
+	public void addAttackRange(float range) {
+		attackRange = attackRange + range;
 	}
 
 	public void addExVitality(int exVitality) {
