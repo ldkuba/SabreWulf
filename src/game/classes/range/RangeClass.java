@@ -12,6 +12,7 @@ public class RangeClass extends AbstractClasses {
 	private int attackDmg = 10;
 	private int healing = 10;
 	private int energyCost = 20;
+	private float baseRange = 6.0f;
 
 	public RangeClass() {
 		setVitality(vitality);
@@ -22,6 +23,7 @@ public class RangeClass extends AbstractClasses {
 		setAttack(attackDmg);
 		setHealing(healing);
 		setEnergyCost(energyCost);
+		setBaseRange(baseRange);
 	}
 
 }
