@@ -9,6 +9,8 @@ import engine.graphics.texture.Texture;
 import engine.maths.Mat4;
 import game.classes.AbstractClasses;
 
+import java.io.Serializable;
+
 //Will contain an Entity object with components and holds data of it's own profile (health, status, position etc)
 public class Player
 {

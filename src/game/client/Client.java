@@ -1,15 +1,13 @@
 package game.client;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 import engine.client.core.ClientConnection;
 import engine.common_net.AbstractMessage;
 import engine.server.core.Player;
+import engine.server.core.QuitMessage;
 import game.Main;
 
 public class Client
@@ -20,8 +18,10 @@ public class Client
 	
 	private Main app;
 
+	// Local blocking queue of messages that will get sent by the Sender thread
 	public BlockingQueue<AbstractMessage> abs = new LinkedBlockingQueue<AbstractMessage>(100);
-	
+
+	// Initiating connection listener
 	public Client(Main app)
 	{
 		this.app = app;
@@ -51,16 +51,12 @@ public class Client
 	{
 		abs.add(msg);
 	}
-	
-	public void sendUDP(AbstractMessage msg)
-	{
-		// TODO connectClient.sendUDP(msg);
-		connectClient.sendUDP(msg);		
-	}
+
 	
 	public void stop()
 	{
 		try {
+			sendTCP(new QuitMessage());
 			connectClient.closeSocket();
 		}catch(IOException ex)
 		{
@@ -70,7 +66,6 @@ public class Client
 			connectClient.join();
 		}catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
