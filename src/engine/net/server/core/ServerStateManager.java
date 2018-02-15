@@ -1,6 +1,6 @@
 package engine.net.server.core;
 
-import engine.net.server.GameServer;
+import game.server.GameServer;
 
 public class ServerStateManager extends Thread {
     private GameServer gameServer;

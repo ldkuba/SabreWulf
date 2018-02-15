@@ -1,9 +1,9 @@
 package engine.net.server.tcp;
 
-import engine.net.common_net.AbstractMessage;
+import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.server.core.Player;
-import engine.net.networking_messages.QuitMessage;
-import engine.net.server.GameServer;
+import engine.net.common_net.networking_messages.QuitMessage;
+import game.server.GameServer;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 

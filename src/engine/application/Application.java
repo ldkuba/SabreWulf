@@ -27,20 +27,19 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 import java.nio.IntBuffer;
-
+import engine.net.common_net.NetworkManager;
+import engine.net.common_net.networking_messages.AbstractMessage;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
-
 import engine.assets.AssetManager;
 import engine.gui.GUI;
 import engine.input.InputManager;
 import engine.maths.Vec2;
 import engine.state.StateManager;
-import game.method.MethodExecutor;
 
 /*
  * Initialise and terminate the application window
@@ -50,7 +49,6 @@ public class Application
 {
 	protected NetworkManager netManager;
 	boolean networkType;
-
 	protected boolean isHeadless;
 	protected long window;
 	protected StateManager stateManager;
@@ -141,6 +139,8 @@ public class Application
 		// Run the rendering loop until the user presses esc or quits
 		while (!glfwWindowShouldClose(window))
 		{
+
+			netManager.handleMessagesAndConnections();
 			stateManager.updateState();
 			gui.update();			
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear frame
@@ -216,5 +216,9 @@ public class Application
 				};
 			});
 		}
+	}
+
+	public NetworkManager getNetworkManager() {
+		return netManager;
 	}
 }

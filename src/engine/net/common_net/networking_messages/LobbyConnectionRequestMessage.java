@@ -1,4 +1,4 @@
-package engine.net.networking_messages;
+package engine.net.common_net.networking_messages;
 
 /**
  * This is sent from Client to the Server

@@ -2,7 +2,7 @@ package engine.net.server.core;
 
 import engine.net.server.tcp.ServerListenerTCP;
 import engine.net.server.tcp.ServerSenderTCP;
-import engine.net.server.GameServer;
+import game.server.GameServer;
 
 public class CoreClientThread extends Thread {
     Player player;

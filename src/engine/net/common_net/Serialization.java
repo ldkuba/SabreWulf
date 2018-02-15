@@ -1,5 +1,7 @@
 package engine.net.common_net;
 
+import engine.net.common_net.networking_messages.AbstractMessage;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;

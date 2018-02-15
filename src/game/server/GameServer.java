@@ -1,4 +1,4 @@
-package engine.net.server;
+package game.server;
 
 import java.util.ArrayList;
 
@@ -7,13 +7,15 @@ import engine.net.server.core.GameInstance;
 import engine.net.server.core.Server;
 import engine.net.server.core.Player;
 import engine.net.server.core.ServerStateManager;
+import game.server.global.GlobalServerConnectionListener;
+import game.server.global.GlobalServerMessageListener;
 
 public class GameServer
 {
 	private Server server;
 
-	private ServerConnectionListener connectionListener;
-	private ServerMessageListener messageListener;
+	private GlobalServerConnectionListener connectionListener;
+	private GlobalServerMessageListener messageListener;
 
 	private ServerStateManager smg;
 
@@ -36,8 +38,8 @@ public class GameServer
 	public GameServer()
 	{
 
-		connectionListener = new ServerConnectionListener(this);
-		messageListener = new ServerMessageListener(this);
+		connectionListener = new GlobalServerConnectionListener(this);
+		messageListener = new GlobalServerMessageListener(this);
 		players = new ArrayList<Player>(60);
 		games = new ArrayList<GameInstance>(5);
 		server = new Server(this);
@@ -50,21 +52,19 @@ public class GameServer
 		smg.start();
 	}
 
-	public void notifyMessageListeners(AbstractMessage msg, Player player)
-	{
-		messageListener.receiveMessage(msg, player);
+	public void addMessage(AbstractMessage message, Player player){
+			messageListener.addMessage(message,player);
 	}
-	
-	public void notifyConnectionListenersConnected(Player player)
-	{
-		connectionListener.clientConnected(player);
+
+	public void addConnectionEvent(Player player, boolean connected){
+			connectionListener.addConnectionEvent(connected,player);
 	}
-	
-	public void notifyConnectionListenersDisconnected(Player player)
-	{
-		connectionListener.clientDisconnected(player);
+
+	public void handleMessagesAndConnections(){
+		messageListener.handleMessageQueue();
+		connectionListener.handleConnectionQueue();
 	}
-	
+
 	public void sendTCP(AbstractMessage msg, Player p){
 		p.addMsg(msg);
 	}
@@ -88,8 +88,6 @@ public class GameServer
 		//server.sendUDP(msg);
 	}
 
-
-	
 	public static void main(String[] args)
 	{
 		GameServer gameServerMain = new GameServer();

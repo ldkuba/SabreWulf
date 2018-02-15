@@ -6,7 +6,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-import engine.net.common_net.AbstractMessage;
+import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.common_net.Deserialization;
 
 

@@ -1,8 +1,8 @@
 package engine.net.server.tcp;
 
-import engine.net.common_net.AbstractMessage;
+import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.server.core.Player;
-import engine.net.server.GameServer;
+import game.server.GameServer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -23,11 +23,11 @@ public class ServerListenerTCP extends Thread{
         }
         while(!player.getSocket().isClosed()){
             try {
-                gameServer.notifyMessageListeners((AbstractMessage) ois.readObject(), player);
+                gameServer.addMessage((AbstractMessage) ois.readObject(), player);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e){
-                gameServer.notifyConnectionListenersDisconnected(player);
+                gameServer.addConnectionEvent(player, false);
             }
 
         }

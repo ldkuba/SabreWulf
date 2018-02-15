@@ -1,8 +1,8 @@
 package engine.net.client.tcp;
 
 import engine.net.client.Client;
-import engine.net.common_net.AbstractMessage;
-import engine.net.networking_messages.QuitMessage;
+import engine.net.common_net.networking_messages.AbstractMessage;
+import engine.net.common_net.networking_messages.QuitMessage;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -42,7 +42,7 @@ public class ClientSenderTCP extends Thread{
 				try
 				{
 					CSSocket.close();
-					client.notifyConnectionListenerDisconnect(null);
+					client.getMain().getNetworkManager().addConnectionEvent(null, false);
 				}catch (IOException e)
 				{
 					//e.printStackTrace();

@@ -1,4 +1,4 @@
-package engine.net.networking_messages;
+package engine.net.common_net.networking_messages;
 
 import engine.maths.PosXY;
 

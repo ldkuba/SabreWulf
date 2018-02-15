@@ -32,6 +32,8 @@ public class Main extends Application {
 		stateManager.addState(gameState);
 
 		client = new Client(this);
+		netManager.registerConnectionListener(new ClientConnectionListener(this));
+		netManager.registerMessageListener(new ClientMessageListener(this));
 
 		// set starting state
 		stateManager.setCurrentState(menuState);

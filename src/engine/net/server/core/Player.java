@@ -1,15 +1,18 @@
 package engine.net.server.core;
 
-import engine.net.common_net.AbstractMessage;
+import engine.net.common_net.networking_messages.AbstractMessage;
 
 import java.io.Serializable;
+import java.net.DatagramSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.concurrent.*;
 
 public class Player implements Serializable {
     private PlayerPayload payload;
     private Socket socket;
     private BlockingQueue<AbstractMessage> pbq;
+    private DatagramSocket datagramSocket = null;
 
     public Player(Socket socket){
         this.socket=socket;
@@ -59,5 +62,13 @@ public class Player implements Serializable {
 
     public PlayerPayload getPayload() {
         return payload;
+    }
+
+    public DatagramSocket getDatagramSocket() {
+        return datagramSocket;
+    }
+
+    public void generateDatagramSocket() throws SocketException {
+        datagramSocket = new DatagramSocket(socket.getPort(), socket.getInetAddress());
     }
 }

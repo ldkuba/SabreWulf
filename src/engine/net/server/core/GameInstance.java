@@ -1,4 +1,4 @@
-package engine.net.server;
+package engine.net.server.core;
 
 import engine.net.server.core.Player;
 import engine.net.server.core.PlayerPayload;
