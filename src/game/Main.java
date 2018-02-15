@@ -36,7 +36,7 @@ public class Main extends Application {
 		client = new Client(this);
 
 		// set starting state
-		stateManager.setCurrentState(menuState);
+		stateManager.setCurrentState(gameState);
 	}
 	
 	public PlayerManager getPlayerManager(){
