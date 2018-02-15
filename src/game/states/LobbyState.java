@@ -12,8 +12,8 @@ import engine.maths.Vec3;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.Main;
-import game.networking.LobbyQuitMessage;
-import game.networking.LockInMessage;
+import engine.net.networking_messages.LobbyQuitMessage;
+import engine.net.networking_messages.LockInMessage;
 
 public class LobbyState extends AbstractState
 {

@@ -9,7 +9,7 @@ import engine.maths.Vec3;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.Main;
-import game.networking.LobbyConnectionRequestMessage;
+import engine.net.networking_messages.LobbyConnectionRequestMessage;
 
 public class MenuState extends AbstractState
 {

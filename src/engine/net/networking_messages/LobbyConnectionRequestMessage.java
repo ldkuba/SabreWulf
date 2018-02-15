@@ -1,0 +1,27 @@
+package engine.net.networking_messages;
+
+import engine.net.common_net.AbstractMessage;
+
+/**
+ * This is sent from Client to the Server
+ * when the client clicks play.
+ *
+ * The server then responds with
+ * LobbyConnectionResponseMessage to inform the
+ * client if the a lobby is available
+ *
+ */
+public class LobbyConnectionRequestMessage extends AbstractMessage {
+    public LobbyConnectionRequestMessage(){
+        this.name = name;
+    }
+    String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+}

@@ -1,9 +1,7 @@
 package game;
 
 import engine.application.Application;
-import game.client.Client;
-import game.method.MethodExecutor;
-import game.player.PlayerManager;
+import engine.net.client.Client;
 import game.states.GameState;
 import game.states.LobbyState;
 import game.states.MenuState;
@@ -19,7 +17,7 @@ public class Main extends Application {
 	public static MenuState menuState;
 	public static LobbyState lobbyState;
 	public static GameState gameState;
-	private PlayerManager playerManager;
+	//private PlayerManager playerManager;
 	
 	public Main() {		
 		super(1920, 1080, 1, "SabreWulf", false); //window width, window height, vsync interval
@@ -39,9 +37,10 @@ public class Main extends Application {
 		stateManager.setCurrentState(menuState);
 	}
 	
-	public PlayerManager getPlayerManager(){
+	/*public PlayerManager getPlayerManager(){
 		return playerManager;
 	}
+	*/
 
 	public Client getClient()
 	{

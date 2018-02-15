@@ -11,14 +11,13 @@ import engine.state.AbstractState;
 import game.Main;
 import game.map.Map;
 import game.player.PlayerController;
-import game.player.PlayerManager;
 
 public class GameState extends AbstractState
 {
 	private Main app;
 	private Scene scene;
 	
-	private PlayerManager manager;
+	//private PlayerManager manager;
 	private PlayerController playerController;
 
 	private Map map;
@@ -32,7 +31,7 @@ public class GameState extends AbstractState
 	{
 		this.app = app;
 		scene = new Scene(0);
-		manager = new PlayerManager(scene);
+		//manager = new PlayerManager(scene);
 		playerController = new PlayerController(app, this);
 		map = new Map(scene);
 	}
@@ -89,7 +88,7 @@ public class GameState extends AbstractState
 		frame++;
 
 		scene.update();
-		manager.getStatuses();
+		//manager.getStatuses();
 		playerController.update();
 		map.update();
 	}
