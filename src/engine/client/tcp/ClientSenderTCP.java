@@ -31,8 +31,6 @@ public class ClientSenderTCP extends Thread{
 			try {
 				AbstractMessage msg = client.abs.take();
 				if(msg instanceof QuitMessage){
-					oos.writeObject(msg);
-					oos.close();
 					CSSocket.close();
 				}
 				else {

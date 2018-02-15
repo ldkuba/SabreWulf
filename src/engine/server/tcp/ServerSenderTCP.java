@@ -31,7 +31,6 @@ public class ServerSenderTCP extends Thread{
                 AbstractMessage msg = player.takeMessage();
                 if(msg instanceof QuitMessage){
                     player.getSocket().close();
-                    System.out.println("Quit here");
                     server.removePlayer(player);
                     oos.close();
                 }
