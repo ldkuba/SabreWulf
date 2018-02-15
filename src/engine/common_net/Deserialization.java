@@ -35,8 +35,6 @@ public class Deserialization {
 		try {
 			ObjectInputStream is = new ObjectInputStream(in);
 			AbstractMessage message = (AbstractMessage) is.readObject();
-			//Output the values of the objects.
-			//System.out.println("Message received = " +message.b);
 			return message;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

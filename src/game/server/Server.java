@@ -69,14 +69,6 @@ public class Server
 		p.addMsg(msg);
 	}
 
-	public void informTheRest(AbstractMessage msg, Player p){
-		for(int i = 0; i<players.size(); i++){
-			if(!p.equals(players.get(i)))
-			sendTCP(msg, players.get(i));
-		}
-
-	}
-
 	public void broadcastTCP(AbstractMessage msg){
 		for(int i = 0; i<players.size(); i++){
 			sendTCP(msg, players.get(i));
@@ -100,6 +92,7 @@ public class Server
 	{
 		Server serverMain = new Server();
 	}
+
 	public boolean isFreeGameInstance(){
 		if(games.size()<=10){
 			for (int i = 0; i < games.size(); i++) {

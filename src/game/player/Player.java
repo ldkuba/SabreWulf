@@ -15,6 +15,8 @@ import game.classes.melee.MeleeTank;
 import game.classes.range.RangeDPS;
 import game.classes.range.RangeHealer;
 
+import java.io.Serializable;
+
 //Will contain an Entity object with components and holds data of it's own profile (health, status, position etc)
 public class Player {
 
