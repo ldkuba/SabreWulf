@@ -49,27 +49,30 @@ import game.method.MethodExecutor;
 public class Application
 {
 
+	protected boolean isHeadless;
 	protected long window;
 	protected StateManager stateManager;
 	protected InputManager inputManager;
 	protected AssetManager assetManager;
 	protected GUI gui;
-	
-	protected MethodExecutor methodExecutor;
 
 	protected GLFWWindowSizeCallback windowSizeCallback;
 	public static Vec2 s_WindowSize;
 	public static Vec2 s_Viewport;
 	protected boolean isFullScreen;
 
-	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen)
+	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless)
 	{
-		initialise(width, height, vsyncInterval, name, fullscreen);
+		isHeadless = headless;
+		
+		if(!headless){
+			initialise(width, height, vsyncInterval, name, fullscreen);
+			inputManager = new InputManager(this);
+			assetManager = new AssetManager();
+			gui = new GUI(this);
+		}
+		
 		stateManager = new StateManager(this);
-		inputManager = new InputManager(this);
-		assetManager = new AssetManager();
-		gui = new GUI(this);
-		methodExecutor = new MethodExecutor();
 		
 		setViewport(10.0f*(s_WindowSize.getX()/s_WindowSize.getY()), 10.0f);
 	}
@@ -134,7 +137,6 @@ public class Application
 		// Run the rendering loop until the user presses esc or quits
 		while (!glfwWindowShouldClose(window))
 		{
-			methodExecutor.execute();
 			stateManager.updateState();
 			gui.update();			
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear frame
@@ -171,11 +173,6 @@ public class Application
 	public GUI getGui()
 	{
 		return gui;
-	}
-	
-	public MethodExecutor getMethodExecutor()
-	{
-		return methodExecutor;
 	}
 	
 	public void exit()

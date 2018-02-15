@@ -1,10 +1,10 @@
-package game;
+package game.client;
 
 import engine.application.Application;
 import engine.net.client.Client;
-import game.states.GameState;
-import game.states.LobbyState;
-import game.states.MenuState;
+import game.client.states.GameState;
+import game.client.states.LobbyState;
+import game.client.states.MenuState;
 
 /*
  * 	Main method - used to run the game
@@ -20,7 +20,7 @@ public class Main extends Application {
 	//private PlayerManager playerManager;
 	
 	public Main() {		
-		super(1920, 1080, 1, "SabreWulf", false); //window width, window height, vsync interval
+		super(1920, 1080, 1, "SabreWulf", false, false); //window width, window height, vsync interval
 
 		menuState = new MenuState(this);
 		lobbyState = new LobbyState(this);

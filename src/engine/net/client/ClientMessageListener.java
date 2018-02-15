@@ -3,7 +3,7 @@ package engine.net.client;
 import engine.net.common_net.AbstractMessage;
 import engine.net.common_net.MessageListener;
 import engine.net.server.core.Player;
-import game.Main;
+import game.client.Main;
 import game.method.SetCurrentGameState;
 import engine.net.networking_messages.LobbyUpdateMessage;
 import engine.net.networking_messages.PeerCountMessage;

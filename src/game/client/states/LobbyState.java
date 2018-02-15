@@ -1,4 +1,4 @@
-package game.states;
+package game.client.states;
 
 import java.util.ArrayList;
 
@@ -9,11 +9,11 @@ import engine.gui.components.SelectList;
 import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
-import engine.scene.Scene;
-import engine.state.AbstractState;
-import game.Main;
 import engine.net.networking_messages.LobbyQuitMessage;
 import engine.net.networking_messages.LockInMessage;
+import engine.scene.Scene;
+import engine.state.AbstractState;
+import game.client.Main;
 
 public class LobbyState extends AbstractState
 {
@@ -54,7 +54,7 @@ public class LobbyState extends AbstractState
 	@Override
 	public void init()
 	{
-		scene.init();
+		scene.initRenderer();
 		app.getGui().init(scene);
 		
 		Texture lobbyBackgroundTexture = app.getAssetManager().getTexture("res/textures/lobby_background.png");

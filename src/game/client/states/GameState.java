@@ -1,4 +1,4 @@
-package game.states;
+package game.client.states;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -8,9 +8,9 @@ import engine.maths.MathUtil;
 import engine.maths.Vec3;
 import engine.scene.Scene;
 import engine.state.AbstractState;
-import game.Main;
+import game.client.Main;
+import game.client.player.PlayerController;
 import game.map.Map;
-import game.player.PlayerController;
 
 public class GameState extends AbstractState
 {
@@ -50,7 +50,7 @@ public class GameState extends AbstractState
 	@Override
 	public void init()
 	{		
-		scene.init();
+		scene.initRenderer();
 		app.getGui().init(scene);
 		
 		button = new ToggleButton(20.0f, 20.0f, 10.0f, 10.0f, app.getAssetManager().getTexture("res/textures/testNoxus.png"), app.getAssetManager().getTexture("res/textures/background.png"))

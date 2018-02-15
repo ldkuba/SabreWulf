@@ -7,7 +7,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import engine.net.client.core.ClientConnection;
 import engine.net.common_net.AbstractMessage;
 import engine.net.server.core.Player;
-import game.Main;
+import game.client.Main;
 import engine.net.networking_messages.QuitMessage;
 
 public class Client

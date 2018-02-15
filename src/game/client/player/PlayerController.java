@@ -1,12 +1,12 @@
-package game.player;
+package game.client.player;
 
 import engine.AI.Path;
 import engine.entity.component.TransformComponent;
 import engine.input.InputManager;
 import engine.maths.Vec2;
 import engine.maths.Vec3;
-import game.Main;
-import game.states.GameState;
+import game.client.Main;
+import game.client.states.GameState;
 
 //For handling actual instruction sets to be passed to transformation and interaction components of the players
 public class PlayerController {

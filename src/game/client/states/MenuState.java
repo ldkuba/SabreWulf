@@ -1,4 +1,4 @@
-package game.states;
+package game.client.states;
 
 import engine.application.Application;
 import engine.graphics.texture.Texture;
@@ -8,7 +8,7 @@ import engine.maths.MathUtil;
 import engine.maths.Vec3;
 import engine.scene.Scene;
 import engine.state.AbstractState;
-import game.Main;
+import game.client.Main;
 import engine.net.networking_messages.LobbyConnectionRequestMessage;
 
 public class MenuState extends AbstractState
@@ -42,7 +42,7 @@ public class MenuState extends AbstractState
 	@Override
 	public void init()
 	{
-		scene.init();
+		scene.initRenderer();
 		app.getGui().init(scene);
 		
 		Texture menuBackgroundTexture = app.getAssetManager().getTexture("res/textures/mainmenu_background.png");
