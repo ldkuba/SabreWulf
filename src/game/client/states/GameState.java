@@ -10,7 +10,7 @@ import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.client.Main;
 import game.client.player.PlayerController;
-import game.map.Map;
+import game.common.map.Map;
 
 public class GameState extends AbstractState
 {

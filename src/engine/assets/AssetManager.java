@@ -53,6 +53,8 @@ public class AssetManager
 		fontBuffer.put(fontBytes, 0, fontBytes.length);
 		
 		//stbtt_BakeFontBitmap(fontBuffer, 0, 32.0, temp_bitmap,512,512, 32,96, cdata); // no guarantee this fits!
+		
+		return null;
 		    
 	}
 }

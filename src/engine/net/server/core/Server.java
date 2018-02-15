@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import engine.net.server.GameServer;
+import game.server.GameServer;
 
 public class Server extends Thread{
 
@@ -34,7 +34,7 @@ public class Server extends Thread{
                 SCSocket = coreSocket.accept();
                 Player player = new Player(SCSocket);
                 gameServer.addPlayer(player);
-                gameServer.notifyConnectionListenersConnected(player);
+                gameServer.addConnectionEvent(player, true);
                 clientCoreThread = new CoreClientThread(player, gameServer);
                 clientCoreThread.setName("player_"+SCSocket.getInetAddress());
                 clientCoreThread.start();

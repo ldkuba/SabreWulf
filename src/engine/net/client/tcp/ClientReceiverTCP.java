@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.net.SocketException;
 
 import engine.net.client.Client;
-import engine.net.common_net.AbstractMessage;
+import engine.net.common_net.networking_messages.AbstractMessage;
 
 public class ClientReceiverTCP extends Thread{
 	Socket CSSocket = null;
@@ -32,7 +32,7 @@ public class ClientReceiverTCP extends Thread{
 			try {
 				AbstractMessage abs = (AbstractMessage) ois.readObject();
 				if(abs != null)
-				client.notifyMessageListeners(abs, null);
+				client.getMain().getNetworkManager().addMessage(abs,null);
 			} catch (SocketException ex)
 			{
 				try

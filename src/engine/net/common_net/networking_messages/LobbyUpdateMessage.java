@@ -1,6 +1,5 @@
-package engine.net.networking_messages;
+package engine.net.common_net.networking_messages;
 
-import engine.net.common_net.AbstractMessage;
 import engine.net.server.core.PlayerPayload;
 
 import java.util.ArrayList;

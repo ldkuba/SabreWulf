@@ -1,12 +1,10 @@
 package engine.entity.component;
 
-import java.io.Serializable;
-
 import engine.maths.Mat4;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
 
-public class TransformComponent extends AbstractComponent implements Serializable
+public class TransformComponent extends AbstractComponent
 {
 	private Vec3 position;
 	private Vec3 eulerAngles;

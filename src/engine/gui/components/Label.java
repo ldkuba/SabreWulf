@@ -27,8 +27,6 @@ public class Label extends GuiComponent
 		entity.addComponent(new TransformComponent());
 		entity.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), texture, worldWidth, worldHeight));
 		
-		entity.getSprite().setUVs();
+	//	entity.getSprite().setUVs();
 	}
-	
-	setText
 }
