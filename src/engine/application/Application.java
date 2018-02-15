@@ -48,6 +48,8 @@ import game.method.MethodExecutor;
 
 public class Application
 {
+	protected NetworkManager netManager;
+	boolean networkType;
 
 	protected boolean isHeadless;
 	protected long window;
@@ -64,13 +66,15 @@ public class Application
 	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless)
 	{
 		isHeadless = headless;
-		
 		if(!headless){
+
 			initialise(width, height, vsyncInterval, name, fullscreen);
 			inputManager = new InputManager(this);
 			assetManager = new AssetManager();
 			gui = new GUI(this);
 		}
+
+		netManager = new NetworkManager(networkType, this);
 		
 		stateManager = new StateManager(this);
 		

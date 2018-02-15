@@ -11,8 +11,6 @@ public class Server extends Thread{
     private static ServerSocket coreSocket; // GameServer Socket, named core (it's only one there)
     private static Socket SCSocket; //(SERVER_CLIENT_SOCKET)
     private static CoreClientThread clientCoreThread;
-    
-   // private static ServerUDPManager serverUDPManager = null;	//Receives and sends UDP packets.
 
     private GameServer gameServer; //For notifying listeners
     
@@ -46,14 +44,4 @@ public class Server extends Thread{
         }
 
     }
-
-
-   /* public void startUDPManager() {
-    	serverUDPManager.start();
-    }
-    
-    public void sendUDP(AbstractMessage msg) {
-    	serverUDPManager.addToQueueStates(msg);
-    }
-    */
 }

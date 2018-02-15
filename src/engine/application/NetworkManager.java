@@ -1,13 +1,16 @@
 package engine.application;
 
+import engine.net.server.GameServer;
+import engine.net.server.core.Server;
+
 public class NetworkManager {
-    public NetworkManager(boolean networkType, Application app){
+    protected NetworkManager(boolean networkType, Application app){
         if(networkType){
-            setupServerNetwork();
+            GameServer server = new GameServer();
         }
 
         else{
-            setupClientNetwrok();
+
         }
     }
 }
