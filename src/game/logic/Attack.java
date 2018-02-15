@@ -2,6 +2,7 @@ package game.logic;
 
 import engine.logic.AbstractAction;
 import engine.maths.Vec2;
+import game.player.Player;
 
 public class Attack extends AbstractAction{
 	
@@ -10,9 +11,15 @@ public class Attack extends AbstractAction{
 	
 	private Vec2 noMovement = new Vec2(0,0);
 	
-	public Vec2 attack(Vec2 playCoord, Vec2 coorEnemy) {
+	private Player myPlayer;
+	
+	public Attack (Player player) {
+		myPlayer = player;
+	}
+	
+	public Vec2 attack(Vec2 playCoord, Vec2 enemyCoord) {
 		
-		if(inRange(playCoord, coorEnemy)) {
+		if(inRange(playCoord, enemyCoord)) {
 			doDamage();
 			return noMovement;
 		} else {
@@ -26,14 +33,23 @@ public class Attack extends AbstractAction{
 		/*
 		 * Do some calculations
 		 */
+		if(calculateDistance(playerCoord,enemyCoord) <= myPlayer.getCharClass().getAttackRange()) {
+			return true;
+		} else {
+			return false;
+		}
 		
 	}
 	
-	public void doDamage() {
+	private float calculateDistance(Vec2 playerCoord, Vec2 enemyCoord) {
+		return 0.0f;
+	}
+	
+	private void doDamage() {
 		
 	}
 	
-	public Vec2 moveTo() {
+	private Vec2 moveTo() {
 		
 	}
 	
