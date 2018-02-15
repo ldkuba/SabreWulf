@@ -6,8 +6,8 @@ import engine.server.core.Player;
 import game.Main;
 import game.method.SetCurrentGameState;
 import game.networking.LobbyUpdateMessage;
-import game.networking.PeerList;
-import game.networking.LobbyConnectionResponse;
+import game.networking.PeerCountMessage;
+import game.networking.LobbyConnectionResponseMessage;
 
 public class ClientMessageListener implements MessageListener
 {
@@ -21,13 +21,13 @@ public class ClientMessageListener implements MessageListener
 	@Override
 	public void receiveMessage(AbstractMessage msg, Player source)
 	{
-		if(msg instanceof PeerList)
+		if(msg instanceof PeerCountMessage)
 		{
-			PeerList plm = (PeerList) msg;
+			PeerCountMessage plm = (PeerCountMessage) msg;
 			System.out.println(plm.getNoPlayers());
 		}
-		else if(msg instanceof LobbyConnectionResponse){
-			LobbyConnectionResponse lobbyConn = (LobbyConnectionResponse) msg;
+		else if(msg instanceof LobbyConnectionResponseMessage){
+			LobbyConnectionResponseMessage lobbyConn = (LobbyConnectionResponseMessage) msg;
 			if(lobbyConn.isAccepted())
 			{
 				SetCurrentGameState setGameState = new SetCurrentGameState(client.getMain(), Main.lobbyState);

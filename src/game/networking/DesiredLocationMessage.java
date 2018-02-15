@@ -3,6 +3,13 @@ package game.networking;
 import engine.common_net.AbstractMessage;
 import engine.maths.PosXY;
 
+/**
+ * This is message is sent when the client wants
+ * to move from one place to another via right click
+ *
+ * This message is used in GameState only
+ */
+
 public class DesiredLocationMessage extends AbstractMessage {
 
     private PosXY pos;

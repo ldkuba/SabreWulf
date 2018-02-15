@@ -1,7 +1,6 @@
 package engine.server.core;
 
 import engine.common_net.AbstractMessage;
-import game.networking.PeerList;
 
 import java.io.Serializable;
 import java.net.Socket;

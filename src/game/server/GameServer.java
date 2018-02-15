@@ -86,6 +86,8 @@ public class GameServer
 		// TODO server.sendUDP(msg);
 		//server.sendUDP(msg);
 	}
+
+
 	
 	public static void main(String[] args)
 	{

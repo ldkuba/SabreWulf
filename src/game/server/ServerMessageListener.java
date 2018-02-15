@@ -17,15 +17,15 @@ public class ServerMessageListener implements MessageListener
 	public void receiveMessage(AbstractMessage msg, Player source) {
 
 		// Handling Play button action here
-		if(msg instanceof LobbyConnectionMessage) {
-			LobbyConnectionMessage m = (LobbyConnectionMessage) msg;
+		if(msg instanceof LobbyConnectionRequestMessage) {
+			LobbyConnectionRequestMessage m = (LobbyConnectionRequestMessage) msg;
 			if (gameServer.isFreeGameInstance()) {
 
 				gameInstance = gameServer.getFreeGameInstance();
 				source.setName(m.getName());
 				gameInstance.addPlayer(source);
 
-				LobbyConnectionResponse lobbyConn = new LobbyConnectionResponse();
+				LobbyConnectionResponseMessage lobbyConn = new LobbyConnectionResponseMessage();
 				lobbyConn.setAccepted(true);
 				lobbyConn.setMessage("Welcome to the gameServer");
 				gameServer.sendTCP(lobbyConn, source);
@@ -35,7 +35,7 @@ public class ServerMessageListener implements MessageListener
 				gameServer.broadcastTCP(lobbyUpd);
 			}
 			else{
-				LobbyConnectionResponse lobbyConn = new LobbyConnectionResponse();
+				LobbyConnectionResponseMessage lobbyConn = new LobbyConnectionResponseMessage();
 				lobbyConn.setAccepted(false);
 				lobbyConn.setMessage("GameServer is full");
 				gameServer.sendTCP(lobbyConn, source);
