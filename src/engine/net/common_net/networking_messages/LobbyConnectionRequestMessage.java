@@ -1,7 +1,5 @@
 package engine.net.networking_messages;
 
-import engine.net.common_net.AbstractMessage;
-
 /**
  * This is sent from Client to the Server
  * when the client clicks play.

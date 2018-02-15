@@ -1,4 +1,4 @@
-package engine.net.common_net;
+package engine.net.networking_messages;
 
 import java.io.Serializable;
 

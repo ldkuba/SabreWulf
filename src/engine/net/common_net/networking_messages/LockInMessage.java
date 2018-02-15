@@ -1,7 +1,5 @@
 package engine.net.networking_messages;
 
-import engine.net.common_net.AbstractMessage;
-
 /**
  * Used for informing the Server about the
  * chosen character in LobbyState

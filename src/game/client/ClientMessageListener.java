@@ -1,15 +1,13 @@
-package engine.net.client;
+package engine.net.client.core;
 
-import engine.net.common_net.AbstractMessage;
-import engine.net.common_net.MessageListener;
+import engine.net.client.Client;
+import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.server.core.Player;
-import game.client.Main;
-import game.method.SetCurrentGameState;
-import engine.net.networking_messages.LobbyUpdateMessage;
-import engine.net.networking_messages.PeerCountMessage;
-import engine.net.networking_messages.LobbyConnectionResponseMessage;
+import engine.net.common_net.networking_messages.LobbyUpdateMessage;
+import engine.net.common_net.networking_messages.PeerCountMessage;
+import engine.net.common_net.networking_messages.LobbyConnectionResponseMessage;
 
-public class ClientMessageListener implements MessageListener
+public class ClientMessageListener
 {
 	private Client client;
 
@@ -18,7 +16,6 @@ public class ClientMessageListener implements MessageListener
 		this.client = client;
 	}
 
-	@Override
 	public void receiveMessage(AbstractMessage msg, Player source)
 	{
 		if(msg instanceof PeerCountMessage)
@@ -30,8 +27,7 @@ public class ClientMessageListener implements MessageListener
 			LobbyConnectionResponseMessage lobbyConn = (LobbyConnectionResponseMessage) msg;
 			if(lobbyConn.isAccepted())
 			{
-				SetCurrentGameState setGameState = new SetCurrentGameState(client.getMain(), Main.lobbyState);
-				client.getMain().getMethodExecutor().add(setGameState);
+
 			}else
 			{
 				System.out.println(lobbyConn.getMessage());

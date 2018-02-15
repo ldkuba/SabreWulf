@@ -1,7 +1,5 @@
 package engine.net.networking_messages;
 
-import engine.net.common_net.AbstractMessage;
-
 /**
  * This is used to inform the server responds to
  * the client's lobby connection message.

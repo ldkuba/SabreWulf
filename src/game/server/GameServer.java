@@ -2,7 +2,8 @@ package engine.net.server;
 
 import java.util.ArrayList;
 
-import engine.net.common_net.AbstractMessage;
+import engine.net.common_net.networking_messages.AbstractMessage;
+import engine.net.server.core.GameInstance;
 import engine.net.server.core.Server;
 import engine.net.server.core.Player;
 import engine.net.server.core.ServerStateManager;

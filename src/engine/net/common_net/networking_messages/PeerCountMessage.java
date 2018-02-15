@@ -1,7 +1,5 @@
 package engine.net.networking_messages;
 
-import engine.net.common_net.AbstractMessage;
-
 /**
  * Used for showing the player count in MenuState
  */

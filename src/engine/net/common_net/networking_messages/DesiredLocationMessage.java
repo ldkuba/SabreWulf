@@ -1,6 +1,5 @@
 package engine.net.networking_messages;
 
-import engine.net.common_net.AbstractMessage;
 import engine.maths.PosXY;
 
 /**
