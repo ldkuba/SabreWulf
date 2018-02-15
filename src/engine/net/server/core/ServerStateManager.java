@@ -13,6 +13,7 @@ public class ServerStateManager extends Thread {
          while(true){
              try {
                  Thread.currentThread().sleep(1);
+                 gameServer.handleMessagesAndConnections();
              } catch (InterruptedException e) {
                  e.printStackTrace();
              }
