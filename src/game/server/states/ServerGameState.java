@@ -20,7 +20,7 @@ public class ServerGameState extends AbstractState
 		
 	}
 
-	@Override
+	@Override 
 	public void mouseAction(int button, int action)
 	{
 		
