@@ -9,7 +9,7 @@ import engine.maths.Vec3;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.Main;
-import game.networking.ConnectionMessage;
+import game.networking.LobbyConnectionMessage;
 
 public class MenuState extends AbstractState
 {
@@ -56,7 +56,7 @@ public class MenuState extends AbstractState
 			@Override
 			public void onClick()
 			{
-				ConnectionMessage cnm = new ConnectionMessage();
+				LobbyConnectionMessage cnm = new LobbyConnectionMessage();
 				cnm.setName("bob");
 				app.getClient().sendTCP(cnm);
 			}

@@ -2,10 +2,12 @@ package game.server;
 
 import engine.common_net.AbstractMessage;
 import engine.common_net.MessageListener;
+import engine.server.core.LobbyQuitMessage;
 import engine.server.core.Player;
+import engine.server.core.QuitMessage;
 import game.networking.*;
 
-import java.util.concurrent.locks.Lock;
+import java.io.IOException;
 
 public class ServerMessageListener implements MessageListener
 {
@@ -19,8 +21,8 @@ public class ServerMessageListener implements MessageListener
 	public void receiveMessage(AbstractMessage msg, Player source) {
 
 		// Handling Play button action here
-		if(msg instanceof ConnectionMessage) {
-			ConnectionMessage m = (ConnectionMessage) msg;
+		if(msg instanceof LobbyConnectionMessage) {
+			LobbyConnectionMessage m = (LobbyConnectionMessage) msg;
 			if (server.isFreeGameInstance()) {
 
 				gameInstance = server.getFreeGameInstance();
@@ -47,11 +49,10 @@ public class ServerMessageListener implements MessageListener
 			source.setReady(true);
 			source.setChar(lim.getCharacterSelected());
 
-		} else if(msg instanceof QuitMessage){
-			source.setChar(-1);
-			source.setReady(false);
-			gameInstance.removePlayer(source);
-		}
+        } else if(msg instanceof LobbyQuitMessage){
 
-	}
+        }
+
+        }
 }
+

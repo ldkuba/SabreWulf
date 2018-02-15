@@ -1,8 +1,8 @@
 package engine.server.tcp;
 
 import engine.common_net.AbstractMessage;
-import game.networking.PeerList;
 import engine.server.core.Player;
+import engine.server.core.QuitMessage;
 import game.server.Server;
 
 import java.io.IOException;
@@ -27,8 +27,17 @@ public class ServerSenderTCP extends Thread{
         while(!player.getSocket().isClosed()){
             try {
                 sleep(1);
-                oos.writeObject(player.takeMessage());
 
+                AbstractMessage msg = player.takeMessage();
+                if(msg instanceof QuitMessage){
+                    player.getSocket().close();
+                    System.out.println("Quit here");
+                    server.removePlayer(player);
+                    oos.close();
+                }
+                else {
+                    oos.writeObject(msg);
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (IOException e) {

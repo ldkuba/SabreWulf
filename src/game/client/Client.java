@@ -1,17 +1,14 @@
 package game.client;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 import engine.client.core.ClientConnection;
 import engine.common_net.AbstractMessage;
 import engine.server.core.Player;
+import engine.server.core.QuitMessage;
 import game.Main;
-import game.networking.InternalQuit;
 
 public class Client
 {
@@ -54,17 +51,12 @@ public class Client
 	{
 		abs.add(msg);
 	}
-	
-	public void sendUDP(AbstractMessage msg)
-	{
-		// TODO connectClient.sendUDP(msg);
-		connectClient.sendUDP(msg);
-	}
+
 	
 	public void stop()
 	{
 		try {
-			abs.add(new InternalQuit());
+			sendTCP(new QuitMessage());
 			connectClient.closeSocket();
 		}catch(IOException ex)
 		{

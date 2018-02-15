@@ -2,7 +2,6 @@ package engine.client.core;
 
 import engine.client.tcp.ClientReceiverTCP;
 import engine.client.tcp.ClientSenderTCP;
-import engine.client.udp.ClientBroadcastReceiverUDP;
 import engine.client.udp.ClientSenderUDP;
 import engine.common_net.AbstractMessage;
 import game.client.Client;
@@ -19,9 +18,7 @@ public class ClientConnection extends Thread{
 	}
 	private ClientSenderTCP csender = null;
 	private ClientReceiverTCP creceiver = null;
-	
-	protected ClientSenderUDP udpSender;
-	protected ClientBroadcastReceiverUDP udpReceiver;
+
 	
 	private Socket CSSocket=null; //Client-Server Socket TCP
 
@@ -39,20 +36,6 @@ public class ClientConnection extends Thread{
 		creceiver = new ClientReceiverTCP(CSSocket, client);
 		creceiver.setName("listener");
 		creceiver.start();
-	}
-	
-	public void startUDPSender(int portSender, String serverAddress, int packetSize) {
-		udpSender = new ClientSenderUDP(portSender, serverAddress, packetSize);
-		udpSender.start();
-	}
-	
-	public void startUDPReceiver(int groupPort, String groupID, Client client) {
-		udpReceiver = new ClientBroadcastReceiverUDP(groupPort, groupID, client);
-		udpReceiver.start();
-	}
-	
-	public void sendUDP(AbstractMessage msg) {
-		udpSender.addMessage(msg);
 	}
 
 	public void closeSocket() throws IOException

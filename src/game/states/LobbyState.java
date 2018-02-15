@@ -10,10 +10,10 @@ import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
 import engine.scene.Scene;
+import engine.server.core.LobbyQuitMessage;
 import engine.state.AbstractState;
 import game.Main;
 import game.networking.LockInMessage;
-import game.networking.QuitMessage;
 
 public class LobbyState extends AbstractState
 {
@@ -112,7 +112,7 @@ public class LobbyState extends AbstractState
 			@Override
 			public void onClick()
 			{
-				QuitMessage quit = new QuitMessage();
+				LobbyQuitMessage quit = new LobbyQuitMessage();
 				app.getClient().sendTCP(quit);
 			}
 		};
