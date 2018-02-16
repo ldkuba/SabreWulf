@@ -13,34 +13,30 @@ public class Attack extends AbstractAction{
 	
 	private Player myPlayer;
 	
-	public Attack (Player player) {
-		myPlayer = player;
+	public Attack () {
+		
 	}
 	
-	public Vec2 attack(Vec2 playCoord, Vec2 enemyCoord) {
+	//Player control: If inRange attack <damage>, else get closer.
+	public int attack(Vec2 playCoord, Vec2 enemyCoord, float playerRange) {
 		
-		if(inRange(playCoord, enemyCoord)) {
+		if(inRange(playCoord, enemyCoord, playerRange)) {
 			doDamage();
-			return noMovement;
+			return doDamage();
 		} else {
-			return moveTo();
+			return 0;
 		}
 	}
 
-	public boolean inRange(Vec2 playerCoord, Vec2 enemyCoord) {
+	public boolean inRange(Vec2 playerCoord, Vec2 enemyCoord, float playerRange) {
+		//Making coordinates positive
+		playerCoord = toPositive(playerCoord);
+		enemyCoord = toPositive(enemyCoord);
 		
 		float rangeX = enemyCoord.getX() - playerCoord.getX();
 		float rangeY = enemyCoord.getY() - playerCoord.getY();
 		
-		//Always positive.
-		if (rangeX < 0) {
-			rangeX = rangeX * -1;
-		}
-		if(rangeY < 0) {
-			rangeY = rangeY * -1;
-		}
-		
-		if( rangeX <= myPlayer.getCharClass().getAttackRange() || rangeY <= myPlayer.getCharClass().getAttackRange()) {
+		if( rangeX <= playerRange || rangeY <= playerRange) {
 			return true;
 		} else {
 			return false;
@@ -61,4 +57,20 @@ public class Attack extends AbstractAction{
 		return toPos;
 	}
 	
+	//Change coordinates to contain positive values
+	private Vec2 toPositive(Vec2 coordinates) {
+		float coordX = coordinates.getX();
+		float coordY = coordinates.getY();
+		
+		if(coordX < 0) {
+			coordX = coordX * -1;
+			coordinates.setX(coordX);
+		}
+		if(coordY < 0) {
+			coordY = coordY * -1;
+			coordinates.setY(coordY);
+		}
+		return coordinates;
+		
+	}
 }
