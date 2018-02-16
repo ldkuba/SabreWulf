@@ -24,7 +24,6 @@ public class GameState extends AbstractState
 	private PlayerController playerController;
 
 	private Map map;
-	private SoundManager soundMgr;
 
 	private int frame = 0;
 	private float second = 0;
@@ -38,7 +37,6 @@ public class GameState extends AbstractState
 		//manager = new PlayerManager(scene);
 		playerController = new PlayerController(app, this);
 		map = new Map(scene);
-		soundMgr = new SoundManager();
 	}
 
 	@Override
@@ -58,8 +56,6 @@ public class GameState extends AbstractState
 		scene.initRenderer();
 		app.getGui().init(scene);
 		map.init();
-		soundMgr.init();
-
 		button = new ToggleButton(20.0f, 20.0f, 10.0f, 10.0f, app.getAssetManager().getTexture("res/textures/testNoxus.png"), app.getAssetManager().getTexture("res/textures/background.png"))
 		{
 			@Override
@@ -75,9 +71,7 @@ public class GameState extends AbstractState
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
 		
 		// set up background sound
-		this.soundMgr.init();
-		this.soundMgr.setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
-		Sound.setupSounds(soundMgr, "res/sounds/game.ogg", "game");
+		app.getSoundManager().invokeSound("game");
 	}
 
 	@Override

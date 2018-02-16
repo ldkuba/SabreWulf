@@ -33,9 +33,6 @@ public class LobbyState extends AbstractState
 	
 	private int localPlayerIndex;
 
-	//each state has its own sound manager
-	private final SoundManager soundMgr;
-
 	public LobbyState(Main app)
 	{
 		this.app = app;
@@ -44,8 +41,6 @@ public class LobbyState extends AbstractState
 		characterAvatars = new ArrayList<>();
 		
 		localPlayerIndex = 0;
-
-		soundMgr = new SoundManager();
 	}
 
 	@Override
@@ -65,7 +60,6 @@ public class LobbyState extends AbstractState
 	{
 		scene.initRenderer();
 		app.getGui().init(scene);
-		soundMgr.init();
 
 		Texture lobbyBackgroundTexture = app.getAssetManager().getTexture("res/textures/lobby_background.png");
 		lobbyBackground = new Sprite(0, 0, 100.0f, 100.0f, lobbyBackgroundTexture);
@@ -150,9 +144,7 @@ public class LobbyState extends AbstractState
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
 
 		// set up background sound
-		this.soundMgr.init();
-		this.soundMgr.setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
-		Sound.setupSounds(soundMgr, "res/sounds/lobby.ogg", "lobby");
+		app.getSoundManager().invokeSound("lobby");
 	}
 
 	@Override
