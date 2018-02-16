@@ -27,21 +27,19 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 import java.nio.IntBuffer;
-
+import engine.net.common_net.NetworkManager;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
-
 import engine.assets.AssetManager;
 import engine.gui.GUI;
 import engine.input.InputManager;
 import engine.maths.Vec2;
 import engine.sound.SoundManager;
 import engine.state.StateManager;
-import game.method.MethodExecutor;
 
 /*
  * Initialise and terminate the application window
@@ -49,33 +47,40 @@ import game.method.MethodExecutor;
 
 public class Application
 {
-
+	protected NetworkManager netManager;
+	boolean networkType;
+	protected boolean isHeadless;
 	protected long window;
 	protected StateManager stateManager;
 	protected InputManager inputManager;
 	protected AssetManager assetManager;
 	protected GUI gui;
-	
-	protected MethodExecutor methodExecutor;
 
 	protected GLFWWindowSizeCallback windowSizeCallback;
 	public static Vec2 s_WindowSize;
 	public static Vec2 s_Viewport;
 	protected boolean isFullScreen;
-	
-	protected SoundManager soundManager = new SoundManager();
-	
-	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen)
+
+	protected SoundManager soundManager;
+
+	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless)
 	{
-		initialise(width, height, vsyncInterval, name, fullscreen);
+		isHeadless = headless;
+		if(!headless){
+
+			initialise(width, height, vsyncInterval, name, fullscreen);
+			inputManager = new InputManager(this);
+			assetManager = new AssetManager();
+			soundManager = new SoundManager();
+			gui = new GUI(this);
+			setViewport(10.0f*(s_WindowSize.getX()/s_WindowSize.getY()), 10.0f);
+		}
+
+		netManager = new NetworkManager(this);
+
 		stateManager = new StateManager(this);
-		inputManager = new InputManager(this);
-		assetManager = new AssetManager();
-		gui = new GUI(this);
-		methodExecutor = new MethodExecutor();
-		//soundManager = new SoundManager();
-		
-		setViewport(10.0f*(s_WindowSize.getX()/s_WindowSize.getY()), 10.0f);
+
+
 	}
 
 	public void initialise(int width, int height, int vsyncInterval, String name, boolean fullscreen)
@@ -125,10 +130,8 @@ public class Application
 		GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 4);
 		// Make the window visible
 		glfwShowWindow(window);
-		
-		//try initialise sound manager
-		soundManager.init();
-		
+
+
 		GL.createCapabilities();
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_BLEND);
@@ -140,7 +143,8 @@ public class Application
 		// Run the rendering loop until the user presses esc or quits
 		while (!glfwWindowShouldClose(window))
 		{
-			methodExecutor.execute();
+
+			netManager.handleMessagesAndConnections();
 			stateManager.updateState();
 			gui.update();			
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear frame
@@ -173,17 +177,16 @@ public class Application
 	{
 		return assetManager;
 	}
+
+	public SoundManager getSoundManager(){
+		return soundManager;
+	}
 	
 	public GUI getGui()
 	{
 		return gui;
 	}
-	
-	public MethodExecutor getMethodExecutor()
-	{
-		return methodExecutor;
-	}
-	
+
 	public void exit()
 	{
 		glfwSetWindowShouldClose(window, true);
@@ -191,10 +194,13 @@ public class Application
 
 	public void cleanup()
 	{
-		glfwFreeCallbacks(window);
-		glfwDestroyWindow(window);
-		// Terminate GLFW
-		glfwTerminate();
+		if(!isHeadless) {
+			glfwFreeCallbacks(window);
+			glfwDestroyWindow(window);
+			// Terminate GLFW
+			glfwTerminate();
+			soundManager.clean();
+		}
 		System.out.println("Successfully Quit");
 	}
 	
@@ -206,10 +212,6 @@ public class Application
 	public void setViewport(float right, float top)
 	{
 		s_Viewport = new Vec2(right, top);
-	}
-	
-	public SoundManager getSoundManager(){
-		return soundManager;
 	}
 
 	public void resize(long window, int width, int height)
@@ -225,5 +227,9 @@ public class Application
 				};
 			});
 		}
+	}
+
+	public NetworkManager getNetworkManager() {
+		return netManager;
 	}
 }

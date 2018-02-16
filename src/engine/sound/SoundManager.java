@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.lwjgl.openal.AL;
+import org.lwjgl.openal.AL11;
 import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALCCapabilities;
 
@@ -27,9 +28,6 @@ public class SoundManager {
 	public SoundManager() {
 		soundBufferList = new ArrayList<>();
 		soundSourceMap = new HashMap<>();
-	}
-
-	public void init()  {
 		device = alcOpenDevice((ByteBuffer) null);
 		if (device == NULL) {
 			throw new IllegalStateException("Failed to open OpenAL device");
@@ -41,6 +39,10 @@ public class SoundManager {
 		}
 		alcMakeContextCurrent(context);
 		AL.createCapabilities(deviceCaps);
+	}
+
+	public void init()  {
+
 	}
 
 	public void addSoundBuffer(SoundBuffer soundBuffer) {
@@ -78,6 +80,27 @@ public class SoundManager {
 		}
 	}
 	
+	public void stopSoundSource(String name){
+		SoundSource soundSource = this.soundSourceMap.get(name);
+		if (soundSource != null && soundSource.isPlaying()) {
+			soundSource.stop();
+		}
+	}
+	
+	public void pauseSoundSource(String name){
+		SoundSource soundSource = this.soundSourceMap.get(name);
+		if (soundSource != null && soundSource.isPlaying()) {
+			soundSource.pause();
+		}
+	}
+
+
+	public void invokeSound(String soundName){
+		setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
+		Sound.setupSounds(this,"res/sounds/beep.ogg", soundName);
+	}
+
+
 	public void clean() {
 		for (SoundSource soundSource : soundSourceMap.values()) {
 			soundSource.cleanup();
