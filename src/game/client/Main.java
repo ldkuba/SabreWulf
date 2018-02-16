@@ -38,11 +38,7 @@ public class Main extends Application {
 		// set starting state
 		stateManager.setCurrentState(menuState);
 	}
-	
-	/*public PlayerManager getPlayerManager(){
-		return playerManager;
-	}
-	*/
+
 
 	public Client getClient()
 	{

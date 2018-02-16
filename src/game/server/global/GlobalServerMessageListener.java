@@ -36,7 +36,7 @@ public class GlobalServerMessageListener {
 
                 LobbyUpdateMessage lobbyUpd = new LobbyUpdateMessage();
                 lobbyUpd.setPlayersInLobby(gameInstance.getPlayerPayload());
-                gameServer.broadcastTCP(lobbyUpd);
+                gameServer.broadcastTCP(lobbyUpd, gameInstance.getPlayersInLobby());
             }
             else{
                 LobbyConnectionResponseMessage lobbyConn = new LobbyConnectionResponseMessage();
