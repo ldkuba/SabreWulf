@@ -97,7 +97,7 @@ public class SoundManager {
 
 	public void invokeSound(String soundName){
 		setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
-		Sound.setupSounds(this,"res/sounds/beep.ogg", soundName);
+		Sound.setupSounds(this,"res/sounds/"+soundName+".ogg", soundName);
 	}
 
 

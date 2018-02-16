@@ -36,7 +36,7 @@ public class Main extends Application {
 		netManager.registerMessageListener(new ClientMessageListener(this));
 
 		// set starting state
-		stateManager.setCurrentState(menuState);
+		stateManager.setCurrentState(lobbyState);
 	}
 
 
