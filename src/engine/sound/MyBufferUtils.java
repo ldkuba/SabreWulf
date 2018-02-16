@@ -1,45 +1,36 @@
 package engine.sound;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
+import java.nio.file.Files;
+import org.lwjgl.BufferUtils;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.SeekableByteChannel;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import org.lwjgl.BufferUtils;
 
 import static org.lwjgl.BufferUtils.*;
 
-public class Utils {
-	
-	public static Long longNull = null;
-	
-	public static FloatBuffer asFlippedFloatBuffer(float... values) {
-		FloatBuffer output = BufferUtils.createFloatBuffer(values.length);
-		output.put(values);
-		output.flip();
+public class MyBufferUtils {
 
-		return output;
-	}
-
-	public static ByteBuffer ioResourceToByteBuffer(String resource, int bufferSize) throws IOException {
-		ByteBuffer buffer;
-
+	public static ByteBuffer ioResourceToByteBuffer(String resource, int bufferSize) {
+		
+		ByteBuffer buffer = null;
 		Path path = Paths.get(resource);
+		
 		if (Files.isReadable(path)) {
 			try (SeekableByteChannel fc = Files.newByteChannel(path)) {
 				buffer = BufferUtils.createByteBuffer((int) fc.size() + 1);
-				while (fc.read(buffer) != -1)
-					;
+				while (fc.read(buffer) != -1);
+			} catch (IOException e){
+				e.getMessage();
 			}
 		} else {
-			try (InputStream source = Utils.class.getResourceAsStream(resource);
-					ReadableByteChannel rbc = Channels.newChannel(source)) {
+			try {
+				InputStream source = MyBufferUtils.class.getResourceAsStream(resource);
+				ReadableByteChannel rbc = Channels.newChannel(source);
 				buffer = createByteBuffer(bufferSize);
 
 				while (true) {
@@ -51,6 +42,8 @@ public class Utils {
 						buffer = resizeBuffer(buffer, buffer.capacity() * 2);
 					}
 				}
+			} catch (IOException e){
+				e.getMessage();
 			}
 		}
 
@@ -64,4 +57,5 @@ public class Utils {
 		newBuffer.put(buffer);
 		return newBuffer;
 	}
+
 }
