@@ -42,12 +42,10 @@ public class GameInstance {
     }
 
     public boolean isReady() {
-        if (playersInLobby.size()!=0) {
+        if (playersInLobby.size()==6) {
             for (int i = 0; i < playersInLobby.size(); i++) {
                 if (!playersInLobby.get(i).getReady()) {
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
             return true;

@@ -1,14 +1,9 @@
 package game.server.global;
 
-import engine.net.common_net.MessageListener;
 import engine.net.common_net.networking_messages.*;
 import engine.net.server.core.GameInstance;
 import engine.net.server.core.Player;
 import game.server.GameServer;
-
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class GlobalServerMessageListener {
 
@@ -50,7 +45,7 @@ public class GlobalServerMessageListener {
             source.setChar(lim.getCharacterSelected());
 
         } else if(msg instanceof LobbyQuitMessage){
-
+            gameInstance.removePlayer(source);
         }
 
     }
