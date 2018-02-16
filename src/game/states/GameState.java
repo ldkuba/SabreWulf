@@ -91,7 +91,7 @@ public class GameState extends AbstractState
 		scene.update();
 		manager.getStatuses();
 		playerController.update();
-		map.update();
+		//map.update();
 	}
 
 	@Override
