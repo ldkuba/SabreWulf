@@ -14,9 +14,11 @@ public class Map {
 	private ArrayList<Entity> entities;
 	private ArrayList<Entity> visible;
 	private Entity[] background;
-	private final int MAP_SIZE = 10;
+	private final int MAP_SIZE_X = (int) Application.s_WindowSize.getX();
+	private final int MAP_SIZE_Y = (int) Application.s_WindowSize.getY();
 	private final float TILE_WIDTH = 1.0f;
 	private final float TILE_HEIGHT = 1.0f;
+	private final int MAP_SIZE = 10;
 	private Scene scene;
 	private float vpLength;
 
@@ -31,29 +33,49 @@ public class Map {
 
 	public void init() {
 		// initialise entities - currently just test values
-		Vec4 colour1 = new Vec4(0.4f, 0.4f, 0.4f, 1.0f);
-		Vec4 colour2 = new Vec4(0.9f, 0.3f, 0.5f, 1.0f);
-		
+		Vec4 grey = new Vec4(0.4f, 0.4f, 0.4f, 1.0f);
+		Vec4 pink = new Vec4(0.9f, 0.3f, 0.5f, 1.0f);
+		Vec4 brown = new Vec4(0.4f, 0.1f, 0.0f, 1.0f);
+		Vec4 blue = new Vec4(0.3f, 0.4f, 0.7f, 1.0f);
+		Vec4 a = new Vec4(0.7f, 0.2f, 0.6f, 1.0f);
+		System.out.println(background.length);
 		for (int i = 0; i < background.length; i++) {
 			Entity newEntity = new Entity(i, "");
-			
-			if (i % 2 == 0 || i % 7 == 0) {
-				SpriteComponent comp1 = new SpriteComponent(colour1, TILE_WIDTH, TILE_HEIGHT);
+			// x
+			if (i == 0) {
+				SpriteComponent comp1 = new SpriteComponent(grey, TILE_WIDTH, TILE_HEIGHT);
 				newEntity.addComponent(comp1);
-			} else {
-				SpriteComponent comp2 = new SpriteComponent(colour2, TILE_WIDTH, TILE_HEIGHT);
-				newEntity.addComponent(comp2);
-			}
+				newEntity.addComponent(new TransformComponent());
+				newEntity.getTransform().setPosition(new Vec3(0.0f, 0.0f, 0.0f));
+			} else if (i <= 10){
+				SpriteComponent comp1 = new SpriteComponent(pink, TILE_WIDTH, TILE_HEIGHT);
+				newEntity.addComponent(comp1);
+				newEntity.addComponent(new TransformComponent());
+				newEntity.getTransform().setPosition(new Vec3(0 + TILE_WIDTH*(i%(MAP_SIZE*MAP_SIZE)), 1 + TILE_HEIGHT*(i/(MAP_SIZE*MAP_SIZE)), 0.0f));
+			} else if (i <= 20){
+				SpriteComponent comp1 = new SpriteComponent(brown, TILE_WIDTH, TILE_HEIGHT);
+				newEntity.addComponent(comp1);
+				newEntity.addComponent(new TransformComponent());
+				newEntity.getTransform().setPosition(new Vec3(0 - TILE_WIDTH*((i-10)%(MAP_SIZE*MAP_SIZE)), 1 - TILE_HEIGHT*((i-10)/(MAP_SIZE*MAP_SIZE)), 0.0f));
+			} else if (i <= 30){
+				SpriteComponent comp1 = new SpriteComponent(blue, TILE_WIDTH, TILE_HEIGHT);
+				newEntity.addComponent(comp1);
+				newEntity.addComponent(new TransformComponent());
+				newEntity.getTransform().setPosition(new Vec3(0 + TILE_WIDTH*((i-20)%(MAP_SIZE*MAP_SIZE)), -1 + TILE_HEIGHT*((i-20)/(MAP_SIZE*MAP_SIZE)), 0.0f));
+			}  else if (i <= 40){
+				SpriteComponent comp1 = new SpriteComponent(a, TILE_WIDTH, TILE_HEIGHT);
+				newEntity.addComponent(comp1);
+				newEntity.addComponent(new TransformComponent());
+				newEntity.getTransform().setPosition(new Vec3(0 - TILE_WIDTH*((i-30)%(MAP_SIZE*MAP_SIZE)), -1 - TILE_HEIGHT*((i-30)/(MAP_SIZE*MAP_SIZE)), 0.0f));
+			} 
 			
-			newEntity.addComponent(new TransformComponent());
-			newEntity.getTransform().setPosition(new Vec3(0 + TILE_WIDTH*(i%MAP_SIZE), 0 + TILE_HEIGHT*(i/MAP_SIZE), 0.0f));
 			background[i] = newEntity;
 		}
-		for (int i = 0; i < background.length; i++){
+		for (int i = 0; i < background.length; i++) {
 			scene.addEntity(background[i]);
 		}
 	}
-	
+
 	public void update() {
 		float x = Application.s_Viewport.getX();
 		float y = Application.s_Viewport.getY();
@@ -82,12 +104,12 @@ public class Map {
 		}
 		// remove entities that are no longer visible from the scene
 		for (Entity entity : background) {
-			if (!visible.contains(entity)){
+			if (!visible.contains(entity)) {
 				scene.removeEntity(entity);
 			}
 		}
 	}
-	
+
 	public ArrayList<Entity> getMapEntities() {
 		return entities;
 	}
