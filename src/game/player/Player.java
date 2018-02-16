@@ -8,17 +8,27 @@ import engine.graphics.renderer.Renderer2D;
 import engine.graphics.texture.Texture;
 import engine.maths.Mat4;
 import game.classes.AbstractClasses;
+<<<<<<< HEAD
+=======
+import game.classes.AbstractClasses.ClassType;
+import game.classes.AbstractClasses.StatType;
+import game.classes.melee.MeleeDPS;
+import game.classes.melee.MeleeTank;
+import game.classes.range.RangeDPS;
+import game.classes.range.RangeHealer;
+>>>>>>> 3e3860bccf2ebb6a0131affcf03af3b6a961da55
 
 import java.io.Serializable;
 
 //Will contain an Entity object with components and holds data of it's own profile (health, status, position etc)
-public class Player
-{
+public class Player {
 
 	private int id;
 	private String name;
-	private int health;
+	private AbstractClasses charClass;
+	private int vitality;
 	private int energy;
+
 	private float movementSpeed = 2.0f;
 	private String status;
 	private AbstractClasses role;
@@ -30,11 +40,25 @@ public class Player
 	public TransformComponent transform;
 	public SpriteComponent sprite;
 
-	public Player(int id, String name, boolean isLocal, Texture texture)
-	{
+	public Player(int id, String name, boolean isLocal, Texture texture, ClassType selectedClass,
+			StatType selectedStat) {
 		this.id = id;
 		this.name = name;
 		this.isLocal = isLocal;
+
+		switch (selectedClass) {
+		case RANGEDPS:
+			charClass = new RangeDPS(selectedStat);
+		case RANGEHEALER:
+			charClass = new RangeHealer(selectedStat);
+		case MELEEDPS:
+			charClass = new MeleeDPS(selectedStat);
+		case MELEETANK:
+			charClass = new MeleeTank(selectedStat);
+		}
+
+		this.vitality = charClass.getVitality();
+		this.energy = charClass.getEnergy();
 
 		player = new Entity(0, "Player " + name);
 
@@ -44,58 +68,51 @@ public class Player
 		player.addComponent(transform);
 	}
 
-	public int getHealth()
-	{
-		return health;
+	public AbstractClasses getCharClass() {
+		return charClass;
 	}
 
-	public void setHealth(int hp)
-	{
-		health = hp;
+	public void setVitality(int hp) {
+		vitality = hp;
 	}
 
-	public int getEnergy()
-	{
-		return energy;
+	public int getVitality() {
+		return vitality;
 	}
 
-	public void setEnergy(int mana)
-	{
+	public void setEnergy(int mana) {
 		energy = mana;
 	}
 
-	public String getStatus()
-	{
+	public int getEnergy() {
+		return energy;
+	}
+
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(String newStatus)
-	{
+	public void setStatus(String newStatus) {
 		status = newStatus;
 	}
 
-	public boolean checkLocal()
-	{
+	public boolean checkLocal() {
 		return isLocal;
 	}
 
-	public int checkID()
-	{
+	public int checkID() {
 		return id;
 	}
 
-	public void render(Renderer2D renderer, Mat4 transformation)
-	{
+	public void render(Renderer2D renderer, Mat4 transformation) {
 		sprite.submit(renderer, transformation);
 	}
-	
-	public void update()
-	{
-		//Follow the path
+
+	public void update() {
+		// Follow the path
 	}
 
-	public Entity getEntity()
-	{
+	public Entity getEntity() {
 		return player;
 	}
 }
