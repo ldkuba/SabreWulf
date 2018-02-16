@@ -1,7 +1,6 @@
 package game.states;
 
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 
 import org.lwjgl.openal.AL11;
 
@@ -13,12 +12,12 @@ import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
 import engine.scene.Scene;
+import engine.server.core.LobbyQuitMessage;
 import engine.sound.Sound;
 import engine.sound.SoundManager;
 import engine.state.AbstractState;
 import game.Main;
-import game.method.UpdateLobbyPlayer;
-import game.networking.UpdateLobbyPlayerMessage;
+import game.networking.LockInMessage;
 
 public class LobbyState extends AbstractState
 {
@@ -106,12 +105,11 @@ public class LobbyState extends AbstractState
 				if(characterChoice.getSelectedId() != -1)
 				{
 					//Lock in champ and notify server that player is ready
-					UpdateLobbyPlayerMessage msg = new UpdateLobbyPlayerMessage();
-					msg.setSelection(characterChoice.getSelectedId());
-					app.getClient().sendTCP(msg);
-					
+					LockInMessage lim = new LockInMessage();
+					lim.setCharacterSelected(characterChoice.getSelectedId());
 					lockInButton.setEnabled(false);
 					characterChoice.setEnabled(false);
+					app.getClient().sendTCP(lim);
 				}
 			}
 		};
@@ -124,12 +122,12 @@ public class LobbyState extends AbstractState
 			@Override
 			public void onClick()
 			{
-				
+				LobbyQuitMessage quit = new LobbyQuitMessage();
+				app.getClient().sendTCP(quit);
 			}
 		};
 		app.getGui().add(quitButton);
-		
-		// 6 currently later moved to Main or sth
+
 		for(int i = 0; i < 6; i++)
 		{
 			Texture transparent = app.getAssetManager().getTexture("res/textures/transparent.png");
@@ -167,8 +165,6 @@ public class LobbyState extends AbstractState
 	public void update()
 	{
 		scene.update();
-		
-		//System.out.println(characterChoice.getSelectedId());
 	}
 
 	//Set from message listener when a accept message from a lobby is received

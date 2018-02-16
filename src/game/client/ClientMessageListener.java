@@ -1,54 +1,61 @@
 package game.client;
 
+import org.lwjgl.openal.AL11;
+
 import engine.common_net.AbstractMessage;
 import engine.common_net.MessageListener;
 import engine.server.core.Player;
+import engine.sound.Sound;
+import engine.sound.SoundManager;
 import game.Main;
 import game.method.SetCurrentGameState;
-import game.networking.NewLobbyPlayerMessage;
+import game.networking.LobbyUpdateMessage;
 import game.networking.PeerList;
-import game.networking.ServerConnectionReplyMessage;
-import game.networking.UpdateLobbyPlayerMessage;
+import game.networking.LobbyConnectionResponse;
 
 public class ClientMessageListener implements MessageListener
 {
 	private Client client;
+	private SoundManager soundManager;
 
 	public ClientMessageListener(Client client)
 	{
 		this.client = client;
+		soundManager = new SoundManager();
 	}
 
 	@Override
 	public void receiveMessage(AbstractMessage msg, Player source)
 	{
+		String soundName = "message_beep";
 		if(msg instanceof PeerList)
 		{
+			invokeSound(soundName);
 			PeerList plm = (PeerList) msg;
-			//System.out.println(plm.getNoPlayers());
-		}else if(msg instanceof ServerConnectionReplyMessage)
-		{
-			ServerConnectionReplyMessage scrm = (ServerConnectionReplyMessage) msg;
-			if(scrm.isAccepted())
+			System.out.println(plm.getNoPlayers());
+			soundManager.pauseSoundSource(soundName);
+		}
+		else if(msg instanceof LobbyConnectionResponse){
+			LobbyConnectionResponse lobbyConn = (LobbyConnectionResponse) msg;
+			if(lobbyConn.isAccepted())
 			{
-				Main.lobbyState.setLocalPlayerIndex(scrm.getSlot());
 				SetCurrentGameState setGameState = new SetCurrentGameState(client.getMain(), Main.lobbyState);
 				client.getMain().getMethodExecutor().add(setGameState);
 			}else
 			{
-				System.out.println(scrm.getMessage());
+				System.out.println(lobbyConn.getMessage());
 			}
-		}else if(msg instanceof NewLobbyPlayerMessage)
-		{
-			// todo display name when font rendering is done and that a player
-			// connected
-			NewLobbyPlayerMessage nlpm = (NewLobbyPlayerMessage) msg;
-		}else if(msg instanceof UpdateLobbyPlayerMessage)
-		{
-			UpdateLobbyPlayerMessage ulpm = (UpdateLobbyPlayerMessage) msg;
-			Main.lobbyState.updatePlayer(ulpm.getSlot(), ulpm.getSelection());
 		}
-
-		//System.out.println(msg.getClass());
+		else if(msg instanceof LobbyUpdateMessage){
+		    LobbyUpdateMessage lobbyUpd = (LobbyUpdateMessage) msg;
+		    // Here's message containing all the players and their state
+        }
+		else System.out.println(msg.getClass());
+	}
+	
+	private void invokeSound(String soundName){
+		this.soundManager.init();
+		this.soundManager.setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
+		Sound.setupSounds(soundManager, "res/sounds/beep.ogg", soundName);
 	}
 }

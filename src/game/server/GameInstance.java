@@ -1,56 +1,44 @@
 package game.server;
 
 import engine.server.core.Player;
+import engine.server.core.PlayerPayload;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameInstance {
     int MAX_SIZE_GAME_SIZE=6;
-    ArrayList<Player> instance_players;
+
+    private ArrayList<Player> playersInLobby;
 
     public GameInstance(){
-        instance_players = new ArrayList<Player>(6);
+        playersInLobby = new ArrayList<>(MAX_SIZE_GAME_SIZE);
     }
-    
-    public ArrayList<Player> getPlayers()
-    {
-    	return instance_players;
+
+    public ArrayList<Player> getPlayersInLobby(){
+        return playersInLobby;
     }
 
     public void addPlayer(Player player){
-            player.setSlot(instance_players.size());
-            instance_players.add(player);
-
-    }
-
-    public boolean removePlayer(Player player){
-        if(instance_players.contains(player)){
-            instance_players.remove(player);
-            return true;
-        }
-        else {
-            return false;
-        }
+            playersInLobby.add(player);
     }
 
     public boolean isFull(){
-        return (instance_players.size()>=6);
+        return (playersInLobby.size()>=6);
     }
 
-    public boolean isReady(){
-        int readyCount=0;
-        for(int i=0; i<5; i++){
-            if(instance_players.get(i).getReady()){
-                readyCount++;
-            }
+    public ArrayList<PlayerPayload> getPlayerPayload(){
+        ArrayList<PlayerPayload> pld = new ArrayList<PlayerPayload>();
+        for(int i=0; i<playersInLobby.size(); i++){
+            pld.add(playersInLobby.get(i).getPayload());
         }
-        if(readyCount==6){
-            return true;
-        }
-        else{
-            return false;
-        }
-
+        return pld;
     }
+
+    public void removePlayer(Player player){
+        playersInLobby.remove(player);
+    }
+
 
 }

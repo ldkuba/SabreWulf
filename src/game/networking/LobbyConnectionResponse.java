@@ -1,14 +1,15 @@
 package game.networking;
 
 import engine.common_net.AbstractMessage;
+import engine.server.core.Player;
 
-public class ServerConnectionReplyMessage extends AbstractMessage {
+import java.util.HashMap;
+
+public class LobbyConnectionResponse extends AbstractMessage {
     private boolean accepted;
     private String message;
-    private int slot;
 
-    public ServerConnectionReplyMessage(){
-
+    public LobbyConnectionResponse(){
     }
 
     public void setAccepted(boolean accepted) {
@@ -19,14 +20,6 @@ public class ServerConnectionReplyMessage extends AbstractMessage {
         this.message = message;
     }
 
-    public void setSlot(int slot) {
-        this.slot = slot;
-    }
-
-    public int getSlot() {
-        return slot;
-    }
-
     public String getMessage() {
         return message;
     }
@@ -34,4 +27,5 @@ public class ServerConnectionReplyMessage extends AbstractMessage {
     public boolean isAccepted() {
         return accepted;
     }
+
 }

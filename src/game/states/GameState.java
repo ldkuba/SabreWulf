@@ -51,7 +51,6 @@ public class GameState extends AbstractState
 	@Override
 	public void mouseAction(int button, int action)
 	{
-		playerController.onMousePress(button, action);
 	}
 
 	@Override
