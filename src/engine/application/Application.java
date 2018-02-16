@@ -39,6 +39,7 @@ import engine.assets.AssetManager;
 import engine.gui.GUI;
 import engine.input.InputManager;
 import engine.maths.Vec2;
+import engine.sound.SoundManager;
 import engine.state.StateManager;
 import game.method.MethodExecutor;
 
@@ -61,7 +62,9 @@ public class Application
 	public static Vec2 s_WindowSize;
 	public static Vec2 s_Viewport;
 	protected boolean isFullScreen;
-
+	
+	protected SoundManager soundManager = new SoundManager();
+	
 	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen)
 	{
 		initialise(width, height, vsyncInterval, name, fullscreen);
@@ -70,6 +73,7 @@ public class Application
 		assetManager = new AssetManager();
 		gui = new GUI(this);
 		methodExecutor = new MethodExecutor();
+		//soundManager = new SoundManager();
 		
 		setViewport(10.0f*(s_WindowSize.getX()/s_WindowSize.getY()), 10.0f);
 	}
@@ -120,9 +124,11 @@ public class Application
 		// Enable Antialiasing
 		GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 4);
 		// Make the window visible
-
 		glfwShowWindow(window);
-
+		
+		//try initialise sound manager
+		soundManager.init();
+		
 		GL.createCapabilities();
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_BLEND);
@@ -200,6 +206,10 @@ public class Application
 	public void setViewport(float right, float top)
 	{
 		s_Viewport = new Vec2(right, top);
+	}
+	
+	public SoundManager getSoundManager(){
+		return soundManager;
 	}
 
 	public void resize(long window, int width, int height)

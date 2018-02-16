@@ -1,15 +1,16 @@
 package engine.sound;
 
+import engine.maths.Vec3;
+import engine.entity.component.AbstractComponent;
+
 import static org.lwjgl.openal.AL10.*;
 
-import engine.entity.component.AbstractComponent;
-import engine.maths.Vec3;
-
 public class SoundSource extends AbstractComponent {
+
 	private final int sourceId;
 
 	public SoundSource(boolean loop, boolean relative) {
-		this.sourceId = alGenSources();
+		sourceId = alGenSources();
 		if (loop) {
 			alSourcei(sourceId, AL_LOOPING, AL_TRUE);
 		}
@@ -23,20 +24,20 @@ public class SoundSource extends AbstractComponent {
 		alSourcei(sourceId, AL_BUFFER, bufferId);
 	}
 
-	public void setPosition(Vec3 position) {
-		alSource3f(sourceId, AL_POSITION, position.getX(), position.getY(), position.getZ());
-	}
-
-	public void setSpeed(Vec3 speed) {
-		alSource3f(sourceId, AL_VELOCITY, speed.getX(), speed.getY(), speed.getZ());
-	}
-
 	public void setGain(float gain) {
 		alSourcef(sourceId, AL_GAIN, gain);
 	}
 
+	public void setPosition(Vec3 position) {
+		alSource3f(sourceId, AL_POSITION, position.getX(), position.getY(), position.getZ());
+	}
+	
 	public void setProperty(int param, float value) {
 		alSourcef(sourceId, param, value);
+	}
+
+	public void setSpeed(Vec3 speed) {
+		alSource3f(sourceId, AL_VELOCITY, speed.getX(), speed.getY(), speed.getZ());
 	}
 
 	public void play() {
