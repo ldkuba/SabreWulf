@@ -11,16 +11,16 @@ public class ServerMain extends Application {
 	
 	public ServerMain() {		
 		super(1920, 1080, 1, "SabreWulf", false, true); //window width, window height, vsync interval
-		
+
+	}
+
+	public void run(){
 		gameState = new ServerGameState(this);
 
 		stateManager.addState(gameState);
-		
+
 		// set starting state
 		stateManager.setCurrentState(gameState);
-	}
-
-	public static void main(String[] args) {
 		Main game = new Main();
 		game.run();
 	}

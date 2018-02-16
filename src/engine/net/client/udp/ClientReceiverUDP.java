@@ -10,14 +10,14 @@ import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.common_net.Deserialization;
 
 
-public class ClientListenerUDP extends Thread{
+public class ClientReceiverUDP extends Thread{
     private static DatagramSocket UDPsocket;
     private int port;
     private int MAX_PACKET_SIZE;
     
     private Deserialization NetTools = new Deserialization();
     
-    ClientListenerUDP(int port, int packetSize) {
+    ClientReceiverUDP(int port, int packetSize) {
     	this.port = port;
     	MAX_PACKET_SIZE = packetSize;
     }

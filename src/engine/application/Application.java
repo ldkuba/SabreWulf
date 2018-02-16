@@ -70,13 +70,14 @@ public class Application
 			inputManager = new InputManager(this);
 			assetManager = new AssetManager();
 			gui = new GUI(this);
+			setViewport(10.0f*(s_WindowSize.getX()/s_WindowSize.getY()), 10.0f);
 		}
 
-		netManager = new NetworkManager(networkType, this);
+		netManager = new NetworkManager(this);
 		
 		stateManager = new StateManager(this);
 		
-		setViewport(10.0f*(s_WindowSize.getX()/s_WindowSize.getY()), 10.0f);
+
 	}
 
 	public void initialise(int width, int height, int vsyncInterval, String name, boolean fullscreen)

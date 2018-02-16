@@ -1,5 +1,6 @@
 package engine.net.server.core;
 
+import engine.net.common_net.Port;
 import engine.net.common_net.networking_messages.AbstractMessage;
 
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.net.SocketException;
 import java.util.concurrent.*;
 
 public class Player implements Serializable {
+
     private PlayerPayload payload;
     private Socket socket;
     private BlockingQueue<AbstractMessage> pbq;
@@ -32,6 +34,7 @@ public class Player implements Serializable {
         }
         return null;
     }
+
     public void addMsg(AbstractMessage msg){
             pbq.add(msg);
     }
@@ -69,6 +72,6 @@ public class Player implements Serializable {
     }
 
     public void generateDatagramSocket() throws SocketException {
-        datagramSocket = new DatagramSocket(socket.getPort(), socket.getInetAddress());
+        datagramSocket = new DatagramSocket(Port.UDPPort, socket.getInetAddress());
     }
 }
