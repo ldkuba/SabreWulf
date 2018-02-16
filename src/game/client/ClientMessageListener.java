@@ -29,6 +29,8 @@ public class ClientMessageListener implements MessageListener
 			receiveMessage(msg);
 		}
 		abstractMessageInbound.clear();
+		this.client = client;
+		soundManager = new SoundManager();
 	}
 
 	@Override
@@ -40,9 +42,15 @@ public class ClientMessageListener implements MessageListener
 	public void receiveMessage(AbstractMessage msg)
 	{
 		if(msg instanceof PeerCountMessage)
+		String soundName = "message_beep";
+		if(msg instanceof PeerList)
 		{
 			PeerCountMessage pcm = (PeerCountMessage) msg;
 			System.out.println("Number of players online: " + pcm.getNoPlayers());
+			invokeSound(soundName);
+			PeerList plm = (PeerList) msg;
+			System.out.println(plm.getNoPlayers());
+			soundManager.pauseSoundSource(soundName);
 		}
 		else if(msg instanceof LobbyConnectionResponseMessage){
 			LobbyConnectionResponseMessage lobbyConn = (LobbyConnectionResponseMessage) msg;
@@ -73,4 +81,10 @@ public class ClientMessageListener implements MessageListener
 	}
 
 
+
+	private void invokeSound(String soundName){
+		this.soundManager.init();
+		this.soundManager.setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
+		Sound.setupSounds(soundManager, "res/sounds/beep.ogg", soundName);
+	}
 }

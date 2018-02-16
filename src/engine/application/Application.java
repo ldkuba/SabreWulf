@@ -39,6 +39,7 @@ import engine.assets.AssetManager;
 import engine.gui.GUI;
 import engine.input.InputManager;
 import engine.maths.Vec2;
+import engine.sound.SoundManager;
 import engine.state.StateManager;
 
 /*
@@ -55,11 +56,17 @@ public class Application
 	protected InputManager inputManager;
 	protected AssetManager assetManager;
 	protected GUI gui;
+	
+	protected MethodExecutor methodExecutor;
 
 	protected GLFWWindowSizeCallback windowSizeCallback;
 	public static Vec2 s_WindowSize;
 	public static Vec2 s_Viewport;
 	protected boolean isFullScreen;
+
+	protected SoundManager soundManager = new SoundManager();
+
+	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen)
 
 	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless)
 	{
@@ -74,9 +81,9 @@ public class Application
 		}
 
 		netManager = new NetworkManager(this);
-		
+
 		stateManager = new StateManager(this);
-		
+
 
 	}
 
@@ -126,8 +133,10 @@ public class Application
 		// Enable Antialiasing
 		GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 4);
 		// Make the window visible
-
 		glfwShowWindow(window);
+
+		//try initialise sound manager
+		soundManager.init();
 
 		GL.createCapabilities();
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -179,7 +188,7 @@ public class Application
 	{
 		return gui;
 	}
-	
+
 	public void exit()
 	{
 		glfwSetWindowShouldClose(window, true);
@@ -202,6 +211,10 @@ public class Application
 	public void setViewport(float right, float top)
 	{
 		s_Viewport = new Vec2(right, top);
+	}
+
+	public SoundManager getSoundManager(){
+		return soundManager;
 	}
 
 	public void resize(long window, int width, int height)
