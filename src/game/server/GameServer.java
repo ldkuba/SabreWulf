@@ -54,6 +54,7 @@ public class GameServer
 
 	public void addMessage(AbstractMessage message, Player player){
 			messageListener.addMessage(message,player);
+			System.out.println("Received message");
 	}
 
 	public void addConnectionEvent(Player player, boolean connected){
@@ -67,6 +68,7 @@ public class GameServer
 
 	public void sendTCP(AbstractMessage msg, Player p){
 		p.addMsg(msg);
+		System.out.println("Sending message");
 	}
 
 	public void broadcastTCP(AbstractMessage msg){

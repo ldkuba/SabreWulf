@@ -2,6 +2,7 @@ package game.server.states;
 
 import engine.scene.Scene;
 import engine.state.AbstractState;
+import game.server.ServerMain;
 
 public class ServerGameState extends AbstractState
 {

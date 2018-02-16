@@ -1,12 +1,11 @@
 package engine.net.common_net;
 
+import java.util.ArrayList;
+
 import engine.application.Application;
 import engine.net.common_net.Synchronizable;
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.server.core.Player;
-import game.server.GameServer;
-
-import java.util.ArrayList;
 
 public class NetworkManager {
 

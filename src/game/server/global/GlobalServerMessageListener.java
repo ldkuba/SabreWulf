@@ -27,7 +27,7 @@ public class GlobalServerMessageListener implements MessageListener {
 
     public GlobalServerMessageListener(GameServer server){
         messageQueue = new CopyOnWriteArrayList<>();
-
+        this.gameServer = server;
     }
 
     @Override

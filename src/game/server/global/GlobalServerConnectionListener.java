@@ -45,8 +45,8 @@ public class GlobalServerConnectionListener implements ConnectionListener {
 
     @Override
     public void clientDisconnected(Player player) {
-        gameServer.players.remove(player);
-        player.addMsg(new QuitMessage());
+    	player.addMsg(new QuitMessage());
+    	gameServer.players.remove(player);
         try {
             player.getSocket().close();
         } catch (IOException e) {
