@@ -1,5 +1,8 @@
 package game.client.states;
 
+import engine.net.common_net.networking_messages.LobbyConnectionRequestMessage;
+import engine.sound.Sound;
+import engine.sound.SoundManager;
 import org.lwjgl.openal.AL11;
 
 import engine.application.Application;
@@ -21,13 +24,10 @@ public class MenuState extends AbstractState {
 	private Button settingsButton;
 	private Button exitButton;
 
-	//each state has its own sound manager
-	private final SoundManager soundMgr;
 
 	public MenuState(Main app) {
 		this.app = app;
 		scene = new Scene(0);
-		soundMgr = new SoundManager();
 	}
 
 	@Override
@@ -42,9 +42,8 @@ public class MenuState extends AbstractState {
 
 	@Override
 	public void init() {
-		scene.init();
+		scene.initRenderer();
 		app.getGui().init(scene);
-		soundMgr.init();
 
 		Texture menuBackgroundTexture = app.getAssetManager().getTexture("res/textures/mainmenu_background.png");
 		menuBackground = new Sprite(0, 0, 100.0f, 100.0f, menuBackgroundTexture);
@@ -91,11 +90,7 @@ public class MenuState extends AbstractState {
 		scene.getCamera().setProjectionMatrix(
 				MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.1f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
-
-		// set up background sound
-		this.soundMgr.init();
-		this.soundMgr.setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
-		Sound.setupSounds(soundMgr, "res/sounds/menu.ogg", "menu");
+		app.getSoundManager().invokeSound("menu");
 	}
 
 	@Override
@@ -110,8 +105,6 @@ public class MenuState extends AbstractState {
 
 	@Override
 	public void deactivate() {
-		soundMgr.clean();
-
 	}
 	// TODO: Fill in state methods to make them functional
 }

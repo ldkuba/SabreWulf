@@ -1,22 +1,18 @@
 package game.client;
-
-import engine.net.client.Client;
 import engine.net.common_net.MessageListener;
 import engine.net.common_net.networking_messages.*;
 import engine.net.server.core.Player;
-
-import java.util.concurrent.BlockingQueue;
+import engine.sound.Sound;
+import engine.sound.SoundManager;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
-
 public class ClientMessageListener implements MessageListener
 {
 	private Main app;
 	private CopyOnWriteArrayList<AbstractMessage> abstractMessageInbound;
 
-	public ClientMessageListener(Main client)
+	public ClientMessageListener(Main app)
 	{
-		this.app = client;
+		this.app = app;
 		abstractMessageInbound = new CopyOnWriteArrayList<>();
 	}
 	@Override
@@ -29,8 +25,6 @@ public class ClientMessageListener implements MessageListener
 			receiveMessage(msg);
 		}
 		abstractMessageInbound.clear();
-		this.client = client;
-		soundManager = new SoundManager();
 	}
 
 	@Override
@@ -42,15 +36,14 @@ public class ClientMessageListener implements MessageListener
 	public void receiveMessage(AbstractMessage msg)
 	{
 		if(msg instanceof PeerCountMessage)
-		String soundName = "message_beep";
-		if(msg instanceof PeerList)
 		{
+			String soundName = "message_beep";
 			PeerCountMessage pcm = (PeerCountMessage) msg;
 			System.out.println("Number of players online: " + pcm.getNoPlayers());
-			invokeSound(soundName);
-			PeerList plm = (PeerList) msg;
+			app.getSoundManager().invokeSound(soundName);
+			PeerCountMessage plm = (PeerCountMessage) msg;
 			System.out.println(plm.getNoPlayers());
-			soundManager.pauseSoundSource(soundName);
+			app.getSoundManager().pauseSoundSource(soundName);
 		}
 		else if(msg instanceof LobbyConnectionResponseMessage){
 			LobbyConnectionResponseMessage lobbyConn = (LobbyConnectionResponseMessage) msg;
@@ -78,13 +71,5 @@ public class ClientMessageListener implements MessageListener
 	@Override
 	public void addMessage(AbstractMessage message, Player player) {
 
-	}
-
-
-
-	private void invokeSound(String soundName){
-		this.soundManager.init();
-		this.soundManager.setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
-		Sound.setupSounds(soundManager, "res/sounds/beep.ogg", soundName);
 	}
 }

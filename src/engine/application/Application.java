@@ -28,7 +28,6 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 import java.nio.IntBuffer;
 import engine.net.common_net.NetworkManager;
-import engine.net.common_net.networking_messages.AbstractMessage;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
@@ -56,17 +55,13 @@ public class Application
 	protected InputManager inputManager;
 	protected AssetManager assetManager;
 	protected GUI gui;
-	
-	protected MethodExecutor methodExecutor;
 
 	protected GLFWWindowSizeCallback windowSizeCallback;
 	public static Vec2 s_WindowSize;
 	public static Vec2 s_Viewport;
 	protected boolean isFullScreen;
 
-	protected SoundManager soundManager = new SoundManager();
-
-	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen)
+	protected SoundManager soundManager;
 
 	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless)
 	{
@@ -76,6 +71,7 @@ public class Application
 			initialise(width, height, vsyncInterval, name, fullscreen);
 			inputManager = new InputManager(this);
 			assetManager = new AssetManager();
+			soundManager = new SoundManager();
 			gui = new GUI(this);
 			setViewport(10.0f*(s_WindowSize.getX()/s_WindowSize.getY()), 10.0f);
 		}
@@ -135,8 +131,6 @@ public class Application
 		// Make the window visible
 		glfwShowWindow(window);
 
-		//try initialise sound manager
-		soundManager.init();
 
 		GL.createCapabilities();
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -183,6 +177,10 @@ public class Application
 	{
 		return assetManager;
 	}
+
+	public SoundManager getSoundManager(){
+		return soundManager;
+	}
 	
 	public GUI getGui()
 	{
@@ -196,10 +194,13 @@ public class Application
 
 	public void cleanup()
 	{
-		glfwFreeCallbacks(window);
-		glfwDestroyWindow(window);
-		// Terminate GLFW
-		glfwTerminate();
+		if(!isHeadless) {
+			glfwFreeCallbacks(window);
+			glfwDestroyWindow(window);
+			// Terminate GLFW
+			glfwTerminate();
+			soundManager.clean();
+		}
 		System.out.println("Successfully Quit");
 	}
 	
@@ -211,10 +212,6 @@ public class Application
 	public void setViewport(float right, float top)
 	{
 		s_Viewport = new Vec2(right, top);
-	}
-
-	public SoundManager getSoundManager(){
-		return soundManager;
 	}
 
 	public void resize(long window, int width, int height)
