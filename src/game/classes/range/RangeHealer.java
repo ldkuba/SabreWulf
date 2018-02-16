@@ -10,19 +10,17 @@ import game.player.Player;
 public class RangeHealer extends RangeClass {
 
 	private int exIntell = 80;
-	private int exStrength;
-	private int exDefence;
-	private int exVitality;
-	private int exEnergyCost;
-	private int exEnergy;
+	private int exStrength = 0;
+	private int exDefence = 0;
+	private int exVitality = 0;
+	private int exEnergy = 0;
+	
+	private int exAttackDmg = 0;
+	private int exAttackRng = 0;
 
 	public RangeHealer(StatType type) {
-		addExIntelligence(exIntell);
-		addExStrength(exStrength);
-		addExDefence(exDefence);
-		addExVitality(exVitality);
-		addExEnergy(exEnergy);
-		addExEnergyCost(exEnergyCost);
+		addExtraStats(exVitality, exEnergy, exIntell, exStrength, exDefence);
+		addExtraCombatStats(exAttackDmg, exAttackRng);
 		setStatType(type);
 	}
 

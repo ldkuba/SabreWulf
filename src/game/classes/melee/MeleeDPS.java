@@ -8,20 +8,14 @@ import game.player.Player;
  */
 public class MeleeDPS extends MeleeClass {
 
+	private int exVitality = 0;
+	private int exEnergy   = 0;
+	private int exIntell   = 0;
 	private int exStrength = 60;
-	private int exIntell;
-	private int exDefence;
-	private int exVitality;
-	private int exEnergyCost;
-	private int exEnergy;
+	private int exDefence  = 0;
 
 	public MeleeDPS(StatType type) {
-		addExIntelligence(exIntell);
-		addExStrength(exStrength);
-		addExDefence(exDefence);
-		addExVitality(exVitality);
-		addExEnergyCost(exEnergyCost);
-		addExEnergy(exEnergy);
+		addExtraStats(exVitality, exEnergy, exIntell, exStrength, exDefence);
 		setStatType(type);
 	}
 

@@ -10,15 +10,13 @@ import game.player.Player;
 public class MeleeTank extends MeleeClass {
 
 	private int exVitality = 100;
-	private int exIntell;
-	private int exStrength;
-	private int exDefence;
+	private int exEnergy   = 0;
+	private int exIntell   = 0;
+	private int exStrength = 0;
+	private int exDefence  = 0;
 
 	public MeleeTank(StatType type) {
-		addExIntelligence(exIntell);
-		addExStrength(exStrength);
-		addExDefence(exDefence);
-		addExVitality(exVitality);
+		addExtraStats(exVitality, exEnergy, exIntell, exStrength, exDefence);
 		setStatType(type);
 	}
 

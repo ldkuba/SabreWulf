@@ -4,24 +4,20 @@ import game.classes.AbstractClasses;
 
 public class MeleeClass extends AbstractClasses {
 
-	private int vitality = 100;
-	private int energy = 40;
-	private int intell = 60;
-	private int defence = 80;
-	private int strength = 130;
-	private int attackDmg = 10;
-	private int energyCost = 10;
-	private float baseRange = 2.0f;
+	//Base Stats.
+	private static int vitality = 100;
+	private static int energy   = 40;
+	private static int intell   = 60;
+	private static int strength = 130;
+	private static int defence  = 80;
+	
+	//Base Combat Stats.
+	private static int attackDmg   = 10;
+	private static float baseRange = 2.0f;
 
 	public MeleeClass() {
-		setVitality(vitality);
-		setEnergy(energy);
-		setIntelligence(intell);
-		setDefence(defence);
-		setStrength(strength);
-		setAttack(attackDmg);
-		setEnergyCost(energyCost);
-		setBaseRange(baseRange);
+		super(vitality, energy, intell, strength, defence);
+		setCombatStats(attackDmg, baseRange);
 	}
 
 }

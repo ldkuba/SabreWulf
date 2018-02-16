@@ -9,23 +9,19 @@ import game.player.Player;
 
 public class RangeDPS extends RangeClass {
 
-	private int exIntell = 40;
-	private int exStrength = 60;
-	private int exDefence = 30;
-	private int exVitality = 30;
+	private int exVitality  = 30;
+	private int exEnergy    = 0;
+	private int exIntell    = 40;
+	private int exStrength  = 60;
+	private int exDefence   = 30;
+	
 	private int exAttackDmg = 10;
-	private int exEnergyCost;
-	private int exEnergy;
+	private int exAttackRng = 0;
 
 	// Intelligent based
 	public RangeDPS(StatType type) {
-		addExIntelligence(exIntell);
-		addExStrength(exStrength);
-		addExDefence(exDefence);
-		addExVitality(exVitality);
-		addExAttackDmg(exAttackDmg);
-		addExEnergyCost(exEnergyCost);
-		addExEnergy(exEnergy);
+		addExtraStats(exVitality, exEnergy, exIntell, exStrength, exDefence);
+		addExtraCombatStats(exAttackDmg, exAttackRng);
 		setStatType(type);
 	}
 
