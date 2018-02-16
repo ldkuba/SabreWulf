@@ -29,8 +29,7 @@ public class Server extends Thread{
         }
 
         try {
-            // While(true) for the moment, listen to incoming connections
-            while(true) {
+            while(gameServer.players.size()<50) {
                 SCSocket = coreSocket.accept();
                 Player player = new Player(SCSocket);
                 gameServer.addPlayer(player);

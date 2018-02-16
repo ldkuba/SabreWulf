@@ -10,32 +10,21 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class GlobalServerMessageListener implements MessageListener {
+public class GlobalServerMessageListener {
 
-    private CopyOnWriteArrayList<MessageData> messageQueue;
     private GameServer gameServer;
     private GameInstance gameInstance;
-    private class MessageData{
-        public AbstractMessage message;
-        public Player player;
-
-        public MessageData(AbstractMessage message, Player player){
-            this.message = message;
-            this.player = player;
-        }
+    public GlobalServerMessageListener(GameServer gameServer){
+        this.gameServer = gameServer;
     }
 
-    public GlobalServerMessageListener(GameServer server){
-        messageQueue = new CopyOnWriteArrayList<>();
-        this.gameServer = server;
-    }
-
-    @Override
     public void receiveMessage(AbstractMessage msg, Player source) {
+
         // Handling Play button action here
         if(msg instanceof LobbyConnectionRequestMessage) {
             LobbyConnectionRequestMessage m = (LobbyConnectionRequestMessage) msg;
             if (gameServer.isFreeGameInstance()) {
+
                 gameInstance = gameServer.getFreeGameInstance();
                 source.setName(m.getName());
                 gameInstance.addPlayer(source);
@@ -66,26 +55,4 @@ public class GlobalServerMessageListener implements MessageListener {
 
     }
 
-    @Override
-    public void receiveMessage(AbstractMessage msg) {
-
-    }
-
-    @Override
-    public void addMessage(AbstractMessage message, Player player) {
-        messageQueue.add(new MessageData(message, player));
-    }
-
-    @Override
-    public void addMessage(AbstractMessage message){
-
-    }
-
-    @Override
-    public void handleMessageQueue() {
-        for(MessageData msg : messageQueue){
-            receiveMessage(msg.message, msg.player);
-        }
-        messageQueue.clear();
-    }
 }

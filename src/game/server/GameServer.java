@@ -53,17 +53,17 @@ public class GameServer
 	}
 
 	public void addMessage(AbstractMessage message, Player player){
-			messageListener.addMessage(message,player);
+			messageListener.receiveMessage(message,player);
 			System.out.println("Received message");
 	}
 
-	public void addConnectionEvent(Player player, boolean connected){
-			connectionListener.addConnectionEvent(connected,player);
-	}
-
-	public void handleMessagesAndConnections(){
-		messageListener.handleMessageQueue();
-		connectionListener.handleConnectionQueue();
+	public void addConnectionEvent(Player player, boolean status){
+		if(status){
+			connectionListener.clientConnected(player);
+		}
+		else{
+			connectionListener.clientDisconnected(player);
+		}
 	}
 
 	public void sendTCP(AbstractMessage msg, Player p){

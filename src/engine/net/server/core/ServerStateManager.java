@@ -12,11 +12,11 @@ public class ServerStateManager extends Thread {
 
          while(true){
              try {
-                 Thread.currentThread().sleep(1);
-                 gameServer.handleMessagesAndConnections();
+                 Thread.currentThread().sleep(100);
              } catch (InterruptedException e) {
                  e.printStackTrace();
              }
+
              if(gameServer.getNoPlayers()>0){
                 try {
                     //gameServer.broadcastTCP(new PeerCountMessage(gameServer.getNoPlayers()));
