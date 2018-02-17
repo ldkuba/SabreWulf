@@ -19,6 +19,7 @@ public class NetworkManager {
     private ArrayList<Player> players;
     private ServerSenderUDP udp;
     private BlockingQueue<Synchronizable> messages;
+
     public NetworkManager(ArrayList<Player> players, Application app){
         this.networkType = true;
         this.players = players;

@@ -7,6 +7,7 @@ import java.net.SocketException;
 
 import engine.net.client.Client;
 import engine.net.common_net.networking_messages.AbstractMessage;
+import engine.net.common_net.networking_messages.LobbyUpdateMessage;
 
 public class ClientReceiverTCP extends Thread{
 	Socket CSSocket = null;
@@ -25,12 +26,15 @@ public class ClientReceiverTCP extends Thread{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-
 		while(!CSSocket.isClosed()){
 
 			try {
 				AbstractMessage abs = (AbstractMessage) ois.readObject();
+				 if(abs instanceof LobbyUpdateMessage){
+				 LobbyUpdateMessage upd8 = (LobbyUpdateMessage) abs;
+				 System.out.println(upd8.getPlayersInLobby().get(0).getName());
+				 }
+
 				if(abs != null)
 				client.getMain().getNetworkManager().addMessage(abs,null);
 			} catch (SocketException ex)

@@ -38,6 +38,7 @@ public class GlobalServerMessageListener {
                 lobbyUpd.setTest(5);
                 gameServer.broadcastTCP(lobbyUpd, gameInstance.getPlayersInLobby());
             }
+
             else{
                 LobbyConnectionResponseMessage lobbyConn = new LobbyConnectionResponseMessage();
                 lobbyConn.setAccepted(false);
@@ -49,15 +50,15 @@ public class GlobalServerMessageListener {
             source.setReady(true);
             source.setChar(lim.getCharacterSelected());
             source.setName("bob modified");
-            LobbyUpdateMessage lobbyUpdateMessage = new LobbyUpdateMessage();
-            lobbyUpdateMessage.setPlayersInLobby(gameInstance.getPlayerPayload());
-            lobbyUpdateMessage.setTest(6);
-            gameServer.broadcastTCP(lobbyUpdateMessage, gameInstance.getPlayersInLobby());
+            System.out.println("I've modified bob" + source.getName());
+            LobbyUpdateMessage lobbyUpd = new LobbyUpdateMessage();
+            lobbyUpd.setPlayersInLobby(gameInstance.getPlayerPayload());
+            lobbyUpd.setTest(6);
+            gameServer.broadcastTCP(lobbyUpd, gameInstance.getPlayersInLobby());
 
         } else if(msg instanceof LobbyQuitMessage){
             gameInstance.removePlayer(source);
         }
 
     }
-
 }
