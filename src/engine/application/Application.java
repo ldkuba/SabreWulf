@@ -63,6 +63,8 @@ public class Application
 
 	protected SoundManager soundManager;
 
+	private boolean running=true;
+
 	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless)
 	{
 		isHeadless = headless;
@@ -140,20 +142,31 @@ public class Application
 
 	public void run()
 	{
-		// Run the rendering loop until the user presses esc or quits
-		while (!glfwWindowShouldClose(window))
-		{
+		if(!isHeadless){
+			// Run the rendering loop until the user presses esc or quits
+			while (!glfwWindowShouldClose(window))
+			{
 
-			netManager.handleMessagesAndConnections();
-			stateManager.updateState();
-			gui.update();			
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear frame
-																// buffer
-			stateManager.renderState();
-			glfwSwapBuffers(window); // swap the colour buffers
-			glfwPollEvents(); // Poll for window events. The key callback above
-								// will only be invoked during this call.
+				netManager.handleMessagesAndConnections();
+				stateManager.updateState();
+				gui.update();
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear frame
+				// buffer
+				stateManager.renderState();
+				glfwSwapBuffers(window); // swap the colour buffers
+				glfwPollEvents(); // Poll for window events. The key callback above
+				// will only be invoked during this call.
+			}
 		}
+		else{
+			// Run the rendering loop until the user presses esc or quits
+			while (running)
+			{
+				netManager.handleMessagesAndConnections();
+				stateManager.updateState();
+			}
+		}
+
 		cleanup();
 	}
 
@@ -189,7 +202,12 @@ public class Application
 
 	public void exit()
 	{
-		glfwSetWindowShouldClose(window, true);
+		if(!isHeadless){
+			glfwSetWindowShouldClose(window, true);
+		}
+		else{
+			running = false;
+		}
 	}
 
 	public void cleanup()
@@ -231,5 +249,9 @@ public class Application
 
 	public NetworkManager getNetworkManager() {
 		return netManager;
+	}
+
+	public boolean isHeadless(){
+		return isHeadless;
 	}
 }

@@ -15,8 +15,10 @@ public class Player implements Serializable {
     private Socket socket;
     private BlockingQueue<AbstractMessage> pbq;
     private DatagramSocket datagramSocket = null;
+    private int currentGame;
 
     public Player(Socket socket){
+        currentGame = -1;
         this.socket=socket;
         pbq = new LinkedBlockingQueue<>(1000);
         payload = new PlayerPayload();
@@ -73,5 +75,9 @@ public class Player implements Serializable {
 
     public void generateDatagramSocket() throws SocketException {
         datagramSocket = new DatagramSocket(Port.UDPPort, socket.getInetAddress());
+    }
+
+    public int getCurrentGame() {
+        return currentGame;
     }
 }

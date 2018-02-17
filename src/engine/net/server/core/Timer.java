@@ -17,6 +17,6 @@ public class Timer extends Thread {
             }
             instanceManager.notifyTick(i);
         }
-
+        instanceManager.notifyEndOfCountdown();
     }
 }

@@ -41,7 +41,7 @@ public class ServerGameState extends AbstractState
 	@Override
 	public void update()
 	{
-		
+		System.out.println("running game");
 	}
 
 	@Override

@@ -1,16 +1,18 @@
-package game.client;
+package game.server.ingame;
 import engine.net.common_net.MessageListener;
 import engine.net.common_net.networking_messages.*;
 import engine.net.server.core.Player;
-import engine.sound.Sound;
-import engine.sound.SoundManager;
+import game.client.Main;
+import game.server.states.ServerMain;
+
 import java.util.concurrent.CopyOnWriteArrayList;
-public class ClientMessageListener implements MessageListener
+
+public class ServerMessageListener implements MessageListener
 {
-	private Main app;
+	private ServerMain app;
 	private CopyOnWriteArrayList<AbstractMessage> abstractMessageInbound;
 
-	public ClientMessageListener(Main app)
+	public ServerMessageListener(ServerMain app)
 	{
 		this.app = app;
 		abstractMessageInbound = new CopyOnWriteArrayList<>();
