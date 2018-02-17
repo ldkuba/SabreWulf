@@ -2,10 +2,10 @@ package engine.net.common_net;
 
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import engine.application.Application;
-import engine.net.client.udp.ClientReceiverUDP;
-import engine.net.common_net.Synchronizable;
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.server.core.Player;
 import engine.net.server.udp.ServerSenderUDP;
@@ -17,11 +17,16 @@ public class NetworkManager {
     private MessageListener messageListener;
     private ConnectionListener connectionListener;
     private ArrayList<Player> players;
-
+    private ServerSenderUDP udp;
+    private BlockingQueue<Synchronizable> messages;
     public NetworkManager(ArrayList<Player> players, Application app){
         this.networkType = true;
         this.players = players;
         initializeDatagramSockets();
+        messages = new LinkedBlockingQueue<>(1500);
+        udp = new ServerSenderUDP(messages, players);
+        udp.setName("UDPThread ");
+        udp.start();
     }
 
     private void initializeDatagramSockets() {
@@ -72,10 +77,6 @@ public class NetworkManager {
     public void setupServer(){
         ServerSenderUDP ssudp;
 
-    }
-
-    public void setupClient(){
-        ClientReceiverUDP crudp;
     }
 
     public void setPlayers(ArrayList<Player> players) {

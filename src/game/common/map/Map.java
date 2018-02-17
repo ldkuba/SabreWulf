@@ -52,8 +52,7 @@ public class Map {
 		float lowerY = y - vpLength;
 		for (int i = 0; i < MAP_SIZE; i++) {
 			Entity temp = background[i];
-			System.out.println(temp);
-			Vec3 pos = temp.getTransform().getPosition();
+			Vec3 pos = new Vec3();
 			// assuming that pos gives the bottom
 			float minX = pos.getX();
 			float minY = pos.getY();

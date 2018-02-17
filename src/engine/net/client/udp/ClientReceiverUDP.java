@@ -7,7 +7,6 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 import engine.net.common_net.networking_messages.AbstractMessage;
-import engine.net.common_net.Deserialization;
 
 
 public class ClientReceiverUDP extends Thread{
@@ -15,8 +14,7 @@ public class ClientReceiverUDP extends Thread{
     private int port;
     private int MAX_PACKET_SIZE;
     
-    private Deserialization NetTools = new Deserialization();
-    
+
     ClientReceiverUDP(int port, int packetSize) {
     	this.port = port;
     	MAX_PACKET_SIZE = packetSize;
@@ -38,7 +36,7 @@ public class ClientReceiverUDP extends Thread{
     		try {
 				UDPsocket.receive(receivePacket);
 				
-				AbstractMessage gameMessage = NetTools.deserialize(receivePacket.getData());
+				AbstractMessage gameMessage = UDPTools.deserialize(receivePacket.getData());
 				
 				//Notify client. 'gameMessage'
 				

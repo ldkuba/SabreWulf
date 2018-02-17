@@ -47,20 +47,30 @@ public class GameServer
 		pcm= new PlayerCountManager(this);
 		pcm.setName("Player Count Manager");
 		pcm.start();
-
 	}
 
 	public void addMessage(AbstractMessage message, Player player){
+		if(player.getCurrentGame()==-1){
 			messageListener.receiveMessage(message,player);
-			System.out.println("Received message");
+		}
+		else{
+			games.get(player.getCurrentGame()).getGIManager().getGameEngine().getNetworkManager().addMessage(message, player);
+		}
 	}
 
 	public void addConnectionEvent(Player player, boolean status){
-		if(status){
-			connectionListener.clientConnected(player);
+		if(player.getCurrentGame()==-1){
+			//maybe Concurrency issues
+			if(status){
+
+				connectionListener.clientConnected(player);
+			}
+			else{
+				connectionListener.clientDisconnected(player);
+			}
 		}
 		else{
-			connectionListener.clientDisconnected(player);
+			games.get(player.getCurrentGame()).getGIManager().getGameEngine().getNetworkManager().addConnectionEvent(player, status);
 		}
 	}
 
@@ -98,4 +108,5 @@ public class GameServer
 		}
 		return null;
 	}
+
 }
