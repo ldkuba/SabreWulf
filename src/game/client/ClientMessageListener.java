@@ -10,6 +10,8 @@ public class ClientMessageListener implements MessageListener
 	private Main app;
 	private CopyOnWriteArrayList<AbstractMessage> abstractMessageInbound;
 
+	private final int maxTraffic = 20;
+
 	public ClientMessageListener(Main app)
 	{
 		this.app = app;
@@ -21,10 +23,12 @@ public class ClientMessageListener implements MessageListener
 	}
 
 	public void handleMessageQueue(){
-		for(AbstractMessage msg : abstractMessageInbound){
-			receiveMessage(msg);
+		int count = 0;
+		while(count < maxTraffic && !abstractMessageInbound.isEmpty()) {
+			receiveMessage(abstractMessageInbound.get(0));
+			abstractMessageInbound.remove(0);
+			count++;
 		}
-		abstractMessageInbound.clear();
 	}
 
 	@Override
@@ -37,12 +41,12 @@ public class ClientMessageListener implements MessageListener
 	{
 		if(msg instanceof PeerCountMessage)
 		{
-			String soundName = "message_beep";
+			String soundName = "beep";
 			PeerCountMessage pcm = (PeerCountMessage) msg;
 			System.out.println("Number of players online: " + pcm.getNoPlayers());
 			app.getSoundManager().invokeSound(soundName);
 			PeerCountMessage plm = (PeerCountMessage) msg;
-			System.out.println(plm.getNoPlayers());
+			//System.out.println(plm.getNoPlayers());
 			app.getSoundManager().pauseSoundSource(soundName);
 		}
 		else if(msg instanceof LobbyConnectionResponseMessage){
@@ -55,10 +59,11 @@ public class ClientMessageListener implements MessageListener
 				System.out.println(lobbyConn.getMessage());
 			}
 		}
-
 		else if(msg instanceof LobbyUpdateMessage){
 		    LobbyUpdateMessage lobbyUpd = (LobbyUpdateMessage) msg;
-		    // Here's message containing all the players and their state
+		    for(int i=0; i<lobbyUpd.getPlayersInLobby().size(); i++){
+		    	Main.lobbyState.updatePlayer(i, lobbyUpd.getPlayersInLobby().get(i).getCharacterSelection());
+			}
         }
 
         else if(msg instanceof TimerEventMessage){
@@ -69,7 +74,7 @@ public class ClientMessageListener implements MessageListener
 		else if(msg instanceof BattleBeginMessage){
 			app.getStateManager().setCurrentState(Main.gameState);
 		}
-		else System.out.println(msg.getClass());
+		System.out.println(msg.getClass());
 	}
 
 	@Override

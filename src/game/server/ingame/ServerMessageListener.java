@@ -12,6 +12,8 @@ public class ServerMessageListener implements MessageListener
 	private ServerMain app;
 	private CopyOnWriteArrayList<AbstractMessage> abstractMessageInbound;
 
+	private final int maxTraffic = 100;
+
 	public ServerMessageListener(ServerMain app)
 	{
 		this.app = app;
@@ -23,10 +25,12 @@ public class ServerMessageListener implements MessageListener
 	}
 
 	public void handleMessageQueue(){
-		for(AbstractMessage msg : abstractMessageInbound){
-			receiveMessage(msg);
+		int count = 0;
+		while(count < maxTraffic && !abstractMessageInbound.isEmpty()) {
+			receiveMessage(abstractMessageInbound.get(0));
+			abstractMessageInbound.remove(0);
+			count++;
 		}
-		abstractMessageInbound.clear();
 	}
 
 	@Override

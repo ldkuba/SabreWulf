@@ -39,6 +39,7 @@ public class Player implements Serializable {
 
     public void addMsg(AbstractMessage msg){
             pbq.add(msg);
+            System.out.println(msg);
     }
 
     public String getName(){

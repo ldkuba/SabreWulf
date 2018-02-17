@@ -168,7 +168,9 @@ public class LobbyState extends AbstractState
 	//Called from message listener when a someone locks in and message is received
 	public void updatePlayer(int slot, int selection)
 	{
-		playerAvatars.get(slot).getEntity().getSprite().setTexture(characterAvatars.get(selection));
+		if(selection!=-1) {
+			playerAvatars.get(slot).getEntity().getSprite().setTexture(characterAvatars.get(selection));
+		}
 	}
 	
 	@Override

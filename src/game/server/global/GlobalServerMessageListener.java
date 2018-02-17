@@ -21,6 +21,10 @@ public class GlobalServerMessageListener {
             if (gameServer.isFreeGameInstance()) {
 
                 gameInstance = gameServer.getFreeGameInstance();
+
+                if(gameInstance==null){
+                    gameInstance = gameServer.createGameInstance();
+                }
                 source.setName(m.getName());
                 gameInstance.addPlayer(source);
 
@@ -43,6 +47,10 @@ public class GlobalServerMessageListener {
             LockInMessage lim = (LockInMessage) msg;
             source.setReady(true);
             source.setChar(lim.getCharacterSelected());
+            source.setName("bob modified");
+            LobbyUpdateMessage lobbyUpdateMessage = new LobbyUpdateMessage();
+            lobbyUpdateMessage.setPlayersInLobby(gameInstance.getPlayerPayload());
+            gameServer.broadcastTCP(lobbyUpdateMessage, gameInstance.getPlayersInLobby());
 
         } else if(msg instanceof LobbyQuitMessage){
             gameInstance.removePlayer(source);

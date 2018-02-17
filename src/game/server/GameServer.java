@@ -18,7 +18,7 @@ public class GameServer
 
 	public ArrayList<Player> players = null;
 
-	public ArrayList<GameInstance> games = null;
+	private ArrayList<GameInstance> games = null;
 
 	public int getNoPlayers() {
 		return players.size();
@@ -42,11 +42,19 @@ public class GameServer
 		server.setName("Socket Connection Manager");
 		server.start();
 
-		games.add(new GameInstance(this));
-
 		pcm= new PlayerCountManager(this);
 		pcm.setName("Player Count Manager");
 		pcm.start();
+	}
+
+	public GameInstance createGameInstance() {
+		GameInstance gi = new GameInstance(this);
+		games.add(gi);
+		return gi;
+	}
+
+	public ArrayList<GameInstance> getGames() {
+		return games;
 	}
 
 	public void addMessage(AbstractMessage message, Player player){
@@ -91,11 +99,7 @@ public class GameServer
 
 	public boolean isFreeGameInstance(){
 		if(games.size()<=10){
-			for (int i = 0; i < games.size(); i++) {
-				if(!games.get(i).isFull()){
-					return true;
-				}
-			}
+			return true;
 		}
 		return false;
 	}

@@ -16,7 +16,7 @@ public class GameInstance {
     public GameInstance(GameServer server) {
         playersInLobby = new ArrayList<>(MAX_SIZE_GAME_SIZE);
         this.GIManager = new GameInstanceManager(this, server);
-        this.GIManager.setName("GameInstanceManager " + server.games.size());
+        this.GIManager.setName("GameInstanceManager " + server.getGames().size());
         this.GIManager.start();
     }
 
@@ -29,7 +29,7 @@ public class GameInstance {
     }
 
     public boolean isFull() {
-        return (playersInLobby.size() >= 6);
+        return (playersInLobby.size() >= MAX_SIZE_GAME_SIZE);
     }
 
     public ArrayList<PlayerPayload> getPlayerPayload() {
@@ -40,12 +40,13 @@ public class GameInstance {
         return pld;
     }
 
+
     public void removePlayer(Player player) {
         playersInLobby.remove(player);
     }
 
     public boolean isReady() {
-        if (playersInLobby.size()==1) {
+        if (playersInLobby.size()==6) {
             for (int i = 0; i < playersInLobby.size(); i++) {
                 if (!playersInLobby.get(i).getReady()) {
                     return false;
