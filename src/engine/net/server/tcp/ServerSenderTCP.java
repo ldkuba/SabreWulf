@@ -25,7 +25,7 @@ public class ServerSenderTCP extends Thread{
 
         while(!player.getSocket().isClosed()){
             try {
-                sleep(1);
+
 
                 AbstractMessage msg = player.takeMessage();
                 if(msg instanceof QuitMessage){
@@ -36,8 +36,6 @@ public class ServerSenderTCP extends Thread{
                 else {
                     oos.writeObject(msg);
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }

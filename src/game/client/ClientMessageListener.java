@@ -63,7 +63,8 @@ public class ClientMessageListener implements MessageListener
 		    LobbyUpdateMessage lobbyUpd = (LobbyUpdateMessage) msg;
 		    for(int i=0; i<lobbyUpd.getPlayersInLobby().size(); i++){
 		    	Main.lobbyState.updatePlayer(i, lobbyUpd.getPlayersInLobby().get(i).getCharacterSelection());
-			}
+				System.out.println(lobbyUpd.getTest());
+		    }
         }
 
         else if(msg instanceof TimerEventMessage){

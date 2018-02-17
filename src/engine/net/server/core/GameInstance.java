@@ -33,7 +33,7 @@ public class GameInstance {
     }
 
     public ArrayList<PlayerPayload> getPlayerPayload() {
-        ArrayList<PlayerPayload> pld = new ArrayList<PlayerPayload>();
+        ArrayList<PlayerPayload> pld = new ArrayList<>();
         for (int i = 0; i < playersInLobby.size(); i++) {
             pld.add(playersInLobby.get(i).getPayload());
         }

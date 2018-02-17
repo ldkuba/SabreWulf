@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import engine.application.Application;
 import engine.net.client.core.ClientConnection;
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.server.core.Player;
@@ -15,9 +16,9 @@ public class Client
 	private ClientConnection connectClient;
 	// Local blocking queue of messages that will get sent by the Sender thread
 	public BlockingQueue<AbstractMessage> abs = new LinkedBlockingQueue<AbstractMessage>(100);
-	private Main main;
+	private Application main;
 	// Initiating connection listener
-	public Client(Main main)
+	public Client(Application main)
 	{
 		this.main = main;
 		connectClient = new ClientConnection(this);
@@ -47,7 +48,7 @@ public class Client
 		}
 	}
 
-	public Main getMain(){
+	public Application getMain(){
 		return main;
 	}
 }

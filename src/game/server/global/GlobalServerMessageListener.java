@@ -35,6 +35,7 @@ public class GlobalServerMessageListener {
 
                 LobbyUpdateMessage lobbyUpd = new LobbyUpdateMessage();
                 lobbyUpd.setPlayersInLobby(gameInstance.getPlayerPayload());
+                lobbyUpd.setTest(5);
                 gameServer.broadcastTCP(lobbyUpd, gameInstance.getPlayersInLobby());
             }
             else{
@@ -50,6 +51,7 @@ public class GlobalServerMessageListener {
             source.setName("bob modified");
             LobbyUpdateMessage lobbyUpdateMessage = new LobbyUpdateMessage();
             lobbyUpdateMessage.setPlayersInLobby(gameInstance.getPlayerPayload());
+            lobbyUpdateMessage.setTest(6);
             gameServer.broadcastTCP(lobbyUpdateMessage, gameInstance.getPlayersInLobby());
 
         } else if(msg instanceof LobbyQuitMessage){
