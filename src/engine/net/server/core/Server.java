@@ -5,10 +5,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import game.server.GameServer;
-
+/** This class creates the binds between TCP sockets
+ *  and manages
+ *
+ *
+ * */
 public class Server extends Thread{
 
-    private static ServerSocket coreSocket; // GameServer Socket, named core (it's only one there)
+    private static ServerSocket coreSocket;
     private static Socket SCSocket; //(SERVER_CLIENT_SOCKET)
     private static CoreClientThread clientCoreThread;
 
@@ -29,8 +33,7 @@ public class Server extends Thread{
         }
 
         try {
-            // While(true) for the moment, listen to incoming connections
-            while(true) {
+            while(gameServer.players.size()<50) {
                 SCSocket = coreSocket.accept();
                 Player player = new Player(SCSocket);
                 gameServer.addPlayer(player);

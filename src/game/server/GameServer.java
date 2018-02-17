@@ -3,10 +3,7 @@ package game.server;
 import java.util.ArrayList;
 
 import engine.net.common_net.networking_messages.AbstractMessage;
-import engine.net.server.core.GameInstance;
-import engine.net.server.core.Server;
-import engine.net.server.core.Player;
-import engine.net.server.core.ServerStateManager;
+import engine.net.server.core.*;
 import game.server.global.GlobalServerConnectionListener;
 import game.server.global.GlobalServerMessageListener;
 
@@ -17,7 +14,7 @@ public class GameServer
 	private GlobalServerConnectionListener connectionListener;
 	private GlobalServerMessageListener messageListener;
 
-	private ServerStateManager smg;
+	private PlayerCountManager pcm;
 
 	public ArrayList<Player> players = null;
 
@@ -27,67 +24,54 @@ public class GameServer
 		return players.size();
 	}
 
-	public void addPlayer(Player player){
+	synchronized public void addPlayer(Player player){
 		players.add(player);
 	}
 
-	public void removePlayer(Player player){
+	synchronized public void removePlayer(Player player){
 		players.remove(player);
 	}
 
 	public GameServer()
 	{
-
 		connectionListener = new GlobalServerConnectionListener(this);
 		messageListener = new GlobalServerMessageListener(this);
-		players = new ArrayList<Player>(60);
+		players = new ArrayList<Player>(50);
 		games = new ArrayList<GameInstance>(5);
 		server = new Server(this);
-		server.setName("GAME");
+		server.setName("Socket Connection Manager");
 		server.start();
-		games.add(new GameInstance());
 
-		smg = new ServerStateManager(this);
-		smg.setName("state manager");
-		smg.start();
+		games.add(new GameInstance(this));
+
+		pcm= new PlayerCountManager(this);
+		pcm.setName("Player Count Manager");
+		pcm.start();
+
 	}
 
 	public void addMessage(AbstractMessage message, Player player){
-			messageListener.addMessage(message,player);
+			messageListener.receiveMessage(message,player);
 			System.out.println("Received message");
 	}
 
-	public void addConnectionEvent(Player player, boolean connected){
-			connectionListener.addConnectionEvent(connected,player);
-	}
-
-	public void handleMessagesAndConnections(){
-		messageListener.handleMessageQueue();
-		connectionListener.handleConnectionQueue();
-	}
-
-	public void sendTCP(AbstractMessage msg, Player p){
-		p.addMsg(msg);
-		System.out.println("Sending message");
-	}
-
-	public void broadcastTCP(AbstractMessage msg){
-		for(int i = 0; i<players.size(); i++){
-			sendTCP(msg, players.get(i));
+	public void addConnectionEvent(Player player, boolean status){
+		if(status){
+			connectionListener.clientConnected(player);
+		}
+		else{
+			connectionListener.clientDisconnected(player);
 		}
 	}
 
-
-	public void startUDPManager() {
-		//server.startUDPManager();
+	public void sendTCP(AbstractMessage msg, Player destination){
+		destination.addMsg(msg);
 	}
-	
-	public void sendUDP(AbstractMessage msg) // SEND OR BROADCAST, WHATEVER YOU WANNA CALL IT
-	{
-		//startUDPManager should be called before sending any UDP packets.
-		
-		// TODO server.sendUDP(msg);
-		//server.sendUDP(msg);
+
+	public void broadcastTCP(AbstractMessage msg, ArrayList<Player> destination){
+		for(int i = 0; i<destination.size(); i++){
+			sendTCP(msg, destination.get(i));
+		}
 	}
 
 	public static void main(String[] args)
