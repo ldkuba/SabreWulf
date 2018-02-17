@@ -188,6 +188,7 @@ public class Application
 	{
 		glfwFreeCallbacks(window);
 		glfwDestroyWindow(window);
+		assetManager.cleanup();
 		// Terminate GLFW
 		glfwTerminate();
 		System.out.println("Successfully Quit");

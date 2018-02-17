@@ -3,6 +3,9 @@ package game.client.states;
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
+import engine.entity.Entity;
+import engine.entity.component.TextComponent;
+import engine.entity.component.TransformComponent;
 import engine.gui.components.ToggleButton;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
@@ -62,7 +65,13 @@ public class GameState extends AbstractState
 			}
 		};
 		app.getGui().add(button);
+		
+		Entity textTest = new Entity(0, "textTest");
+		textTest.addComponent(new TransformComponent());
+		textTest.addComponent(new TextComponent(app.getAssetManager().getFont("times.ttf"), 1.0f));
 
+		scene.addEntity(textTest);
+		
 		float aspectRatio = Application.s_WindowSize.getX()/Application.s_WindowSize.getY();
 		scene.getCamera().setProjectionMatrix(MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.1f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
