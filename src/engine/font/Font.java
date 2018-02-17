@@ -42,32 +42,32 @@ public class Font
 			fontBuffer.put(fontBytes, 0, fontBytes.length);
 	
 			ByteBuffer bitmap = BufferUtils.createByteBuffer(1024 * 1024);
-	
-			m_CharData = STBTTPackedchar.malloc(3 * 128);
-	
-			STBTTPackContext pc = STBTTPackContext.malloc();
-			STBTruetype.stbtt_PackBegin(pc, bitmap, 1024, 1024, 0, 1);
-	
-			m_CharData.position(0 * 128 + 32);
-			STBTruetype.stbtt_PackSetOversampling(pc, 1, 1);
-			STBTruetype.stbtt_PackFontRange(pc, fontBuffer, 0, 24.0f, 32, m_CharData);
-	
-			m_CharData.position(1 * 128 + 32);
-			STBTruetype.stbtt_PackSetOversampling(pc, 2, 2);
-			STBTruetype.stbtt_PackFontRange(pc, fontBuffer, 0, 24.0f, 32, m_CharData);
-	
-			m_CharData.position(2 * 128 + 32);
-			STBTruetype.stbtt_PackSetOversampling(pc, 3, 1);
-			STBTruetype.stbtt_PackFontRange(pc, fontBuffer, 0, 24.0f, 32, m_CharData);
-	
-			STBTruetype.stbtt_PackEnd(pc);
-			pc.free();
-	
-			CharSequence cs = "res/fontmap.png";
-	
-			STBImageWrite.stbi_write_png(cs, 512, 512, 1, bitmap, 4);
-	
-			m_Texture = new Texture(bitmap, 512, 512, name);
+//	
+//			m_CharData = STBTTPackedchar.malloc(3 * 128);
+//	
+//			STBTTPackContext pc = STBTTPackContext.malloc();
+//			STBTruetype.stbtt_PackBegin(pc, bitmap, 1024, 1024, 0, 1);
+//	
+//			m_CharData.position(0 * 128 + 32);
+//			STBTruetype.stbtt_PackSetOversampling(pc, 1, 1);
+//			STBTruetype.stbtt_PackFontRange(pc, fontBuffer, 0, 24.0f, 32, m_CharData);
+//	
+//			m_CharData.position(1 * 128 + 32);
+//			STBTruetype.stbtt_PackSetOversampling(pc, 2, 2);
+//			STBTruetype.stbtt_PackFontRange(pc, fontBuffer, 0, 24.0f, 32, m_CharData);
+//	
+//			m_CharData.position(2 * 128 + 32);
+//			STBTruetype.stbtt_PackSetOversampling(pc, 3, 1);
+//			STBTruetype.stbtt_PackFontRange(pc, fontBuffer, 0, 24.0f, 32, m_CharData);
+//	
+//			STBTruetype.stbtt_PackEnd(pc);
+//			pc.free();
+//	
+//			CharSequence cs = "res/fontmap.png";
+//	
+//			STBImageWrite.stbi_write_png(cs, 512, 512, 1, bitmap, 4);
+//	
+//			m_Texture = new Texture(bitmap, 512, 512, name);
 		}
 	}
 
