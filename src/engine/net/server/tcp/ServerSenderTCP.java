@@ -5,7 +5,6 @@ import engine.net.common_net.networking_messages.LobbyUpdateMessage;
 import engine.net.server.core.Player;
 import engine.net.common_net.networking_messages.QuitMessage;
 import game.server.GameServer;
-import sun.util.resources.be.LocaleNames_be;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

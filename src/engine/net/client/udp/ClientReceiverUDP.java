@@ -6,6 +6,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+import engine.net.common_net.Synchronizable;
+import engine.net.common_net.UDPTools;
 import engine.net.common_net.networking_messages.AbstractMessage;
 
 
@@ -36,7 +38,7 @@ public class ClientReceiverUDP extends Thread{
     		try {
 				UDPsocket.receive(receivePacket);
 				
-				AbstractMessage gameMessage = UDPTools.deserialize(receivePacket.getData());
+				Synchronizable gameMessage = UDPTools.deserialize(receivePacket.getData());
 				
 				//Notify client. 'gameMessage'
 				
