@@ -14,23 +14,12 @@ import java.util.ArrayList;
  * type is used only there.
  */
 public class LobbyUpdateMessage extends AbstractMessage {
-
-	private int test;
 	private ArrayList<PlayerPayload> playersInLobby;
   
 	public LobbyUpdateMessage()
 	{
 		playersInLobby = new ArrayList<>();
 	}
-	
-    public int getTest() {
-        return test;
-    }
-
-    public void setTest(int test) {
-        this.test = test;
-    }
-
 
     public void setPlayersInLobby(ArrayList<PlayerPayload> playersInLobby) {
         this.playersInLobby = playersInLobby;

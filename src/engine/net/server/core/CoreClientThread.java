@@ -1,13 +1,13 @@
 package engine.net.server.core;
 
-import engine.net.server.tcp.ServerListenerTCP;
+import engine.net.server.tcp.ServerReceiverTCP;
 import engine.net.server.tcp.ServerSenderTCP;
 import game.server.GameServer;
 
 public class CoreClientThread extends Thread {
     Player player;
     ServerSenderTCP CSTTCP=null;
-    ServerListenerTCP CLTTCP = null;
+    ServerReceiverTCP CLTTCP = null;
     GameServer gameServer;
 
     CoreClientThread(Player player, GameServer gameServer){
@@ -20,7 +20,7 @@ public class CoreClientThread extends Thread {
         CSTTCP.setName("player."+player.getSocket().getInetAddress()+".sender");
         CSTTCP.start();
 
-        CLTTCP = new ServerListenerTCP(player, gameServer);
+        CLTTCP = new ServerReceiverTCP(player, gameServer);
         CLTTCP.setName("player."+player.getSocket().getInetAddress()+".listener");
         CLTTCP.start();
     }

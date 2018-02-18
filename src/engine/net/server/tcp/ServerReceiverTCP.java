@@ -7,11 +7,11 @@ import game.server.GameServer;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-public class ServerListenerTCP extends Thread{
+public class ServerReceiverTCP extends Thread{
     ObjectInputStream ois = null;
     Player player;
     GameServer gameServer;
-    public ServerListenerTCP(Player player, GameServer gameServer) {
+    public ServerReceiverTCP(Player player, GameServer gameServer) {
         this.player = player;
         this.gameServer = gameServer;
     }
