@@ -53,7 +53,7 @@ public class GameState extends AbstractState
 	@Override
 	public void init()
 	{		
-		scene.initRenderer();
+		scene.init();
 		app.getGui().init(scene);
 		// set up background sound
 		app.getSoundManager().invokeSound("background/game");
