@@ -1,6 +1,7 @@
 package game.server;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.server.core.*;
@@ -18,7 +19,7 @@ public class GameServer
 
 	public ArrayList<Player> players = null;
 
-	private ArrayList<GameInstance> games = null;
+	private CopyOnWriteArrayList<GameInstance> games = null;
 
 	public int getNoPlayers() {
 		return players.size();
@@ -37,7 +38,7 @@ public class GameServer
 		connectionListener = new GlobalServerConnectionListener(this);
 		messageListener = new GlobalServerMessageListener(this);
 		players = new ArrayList<Player>(50);
-		games = new ArrayList<GameInstance>(5);
+		games = new CopyOnWriteArrayList<GameInstance>();
 		server = new Server(this);
 		server.setName("Socket Connection Manager");
 		server.start();
@@ -53,7 +54,7 @@ public class GameServer
 		return gi;
 	}
 
-	public ArrayList<GameInstance> getGames() {
+	public CopyOnWriteArrayList<GameInstance> getGames() {
 		return games;
 	}
 
@@ -97,20 +98,24 @@ public class GameServer
 		GameServer gameServerMain = new GameServer();
 	}
 
-	public boolean isFreeGameInstance(){
+	synchronized public boolean isFreeGameInstance(){
 		if(games.size()<=10){
 			return true;
 		}
 		return false;
 	}
 
-	public GameInstance getFreeGameInstance(){
+	synchronized public GameInstance getFreeGameInstance(){
 		for(int i=0; i<games.size(); i++){
 			if(!games.get(i).isFull()){
 				return games.get(i);
 			}
 		}
 		return null;
+	}
+
+	public void removeGameInstance(GameInstance instance){
+		games.remove(instance);
 	}
 
 }

@@ -30,11 +30,6 @@ public class ClientReceiverTCP extends Thread{
 
 			try {
 				AbstractMessage abs = (AbstractMessage) ois.readObject();
-				 if(abs instanceof LobbyUpdateMessage){
-				 LobbyUpdateMessage upd8 = (LobbyUpdateMessage) abs;
-				 System.out.println(upd8.getPlayersInLobby().get(0).getName());
-				 }
-
 				if(abs != null)
 				client.getMain().getNetworkManager().addMessage(abs,null);
 			} catch (SocketException ex)
@@ -44,7 +39,6 @@ public class ClientReceiverTCP extends Thread{
 					CSSocket.close();
 				}catch (IOException e)
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}catch (IOException e) {

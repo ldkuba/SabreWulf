@@ -39,6 +39,10 @@ public class GameInstanceManager extends Thread {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            if (instance.isEmpty()){
+                server.removeGameInstance(instance);
+                running=false;
+            }
             if (instance.isReady() && !countdownTrigger) {
                 countdownTrigger = true;
                 Timer time = new Timer(10, this);

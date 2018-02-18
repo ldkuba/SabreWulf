@@ -24,7 +24,6 @@ public class Server extends Thread{
     }
 
     public void run(){
-        // Creating a gameServer socket on some random port for TCP
         try {
             coreSocket = new ServerSocket(4446);
         } catch (IOException e) {

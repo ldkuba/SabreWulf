@@ -36,6 +36,7 @@ public class ClientSenderTCP extends Thread{
 				}
 				else {
 					oos.writeObject(msg);
+					oos.reset();
 				}
 
 			} catch (SocketException se){
