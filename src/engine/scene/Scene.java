@@ -49,6 +49,10 @@ public class Scene {
 	public void removeEntity(Entity e) {
 		m_Entities.remove(e);
 	}
+	
+	public void removeAllEnties(){
+		m_Entities.clear();
+	}
 
 	public void update() {
 		for (Entity e : m_Entities) {

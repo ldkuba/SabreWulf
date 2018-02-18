@@ -13,13 +13,16 @@ import engine.scene.Scene;
 public class Map {
 	private ArrayList<Entity> visible;
 	private Entity[] background;
-	private final float TILE_WIDTH = 24f;
-	private final float TILE_HEIGHT = 24f;
+	private final float TILE_WIDTH = 24.0f;
+	private final float TILE_HEIGHT = 24.0f;
 	private final int MAP_SIZE = 10;
 	private final int ARRAY_SIZE = MAP_SIZE * MAP_SIZE * 4;
 	private Scene scene;
 	private float vpLength;
 
+	private float oldcamx;
+	private float oldcamy;
+	
 	public Map(Scene scene) {
 		this.scene = scene;
 		visible = new ArrayList<Entity>();
@@ -78,17 +81,36 @@ public class Map {
 			scene.addEntity(background[i]);
 			visible.add(background[i]);
 		}
+
+		oldcamx = scene.getCamera().getPosition().getX();
+		oldcamy = scene.getCamera().getPosition().getY();
 	}
 
-	public void update() {
+	/*public void update() {
 		clearVisibleEntities();
 		float x = Application.s_Viewport.getX();
 		float y = Application.s_Viewport.getY();
-		float leftX = x - vpLength;
-		float rightX = x + vpLength;
-		float upperY = y + vpLength;
-		float lowerY = y - vpLength;
-
+		System.out.println("View Port");
+		System.out.println(x);
+		System.out.println(y);
+		
+		float camX = scene.getCamera().getPosition().getX();
+		float camY = scene.getCamera().getPosition().getY();
+		
+		float xchange = camX - oldcamx;
+		float ychange = camY - oldcamy;
+		System.out.println("xchange " + xchange);
+		System.out.println("ychange " + ychange);
+		System.out.println("vp length " + vpLength);
+		float leftX = x + xchange;
+		float rightX = x + vpLength + xchange;
+		float upperY = y + vpLength + ychange;
+		float lowerY = y + ychange;
+		System.out.println("visible scope of VP");
+		System.out.println("LEFT X " + leftX);
+		System.out.println("RIGHT X " + rightX);
+		System.out.println(upperY);
+		System.out.println(lowerY);
 		for (int i = 0; i < background.length; i++) {
 			Entity temp = background[i];
 			Vec3 pos = temp.getTransform().getPosition();
@@ -97,38 +119,36 @@ public class Map {
 			float minY = pos.getY(); 
 			float maxX = minX + temp.getSprite().getWidth();
 			float maxY = minY + temp.getSprite().getHeight();
-
-			if ((minX <= rightX && minX >= leftX) || (maxX <= rightX && maxX >= leftX)) {
+			System.out.println(i);
+			System.out.println("min x " + minX);
+			System.out.println("min y " + minY);
+			System.out.println("max x " + maxX);
+			System.out.println("max y " + maxY);
+			if (((minX <= rightX && minX >= leftX) || (maxX <= rightX && maxX >= leftX)) && ((minY <= upperY && minX >= lowerY) || (maxY <= upperY && maxY >= lowerY))){
 				if (!visible.contains(temp)) {
 					visible.add(temp);
 				}
-			} else if ((minY <= upperY && minX >= lowerY) || (maxY <= upperY && maxY >= lowerY)) {
-				if (!visible.contains(temp)) {
-					visible.add(temp);
-				}
-			} else {
-				if (visible.contains(temp)){
-					visible.remove(temp);
-				}
-			}
+			} 
 		}
 		// remove entities that are no longer visible from the scene
+		//remove all entities
+		scene.removeAllEnties();
 		for (Entity entity : background) {
-			if (!visible.contains(entity)) {
-				scene.removeEntity(entity);
-			} else {
+			if (visible.contains(entity)) {
 				scene.addEntity(entity);
 			}
 		}
-		
+		oldcamx += xchange;
+		oldcamy += ychange;
 		System.out.println("Showing map elements: " + visible.size());
-	}
+	}*/
 	
-	private void clearVisibleEntities(){
+	/*private void clearVisibleEntities(){
 		if(!visible.isEmpty()){
 			visible.clear();
+			System.out.println("clear enities - should be zero/null " + visible.size());
 		}
-	}
+	}*/
 
 	public ArrayList<Entity> getVisibleEntities() {
 		return visible;

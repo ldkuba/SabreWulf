@@ -14,14 +14,16 @@ import game.client.states.MenuState;
 public class Main extends Application {
 
 	private Client client;
-	
+
 	public static MenuState menuState;
 	public static LobbyState lobbyState;
 	public static GameState gameState;
-	//private PlayerManager playerManager;
-	
-	public Main() {		
-		super(1280, 720, 1, "SabreWulf", false, false); //window width, window height, vsync interval
+	// private PlayerManager playerManager;
+
+	public Main() {
+		super(1280, 720, 1, "SabreWulf", false, false); // window width, window
+														// height, vsync
+														// interval
 
 		menuState = new MenuState(this);
 		lobbyState = new LobbyState(this);
@@ -37,25 +39,22 @@ public class Main extends Application {
 		netManager.registerMessageListener(new ClientMessageListener(this));
 
 		// set starting state
-		stateManager.setCurrentState(menuState);
+		stateManager.setCurrentState(gameState);
 	}
 
-
-	public Client getClient()
-	{
+	public Client getClient() {
 		return this.client;
 	}
-	
+
 	@Override
-	public void cleanup()
-	{
+	public void cleanup() {
 
 		LobbyQuitMessage quit = new LobbyQuitMessage();
 		client.sendTCP(quit);
 		super.cleanup();
 		client.stop();
 	}
-	
+
 	public static void main(String[] args) {
 		Main game = new Main();
 		game.run();

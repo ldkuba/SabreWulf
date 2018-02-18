@@ -68,7 +68,7 @@ public class GameState extends AbstractState {
 		app.getGui().init(scene);
 		map.init();
 		// set up background sound
-		app.getSoundManager().invokeSound("background/game", true);
+		//app.getSoundManager().invokeSound("background/game", true);
 		button = new ToggleButton(20.0f, 20.0f, 10.0f, 10.0f,
 				app.getAssetManager().getTexture("res/textures/testNoxus.png"),
 				app.getAssetManager().getTexture("res/textures/background.png")) {
@@ -127,7 +127,7 @@ public class GameState extends AbstractState {
 		scene.update();
 		// manager.getStatuses();
 		playerController.update();
-		map.update();
+		//map.update();
 	}
 
 	@Override
