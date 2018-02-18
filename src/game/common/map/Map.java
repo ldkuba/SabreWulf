@@ -30,7 +30,6 @@ public class Map {
 	}
 
 	public void init() {
-		System.out.println("here");
 		// initialise entities - currently just test values
 		Vec4 grey = new Vec4(0.4f, 0.4f, 0.4f, 1.0f);
 		Vec4 pink = new Vec4(0.9f, 0.3f, 0.5f, 1.0f);
@@ -89,11 +88,7 @@ public class Map {
 		float rightX = x + vpLength;
 		float upperY = y + vpLength;
 		float lowerY = y - vpLength;
-		/*System.out.println("view port");
-		System.out.println(leftX);
-		System.out.println(rightX);
-		System.out.println(upperY);
-		System.out.println(lowerY);*/
+
 		for (int i = 0; i < background.length; i++) {
 			Entity temp = background[i];
 			Vec3 pos = temp.getTransform().getPosition();
@@ -102,26 +97,17 @@ public class Map {
 			float minY = pos.getY(); 
 			float maxX = minX + temp.getSprite().getWidth();
 			float maxY = minY + temp.getSprite().getHeight();
-         /*	System.err.println("hi");
-			System.out.println(minX);
-			System.out.println(minY);
-			System.out.println(maxX);
-			System.out.println(maxY);*/
-			//these need to change
+
 			if ((minX <= rightX && minX >= leftX) || (maxX <= rightX && maxX >= leftX)) {
 				if (!visible.contains(temp)) {
-					System.out.println("adding to visible");
 					visible.add(temp);
 				}
 			} else if ((minY <= upperY && minX >= lowerY) || (maxY <= upperY && maxY >= lowerY)) {
 				if (!visible.contains(temp)) {
-					System.out.println("adding to visible");
 					visible.add(temp);
 				}
 			} else {
-				System.out.println("else");
 				if (visible.contains(temp)){
-					System.out.println("remove");
 					visible.remove(temp);
 				}
 			}
