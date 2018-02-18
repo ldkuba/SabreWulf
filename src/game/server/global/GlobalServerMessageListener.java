@@ -55,10 +55,12 @@ public class GlobalServerMessageListener {
             gameServer.broadcastTCP(lobbyUpd, gameInstance.getPlayersInLobby());
 
         } else if(msg instanceof LobbyQuitMessage){
+            source.setChar(-1);
+            source.setReady(false);
             gameInstance.removePlayer(source);
+
             LobbyUpdateMessage lobbyUpd = new LobbyUpdateMessage();
             lobbyUpd.setPlayersInLobby(gameInstance.getPlayerPayload());
-            lobbyUpd.setTest(6);
             gameServer.broadcastTCP(lobbyUpd, gameInstance.getPlayersInLobby());
         }
 
