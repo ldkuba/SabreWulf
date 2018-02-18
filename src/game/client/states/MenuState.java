@@ -24,7 +24,6 @@ public class MenuState extends AbstractState {
 	private Button settingsButton;
 	private Button exitButton;
 
-
 	public MenuState(Main app) {
 		this.app = app;
 		scene = new Scene(0);
@@ -52,10 +51,9 @@ public class MenuState extends AbstractState {
 		Texture playButtonReleasedTexture = app.getAssetManager().getTexture("res/textures/play_button_released.png");
 		Texture playButtonPressedTexture = app.getAssetManager().getTexture("res/textures/play_button_pressed.png");
 		playButton = new Button(45.0f, 90.0f, 10.0f, 6.0f, playButtonPressedTexture, playButtonReleasedTexture) {
-			
+
 			@Override
-			public void onClick()
-			{
+			public void onClick() {
 				LobbyConnectionRequestMessage cnm = new LobbyConnectionRequestMessage();
 				cnm.setName("bob");
 				app.getClient().sendTCP(cnm);
