@@ -210,8 +210,7 @@ public class Application
 		}
 	}
 
-	public void cleanup()
-	{
+	public void cleanup() {
 		if(!isHeadless) {
 			glfwFreeCallbacks(window);
 			glfwDestroyWindow(window);

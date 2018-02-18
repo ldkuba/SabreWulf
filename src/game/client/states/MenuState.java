@@ -42,9 +42,9 @@ public class MenuState extends AbstractState {
 
 	@Override
 	public void init() {
-		scene.initRenderer();
+		scene.init();
 		app.getGui().init(scene);
-
+		app.getSoundManager().invokeSound("background/menu");
 		Texture menuBackgroundTexture = app.getAssetManager().getTexture("res/textures/mainmenu_background.png");
 		menuBackground = new Sprite(0, 0, 100.0f, 100.0f, menuBackgroundTexture);
 		app.getGui().add(menuBackground);
@@ -52,12 +52,14 @@ public class MenuState extends AbstractState {
 		Texture playButtonReleasedTexture = app.getAssetManager().getTexture("res/textures/play_button_released.png");
 		Texture playButtonPressedTexture = app.getAssetManager().getTexture("res/textures/play_button_pressed.png");
 		playButton = new Button(45.0f, 90.0f, 10.0f, 6.0f, playButtonPressedTexture, playButtonReleasedTexture) {
+			
 			@Override
 			public void onClick()
 			{
 				LobbyConnectionRequestMessage cnm = new LobbyConnectionRequestMessage();
 				cnm.setName("bob");
 				app.getClient().sendTCP(cnm);
+				app.getSoundManager().stopSoundSource("menu");
 			}
 		};
 		app.getGui().add(playButton);
@@ -90,7 +92,7 @@ public class MenuState extends AbstractState {
 		scene.getCamera().setProjectionMatrix(
 				MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.1f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
-		app.getSoundManager().invokeSound("menu");
+
 	}
 
 	@Override
