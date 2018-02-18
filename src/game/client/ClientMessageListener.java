@@ -51,7 +51,7 @@ public class ClientMessageListener implements MessageListener
 			String soundName = "beep";
 			PeerCountMessage pcm = (PeerCountMessage) msg;
 			System.out.println("Number of players online: " + pcm.getNoPlayers());
-			app.getSoundManager().invokeSound(soundName);
+			app.getSoundManager().invokeSound(soundName, false);
 			PeerCountMessage plm = (PeerCountMessage) msg;
 			app.getSoundManager().pauseSoundSource(soundName);
 		}

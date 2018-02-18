@@ -52,6 +52,7 @@ public class Scene {
 
 	public void update() {
 		for (Entity e : m_Entities) {
+			
 			if (e.hasComponent(TransformComponent.class)) {
 				TransformComponent transform = (TransformComponent) e.getComponent(TransformComponent.class);
 				// transform.update(); just an example, the transform component

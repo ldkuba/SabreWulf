@@ -1,6 +1,5 @@
 package engine.application;
 
-
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
@@ -63,25 +62,25 @@ public class Application
 
 	protected SoundManager soundManager;
 
-	private boolean running=true;
+	private boolean running = true;
 
 	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless)
 	{
 		isHeadless = headless;
-		if(!headless){
+		if(!headless)
+		{
 
 			initialise(width, height, vsyncInterval, name, fullscreen);
 			inputManager = new InputManager(this);
 			assetManager = new AssetManager();
 			soundManager = new SoundManager();
 			gui = new GUI(this);
-			setViewport(10.0f*(s_WindowSize.getX()/s_WindowSize.getY()), 10.0f);
+			setViewport(10.0f * (s_WindowSize.getX() / s_WindowSize.getY()), 10.0f);
 		}
 
 		netManager = new NetworkManager(this);
 
 		stateManager = new StateManager(this);
-
 
 	}
 
@@ -92,16 +91,19 @@ public class Application
 		{
 			throw new IllegalStateException("Unable to initialize GLFW");
 		}
-		
+
 		isFullScreen = fullscreen;
-		
+
 		GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-		
+
 		if(!isFullScreen)
 		{
 			glfwWindowHint(GLFW_RESIZABLE, GLFW.GLFW_TRUE);
 			// Create the window
-			window = glfwCreateWindow(width, height, name, NULL, NULL); // width, height, window name
+			window = glfwCreateWindow(width, height, name, NULL, NULL); // width,
+																		// height,
+																		// window
+																		// name
 			setResolution(width, height);
 		}else
 		{
@@ -133,7 +135,6 @@ public class Application
 		// Make the window visible
 		glfwShowWindow(window);
 
-
 		GL.createCapabilities();
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_BLEND);
@@ -142,7 +143,8 @@ public class Application
 
 	public void run()
 	{
-		if(!isHeadless){
+		if(!isHeadless)
+		{
 			// Run the rendering loop until the user presses esc or quits
 			while (!glfwWindowShouldClose(window))
 			{
@@ -150,15 +152,17 @@ public class Application
 				netManager.handleMessagesAndConnections();
 				stateManager.updateState();
 				gui.update();
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear frame
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear
+																	// frame
 				// buffer
 				stateManager.renderState();
 				glfwSwapBuffers(window); // swap the colour buffers
-				glfwPollEvents(); // Poll for window events. The key callback above
+				glfwPollEvents(); // Poll for window events. The key callback
+									// above
 				// will only be invoked during this call.
 			}
-		}
-		else{
+		}else
+		{
 			// Run the rendering loop until the user presses esc or quits
 			while (running)
 			{
@@ -191,10 +195,11 @@ public class Application
 		return assetManager;
 	}
 
-	public SoundManager getSoundManager(){
+	public SoundManager getSoundManager()
+	{
 		return soundManager;
 	}
-	
+
 	public GUI getGui()
 	{
 		return gui;
@@ -202,31 +207,32 @@ public class Application
 
 	public void exit()
 	{
-		if(!isHeadless){
+		if(!isHeadless)
+		{
 			glfwSetWindowShouldClose(window, true);
-		}
-		else{
+		}else
+		{
 			running = false;
 		}
 	}
 
 	public void cleanup()
 	{
-		if(!isHeadless) {
+		if(!isHeadless)
+		{
 			glfwFreeCallbacks(window);
 			glfwDestroyWindow(window);
 			// Terminate GLFW
 			glfwTerminate();
 			soundManager.clean();
 		}
-		System.out.println("Successfully Quit");
 	}
-	
+
 	public void setResolution(int width, int height)
 	{
 		s_WindowSize = new Vec2(width, height);
 	}
-	
+
 	public void setViewport(float right, float top)
 	{
 		s_Viewport = new Vec2(right, top);
@@ -247,11 +253,13 @@ public class Application
 		}
 	}
 
-	public NetworkManager getNetworkManager() {
+	public NetworkManager getNetworkManager()
+	{
 		return netManager;
 	}
 
-	public boolean isHeadless(){
+	public boolean isHeadless()
+	{
 		return isHeadless;
 	}
 }

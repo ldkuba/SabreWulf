@@ -57,10 +57,10 @@ public class LobbyState extends AbstractState
 	{
 		scene.init();
 		app.getGui().init(scene);
-
+		// set up background sound
+		app.getSoundManager().invokeSound("background/lobby", true);
 		playerAvatars = new ArrayList<>();
 		characterAvatars = new ArrayList<>();
-
 		Texture lobbyBackgroundTexture = app.getAssetManager().getTexture("res/textures/lobby_background.png");
 		lobbyBackground = new Sprite(0, 0, 100.0f, 100.0f, lobbyBackgroundTexture);
 		app.getGui().add(lobbyBackground);
@@ -143,9 +143,6 @@ public class LobbyState extends AbstractState
 		float aspectRatio = Application.s_WindowSize.getX()/Application.s_WindowSize.getY();
 		scene.getCamera().setProjectionMatrix(MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.1f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
-
-		// set up background sound
-		app.getSoundManager().invokeSound("lobby");
 	}
 
 	@Override
