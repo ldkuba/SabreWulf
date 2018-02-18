@@ -4,10 +4,14 @@ import java.io.Serializable;
 
 public class PlayerPayload implements Serializable {
     private String name;
-    private boolean isReady=false;
-    private int characterSelection = -1;
+    private boolean isReady;
+    private int characterSelection;
 
-    public PlayerPayload(){}
+    public PlayerPayload(){
+        this.characterSelection = -1;
+        this.isReady = false;
+        this.name = "temp";
+    }
 
     public void setName(String name) {
         this.name = name;

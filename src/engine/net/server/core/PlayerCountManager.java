@@ -19,7 +19,7 @@ public class PlayerCountManager extends Thread {
                 e.printStackTrace();
             }
             if (server.getNoPlayers() > 0) {
-                server.broadcastTCP(new PeerCountMessage(server.getNoPlayers()), server.players);
+                //server.broadcastTCP(new PeerCountMessage(server.getNoPlayers()), server.players);
             }
         }
     }
