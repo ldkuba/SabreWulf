@@ -1,19 +1,10 @@
 package engine.graphics.renderer;
 
-import java.nio.ByteBuffer;
-
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-
-import engine.graphics.IndexBuffer;
-import engine.graphics.VertexArray;
 import engine.graphics.VertexAttribute;
-import engine.graphics.VertexBuffer;
-import engine.graphics.VertexBuffer.VertexBufferUsage;
 import engine.graphics.VertexLayout;
 import engine.graphics.VertexLayout.AttributeTypes;
-import engine.graphics.shader.ShaderProgram;
 import engine.graphics.texture.Texture;
+import engine.maths.Vec2;
 import engine.maths.Vec4;
 
 public class Renderable2D
@@ -24,6 +15,8 @@ public class Renderable2D
 	
 	private static VertexLayout s_VertexLayout;
 	private float m_Width, m_Height;
+	
+	private Vec2[] m_UVs;
 	
 	private Texture m_Texture;
 	private Vec4 m_Color;
@@ -40,6 +33,12 @@ public class Renderable2D
 		m_Color = color;
 		m_Width = width;
 		m_Height = height;
+		
+		m_UVs = new Vec2[4];
+		m_UVs[0] = new Vec2(0.0f, 0.0f);
+		m_UVs[1] = new Vec2(0.0f, 1.0f);
+		m_UVs[2] = new Vec2(1.0f, 1.0f);
+		m_UVs[3] = new Vec2(1.0f, 0.0f);
 	}
 	
 	public static VertexLayout getVertexLayout()
@@ -69,6 +68,16 @@ public class Renderable2D
 	public Vec4 getColor()
 	{
 		return m_Color;
+	}
+	
+	public Vec2[] getUVs()
+	{
+		return m_UVs;
+	}
+	
+	public void setUVs(Vec2[] UVs)
+	{
+		m_UVs = UVs;
 	}
 	
 	public Texture getTexture()

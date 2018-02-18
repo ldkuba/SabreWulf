@@ -1,22 +1,22 @@
-package game.client;
+package game.server.ingame;
 import engine.net.common_net.MessageListener;
 import engine.net.common_net.networking_messages.*;
 import engine.net.server.core.Player;
-import engine.sound.Sound;
-import engine.sound.SoundManager;
+import game.client.Main;
+import game.server.states.ServerMain;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class ClientMessageListener implements MessageListener
+public class ServerMessageListener implements MessageListener
 {
-	private Main app;
+	private ServerMain app;
 	private BlockingQueue<AbstractMessage> abstractMessageInbound;
 
 	private final int maxTraffic = 100;
 
-	public ClientMessageListener(Main app)
+	public ServerMessageListener(ServerMain app)
 	{
 		this.app = app;
 		abstractMessageInbound = new LinkedBlockingQueue<>();
@@ -48,11 +48,12 @@ public class ClientMessageListener implements MessageListener
 	{
 		if(msg instanceof PeerCountMessage)
 		{
-			String soundName = "beep";
+			String soundName = "message_beep";
 			PeerCountMessage pcm = (PeerCountMessage) msg;
 			System.out.println("Number of players online: " + pcm.getNoPlayers());
 			app.getSoundManager().invokeSound(soundName);
 			PeerCountMessage plm = (PeerCountMessage) msg;
+			System.out.println(plm.getNoPlayers());
 			app.getSoundManager().pauseSoundSource(soundName);
 		}
 		else if(msg instanceof LobbyConnectionResponseMessage){
@@ -65,11 +66,10 @@ public class ClientMessageListener implements MessageListener
 				System.out.println(lobbyConn.getMessage());
 			}
 		}
+
 		else if(msg instanceof LobbyUpdateMessage){
 		    LobbyUpdateMessage lobbyUpd = (LobbyUpdateMessage) msg;
-		    for(int i=0; i<lobbyUpd.getPlayersInLobby().size(); i++){
-		    	Main.lobbyState.updatePlayer(i, lobbyUpd.getPlayersInLobby().get(i).getCharacterSelection());
-		    }
+		    // Here's message containing all the players and their state
         }
 
         else if(msg instanceof TimerEventMessage){
@@ -80,6 +80,7 @@ public class ClientMessageListener implements MessageListener
 		else if(msg instanceof BattleBeginMessage){
 			app.getStateManager().setCurrentState(Main.gameState);
 		}
+		else System.out.println(msg.getClass());
 	}
 
 	@Override

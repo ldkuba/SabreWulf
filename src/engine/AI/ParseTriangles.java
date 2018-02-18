@@ -4,8 +4,13 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import engine.maths.Vec2;
 
 public class ParseTriangles {
+	
+	private ArrayList<Triangle> verticies;
 	
 	public void readFile(){
 		FileReader input = null;
@@ -28,17 +33,32 @@ public class ParseTriangles {
 			while ( (myLine = bufRead.readLine()) != null)
 			{    
 				array1 = myLine.split(" ");
+				convertArray(array1);
 			}
 		} catch (IOException e) {
-			System.out.println("Error no more verticies found.");
+			System.out.println("No more verticies found.");
 		}
 	}
 	
-	public float[] convertArray(String[] strings){
-		float[] floats = new float[9];
+	public void convertArray(String[] strings){
+		Triangle tri;
+		Vec2 x = null;
+		Vec2 y = null;
+		Vec2 z = null;
+		float[] floats = new float[6];
 		for(int i = 0; i < floats.length; i++){
-			floats[i] = Float.parseFloat(strings[i]);			
+			if(i != 2 || i != 5 || i != 8){
+				//add verticies to array except z coodinates because we have no height.
+				floats[i] = Float.parseFloat(strings[i]);							
+			}
 		}
-		return floats;
+		x.setX(floats[0]);
+		x.setY(floats[1]);
+		y.setX(floats[2]);
+		y.setY(floats[3]);
+		z.setX(floats[4]);
+		z.setY(floats[5]);
+		tri = new Triangle(x, y, z);
+		verticies.add(tri);
 	}
 }

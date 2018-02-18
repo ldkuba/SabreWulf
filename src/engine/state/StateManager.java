@@ -51,14 +51,18 @@ public class StateManager {
 		// switch to a specified game state if it exists
 		if (isRegistered(state)) {
 			if (activeState != null) {
-				app.getInputManager().removeKeyboardListener(activeState);
-				app.getInputManager().removeMouseListener(activeState);
-				activeState.deactivate();	
+				if(!app.isHeadless()) {
+					app.getInputManager().removeKeyboardListener(activeState);
+					app.getInputManager().removeMouseListener(activeState);
+				}
+				activeState.deactivate();
 			}
 			state.init();
 			activeState = state;
-			app.getInputManager().addKeyboardListener(activeState);
-			app.getInputManager().addMouseListener(activeState);
+			if(!app.isHeadless()) {
+				app.getInputManager().addKeyboardListener(activeState);
+				app.getInputManager().addMouseListener(activeState);
+			}
 		} else {
 			System.err.println("Error: Trying to switch to an unregistered state");
 		}

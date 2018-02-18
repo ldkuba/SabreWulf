@@ -1,19 +1,18 @@
-package game.client;
+package game.server.ingame;
 
-import engine.net.client.Client;
 import engine.net.common_net.ConnectionListener;
 import engine.net.server.core.Player;
+import game.client.Main;
+import game.server.states.ServerMain;
 
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
 
-public class ClientConnectionListener implements ConnectionListener
+public class ServerConnectionListener implements ConnectionListener
 {
-	private Main main;
+	private ServerMain main;
 	private CopyOnWriteArrayList<Boolean> connectionEventQueue;
 
-	public ClientConnectionListener(Main main){
+	public ServerConnectionListener(ServerMain main){
 		connectionEventQueue = new CopyOnWriteArrayList<Boolean>();
 		this.main = main;
 	}
