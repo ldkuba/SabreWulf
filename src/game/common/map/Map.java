@@ -136,4 +136,3 @@ public class Map {
 		return visible;
 	}
 }
-
