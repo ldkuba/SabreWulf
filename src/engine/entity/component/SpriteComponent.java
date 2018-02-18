@@ -4,6 +4,7 @@ import engine.graphics.renderer.Renderable2D;
 import engine.graphics.renderer.Renderer2D;
 import engine.graphics.texture.Texture;
 import engine.maths.Mat4;
+import engine.maths.Vec2;
 import engine.maths.Vec4;
 
 public class SpriteComponent extends AbstractComponent
@@ -36,5 +37,10 @@ public class SpriteComponent extends AbstractComponent
 	
 	public float getWidth(){
 		return m_Sprite.getWidth();
+	}
+	
+	public void setUVs(Vec2[] UVs)
+	{
+		m_Sprite.setUVs(UVs);
 	}
 }

@@ -1,37 +1,66 @@
 package game.client;
+import engine.net.common_net.MessageListener;
+import engine.net.common_net.networking_messages.*;
+import engine.net.server.core.Player;
+import engine.sound.Sound;
+import engine.sound.SoundManager;
 
-import engine.common_net.AbstractMessage;
-import engine.common_net.MessageListener;
-import engine.server.core.Player;
-import game.Main;
-import game.method.SetCurrentGameState;
-import game.networking.LobbyUpdateMessage;
-import game.networking.PeerList;
-import game.networking.LobbyConnectionResponse;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientMessageListener implements MessageListener
 {
-	private Client client;
+	private Main app;
+	private BlockingQueue<AbstractMessage> abstractMessageInbound;
 
-	public ClientMessageListener(Client client)
+	private final int maxTraffic = 100;
+
+	public ClientMessageListener(Main app)
 	{
-		this.client = client;
+		this.app = app;
+		abstractMessageInbound = new LinkedBlockingQueue<>();
+	}
+	@Override
+	public void addMessage(AbstractMessage message){
+		abstractMessageInbound.add(message);
+	}
+
+	public void handleMessageQueue(){
+		int count = 0;
+		while(count < maxTraffic && !abstractMessageInbound.isEmpty()) {
+			try {
+				receiveMessage(abstractMessageInbound.take());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			count++;
+		}
 	}
 
 	@Override
-	public void receiveMessage(AbstractMessage msg, Player source)
+	public void receiveMessage(AbstractMessage msg, Player player) {
+
+	}
+
+	@Override
+	public void receiveMessage(AbstractMessage msg)
 	{
-		if(msg instanceof PeerList)
+		if(msg instanceof PeerCountMessage)
 		{
-			PeerList plm = (PeerList) msg;
-			System.out.println(plm.getNoPlayers());
+			String soundName = "beep";
+			PeerCountMessage pcm = (PeerCountMessage) msg;
+			System.out.println("Number of players online: " + pcm.getNoPlayers());
+			app.getSoundManager().invokeSound(soundName);
+			PeerCountMessage plm = (PeerCountMessage) msg;
+			//System.out.println(plm.getNoPlayers());
+			app.getSoundManager().pauseSoundSource(soundName);
 		}
-		else if(msg instanceof LobbyConnectionResponse){
-			LobbyConnectionResponse lobbyConn = (LobbyConnectionResponse) msg;
+		else if(msg instanceof LobbyConnectionResponseMessage){
+			LobbyConnectionResponseMessage lobbyConn = (LobbyConnectionResponseMessage) msg;
 			if(lobbyConn.isAccepted())
 			{
-				SetCurrentGameState setGameState = new SetCurrentGameState(client.getMain(), Main.lobbyState);
-				client.getMain().getMethodExecutor().add(setGameState);
+				app.getStateManager().setCurrentState(Main.lobbyState);
 			}else
 			{
 				System.out.println(lobbyConn.getMessage());
@@ -39,8 +68,26 @@ public class ClientMessageListener implements MessageListener
 		}
 		else if(msg instanceof LobbyUpdateMessage){
 		    LobbyUpdateMessage lobbyUpd = (LobbyUpdateMessage) msg;
-		    // Here's message containing all the players and their state
+		   	System.out.println( ((LobbyUpdateMessage) msg).getPlayersInLobby().get(0).getName());
+		    for(int i=0; i<lobbyUpd.getPlayersInLobby().size(); i++){
+		    	Main.lobbyState.updatePlayer(i, lobbyUpd.getPlayersInLobby().get(i).getCharacterSelection());
+				System.out.println(lobbyUpd.getTest());
+		    }
         }
-		else System.out.println(msg.getClass());
+
+        else if(msg instanceof TimerEventMessage){
+			TimerEventMessage time = (TimerEventMessage) msg;
+			System.out.println("Countdown: " + time.getTimePayload());
+		}
+
+		else if(msg instanceof BattleBeginMessage){
+			app.getStateManager().setCurrentState(Main.gameState);
+		}
+		System.out.println(msg.getClass());
+	}
+
+	@Override
+	public void addMessage(AbstractMessage message, Player player) {
+
 	}
 }

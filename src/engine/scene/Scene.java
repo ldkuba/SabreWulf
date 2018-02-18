@@ -35,7 +35,7 @@ public class Scene {
 
 	}
 
-	public void init() {
+	public void initRenderer() {
 		m_Renderer2D = new Renderer2D();
 		m_Renderer3D = new Renderer3D();
 	}

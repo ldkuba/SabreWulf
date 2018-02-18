@@ -7,7 +7,8 @@ public class AbstractClasses {
 	private int intelligence = 0;
 	private int strength = 0;
 	private int defence = 0;
-	private int attackDmg = 0;
+
+	private int attackDmg = 0; // Basic attack damage
 	private int healing = 0;
 	private int energyCost = 0;
 	private float attackRange = 0;
@@ -17,8 +18,9 @@ public class AbstractClasses {
 	private int exDefence;
 	private int exEnergy;
 	private int exVitality;
+
 	private int exAttackDmg;
-	private int exEnergyCost;
+	private int exAttackRng;
 
 	public enum StatType {
 		INTELL, STRENGTH, DEFENCE, VITALITY, ATTACKDMG, ENERGYCOST, ENERGY
@@ -28,10 +30,33 @@ public class AbstractClasses {
 		RANGEDPS, RANGEHEALER, MELEEDPS, MELEETANK
 	}
 
-	public AbstractClasses() {
-
+	public AbstractClasses(int vitality, int energy, int intell, int strength, int defence) {
+		this.vitality = vitality;
+		this.energy = energy;
+		intelligence = intell;
+		this.strength = strength;
+		this.defence = defence;
 	}
 
+	public void setCombatStats(int attackDmg, float attackRange) {
+		this.attackDmg = attackDmg;
+		this.attackRange = attackRange;
+	}
+
+	public void addExtraStats(int exVitality, int exEnergy, int exIntell, int exStrength, int exDefence) {
+		this.exVitality = exVitality;
+		this.exEnergy = exEnergy;
+		this.exIntell = exIntell;
+		this.exStrength = exStrength;
+		this.exDefence = exDefence;
+	}
+
+	public void addExtraCombatStats(int exAttackDmg, int exAttackRng) {
+		this.exAttackDmg = exAttackDmg;
+		this.exAttackRng = exAttackRng;
+	}
+
+	// -------Set Base Stats-------
 	public void setVitality(int vitality) {
 		this.vitality = vitality;
 	}
@@ -68,6 +93,7 @@ public class AbstractClasses {
 		attackRange = range;
 	}
 
+	// ----------Get base Stats--------
 	public int getVitality() {
 		return vitality;
 	}
@@ -104,6 +130,7 @@ public class AbstractClasses {
 		return attackRange;
 	}
 
+	// ----------increase base stats using---------
 	public void addVitality(int exVitality) {
 		vitality = vitality + exVitality;
 	}
@@ -140,6 +167,7 @@ public class AbstractClasses {
 		attackRange = attackRange + range;
 	}
 
+	// ----------Increase extra stats----------
 	public void addExVitality(int exVitality) {
 		this.exVitality = exVitality;
 	}
@@ -160,14 +188,11 @@ public class AbstractClasses {
 		this.exAttackDmg = exAttackDmg;
 	}
 
-	public void addExEnergyCost(int exEnergyCost) {
-		this.exEnergyCost = exEnergyCost;
-	}
-
 	public void addExEnergy(int exEnergy) {
 		this.exEnergy = exEnergy;
 	}
 
+	// -----------Set Stat type-----------
 	public void setStatType(StatType type) {
 		switch (type) {
 		case INTELL:
@@ -180,13 +205,12 @@ public class AbstractClasses {
 			addVitality(exVitality);
 		case ATTACKDMG:
 			addAttackDmg(exAttackDmg);
-		case ENERGYCOST:
-			addEnergyCost(exEnergyCost);
 		case ENERGY:
 			addEnergy(exEnergy);
 		}
 	}
 
+	// ---------Get stat type----------
 	public static StatType getIntellType() {
 		return StatType.INTELL;
 	}
@@ -205,10 +229,6 @@ public class AbstractClasses {
 
 	public static StatType getAttackDmgType() {
 		return StatType.ATTACKDMG;
-	}
-
-	public static StatType getEnergyCostType() {
-		return StatType.ENERGYCOST;
 	}
 
 	public static StatType getEnergyType() {

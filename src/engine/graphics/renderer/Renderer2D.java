@@ -131,16 +131,16 @@ public class Renderer2D extends Renderer
 		
 		float[] vertices = new float[]
 		{ 
-				v1.getW(), v1.getX(), v1.getY(), 0.0f, 0.0f, textureSlot, color.getW(), color.getX(), color.getY(), color.getZ(),
-				v2.getW(), v2.getX(), v2.getY(), 0.0f, 1.0f, textureSlot, color.getW(), color.getX(), color.getY(), color.getZ(),
-				v3.getW(), v3.getX(), v3.getY(), 1.0f, 1.0f, textureSlot, color.getW(), color.getX(), color.getY(), color.getZ(),
-				v4.getW(), v4.getX(), v4.getY(), 1.0f, 0.0f, textureSlot, color.getW(), color.getX(), color.getY(), color.getZ() 
+				v1.getW(), v1.getX(), v1.getY(), renderable.getUVs()[0].getX(), renderable.getUVs()[0].getY(), textureSlot, color.getW(), color.getX(), color.getY(), color.getZ(),
+				v2.getW(), v2.getX(), v2.getY(), renderable.getUVs()[1].getX(), renderable.getUVs()[1].getY(), textureSlot, color.getW(), color.getX(), color.getY(), color.getZ(),
+				v3.getW(), v3.getX(), v3.getY(), renderable.getUVs()[2].getX(), renderable.getUVs()[2].getY(), textureSlot, color.getW(), color.getX(), color.getY(), color.getZ(),
+				v4.getW(), v4.getX(), v4.getY(), renderable.getUVs()[3].getX(), renderable.getUVs()[3].getY(), textureSlot, color.getW(), color.getX(), color.getY(), color.getZ() 
 		};
 
 		m_IndexData.put(0 + 4 * m_SpriteCount);
 		m_IndexData.put(1 + 4 * m_SpriteCount);
 		m_IndexData.put(2 + 4 * m_SpriteCount);
-
+		
 		m_IndexData.put(2 + 4 * m_SpriteCount);
 		m_IndexData.put(3 + 4 * m_SpriteCount);
 		m_IndexData.put(0 + 4 * m_SpriteCount);
