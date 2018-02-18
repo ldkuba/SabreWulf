@@ -48,6 +48,32 @@ public class Texture
 		m_Path = filename;
 	}
 	
+	public Texture(ByteBuffer data, int width, int height, String name)
+	{
+		
+		m_ImageData = data;
+		
+		m_ImageData.flip();
+		
+		m_Width = width;
+		m_Height = height;
+		m_ColourChannels = 4;	
+		
+		m_ID = GL11.glGenTextures();
+		
+		bind(0);
+		
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+		
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, m_Width, m_Height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, m_ImageData);
+		GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+		
+		unbind(0);
+		
+		m_Path = name;
+	}
+	
 	public void bind(int slot)
 	{
 		GL13.glActiveTexture(GL13.GL_TEXTURE0 + slot);

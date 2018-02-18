@@ -4,8 +4,10 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL11;
@@ -95,9 +97,9 @@ public class SoundManager {
 	}
 
 
-	public void invokeSound(String soundName){
+	public void invokeSound(String soundName, boolean loop){
 		setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
-		Sound.setupSounds(this,"res/sounds/"+soundName+".ogg", soundName);
+		Sound.setupSounds(this,"res/sounds/"+soundName+".ogg", soundName, loop);
 	}
 
 
