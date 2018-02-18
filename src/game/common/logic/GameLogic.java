@@ -8,8 +8,8 @@ import game.common.player.Player;
 public class GameLogic {
 	
 	private Attack attackAction = new Attack();
+	private Damage recvDamage = new Damage();
 	private Movement movement = new Movement();
-	//ReceiveDamage.
 	
 	protected static Player myPlayer;
 
@@ -25,9 +25,10 @@ public class GameLogic {
 		return movement.move();
 	}
 	
-	/*
-	 * ReceiveDamage method.
-	 */
+	
+	public int receiveDamage(Player opponent, Player myPlayer) {
+		return recvDamage.lostVitality(opponent, myPlayer);
+	}
 	
 	public Player getPlayerInfo() {
 		return myPlayer;
