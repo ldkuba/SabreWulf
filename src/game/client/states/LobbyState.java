@@ -178,5 +178,4 @@ public class LobbyState extends AbstractState
 	{
 
 	}
-	// TODO: Fill in state methods to make them functional
 }

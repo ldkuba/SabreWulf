@@ -67,6 +67,15 @@ public class GameInstance {
         }
     }
 
+    public boolean isEmpty(){
+        if(playersInLobby.size()==0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     public GameInstanceManager getGIManager() {
         return GIManager;
     }

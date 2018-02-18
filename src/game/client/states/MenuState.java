@@ -90,7 +90,7 @@ public class MenuState extends AbstractState {
 		scene.getCamera().setProjectionMatrix(
 				MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.1f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
-		//app.getSoundManager().invokeSound("menu");
+		app.getSoundManager().invokeSound("menu");
 	}
 
 	@Override

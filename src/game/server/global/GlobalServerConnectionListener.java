@@ -14,7 +14,6 @@ public class GlobalServerConnectionListener {
     }
 
     public void clientConnected(Player player){
-        System.out.println("Connection");
     }
 
     public void clientDisconnected(Player player) {
