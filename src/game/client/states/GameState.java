@@ -53,7 +53,7 @@ public class GameState extends AbstractState
 	@Override
 	public void init()
 	{		
-		scene.initRenderer();
+		scene.init();
 		app.getGui().init(scene);
 		
 		button = new ToggleButton(20.0f, 20.0f, 10.0f, 10.0f, app.getAssetManager().getTexture("res/textures/testNoxus.png"), app.getAssetManager().getTexture("res/textures/background.png"))

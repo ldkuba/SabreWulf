@@ -2,6 +2,7 @@ package game.client;
 
 import engine.application.Application;
 import engine.net.client.Client;
+import engine.net.common_net.networking_messages.LobbyQuitMessage;
 import game.client.states.GameState;
 import game.client.states.LobbyState;
 import game.client.states.MenuState;
@@ -20,7 +21,7 @@ public class Main extends Application {
 	//private PlayerManager playerManager;
 	
 	public Main() {		
-		super(1920, 1080, 1, "SabreWulf", true, false); //window width, window height, vsync interval
+		super(1280, 720, 1, "SabreWulf", false, false); //window width, window height, vsync interval
 
 		menuState = new MenuState(this);
 		lobbyState = new LobbyState(this);
@@ -48,6 +49,9 @@ public class Main extends Application {
 	@Override
 	public void cleanup()
 	{
+
+		LobbyQuitMessage quit = new LobbyQuitMessage();
+		client.sendTCP(quit);
 		super.cleanup();
 		client.stop();
 	}
