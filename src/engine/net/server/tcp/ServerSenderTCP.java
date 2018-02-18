@@ -29,10 +29,10 @@ public class ServerSenderTCP extends Thread{
             try {
 
                 AbstractMessage msg = player.takeMessage();
-                if(msg instanceof LobbyUpdateMessage){
-                    LobbyUpdateMessage mse = (LobbyUpdateMessage) msg;
-                    System.out.println(((LobbyUpdateMessage) msg).getPlayersInLobby().get(0).getName());
-                }
+//                if(msg instanceof LobbyUpdateMessage){
+//                    LobbyUpdateMessage mse = (LobbyUpdateMessage) msg;
+//                    System.out.println(((LobbyUpdateMessage) msg).getPlayersInLobby().get(0).getName());
+//                }
                 if(msg instanceof QuitMessage){
                     player.getSocket().close();
                     gameServer.removePlayer(player);
@@ -40,12 +40,13 @@ public class ServerSenderTCP extends Thread{
                 }
                 else {
 
-                    oos.flush();
-                    if(msg instanceof LobbyUpdateMessage){
-                        LobbyUpdateMessage mse = (LobbyUpdateMessage) msg;
-                        System.out.println(((LobbyUpdateMessage) msg).getPlayersInLobby().get(0).getName());
-                    }
+//                    oos.flush();
+//                    if(msg instanceof LobbyUpdateMessage){
+//                        LobbyUpdateMessage mse = (LobbyUpdateMessage) msg;
+//                        System.out.println(((LobbyUpdateMessage) msg).getPlayersInLobby().get(0).getName());
+//                    }
                     oos.writeObject(msg);
+                    oos.reset();
                 }
             } catch (IOException e) {
                 e.printStackTrace();

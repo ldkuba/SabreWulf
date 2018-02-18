@@ -12,6 +12,11 @@ public class PlayerPayload implements Serializable {
         this.isReady = false;
         this.name = "temp";
     }
+    
+    @Override
+	public String toString(){
+		return "PlayerPayload{name="+name+",isReadt="+isReady+",characterSelection="+characterSelection+"}";
+	}
 
     public void setName(String name) {
         this.name = name;

@@ -15,9 +15,14 @@ import java.util.ArrayList;
  */
 public class LobbyUpdateMessage extends AbstractMessage {
 
-    private ArrayList<PlayerPayload> playersInLobby;
-    private int test;
-
+	private int test;
+	private ArrayList<PlayerPayload> playersInLobby;
+  
+	public LobbyUpdateMessage()
+	{
+		playersInLobby = new ArrayList<>();
+	}
+	
     public int getTest() {
         return test;
     }
