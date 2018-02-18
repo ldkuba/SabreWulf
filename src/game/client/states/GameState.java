@@ -8,8 +8,6 @@ import engine.gui.components.ToggleButton;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
 import engine.scene.Scene;
-import engine.sound.Sound;
-import engine.sound.SoundManager;
 import engine.state.AbstractState;
 import game.client.Main;
 import game.client.player.PlayerController;
@@ -96,7 +94,7 @@ public class GameState extends AbstractState
 		scene.update();
 		//manager.getStatuses();
 		playerController.update();
-		//map.update();
+		map.update();
 	}
 
 	@Override
