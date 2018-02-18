@@ -3,6 +3,7 @@
 *.log
 *.iml
 /bin
+/out
 .classpath
 .project
 .settings
