@@ -1,13 +1,17 @@
 package game.server.ingame;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import engine.net.common_net.MessageListener;
-import engine.net.common_net.networking_messages.*;
+import engine.net.common_net.networking_messages.AbstractMessage;
+import engine.net.common_net.networking_messages.BattleBeginMessage;
+import engine.net.common_net.networking_messages.LobbyConnectionResponseMessage;
+import engine.net.common_net.networking_messages.LobbyUpdateMessage;
+import engine.net.common_net.networking_messages.PeerCountMessage;
+import engine.net.common_net.networking_messages.TimerEventMessage;
 import engine.net.server.core.Player;
 import game.client.Main;
 import game.server.states.ServerMain;
-
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class ServerMessageListener implements MessageListener
 {
@@ -51,7 +55,7 @@ public class ServerMessageListener implements MessageListener
 			String soundName = "message_beep";
 			PeerCountMessage pcm = (PeerCountMessage) msg;
 			System.out.println("Number of players online: " + pcm.getNoPlayers());
-			app.getSoundManager().invokeSound(soundName);
+			app.getSoundManager().invokeSound(soundName, false);
 			PeerCountMessage plm = (PeerCountMessage) msg;
 			System.out.println(plm.getNoPlayers());
 			app.getSoundManager().pauseSoundSource(soundName);
