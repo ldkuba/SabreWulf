@@ -113,4 +113,8 @@ public class GameServer
 		return null;
 	}
 
+	public void removeGameInstance(GameInstance instance){
+		games.remove(instance);
+	}
+
 }

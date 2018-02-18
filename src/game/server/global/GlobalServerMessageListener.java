@@ -49,8 +49,6 @@ public class GlobalServerMessageListener {
             LockInMessage lim = (LockInMessage) msg;
             source.setReady(true);
             source.setChar(lim.getCharacterSelected());
-            source.setName("bob modified");
-            System.out.println("I've modified bob" + source.getName());
             LobbyUpdateMessage lobbyUpd = new LobbyUpdateMessage();
             lobbyUpd.setPlayersInLobby(gameInstance.getPlayerPayload());
             lobbyUpd.setTest(6);
@@ -58,6 +56,10 @@ public class GlobalServerMessageListener {
 
         } else if(msg instanceof LobbyQuitMessage){
             gameInstance.removePlayer(source);
+            LobbyUpdateMessage lobbyUpd = new LobbyUpdateMessage();
+            lobbyUpd.setPlayersInLobby(gameInstance.getPlayerPayload());
+            lobbyUpd.setTest(6);
+            gameServer.broadcastTCP(lobbyUpd, gameInstance.getPlayersInLobby());
         }
 
     }

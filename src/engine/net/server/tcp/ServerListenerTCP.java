@@ -29,8 +29,6 @@ public class ServerListenerTCP extends Thread{
             } catch (IOException e){
                 gameServer.addConnectionEvent(player, false);
             }
-
         }
-
     }
 }

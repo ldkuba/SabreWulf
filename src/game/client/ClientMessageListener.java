@@ -53,7 +53,6 @@ public class ClientMessageListener implements MessageListener
 			System.out.println("Number of players online: " + pcm.getNoPlayers());
 			app.getSoundManager().invokeSound(soundName);
 			PeerCountMessage plm = (PeerCountMessage) msg;
-			//System.out.println(plm.getNoPlayers());
 			app.getSoundManager().pauseSoundSource(soundName);
 		}
 		else if(msg instanceof LobbyConnectionResponseMessage){
@@ -68,10 +67,8 @@ public class ClientMessageListener implements MessageListener
 		}
 		else if(msg instanceof LobbyUpdateMessage){
 		    LobbyUpdateMessage lobbyUpd = (LobbyUpdateMessage) msg;
-		   	System.out.println( ((LobbyUpdateMessage) msg).getPlayersInLobby().get(0).getName());
 		    for(int i=0; i<lobbyUpd.getPlayersInLobby().size(); i++){
 		    	Main.lobbyState.updatePlayer(i, lobbyUpd.getPlayersInLobby().get(i).getCharacterSelection());
-				System.out.println(lobbyUpd.getTest());
 		    }
         }
 
@@ -83,7 +80,6 @@ public class ClientMessageListener implements MessageListener
 		else if(msg instanceof BattleBeginMessage){
 			app.getStateManager().setCurrentState(Main.gameState);
 		}
-		System.out.println(msg.getClass());
 	}
 
 	@Override
