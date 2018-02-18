@@ -56,7 +56,7 @@ public class GameState extends AbstractState
 		scene.initRenderer();
 		app.getGui().init(scene);
 		// set up background sound
-		app.getSoundManager().invokeSound("game");
+		app.getSoundManager().invokeSound("background/game");
 		
 		button = new ToggleButton(20.0f, 20.0f, 10.0f, 10.0f, app.getAssetManager().getTexture("res/textures/testNoxus.png"), app.getAssetManager().getTexture("res/textures/background.png"))
 		{

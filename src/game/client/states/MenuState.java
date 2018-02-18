@@ -44,7 +44,7 @@ public class MenuState extends AbstractState {
 	public void init() {
 		scene.initRenderer();
 		app.getGui().init(scene);
-		app.getSoundManager().invokeSound("menu");
+		app.getSoundManager().invokeSound("background/menu");
 		Texture menuBackgroundTexture = app.getAssetManager().getTexture("res/textures/mainmenu_background.png");
 		menuBackground = new Sprite(0, 0, 100.0f, 100.0f, menuBackgroundTexture);
 		app.getGui().add(menuBackground);
