@@ -8,16 +8,12 @@ import engine.graphics.renderer.Renderer2D;
 import engine.graphics.texture.Texture;
 import engine.maths.Mat4;
 import game.classes.AbstractClasses;
-<<<<<<< HEAD
-=======
 import game.classes.AbstractClasses.ClassType;
 import game.classes.AbstractClasses.StatType;
 import game.classes.melee.MeleeDPS;
 import game.classes.melee.MeleeTank;
 import game.classes.range.RangeDPS;
 import game.classes.range.RangeHealer;
->>>>>>> 3e3860bccf2ebb6a0131affcf03af3b6a961da55
-
 import java.io.Serializable;
 
 //Will contain an Entity object with components and holds data of it's own profile (health, status, position etc)
