@@ -44,7 +44,7 @@ public class MenuState extends AbstractState {
 	public void init() {
 		scene.init();
 		app.getGui().init(scene);
-		app.getSoundManager().invokeSound("background/menu");
+		app.getSoundManager().invokeSound("background/menu", true);
 		Texture menuBackgroundTexture = app.getAssetManager().getTexture("res/textures/mainmenu_background.png");
 		menuBackground = new Sprite(0, 0, 100.0f, 100.0f, menuBackgroundTexture);
 		app.getGui().add(menuBackground);
@@ -82,6 +82,7 @@ public class MenuState extends AbstractState {
 		exitButton = new Button(95.0f, 93.0f, 4.0f, 6.0f, exitButtonPressedTexture, exitButtonReleasedTexture) {
 			@Override
 			public void onClick() {
+				app.getSoundManager().invokeSound("quit", false);
 				app.exit();
 				app.getClient().stop();
 			}

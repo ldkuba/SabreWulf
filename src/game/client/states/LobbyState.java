@@ -58,7 +58,7 @@ public class LobbyState extends AbstractState
 		scene.init();
 		app.getGui().init(scene);
 		// set up background sound
-		app.getSoundManager().invokeSound("background/lobby");
+		app.getSoundManager().invokeSound("background/lobby", true);
 		playerAvatars = new ArrayList<>();
 		characterAvatars = new ArrayList<>();
 		Texture lobbyBackgroundTexture = app.getAssetManager().getTexture("res/textures/lobby_background.png");
