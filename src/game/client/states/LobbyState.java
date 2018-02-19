@@ -179,6 +179,10 @@ public class LobbyState extends AbstractState
 			playerAvatars.get(slot).getEntity().getSprite().setTexture(characterAvatars.get(selection));
 			playerNames.get(slot).setText(name);
 		}
+		else{
+			Texture transparent = app.getAssetManager().getTexture("res/textures/transparent.png");
+			playerAvatars.get(slot).getEntity().getSprite().setTexture(transparent);
+		}
 	}
 	
 	@Override
