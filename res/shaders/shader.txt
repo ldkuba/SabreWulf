@@ -39,7 +39,7 @@ void main()
 	if(texSlot >= 0.0)
 	{
 		int tid = int(texSlot + 0.5);
-		outputColor = texture2D(texture[tid], UVs) * theColor;
+		outputColor = texture2D(texture[tid], UVs);
 	}
 	
   	
