@@ -1,18 +1,25 @@
-package game.classes;
+package game.common.classes;
 
 public class AbstractClasses {
 
-	private int vitality = 0;
+	//Base stats
+	private float vitality = 0;
 	private int energy = 0;
 	private int intelligence = 0;
 	private int strength = 0;
 	private int defence = 0;
 	
+	private float fieldOfView = 0;
+	
+	//Attacks
 	private int attackDmg = 0;	//Basic attack damage
-	private int healing = 0;
-	private int energyCost = 0;
 	private float attackRange = 0;
-
+	private float attackSpeed = 0;
+	
+	//Regeneration
+	private float manaReg = 0;
+	private float healthReg = 0;
+	
 	private int exIntell;
 	private int exStrength;
 	private int exDefence;
@@ -24,24 +31,31 @@ public class AbstractClasses {
 
 	
 	public enum StatType {
-		INTELL, STRENGTH, DEFENCE, VITALITY, ATTACKDMG, ENERGYCOST, ENERGY
+		INTELL, STRENGTH, DEFENCE, VITALITY, ENERGY
 	}
 
 	public enum ClassType {
 		RANGEDPS, RANGEHEALER, MELEEDPS, MELEETANK
 	}
 
-	public AbstractClasses(int vitality, int energy, int intell, int strength, int defence) {
+	public AbstractClasses(float vitality, int energy, int intell, int strength, int defence, float fieldOfView) {
 		this.vitality = vitality;
 		this.energy = energy;
 		intelligence = intell;
 		this.strength = strength;
 		this.defence = defence;
+		this.fieldOfView = fieldOfView;
 	}
 	
-	public void setCombatStats(int attackDmg, float attackRange) {
+	public void setCombatStats(int attackDmg, float attackRange, float attackSpeed) {
 		this.attackDmg = attackDmg;
 		this.attackRange = attackRange;
+		this.attackSpeed = attackSpeed;
+	}
+	
+	public void setRegStats(float manaReg, float healthReg) {
+		this.manaReg = manaReg;
+		this.healthReg = healthReg;
 	}
 	
 	public void addExtraStats(int exVitality, int exEnergy, int exIntell, int exStrength, int exDefence) {
@@ -83,11 +97,7 @@ public class AbstractClasses {
 	}
 
 	public void setHealing(int healing) {
-		this.healing = healing;
-	}
-
-	public void setEnergyCost(int energyCost) {
-		this.energyCost = energyCost;
+		this.healthReg = healing;
 	}
 
 	public void setAttackrange(float range) {
@@ -95,7 +105,7 @@ public class AbstractClasses {
 	}
 
 	//----------Get base Stats--------
-	public int getVitality() {
+	public float getVitality() {
 		return vitality;
 	}
 
@@ -119,12 +129,8 @@ public class AbstractClasses {
 		return attackDmg;
 	}
 
-	public int getHealing() {
-		return healing;
-	}
-
-	public int getEnergyCost() {
-		return energyCost;
+	public float getHealing() {
+		return healthReg;
 	}
 
 	public float getAttackRange() {
@@ -154,10 +160,6 @@ public class AbstractClasses {
 
 	public void addAttackDmg(int exAttackDmg) {
 		attackDmg = attackDmg + exAttackDmg;
-	}
-
-	public void addEnergyCost(int exEnergyCost) {
-		energyCost = energyCost + exEnergyCost;
 	}
 
 	public void addEnergy(int exEnergy) {
@@ -204,8 +206,6 @@ public class AbstractClasses {
 			addDefence(exDefence);
 		case VITALITY:
 			addVitality(exVitality);
-		case ATTACKDMG:
-			addAttackDmg(exAttackDmg);
 		case ENERGY:
 			addEnergy(exEnergy);
 		}
@@ -226,10 +226,6 @@ public class AbstractClasses {
 
 	public static StatType getVitalityType() {
 		return StatType.VITALITY;
-	}
-
-	public static StatType getAttackDmgType() {
-		return StatType.ATTACKDMG;
 	}
 
 	public static StatType getEnergyType() {
