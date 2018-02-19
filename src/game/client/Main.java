@@ -14,14 +14,16 @@ import game.client.states.MenuState;
 public class Main extends Application {
 
 	private Client client;
-	
+
 	public static MenuState menuState;
 	public static LobbyState lobbyState;
 	public static GameState gameState;
-	//private PlayerManager playerManager;
-	
-	public Main() {		
-		super(1280, 720, 1, "SabreWulf", false, false); //window width, window height, vsync interval
+	// private PlayerManager playerManager;
+
+	public Main() {
+		super(1280, 720, 1, "SabreWulf", false, false); // window width, window
+														// height, vsync
+														// interval
 
 		menuState = new MenuState(this);
 		lobbyState = new LobbyState(this);
@@ -40,12 +42,10 @@ public class Main extends Application {
 		stateManager.setCurrentState(gameState);
 	}
 
-
-	public Client getClient()
-	{
+	public Client getClient() {
 		return this.client;
 	}
-	
+
 	@Override
 	public void cleanup()
 	{
@@ -54,7 +54,7 @@ public class Main extends Application {
 		super.cleanup();
 		client.stop();
 	}
-	
+
 	public static void main(String[] args) {
 		Main game = new Main();
 		game.run();

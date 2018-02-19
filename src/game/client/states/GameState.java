@@ -1,7 +1,6 @@
 package game.client.states;
 
 import org.lwjgl.glfw.GLFW;
-
 import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.SpriteAnimationComponent;

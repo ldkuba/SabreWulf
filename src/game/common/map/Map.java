@@ -10,24 +10,24 @@ import engine.maths.Vec4;
 import engine.scene.Scene;
 
 public class Map {
+
 	private Entity[] background;
-	private final float TILE_WIDTH = 12f;
-	private final float TILE_HEIGHT = 12f;
+	private final float TILE_WIDTH = 12.0f;
+	private final float TILE_HEIGHT = 12.0f;
 	private final int MAP_SIZE = 16;
 	private final int ARRAY_SIZE = MAP_SIZE * MAP_SIZE;
 	private Scene scene;
-	private float vpLength;
-
+	
 	public Map(Scene scene) {
 		this.scene = scene;
 		background = new Entity[MAP_SIZE * MAP_SIZE];
-		vpLength = Application.s_Viewport.getLength();
 	}
 
 	//only run on the client
 	public void init(String basePath, AssetManager assetManager) {
 		// initialise entities
 		Vec4 white = new Vec4(1.0f, 1.0f, 1.0f, 1.0f);
+
 		// top right
 		for (int i = 0; i < background.length; i++) {
 			Entity newEntity = new Entity(i, "mapBackground" + i);
