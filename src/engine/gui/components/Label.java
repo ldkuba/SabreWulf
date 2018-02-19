@@ -32,6 +32,12 @@ public class Label extends GuiComponent
 		entity.addComponent(textComponent);
 	}
 	
+	@Override
+	public void resize()
+	{
+		setSize(size);
+	}
+	
 	public void setColor(Vec4 newColor)
 	{
 		textComponent.setColor(newColor);
@@ -45,7 +51,8 @@ public class Label extends GuiComponent
 	
 	public void setSize(float size)
 	{
-		textComponent.setSize(size);
+		float worldHeight = (height*Application.s_WindowSize.getY()/100.0f) * (Application.s_Viewport.getY()/(Application.s_WindowSize.getY()/2.0f));
+		textComponent.setSize(worldHeight);
 		this.width = spread * size * textComponent.getText().length();
 	}
 	

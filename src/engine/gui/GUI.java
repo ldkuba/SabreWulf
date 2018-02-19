@@ -126,6 +126,14 @@ public class GUI implements MouseListener, KeyboardListener
 		}
 	}
 
+	public void resize()
+	{
+		for (GuiComponent component : components)
+		{
+			component.resize();
+		}
+	}
+	
 	@Override
 	public void keyAction(int key, int action)
 	{

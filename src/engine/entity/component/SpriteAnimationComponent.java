@@ -57,6 +57,16 @@ public class SpriteAnimationComponent extends AbstractComponent
 		
 	}
 	
+	public void setWidth(float width)
+	{
+		m_Sprite.setWidth(width);
+	}
+	
+	public void setHeight(float height)
+	{
+		m_Sprite.setHeight(height);
+	}
+	
 	public void submit(Renderer2D renderer, Mat4 transformation)
 	{
 		m_Sprite.submit(renderer, transformation);

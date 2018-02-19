@@ -4,6 +4,7 @@ import org.lwjgl.glfw.GLFW;
 import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.SpriteAnimationComponent;
+import engine.entity.component.SpriteComponent;
 import engine.entity.component.TextComponent;
 import engine.entity.component.TransformComponent;
 import engine.gui.components.Label;
@@ -29,8 +30,8 @@ public class GameState extends AbstractState {
 
 	private int frame = 0;
 	private float second = 0;
-
-	private TextField textField;
+	
+	private Entity ball;
 	
 	private float zoom = 10.0f;
 	float aspectRatio = Application.s_WindowSize.getX() / Application.s_WindowSize.getY();
@@ -51,12 +52,14 @@ public class GameState extends AbstractState {
 			zoom += 5.0f;
 			scene.getCamera().setProjectionMatrix(
 					MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 1.0f, 100.0f));
+			app.setViewport(zoom*aspectRatio, zoom);
 		}
 
 		if (key == GLFW.GLFW_KEY_X && action == GLFW.GLFW_PRESS) {
 			zoom -= 5.0f;
 			scene.getCamera().setProjectionMatrix(
 					MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 1.0f, 100.0f));
+			app.setViewport(zoom*aspectRatio, zoom);
 		}
 	}
 
@@ -78,9 +81,6 @@ public class GameState extends AbstractState {
 		Label label = new Label(40.0f, 10.0f, app.getAssetManager().getFont("fontSprite.png"), 5.0f, 0.7f, new Vec4(1.0f, 0.0f, 0.0f, 1.0f));
 		label.setText("hello");
 		app.getGui().add(label);
-		
-		textField = new TextField(40.0f, 60.0f, app.getAssetManager().getFont("fontSprite.png"), 5.0f, 0.5f, 16, new Vec4(0.0f, 1.0f, 0.0f, 1.0f));
-		app.getGui().add(textField);
 
 		Entity textTest = new Entity(0, "textTest");
 		textTest.addComponent(new TransformComponent());
@@ -89,6 +89,12 @@ public class GameState extends AbstractState {
 		textTest.getTransform().move(new Vec3(-16.0f, 0.0f, 0.0f));
 		
 		scene.addEntity(textTest);
+		
+		Entity ball = new Entity(0, "");
+		ball.addComponent(new TransformComponent());
+		ball.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture("res/textures/characters/placeholder.png"), 2.0f, 2.0f));
+		
+		scene.addEntity(ball);
 		
 		Entity animTest = new Entity(0, "animTest");
 		animTest.addComponent(new TransformComponent());
@@ -134,8 +140,6 @@ public class GameState extends AbstractState {
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
 			scene.getCamera().move(new Vec3(0.0f, -cameraSpeed, 0.0f));
 		}
-
-		System.out.println(textField.isFocused());
 		
 		scene.update();
 		// manager.getStatuses();

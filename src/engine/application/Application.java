@@ -236,6 +236,7 @@ public class Application
 	public void setViewport(float right, float top)
 	{
 		s_Viewport = new Vec2(right, top);
+		gui.resize();
 	}
 
 	public void resize(long window, int width, int height)
