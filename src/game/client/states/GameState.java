@@ -1,7 +1,6 @@
 package game.client.states;
 
 import org.lwjgl.glfw.GLFW;
-
 import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.SpriteAnimationComponent;
@@ -141,7 +140,7 @@ public class GameState extends AbstractState {
 		scene.update();
 		// manager.getStatuses();
 		playerController.update();
-		map.update();
+		//map.update();
 	}
 
 	@Override
