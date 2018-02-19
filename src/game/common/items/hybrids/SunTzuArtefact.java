@@ -2,7 +2,7 @@ package game.common.items.hybrids;
 
 import game.common.items.AbstractItem;
 
-//You feel the wisdom of Sun Tzu passing through you. 
+//You feel the wisdom of Sun Tzu flowing through you. 
 
 public class SunTzuArtefact extends AbstractItem{
 

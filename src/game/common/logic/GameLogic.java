@@ -2,6 +2,7 @@ package game.common.logic;
 
 import engine.maths.Vec2;
 import game.common.logic.actions.Attack;
+import game.common.logic.actions.Damage;
 import game.common.logic.actions.Movement;
 import game.common.player.Player;
 
@@ -26,8 +27,8 @@ public class GameLogic {
 	}
 	
 	
-	public int receiveDamage(Player opponent, Player myPlayer) {
-		return recvDamage.lostVitality(opponent, myPlayer);
+	public int receiveDamage(int recvDamage) {
+		//reduce vitality.
 	}
 	
 	public Player getPlayerInfo() {

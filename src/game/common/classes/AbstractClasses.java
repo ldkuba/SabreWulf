@@ -8,6 +8,8 @@ public class AbstractClasses {
 	private int intelligence = 0;
 	private int strength = 0;
 	private int defence = 0;
+	private float mana = 0;
+	private float moveSpeed = 0;
 	
 	private float fieldOfView = 0;
 	
@@ -25,9 +27,12 @@ public class AbstractClasses {
 	private int exDefence;
 	private int exEnergy;
 	private int exVitality;
+	private float exMana;
+	private float exFieldOfView;
 	
 	private int exAttackDmg;
-	private int exAttackRng;
+	private float exAttackRng;
+	private float exAttackSpeed;
 
 	
 	public enum StatType {
@@ -38,13 +43,14 @@ public class AbstractClasses {
 		RANGEDPS, RANGEHEALER, MELEEDPS, MELEETANK
 	}
 
-	public AbstractClasses(float vitality, int energy, int intell, int strength, int defence, float fieldOfView) {
+	public AbstractClasses(float vitality, int energy, int intell, int strength, int defence, float fieldOfView, float mana) {
 		this.vitality = vitality;
 		this.energy = energy;
 		intelligence = intell;
 		this.strength = strength;
 		this.defence = defence;
 		this.fieldOfView = fieldOfView;
+		this.mana = mana;
 	}
 	
 	public void setCombatStats(int attackDmg, float attackRange, float attackSpeed) {
@@ -58,12 +64,14 @@ public class AbstractClasses {
 		this.healthReg = healthReg;
 	}
 	
-	public void addExtraStats(int exVitality, int exEnergy, int exIntell, int exStrength, int exDefence) {
+	public void addExtraStats(int exVitality, int exEnergy, int exIntell, int exStrength, int exDefence, float exFieldOfView, float mana) {
 		this.exVitality = exVitality;
 		this.exEnergy = exEnergy;
 		this.exIntell = exIntell;
 		this.exStrength = exStrength;
 		this.exDefence = exDefence;
+		this.exFieldOfView = exFieldOfView;
+		this.exMana = mana;
 	}
 	
 	public void addExtraCombatStats(int exAttackDmg, int exAttackRng) {

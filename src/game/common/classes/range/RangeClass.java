@@ -10,8 +10,10 @@ public class RangeClass extends AbstractClasses {
 	private static int intelligence = 90;
 	private static int strength = 70;
 	private static int defence = 70;
+	private static float mana = 90;
+	private static float moveSpeed = 40;
 	
-	private static float fieldOfView = 4.5f;
+	private static float fieldOfView = 5.5f;
 	
 	//Base Combat Stats
 	private static int attackDmg = 10;
@@ -23,8 +25,8 @@ public class RangeClass extends AbstractClasses {
 	private static float healthReg = 3.5f;
 
 	public RangeClass() {
-		super(vitality, energy, intelligence, strength, defence, fieldOfView);
-		setCombatStats(attackDmg, attackRange,attackSpeed);
+		super(vitality, energy, intelligence, strength, defence, fieldOfView,mana);
+		setCombatStats(attackDmg, attackRange, attackSpeed);
 		setRegStats(manaReg, healthReg);
 	}
 
