@@ -1,16 +1,14 @@
 package game.client.states;
 
-import engine.net.common_net.networking_messages.LobbyConnectionRequestMessage;
-import engine.sound.Sound;
-import engine.sound.SoundManager;
-import org.lwjgl.openal.AL11;
-
 import engine.application.Application;
 import engine.graphics.texture.Texture;
 import engine.gui.components.Button;
 import engine.gui.components.Sprite;
+import engine.gui.components.TextField;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
+import engine.maths.Vec4;
+import engine.net.common_net.networking_messages.LobbyConnectionRequestMessage;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.client.Main;
@@ -23,7 +21,7 @@ public class MenuState extends AbstractState {
 	private Button playButton;
 	private Button settingsButton;
 	private Button exitButton;
-
+	private TextField playerNameField;
 
 	public MenuState(Main app) {
 		this.app = app;
@@ -44,7 +42,7 @@ public class MenuState extends AbstractState {
 	public void init() {
 		scene.init();
 		app.getGui().init(scene);
-		app.getSoundManager().invokeSound("background/menu");
+		app.getSoundManager().invokeSound("background/menu", true);
 		Texture menuBackgroundTexture = app.getAssetManager().getTexture("res/textures/mainmenu_background.png");
 		menuBackground = new Sprite(0, 0, 100.0f, 100.0f, menuBackgroundTexture);
 		app.getGui().add(menuBackground);
@@ -52,12 +50,11 @@ public class MenuState extends AbstractState {
 		Texture playButtonReleasedTexture = app.getAssetManager().getTexture("res/textures/play_button_released.png");
 		Texture playButtonPressedTexture = app.getAssetManager().getTexture("res/textures/play_button_pressed.png");
 		playButton = new Button(45.0f, 90.0f, 10.0f, 6.0f, playButtonPressedTexture, playButtonReleasedTexture) {
-			
+
 			@Override
-			public void onClick()
-			{
+			public void onClick() {
 				LobbyConnectionRequestMessage cnm = new LobbyConnectionRequestMessage();
-				cnm.setName("bob");
+				cnm.setName(playerNameField.getText());
 				app.getClient().sendTCP(cnm);
 				app.getSoundManager().stopSoundSource("menu");
 			}
@@ -82,11 +79,15 @@ public class MenuState extends AbstractState {
 		exitButton = new Button(95.0f, 93.0f, 4.0f, 6.0f, exitButtonPressedTexture, exitButtonReleasedTexture) {
 			@Override
 			public void onClick() {
+				app.getSoundManager().invokeSound("quit", false);
 				app.exit();
 				app.getClient().stop();
 			}
 		};
 		app.getGui().add(exitButton);
+		
+		playerNameField = new TextField(38.0f, 10.0f, app.getAssetManager().getFont("fontSprite.png"), 4.0f, 0.6f, 20, new Vec4(1.0f, 0.0f, 0.0f, 1.0f));
+		app.getGui().add(playerNameField);
 
 		float aspectRatio = Application.s_WindowSize.getX() / Application.s_WindowSize.getY();
 		scene.getCamera().setProjectionMatrix(
