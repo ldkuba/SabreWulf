@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import engine.application.Application;
 import engine.entity.Entity;
+import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TextComponent;
 import engine.entity.component.TransformComponent;
@@ -59,6 +60,13 @@ public class Scene {
 				// transform.update(); just an example, the transform component
 				// doesnt need automatic updating
 			}
+			
+			if(e.hasComponent(SpriteAnimationComponent.class))
+			{
+				SpriteAnimationComponent animation = (SpriteAnimationComponent) e.getComponent(SpriteAnimationComponent.class);
+				
+				animation.update();
+			}
 		}
 	}
 
@@ -76,6 +84,8 @@ public class Scene {
 					transformation = transform.getTransformationMatrix();
 				}
 
+				//check if visible
+				
 				sprite.submit(m_Renderer2D, transformation);
 			}
 			
@@ -89,7 +99,25 @@ public class Scene {
 					transform = (TransformComponent) e.getComponent(TransformComponent.class);
 				}
 				
+				//check is visible
+				
 				text.submit(m_Renderer2D, transform);
+			}
+			
+			if(e.hasComponent(SpriteAnimationComponent.class))
+			{
+				SpriteAnimationComponent animation = (SpriteAnimationComponent) e.getComponent(SpriteAnimationComponent.class);
+				
+				Mat4 transformation = Mat4.identity();
+
+				if (e.hasComponent(TransformComponent.class)) {
+					TransformComponent transform = (TransformComponent) e.getComponent(TransformComponent.class);
+					transformation = transform.getTransformationMatrix();
+				}
+
+				//check is visible
+				
+				animation.submit(m_Renderer2D, transformation);
 			}
 		}
 
