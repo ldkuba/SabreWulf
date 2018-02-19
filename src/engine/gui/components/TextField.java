@@ -22,7 +22,7 @@ public class TextField extends GuiComponent
 	{
 		this.x = x;
 		this.y = y;
-		this.width = size*spread*maxStringLength/2;
+		this.width = size*spread*maxStringLength/2.0f;
 		this.height = size;
 		this.size = size;
 		this.spread = spread;
@@ -105,9 +105,8 @@ public class TextField extends GuiComponent
 		this.width = spread * size * maxStringLength;
 	}
 
-	@Override
-	public float getXAbsolute()
+	public String getText()
 	{
-		
+		return textComponent.getText();
 	}
 }

@@ -64,6 +64,8 @@ public class TextComponent extends AbstractComponent
 		Vec3 tmpRot = transform.getRotationAngles();
 		Vec3 tmpScale = transform.getScale();
 			
+		transform.move(new Vec3(-m_Size*m_Spread*m_Components.size()/2.0f, 0.0f, 0.0f));
+		
 		for(SpriteComponent component : m_Components)
 		{
 			component.submit(renderer2d, transform.getTransformationMatrix());

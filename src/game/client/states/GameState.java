@@ -87,7 +87,7 @@ public class GameState extends AbstractState {
 		label.setText("hello");
 		app.getGui().add(label);
 		
-		textField = new TextField(40.0f, 60.0f, app.getAssetManager().getFont("fontSprite.png"), 5.0f, 0.7f, 16);
+		textField = new TextField(40.0f, 60.0f, app.getAssetManager().getFont("fontSprite.png"), 5.0f, 0.5f, 16);
 		app.getGui().add(textField);
 
 		Entity textTest = new Entity(0, "textTest");
