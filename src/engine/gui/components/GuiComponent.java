@@ -11,6 +11,7 @@ public class GuiComponent
 	protected Entity entity;
 	
 	protected boolean enabled;
+	protected boolean focused;
 	
 	public void onPress(int button)
 	{
@@ -27,6 +28,11 @@ public class GuiComponent
 		
 	}
 	
+	public void onKeyPress(int key, int action)
+	{
+		
+	}
+	
 	public void setEnabled(boolean enabled)
 	{
 		this.enabled = enabled;
@@ -35,6 +41,16 @@ public class GuiComponent
 	public boolean isEnabled()
 	{
 		return enabled;
+	}
+	
+	public void setFocused(boolean focused)
+	{
+		this.focused = focused;
+	}
+	
+	public boolean isFocused()
+	{
+		return focused;
 	}
 	
 	public Entity getEntity()

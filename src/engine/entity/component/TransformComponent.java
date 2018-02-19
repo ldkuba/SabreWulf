@@ -19,7 +19,7 @@ public class TransformComponent extends AbstractComponent
 
 	public Vec3 getPosition()
 	{
-		return position;
+		return new Vec3(position);
 	}
 
 	public void setPosition(Vec3 position)
@@ -29,7 +29,7 @@ public class TransformComponent extends AbstractComponent
 
 	public Vec3 getRotationAngles()
 	{
-		return eulerAngles;
+		return new Vec3(eulerAngles);
 	}
 
 	public void setRotationAngles(Vec3 eulerAngles)
@@ -39,7 +39,7 @@ public class TransformComponent extends AbstractComponent
 
 	public Vec3 getScale()
 	{
-		return scale;
+		return new Vec3(scale);
 	}
 
 	public void setScale(Vec3 scale)

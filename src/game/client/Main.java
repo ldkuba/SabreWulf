@@ -49,7 +49,6 @@ public class Main extends Application {
 	@Override
 	public void cleanup()
 	{
-
 		LobbyQuitMessage quit = new LobbyQuitMessage();
 		client.sendTCP(quit);
 		super.cleanup();

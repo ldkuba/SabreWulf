@@ -70,6 +70,11 @@ public class Renderable2D
 		return m_Color;
 	}
 	
+	public void setColor(Vec4 newColor)
+	{
+		m_Color = newColor;
+	}
+	
 	public Vec2[] getUVs()
 	{
 		return m_UVs;

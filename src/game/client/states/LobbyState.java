@@ -2,20 +2,18 @@ package game.client.states;
 
 import java.util.ArrayList;
 
-import org.lwjgl.openal.AL11;
-
 import engine.application.Application;
 import engine.graphics.texture.Texture;
 import engine.gui.components.Button;
+import engine.gui.components.Label;
 import engine.gui.components.SelectList;
 import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
+import engine.maths.Vec4;
 import engine.net.common_net.networking_messages.LobbyQuitMessage;
 import engine.net.common_net.networking_messages.LockInMessage;
 import engine.scene.Scene;
-import engine.sound.Sound;
-import engine.sound.SoundManager;
 import engine.state.AbstractState;
 import game.client.Main;
 
@@ -30,6 +28,8 @@ public class LobbyState extends AbstractState
 	private Button quitButton;
 	private ArrayList<Texture> characterAvatars;
 	private ArrayList<Sprite> playerAvatars;
+	
+	private ArrayList<Label> playerNames;
 	
 	private int localPlayerIndex;
 
@@ -60,6 +60,7 @@ public class LobbyState extends AbstractState
 		// set up background sound
 		app.getSoundManager().invokeSound("background/lobby", true);
 		playerAvatars = new ArrayList<>();
+		playerNames = new ArrayList<>();
 		characterAvatars = new ArrayList<>();
 		Texture lobbyBackgroundTexture = app.getAssetManager().getTexture("res/textures/lobby_background.png");
 		lobbyBackground = new Sprite(0, 0, 100.0f, 100.0f, lobbyBackgroundTexture);
@@ -122,7 +123,7 @@ public class LobbyState extends AbstractState
 			}
 		};
 		app.getGui().add(quitButton);
-
+		
 		for(int i = 0; i < 6; i++)
 		{
 			Texture transparent = app.getAssetManager().getTexture("res/textures/transparent.png");
@@ -132,11 +133,19 @@ public class LobbyState extends AbstractState
 				Sprite sprite = new Sprite(3.0f, 17.0f + (i*24.5f), 9.5f, 17.0f, transparent);
 				playerAvatars.add(sprite);
 				app.getGui().add(sprite);
+				
+				Label label = new Label(3.0f, 20.0f + (i*24.5f), app.getAssetManager().getFont("fontSprite.png"), 3.0f, 0.7f, new Vec4(1.0f, 1.0f, 1.0f, 1.0f));
+				playerNames.add(label);
+				app.getGui().add(label);
 			}else
 			{
 				Sprite sprite = new Sprite(87.5f, 17.0f + ((i%3)*24.5f), 9.5f, 17.0f, transparent);
 				playerAvatars.add(sprite);
 				app.getGui().add(sprite);
+				
+				Label label = new Label(87.5f, 20.0f + ((i%3)*24.5f), app.getAssetManager().getFont("fontSprite.png"), 3.0f, 0.7f, new Vec4(1.0f, 1.0f, 1.0f, 1.0f));
+				playerNames.add(label);
+				app.getGui().add(label);
 			}	
 		}
 		
@@ -164,10 +173,11 @@ public class LobbyState extends AbstractState
 	}
 	
 	//Called from message listener when a someone locks in and message is received
-	public void updatePlayer(int slot, int selection)
+	public void updatePlayer(int slot, int selection, String name)
 	{
 		if(selection!=-1) {
 			playerAvatars.get(slot).getEntity().getSprite().setTexture(characterAvatars.get(selection));
+			playerNames.get(slot).setText(name);
 		}
 		else{
 			Texture transparent = app.getAssetManager().getTexture("res/textures/transparent.png");
