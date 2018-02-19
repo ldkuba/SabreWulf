@@ -54,7 +54,7 @@ public class MenuState extends AbstractState {
 			@Override
 			public void onClick() {
 				LobbyConnectionRequestMessage cnm = new LobbyConnectionRequestMessage();
-				cnm.setName("bob");
+				cnm.setName(playerNameField.getText());
 				app.getClient().sendTCP(cnm);
 				app.getSoundManager().stopSoundSource("menu");
 			}

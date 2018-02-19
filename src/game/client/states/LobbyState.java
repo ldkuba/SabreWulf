@@ -134,7 +134,7 @@ public class LobbyState extends AbstractState
 				playerAvatars.add(sprite);
 				app.getGui().add(sprite);
 				
-				Label label = new Label(3.0f, 20.0f + (i*24.5f), app.getAssetManager().getFont("fontSprite.png"), 3.0f, 0.7f, new Vec4(1.0f, 1.0f, 1.0f, 1.0f));
+				Label label = new Label(3.0f, 35.0f + (i*24.5f), app.getAssetManager().getFont("fontSprite.png"), 3.0f, 0.7f, new Vec4(1.0f, 1.0f, 1.0f, 1.0f));
 				playerNames.add(label);
 				app.getGui().add(label);
 			}else
@@ -143,7 +143,7 @@ public class LobbyState extends AbstractState
 				playerAvatars.add(sprite);
 				app.getGui().add(sprite);
 				
-				Label label = new Label(87.5f, 20.0f + ((i%3)*24.5f), app.getAssetManager().getFont("fontSprite.png"), 3.0f, 0.7f, new Vec4(1.0f, 1.0f, 1.0f, 1.0f));
+				Label label = new Label(87.5f, 35.0f + ((i%3)*24.5f), app.getAssetManager().getFont("fontSprite.png"), 3.0f, 0.7f, new Vec4(1.0f, 1.0f, 1.0f, 1.0f));
 				playerNames.add(label);
 				app.getGui().add(label);
 			}	
@@ -175,9 +175,10 @@ public class LobbyState extends AbstractState
 	//Called from message listener when a someone locks in and message is received
 	public void updatePlayer(int slot, int selection, String name)
 	{
+		playerNames.get(slot).setText(name);
+		
 		if(selection!=-1) {
 			playerAvatars.get(slot).getEntity().getSprite().setTexture(characterAvatars.get(selection));
-			playerNames.get(slot).setText(name);
 		}
 		else{
 			Texture transparent = app.getAssetManager().getTexture("res/textures/transparent.png");
