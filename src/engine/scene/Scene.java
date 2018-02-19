@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.SpriteComponent;
+import engine.entity.component.TextComponent;
 import engine.entity.component.TransformComponent;
 import engine.graphics.camera.Camera;
 import engine.graphics.renderer.Renderer2D;
@@ -76,6 +77,19 @@ public class Scene {
 				}
 
 				sprite.submit(m_Renderer2D, transformation);
+			}
+			
+			if(e.hasComponent(TextComponent.class))
+			{
+				TextComponent text = (TextComponent) e.getComponent(TextComponent.class);
+				
+				TransformComponent transform = new TransformComponent();
+				
+				if (e.hasComponent(TransformComponent.class)) {
+					transform = (TransformComponent) e.getComponent(TransformComponent.class);
+				}
+				
+				text.submit(m_Renderer2D, transform);
 			}
 		}
 

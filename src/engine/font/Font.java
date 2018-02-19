@@ -15,7 +15,7 @@ public class Font {
 	}
 
 	public Vec2[] getUVs(char c) {
-		Vec2[] resultUV = m_Texture.getElementUVs(c - 32);
+		Vec2[] resultUV = m_Texture.getElementUVs(c - 31);		
 		return resultUV;
 	}
 
