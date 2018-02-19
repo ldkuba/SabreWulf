@@ -13,6 +13,7 @@ import engine.maths.Mat4;
 import engine.maths.MathUtil;
 import engine.maths.Vec2;
 import engine.maths.Vec3;
+import game.common.map.Map;
 
 public class Scene {
 	private int m_ID;
@@ -34,7 +35,8 @@ public class Scene {
 
 		m_Camera = new Camera();
 		m_Camera.setPosition(new Vec3(0.0f, 0.0f, -10.0f));
-		m_Camera.setProjectionMatrix(MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.01f, 100.0f));
+		m_Camera.setProjectionMatrix(
+				MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.01f, 100.0f));
 
 		m_Renderer2D = new Renderer2D();
 		m_Renderer3D = new Renderer3D();
@@ -49,14 +51,14 @@ public class Scene {
 	public void removeEntity(Entity e) {
 		m_Entities.remove(e);
 	}
-	
-	public void removeAllEnties(){
+
+	public void removeAllEnties() {
 		m_Entities.clear();
 	}
 
 	public void update() {
 		for (Entity e : m_Entities) {
-			
+
 			if (e.hasComponent(TransformComponent.class)) {
 				TransformComponent transform = (TransformComponent) e.getComponent(TransformComponent.class);
 				// transform.update(); just an example, the transform component
@@ -89,8 +91,25 @@ public class Scene {
 	public Camera getCamera() {
 		return m_Camera;
 	}
-	
-	public Renderer2D getRenderer2D(){
+
+	public Renderer2D getRenderer2D() {
 		return m_Renderer2D;
+	}
+
+	public void isInView(Entity entity) {
+		//incomplete
+		Vec3 camPos = m_Camera.getPosition();
+		SpriteComponent sprite = entity.getSprite();
+		TransformComponent transform = entity.getTransform();
+		Vec3 entPos = transform.getPosition();
+		float entWidth = sprite.getWidth();
+		float entHeight = sprite.getHeight();
+		if (entPos.getX() + entWidth <= camPos.getX()) {
+			
+		}
+		if (entPos.getY() + entHeight <= camPos.getY()) {
+
+		}
+
 	}
 }

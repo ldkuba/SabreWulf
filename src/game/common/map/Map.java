@@ -11,27 +11,34 @@ import engine.maths.Vec4;
 import engine.scene.Scene;
 
 public class Map {
-	private ArrayList<Entity> visible;
+	private static ArrayList<Entity> visible;
 	private Entity[] background;
 	private final float TILE_WIDTH = 24.0f;
 	private final float TILE_HEIGHT = 24.0f;
 	private final int MAP_SIZE = 10;
 	private final int ARRAY_SIZE = MAP_SIZE * MAP_SIZE * 4;
 	private Scene scene;
-	private float vpLength;
+	/*private float vpLength;
 
 	private float oldcamx;
-	private float oldcamy;
+	private float oldcamy;*/
 	
 	public Map(Scene scene) {
 		this.scene = scene;
 		visible = new ArrayList<Entity>();
 		background = new Entity[MAP_SIZE * MAP_SIZE * 4];
-		vpLength = Application.s_Viewport.getLength();
+		//vpLength = Application.s_Viewport.getLength();
 	}
 
 	public void init() {
-		// initialise entities - currently just test values
+		/*
+		 *      |
+		 *      |
+		 * -----0-----
+		 *      |
+		 *      |
+		 * initialise entities - currently just test values
+		 */
 		Vec4 grey = new Vec4(0.4f, 0.4f, 0.4f, 1.0f);
 		Vec4 pink = new Vec4(0.9f, 0.3f, 0.5f, 1.0f);
 		Vec4 brown = new Vec4(0.4f, 0.1f, 0.0f, 1.0f);
@@ -79,11 +86,11 @@ public class Map {
 		}
 		for (int i = 0; i < background.length; i++) {
 			scene.addEntity(background[i]);
-			visible.add(background[i]);
+			//visible.add(background[i]);
 		}
 
-		oldcamx = scene.getCamera().getPosition().getX();
-		oldcamy = scene.getCamera().getPosition().getY();
+		/*oldcamx = scene.getCamera().getPosition().getX();
+		oldcamy = scene.getCamera().getPosition().getY();*/
 	}
 
 	/*public void update() {
@@ -150,7 +157,7 @@ public class Map {
 		}
 	}*/
 
-	public ArrayList<Entity> getVisibleEntities() {
+	public static ArrayList<Entity> getVisibleEntities() {
 		return visible;
 	}
 }

@@ -1,8 +1,6 @@
 package game.client.states;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.openal.AL11;
-
 import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.TextComponent;
@@ -68,7 +66,7 @@ public class GameState extends AbstractState {
 		app.getGui().init(scene);
 		map.init();
 		// set up background sound
-		//app.getSoundManager().invokeSound("background/game", true);
+		app.getSoundManager().invokeSound("background/game", true);
 		button = new ToggleButton(20.0f, 20.0f, 10.0f, 10.0f,
 				app.getAssetManager().getTexture("res/textures/testNoxus.png"),
 				app.getAssetManager().getTexture("res/textures/background.png")) {
