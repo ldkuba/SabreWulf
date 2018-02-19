@@ -1,16 +1,14 @@
 package game.client.states;
 
-import engine.net.common_net.networking_messages.LobbyConnectionRequestMessage;
-import engine.sound.Sound;
-import engine.sound.SoundManager;
-import org.lwjgl.openal.AL11;
-
 import engine.application.Application;
 import engine.graphics.texture.Texture;
 import engine.gui.components.Button;
 import engine.gui.components.Sprite;
+import engine.gui.components.TextField;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
+import engine.maths.Vec4;
+import engine.net.common_net.networking_messages.LobbyConnectionRequestMessage;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.client.Main;
@@ -23,6 +21,7 @@ public class MenuState extends AbstractState {
 	private Button playButton;
 	private Button settingsButton;
 	private Button exitButton;
+	private TextField playerNameField;
 
 	public MenuState(Main app) {
 		this.app = app;
@@ -55,7 +54,7 @@ public class MenuState extends AbstractState {
 			@Override
 			public void onClick() {
 				LobbyConnectionRequestMessage cnm = new LobbyConnectionRequestMessage();
-				cnm.setName("bob");
+				cnm.setName(playerNameField.getText());
 				app.getClient().sendTCP(cnm);
 				app.getSoundManager().stopSoundSource("menu");
 			}
@@ -86,6 +85,9 @@ public class MenuState extends AbstractState {
 			}
 		};
 		app.getGui().add(exitButton);
+		
+		playerNameField = new TextField(38.0f, 10.0f, app.getAssetManager().getFont("fontSprite.png"), 4.0f, 0.6f, 20, new Vec4(1.0f, 0.0f, 0.0f, 1.0f));
+		app.getGui().add(playerNameField);
 
 		float aspectRatio = Application.s_WindowSize.getX() / Application.s_WindowSize.getY();
 		scene.getCamera().setProjectionMatrix(

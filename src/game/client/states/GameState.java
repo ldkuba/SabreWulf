@@ -5,9 +5,12 @@ import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.TextComponent;
 import engine.entity.component.TransformComponent;
+import engine.gui.components.Label;
+import engine.gui.components.TextField;
 import engine.gui.components.ToggleButton;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
+import engine.maths.Vec4;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.client.Main;
@@ -26,6 +29,8 @@ public class GameState extends AbstractState {
 	private int frame = 0;
 	private float second = 0;
 
+	private TextField textField;
+	
 	private float zoom = 10.0f;
 	float aspectRatio = Application.s_WindowSize.getX() / Application.s_WindowSize.getY();
 
@@ -64,7 +69,8 @@ public class GameState extends AbstractState {
 	public void init() {
 		scene.init();
 		app.getGui().init(scene);
-		map.init();
+		//map.init();
+
 		// set up background sound
 		app.getSoundManager().invokeSound("background/game", true);
 		button = new ToggleButton(20.0f, 20.0f, 10.0f, 10.0f,
@@ -76,15 +82,23 @@ public class GameState extends AbstractState {
 			}
 		};
 		app.getGui().add(button);
+		
+		Label label = new Label(40.0f, 10.0f, app.getAssetManager().getFont("fontSprite.png"), 5.0f, 0.7f, new Vec4(1.0f, 0.0f, 0.0f, 1.0f));
+		label.setText("hello");
+		app.getGui().add(label);
+		
+		textField = new TextField(40.0f, 60.0f, app.getAssetManager().getFont("fontSprite.png"), 5.0f, 0.5f, 16, new Vec4(0.0f, 1.0f, 0.0f, 1.0f));
+		app.getGui().add(textField);
 
 		Entity textTest = new Entity(0, "textTest");
 		textTest.addComponent(new TransformComponent());
-		textTest.addComponent(new TextComponent(app.getAssetManager().getFont("times.ttf"), 1.0f));
-
+		textTest.addComponent(new TextComponent(app.getAssetManager().getFont("fontSprite.png"), 0.5f, 0.7f, new Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
+		((TextComponent) (textTest.getComponent(TextComponent.class))).setText(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
+		textTest.getTransform().move(new Vec3(-16.0f, 0.0f, 0.0f));
+		
 		scene.addEntity(textTest);
 
-		scene.getCamera().setProjectionMatrix(
-				MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 0.1f, 100.0f));
+		scene.getCamera().setProjectionMatrix(MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 0.1f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
 	}
 
@@ -122,6 +136,8 @@ public class GameState extends AbstractState {
 			scene.getCamera().move(new Vec3(0.0f, -cameraSpeed, 0.0f));
 		}
 
+		System.out.println(textField.isFocused());
+		
 		scene.update();
 		// manager.getStatuses();
 		playerController.update();
