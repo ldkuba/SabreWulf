@@ -51,13 +51,13 @@ public class GameState extends AbstractState {
 		if (key == GLFW.GLFW_KEY_Z && action == GLFW.GLFW_PRESS) {
 			zoom += 5.0f;
 			scene.getCamera().setProjectionMatrix(
-					MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 0.1f, 100.0f));
+					MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 1.0f, 100.0f));
 		}
 
 		if (key == GLFW.GLFW_KEY_X && action == GLFW.GLFW_PRESS) {
 			zoom -= 5.0f;
 			scene.getCamera().setProjectionMatrix(
-					MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 0.1f, 100.0f));
+					MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 1.0f, 100.0f));
 		}
 	}
 
@@ -71,7 +71,7 @@ public class GameState extends AbstractState {
 	public void init() {
 		scene.init();
 		app.getGui().init(scene);
-		map.init();
+		map.init("res/textures/map", app.getAssetManager());
 
 		// set up background sound
 		app.getSoundManager().invokeSound("background/game", true);
@@ -98,7 +98,7 @@ public class GameState extends AbstractState {
 		
 		scene.addEntity(animTest);
 
-		scene.getCamera().setProjectionMatrix(MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 0.1f, 100.0f));
+		scene.getCamera().setProjectionMatrix(MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 1.0f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
 	}
 
@@ -118,7 +118,7 @@ public class GameState extends AbstractState {
 		}
 		frame++;
 
-		float cameraSpeed = 0.04f;
+		float cameraSpeed = 0.08f;
 
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
 			scene.getCamera().move(new Vec3(-cameraSpeed, 0.0f, 0.0f));
@@ -141,7 +141,6 @@ public class GameState extends AbstractState {
 		scene.update();
 		// manager.getStatuses();
 		playerController.update();
-		map.update();
 	}
 
 	@Override
