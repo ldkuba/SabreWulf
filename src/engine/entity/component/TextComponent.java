@@ -16,14 +16,17 @@ public class TextComponent extends AbstractComponent
 	private Font m_Font;
 	private ArrayList<SpriteComponent> m_Components;
 	
+	private Vec4 m_Color;
+	
 	private float m_Spread;
 	
-	public TextComponent(Font font, float size, float spread)
+	public TextComponent(Font font, float size, float spread, Vec4 color)
 	{
 		m_Font = font;
 		m_Components = new ArrayList<>();
 		m_Size = size;
 		m_Spread = spread;
+		m_Color = color;
 		setText("");
 	}
 	
@@ -36,10 +39,16 @@ public class TextComponent extends AbstractComponent
 		
 		for(int i = 0; i < text.length(); i++)
 		{
-			SpriteComponent component = new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), m_Font.getTexture(), m_Size, m_Size);
+			SpriteComponent component = new SpriteComponent(m_Color, m_Font.getTexture(), m_Size, m_Size);
 			component.setUVs(m_Font.getUVs(text.charAt(i)));
 			m_Components.add(component);
 		}		
+	}
+	
+	public void setColor(Vec4 newColor)
+	{
+		m_Color = newColor;
+		setText(m_Text);
 	}
 	
 	public void setSize(float size)
@@ -64,7 +73,7 @@ public class TextComponent extends AbstractComponent
 		Vec3 tmpRot = transform.getRotationAngles();
 		Vec3 tmpScale = transform.getScale();
 			
-		transform.move(new Vec3(-m_Size*m_Spread*m_Components.size()/2.0f, 0.0f, 0.0f));
+		transform.move(new Vec3(-m_Size*m_Spread*m_Components.size()/2.0f + (m_Size*m_Spread / 2.0f), 0.0f, 0.0f));
 		
 		for(SpriteComponent component : m_Components)
 		{

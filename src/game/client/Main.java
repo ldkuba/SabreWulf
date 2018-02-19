@@ -37,7 +37,7 @@ public class Main extends Application {
 		netManager.registerMessageListener(new ClientMessageListener(this));
 
 		// set starting state
-		stateManager.setCurrentState(gameState);
+		stateManager.setCurrentState(menuState);
 	}
 
 
@@ -49,7 +49,6 @@ public class Main extends Application {
 	@Override
 	public void cleanup()
 	{
-
 		LobbyQuitMessage quit = new LobbyQuitMessage();
 		client.sendTCP(quit);
 		super.cleanup();

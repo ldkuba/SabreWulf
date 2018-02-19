@@ -11,6 +11,7 @@ import engine.gui.components.TextField;
 import engine.gui.components.ToggleButton;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
+import engine.maths.Vec4;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.client.Main;
@@ -83,16 +84,16 @@ public class GameState extends AbstractState {
 		};
 		app.getGui().add(button);
 		
-		Label label = new Label(40.0f, 10.0f, app.getAssetManager().getFont("fontSprite.png"), 5.0f, 0.7f);
+		Label label = new Label(40.0f, 10.0f, app.getAssetManager().getFont("fontSprite.png"), 5.0f, 0.7f, new Vec4(1.0f, 0.0f, 0.0f, 1.0f));
 		label.setText("hello");
 		app.getGui().add(label);
 		
-		textField = new TextField(40.0f, 60.0f, app.getAssetManager().getFont("fontSprite.png"), 5.0f, 0.5f, 16);
+		textField = new TextField(40.0f, 60.0f, app.getAssetManager().getFont("fontSprite.png"), 5.0f, 0.5f, 16, new Vec4(0.0f, 1.0f, 0.0f, 1.0f));
 		app.getGui().add(textField);
 
 		Entity textTest = new Entity(0, "textTest");
 		textTest.addComponent(new TransformComponent());
-		textTest.addComponent(new TextComponent(app.getAssetManager().getFont("fontSprite.png"), 0.5f, 0.7f));
+		textTest.addComponent(new TextComponent(app.getAssetManager().getFont("fontSprite.png"), 0.5f, 0.7f, new Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
 		((TextComponent) (textTest.getComponent(TextComponent.class))).setText(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
 		textTest.getTransform().move(new Vec3(-16.0f, 0.0f, 0.0f));
 		

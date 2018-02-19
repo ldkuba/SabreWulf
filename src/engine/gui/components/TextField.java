@@ -15,10 +15,11 @@ public class TextField extends GuiComponent
 	private float size;
 	private float spread;
 	private TextComponent textComponent;
+	private SpriteComponent spriteComponent;
 	
 	private int maxStringLength;
 	
-	public TextField(float x, float y, Font font, float size, float spread, int maxStringLength)
+	public TextField(float x, float y, Font font, float size, float spread, int maxStringLength, Vec4 textColor)
 	{
 		this.x = x;
 		this.y = y;
@@ -28,20 +29,39 @@ public class TextField extends GuiComponent
 		this.spread = spread;
 		this.enabled = true;
 		this.maxStringLength = maxStringLength;
-		
-		float worldWidth = (width*Application.s_WindowSize.getX()/100.0f) * (Application.s_Viewport.getX()/(Application.s_WindowSize.getX()/2.0f));
+
 		float worldHeight = (height*Application.s_WindowSize.getY()/100.0f) * (Application.s_Viewport.getY()/(Application.s_WindowSize.getY()/2.0f));
+		float worldWidth = ((width*Application.s_WindowSize.getX()/100.0f) * (Application.s_Viewport.getX()/(Application.s_WindowSize.getX()/2.0f)) + worldHeight) * 1.1f; //dont know why but it looks nicer
 		
 		entity = new Entity(0, "sprite");
 		entity.addComponent(new TransformComponent());
-		entity.addComponent(new SpriteComponent(new Vec4(0.8f, 0.8f, 0.8f, 1.0f), worldWidth, worldHeight));
-		textComponent = new TextComponent(font, worldHeight, spread);
+		spriteComponent = new SpriteComponent(new Vec4(0.8f, 0.8f, 0.8f, 0.7f), worldWidth, worldHeight);
+		entity.addComponent(spriteComponent);
+		textComponent = new TextComponent(font, worldHeight, spread, textColor);
 		entity.addComponent(textComponent);
 	}
 	
 	public void setText(String text)
 	{
 		textComponent.setText(text);
+	}
+	
+	public void setColor(Vec4 newColor)
+	{
+		textComponent.setColor(newColor);
+	}
+	
+	@Override
+	public void setFocused(boolean focused)
+	{
+		super.setFocused(focused);
+		if(focused)
+		{
+			spriteComponent.setColor(new Vec4(0.6f, 0.6f, 0.6f, 0.7f));
+		}else
+		{
+			spriteComponent.setColor(new Vec4(0.8f, 0.8f, 0.8f, 0.7f));
+		}
 	}
 	
 	public void addChar(int key)
@@ -96,13 +116,13 @@ public class TextField extends GuiComponent
 	public void setSize(float size)
 	{
 		textComponent.setSize(size);
-		this.width = spread * size * maxStringLength;
+		this.width = spread * size * maxStringLength / 2.0f;
 	}
 	
 	public void setSpread(float spread)
 	{
 		textComponent.setSpread(spread);
-		this.width = spread * size * maxStringLength;
+		this.width = spread * size * maxStringLength / 2.0f;
 	}
 
 	public String getText()

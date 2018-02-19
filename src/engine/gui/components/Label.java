@@ -5,6 +5,7 @@ import engine.entity.Entity;
 import engine.entity.component.TextComponent;
 import engine.entity.component.TransformComponent;
 import engine.font.Font;
+import engine.maths.Vec4;
 
 public class Label extends GuiComponent
 {	
@@ -12,7 +13,7 @@ public class Label extends GuiComponent
 	private float spread;
 	private TextComponent textComponent;
 	
-	public Label(float x, float y, Font font, float size, float spread)
+	public Label(float x, float y, Font font, float size, float spread, Vec4 color)
 	{
 		this.x = x;
 		this.y = y;
@@ -27,8 +28,13 @@ public class Label extends GuiComponent
 		
 		entity = new Entity(0, "sprite");
 		entity.addComponent(new TransformComponent());
-		textComponent = new TextComponent(font, worldHeight, spread);
+		textComponent = new TextComponent(font, worldHeight, spread, color);
 		entity.addComponent(textComponent);
+	}
+	
+	public void setColor(Vec4 newColor)
+	{
+		textComponent.setColor(newColor);
 	}
 	
 	public void setText(String text)
