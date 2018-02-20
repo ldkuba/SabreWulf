@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 import game.common.items.attributes.Attribute;
 
-public class AbstractItem {
+public abstract class AbstractItem {
 	
 	//Image
 	private String name;
