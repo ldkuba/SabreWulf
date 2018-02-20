@@ -84,6 +84,7 @@ public class ClientMessageListener implements MessageListener
 		}
 
 		else if(msg instanceof BattleBeginMessage){
+			app.getSoundManager().stopSoundSource("background/lobby");
 			app.getStateManager().setCurrentState(Main.gameState);
 		}
 	}
