@@ -10,11 +10,20 @@ public class Triangle {
 	private Vec2 y;
 	private Vec2 z;
 	private ArrayList<Edge> edges;
+	private float f;
+	private float g;
+	private float h;
 	
 	public Triangle(Vec2 x, Vec2 y, Vec2 z){
 		this.x = x;
 		this.y = y;
 		this.z = z;
+	}
+	
+	public void addEdge(Edge edge){
+		if(!edges.contains(edge)){
+			edges.add(edge);			
+		}
 	}
 	
 	public Vec2 getMidpoint(){
@@ -34,5 +43,17 @@ public class Triangle {
 	
 	public Vec2 getZ(){
 		return z;
+	}
+
+	public float getF() {
+		return f;
+	}
+
+	public float getG() {
+		return g;
+	}
+
+	public float getH() {
+		return h;
 	}
 }

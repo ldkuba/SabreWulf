@@ -2,6 +2,8 @@ package engine.AI;
 
 import java.util.ArrayList;
 
+import engine.maths.Vec2;
+
 public class Navmesh {
 	
 	private ArrayList<Edge> edges;
@@ -17,6 +19,11 @@ public class Navmesh {
 		Triangle A = null;
 		Triangle B = null;
 		Edge edge;
+		boolean[] boollist = new boolean[9]; 
+		Vec2 midA = null;
+		Vec2 midB = null;
+		Vec2 weightVec = null;
+		float weight = 0;
 		
 		for(int i = 0; i < triangles.size(); i++){
 			
@@ -25,8 +32,6 @@ public class Navmesh {
 			for(int j = 0; j < triangles.size(); j++){
 				
 				B = triangles.get(j);
-				
-				boolean[] boollist = new boolean[9]; 
 				
 				boollist[0] = A.getX() == B.getX();
 				boollist[1] = A.getX() == B.getY();
@@ -47,10 +52,24 @@ public class Navmesh {
 				}
 				
 				if(count >= 2){
-					edge = new Edge(A.getMidpoint(), B.getMidpoint());
+					midA = A.getMidpoint();
+					midB = B.getMidpoint();
+					weightVec = new Vec2(midB.getX() - midA.getX(), midB.getY() - midA.getY());
+					weight = weightVec.getLength();
+					edge = new Edge(midA, midB, weight);
 					edges.add(edge);
+					A.addEdge(edge);
+					B.addEdge(edge);
 				}
 			}
 		}
+	}
+	
+	public ArrayList<Edge> getEdges(){
+		return edges;
+	}
+	
+	public ArrayList<Triangle> getTriangles(){
+		return triangles;
 	}
 }
