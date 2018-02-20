@@ -26,6 +26,11 @@ public class SpriteComponent extends AbstractComponent
 		m_Sprite.setTexture(texture);
 	}
 	
+	public void setColor(Vec4 newColor)
+	{
+		m_Sprite.setColor(newColor);
+	}
+	
 	public void submit(Renderer2D renderer, Mat4 transformation)
 	{
 		renderer.submit(m_Sprite, transformation);
@@ -42,5 +47,15 @@ public class SpriteComponent extends AbstractComponent
 	public void setUVs(Vec2[] UVs)
 	{
 		m_Sprite.setUVs(UVs);
+	}
+	
+	public void setWidth(float width)
+	{
+		m_Sprite.setWidth(width);
+	}
+	
+	public void setHeight(float height)
+	{
+		m_Sprite.setHeight(height);
 	}
 }

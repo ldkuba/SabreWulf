@@ -1,6 +1,8 @@
 package engine.maths;
 
-public class Vec3
+import java.io.Serializable;
+
+public class Vec3 implements Serializable
 {
 	private float x,y,z;
 	

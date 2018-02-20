@@ -1,20 +1,32 @@
 package engine.entity.component;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 import engine.maths.Mat4;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
 
-public class TransformComponent extends AbstractComponent
+public class NetTransformComponent extends AbstractComponent
 {
 	private Vec3 position;
 	private Vec3 eulerAngles;
 	private Vec3 scale;
 	
-	public TransformComponent()
+	public NetTransformComponent()
 	{
 		position = new Vec3(0, 0, 0);
 		eulerAngles = new Vec3(0, 0, 0);
 		scale = new Vec3(1.0f, 1.0f, 1.0f);
+	}
+	
+	public ArrayList<Serializable> getData()
+	{
+		ArrayList<Serializable> data = new ArrayList<>();
+		data.add(position);
+		data.add(eulerAngles);
+		data.add(scale);
+		return data;
 	}
 
 	public Vec3 getPosition()
@@ -71,6 +83,5 @@ public class TransformComponent extends AbstractComponent
 		
 		//inverse order
 		return translationMat.mult(rotationMat).mult(scaleMat);
-	}
-	
+	}	
 }
