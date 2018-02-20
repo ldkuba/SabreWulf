@@ -41,6 +41,18 @@ public class TextField extends GuiComponent
 		entity.addComponent(textComponent);
 	}
 	
+	@Override
+	public void resize()
+	{
+		float worldWidth = (width*Application.s_WindowSize.getX()/100.0f) * (Application.s_Viewport.getX()/(Application.s_WindowSize.getX()/2.0f));
+		float worldHeight = (height*Application.s_WindowSize.getY()/100.0f) * (Application.s_Viewport.getY()/(Application.s_WindowSize.getY()/2.0f));
+		
+		entity.getSprite().setWidth(worldWidth);
+		entity.getSprite().setHeight(worldHeight);
+		
+		textComponent.setSize(worldHeight);
+	}
+	
 	public void setText(String text)
 	{
 		textComponent.setText(text);
@@ -115,7 +127,9 @@ public class TextField extends GuiComponent
 	
 	public void setSize(float size)
 	{
-		textComponent.setSize(size);
+		float worldHeight = (height*Application.s_WindowSize.getY()/100.0f) * (Application.s_Viewport.getY()/(Application.s_WindowSize.getY()/2.0f));
+		
+		textComponent.setSize(worldHeight);
 		this.width = spread * size * maxStringLength / 2.0f;
 	}
 	

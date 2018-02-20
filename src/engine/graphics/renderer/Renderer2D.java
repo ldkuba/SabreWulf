@@ -26,7 +26,11 @@ public class Renderer2D extends Renderer
 	private final int MAX_SPRITES = 1000;
 	private final int MAX_VERTS = MAX_SPRITES * 4;
 	private final int MAX_INDEX = MAX_SPRITES * 6;
+	
+	private final int MAX_TEXTURES = 32;
 
+	private Camera m_CurrentCamera;
+	
 	private VertexArray m_VertexArray;
 	private VertexBuffer m_VertexBuffer;
 	private IndexBuffer m_IndexBuffer;
@@ -68,6 +72,8 @@ public class Renderer2D extends Renderer
 	// called every frame before submitting sprites
 	public void init(Camera camera)
 	{
+		m_CurrentCamera = camera;
+		
 		m_VertexData = BufferUtils.createByteBuffer(MAX_VERTS*Renderable2D.getVertexLayout().getVertexSizeInBytes());
 		m_IndexData = BufferUtils.createIntBuffer(MAX_INDEX);
 
@@ -94,21 +100,7 @@ public class Renderer2D extends Renderer
 	}
 
 	public void submit(Renderable2D renderable, Mat4 transformation)
-	{
-		float width = renderable.getWidth();
-		float height = renderable.getHeight();
-		Vec4 color = renderable.getColor();
-		
-		Vec4 v1 = new Vec4(-width/2.0f, height/2.0f, 1.0f, 1.0f);
-		Vec4 v2 = new Vec4(-width/2.0f, -height/2.0f, 1.0f, 1.0f);
-		Vec4 v3 = new Vec4(width/2.0f, -height/2.0f, 1.0f, 1.0f);
-		Vec4 v4 = new Vec4(width/2.0f, height/2.0f, 1.0f, 1.0f);
-		
-		v1 = v1.mult(transformation);
-		v2 = v2.mult(transformation);
-		v3 = v3.mult(transformation);
-		v4 = v4.mult(transformation);
-		
+	{	
 		float textureSlot = -1;
 		
 		if(renderable.getTexture() != null)
@@ -124,10 +116,30 @@ public class Renderer2D extends Renderer
 			
 			if(textureSlot == -1.0f)
 			{
-				textureSlot = m_Textures.size();
-				m_Textures.add(renderable.getTexture());		
+				if(m_Textures.size() >= MAX_TEXTURES)
+				{
+					drawAll();
+					init(m_CurrentCamera);
+				}
+				
+				textureSlot = m_Textures.size();				
+				m_Textures.add(renderable.getTexture());	
 			}
 		}
+		
+		float width = renderable.getWidth();
+		float height = renderable.getHeight();
+		Vec4 color = renderable.getColor();
+		
+		Vec4 v1 = new Vec4(-width/2.0f, height/2.0f, 1.0f, 1.0f);
+		Vec4 v2 = new Vec4(-width/2.0f, -height/2.0f, 1.0f, 1.0f);
+		Vec4 v3 = new Vec4(width/2.0f, -height/2.0f, 1.0f, 1.0f);
+		Vec4 v4 = new Vec4(width/2.0f, height/2.0f, 1.0f, 1.0f);
+		
+		v1 = v1.mult(transformation);
+		v2 = v2.mult(transformation);
+		v3 = v3.mult(transformation);
+		v4 = v4.mult(transformation);
 		
 		float[] vertices = new float[]
 		{ 

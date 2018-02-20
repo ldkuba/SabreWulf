@@ -1,11 +1,12 @@
 package engine.net.common_net;
 
+import java.io.Serializable;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import engine.application.Application;
+import engine.entity.Entity;
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.server.core.Player;
 import engine.net.server.udp.ServerSenderUDP;
@@ -18,14 +19,13 @@ public class NetworkManager {
     private ConnectionListener connectionListener;
     private ArrayList<Player> players;
     private ServerSenderUDP udp;
-    private BlockingQueue<Synchronizable> messages;
+    private CopyOnWriteArrayList<Entity> networkEntities;
 
     public NetworkManager(ArrayList<Player> players, Application app){
         this.networkType = true;
         this.players = players;
         initializeDatagramSockets();
-        messages = new LinkedBlockingQueue<>(1500);
-        udp = new ServerSenderUDP(messages, players);
+        udp = new ServerSenderUDP(players);
         udp.setName("UDPThread ");
         udp.start();
     }
@@ -75,12 +75,10 @@ public class NetworkManager {
         connectionListener.handleConnectionQueue();
     }
 
-    public void setupServer(){
-        ServerSenderUDP ssudp;
-
-    }
-
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
+    }
+
+    public void addEntityEvent(Serializable entityUpdateMessage) {
     }
 }

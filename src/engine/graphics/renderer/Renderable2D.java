@@ -65,6 +65,16 @@ public class Renderable2D
 		return m_Height;
 	}
 	
+	public void setWidth(float width)
+	{
+		m_Width = width;
+	}
+	
+	public void setHeight(float height)
+	{
+		m_Height = height;
+	}
+	
 	public Vec4 getColor()
 	{
 		return m_Color;

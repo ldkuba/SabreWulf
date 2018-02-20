@@ -4,11 +4,11 @@ import java.io.*;
 
 public class UDPTools {
 
-	public static Synchronizable deserialize(byte[] data) {
+	public static Serializable deserialize(byte[] data) {
 		ByteArrayInputStream in = new ByteArrayInputStream(data);
 		try {
 			ObjectInputStream is = new ObjectInputStream(in);
-			Synchronizable message = (Synchronizable) is.readObject();
+			Serializable message = (Serializable) is.readObject();
 			return message;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -18,8 +18,8 @@ public class UDPTools {
 		return null;
 	}
 
-	public static byte[] serialize(Synchronizable msg) {
-		Synchronizable message = msg;
+	public static byte[] serialize(Serializable msg) {
+		Serializable message = msg;
 		try
 		{
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

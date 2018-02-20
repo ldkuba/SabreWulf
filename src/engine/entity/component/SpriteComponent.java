@@ -48,4 +48,14 @@ public class SpriteComponent extends AbstractComponent
 	{
 		m_Sprite.setUVs(UVs);
 	}
+	
+	public void setWidth(float width)
+	{
+		m_Sprite.setWidth(width);
+	}
+	
+	public void setHeight(float height)
+	{
+		m_Sprite.setHeight(height);
+	}
 }

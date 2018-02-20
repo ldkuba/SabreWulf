@@ -33,6 +33,11 @@ public class GuiComponent
 		
 	}
 	
+	public void resize()
+	{
+		
+	}
+	
 	public void setEnabled(boolean enabled)
 	{
 		this.enabled = enabled;
