@@ -1,5 +1,6 @@
 package engine.net.common_net;
 
+import java.io.Serializable;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -74,12 +75,10 @@ public class NetworkManager {
         connectionListener.handleConnectionQueue();
     }
 
-    public void setupServer(){
-        ServerSenderUDP ssudp;
-
-    }
-
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
+    }
+
+    public void addEntityEvent(Serializable entityUpdateMessage) {
     }
 }

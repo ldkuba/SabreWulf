@@ -17,9 +17,9 @@ public class GameServer
 
 	private PlayerCountManager pcm;
 
-	public ArrayList<Player> players = null;
+	public ArrayList<Player> players;
 
-	private CopyOnWriteArrayList<GameInstance> games = null;
+	private CopyOnWriteArrayList<GameInstance> games;
 
 	public int getNoPlayers() {
 		return players.size();
@@ -37,8 +37,10 @@ public class GameServer
 	{
 		connectionListener = new GlobalServerConnectionListener(this);
 		messageListener = new GlobalServerMessageListener(this);
+
 		players = new ArrayList<Player>(50);
 		games = new CopyOnWriteArrayList<GameInstance>();
+
 		server = new Server(this);
 		server.setName("Socket Connection Manager");
 		server.start();

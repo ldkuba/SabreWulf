@@ -3,6 +3,7 @@ package engine.net.client.core;
 import engine.net.client.tcp.ClientReceiverTCP;
 import engine.net.client.tcp.ClientSenderTCP;
 import engine.net.client.Client;
+import game.common.config;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -22,17 +23,17 @@ public class ClientConnection extends Thread{
 
 	public void run(){
 		try {
-			CSSocket = new Socket("localhost",4446);
+			CSSocket = new Socket(config.host,config.TCPPort);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		csender = new ClientSenderTCP(CSSocket, client);
-		csender.setName("sender");
+		csender.setName("TCPSender");
 		csender.start();
 
 		creceiver = new ClientReceiverTCP(CSSocket, client);
-		creceiver.setName("listener");
+		creceiver.setName("TCPReceiver");
 		creceiver.start();
 	}
 
