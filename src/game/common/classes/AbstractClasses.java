@@ -84,15 +84,15 @@ public class AbstractClasses {
 	}
 	
 	public void decrDamage(float dmg) {
-		damage += dmg;
+		damage -= dmg;
 	}
 	
 	public void incrMoveSpeed(float spd) {
-		moveSpeed = moveSpeed + spd;
+		moveSpeed += moveSpeed + spd;
 	}
 	
 	public void decrMoveSpeed(float spd) {
-		moveSpeed = moveSpeed - spd;
+		moveSpeed -= moveSpeed - spd;
 	}
 	
 	public void incrResistance(float res) {
@@ -124,15 +124,15 @@ public class AbstractClasses {
 	}
 	
 	public void decrEnergyReg(float reg) {
-		energyReg += reg;
+		energyReg -= reg;
 	}
 	
 	public void incrHealthReg(float reg) {
-		healthReg = healthReg + reg;
+		healthReg += healthReg + reg;
 	}
 	
 	public void decrHealthReg(float reg) {
-		healthReg = healthReg - reg;
+		healthReg -= healthReg - reg;
 	}
 	
 
