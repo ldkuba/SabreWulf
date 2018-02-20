@@ -112,11 +112,11 @@ public class SoundManager {
 			soundBuffer.cleanup();
 		}
 		soundBufferList.clear();
-		if (context != NULL) {
+		//if (context != NULL) {
 			alcDestroyContext(context);
-		}
-		if (device != NULL) {
+		//}
+	//	if (device != NULL) {
 			alcCloseDevice(device);
-		}
+		//}
 	}
 }
