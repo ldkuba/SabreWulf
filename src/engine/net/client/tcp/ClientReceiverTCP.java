@@ -27,13 +27,13 @@ public class ClientReceiverTCP extends Thread{
 			e.printStackTrace();
 		}
 		while(!CSSocket.isClosed()){
-
 			try {
 				AbstractMessage abs = (AbstractMessage) ois.readObject();
-				if(abs != null)
-				client.getMain().getNetworkManager().addMessage(abs,null);
-			} catch (SocketException ex)
-			{
+				if(abs != null) {
+					client.getMain().getNetworkManager().addMessage(abs, null);
+				}
+
+			} catch (SocketException ex){
 				try
 				{
 					CSSocket.close();

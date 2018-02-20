@@ -9,14 +9,14 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class ClientMessageListener implements MessageListener
+public class ClientTCPMessageListener implements MessageListener
 {
 	private Main app;
 	private BlockingQueue<AbstractMessage> abstractMessageInbound;
 
 	private final int maxTraffic = 100;
 
-	public ClientMessageListener(Main app)
+	public ClientTCPMessageListener(Main app)
 	{
 		this.app = app;
 		abstractMessageInbound = new LinkedBlockingQueue<>();
@@ -26,6 +26,7 @@ public class ClientMessageListener implements MessageListener
 		abstractMessageInbound.add(message);
 	}
 
+	@Override
 	public void handleMessageQueue(){
 		int count = 0;
 		while(count < maxTraffic && !abstractMessageInbound.isEmpty()) {

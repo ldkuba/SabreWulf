@@ -5,6 +5,7 @@ import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.common_net.networking_messages.BattleBeginMessage;
 import engine.net.common_net.networking_messages.TimerEventMessage;
 import engine.net.server.udp.ServerSenderUDP;
+import game.common.config;
 import game.server.GameServer;
 import game.server.states.ServerMain;
 
@@ -26,9 +27,8 @@ public class GameInstanceManager extends Thread {
         netMan = new NetworkManager(gameEngine);
 
         instance.initializeDatagramSockets();
-        messages = new LinkedBlockingQueue<>(150);
+        messages = new LinkedBlockingQueue<>();
     }
-
 
     public void run(){
         countdownTrigger = false;
@@ -45,7 +45,7 @@ public class GameInstanceManager extends Thread {
             }
             if (instance.isReady() && !countdownTrigger) {
                 countdownTrigger = true;
-                Timer time = new Timer(10, this);
+                Timer time = new Timer(config.lobbyCountdown, this);
                 time.start();
             }
         }

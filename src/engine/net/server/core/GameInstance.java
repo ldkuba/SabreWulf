@@ -1,4 +1,5 @@
 package engine.net.server.core;
+import game.common.config;
 import game.server.GameServer;
 
 import java.net.SocketException;
@@ -7,14 +8,13 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameInstance {
-    int MAX_SIZE_GAME_SIZE = 6;
 
     private ArrayList<Player> playersInLobby;
     private GameInstanceManager GIManager;
     private BlockingQueue<AbstractMethodError> messages = new LinkedBlockingQueue<>(150);
 
     public GameInstance(GameServer server) {
-        playersInLobby = new ArrayList<>(MAX_SIZE_GAME_SIZE);
+        playersInLobby = new ArrayList<>();
         this.GIManager = new GameInstanceManager(this, server);
         this.GIManager.setName("GameInstanceManager " + server.getGames().size());
         this.GIManager.start();
@@ -29,7 +29,7 @@ public class GameInstance {
     }
 
     public boolean isFull() {
-        return (playersInLobby.size() >= MAX_SIZE_GAME_SIZE);
+        return (playersInLobby.size() >= config.gameConnectionLimit);
     }
 
     public ArrayList<PlayerPayload> getPlayerPayload() {
