@@ -14,12 +14,13 @@ public class RangeDPS extends RangeClass {
 	private int exDefence   = 30;
 	
 	private int exAttackDmg = 10;
-	private int exAttackRng = 0;
+	private float exAttackRng = 0;
+	private float exAtckSpd = 0;
 
 	// Intelligent based
 	public RangeDPS(StatType type) {
-		addExtraStats(exVitality, exEnergy, exIntell, exStrength, exDefence);
-		addExtraCombatStats(exAttackDmg, exAttackRng);
+		incrStats(exVitality, exEnergy, exIntell, exStrength, exDefence);
+		incrCombatStats(exAttackDmg, exAttackRng, exAtckSpd);
 		setStatType(type);
 	}
 }

@@ -19,31 +19,34 @@ public class Player {
 	private AbstractClasses role;
 	private int team;
 	
+	private int level;
+	
 	private List<AbstractItem> items = new ArrayList<AbstractItem>(MAX_ITEMS);
 	
-	//Manipulate values.
+	//Extra values.
 	
 	private float VITALITY_LIMIT;
-	private float vitality;
-	
-	private int energy;
-	private int strength;
-	private int defence;
-	private int intelligence;
-	
 	private float MANA_LIMIT;
-	private float mana;
 	
-	private float moveSpeed;
+	private float exVitality = 0;
 	
-	private float fieldOfView;
+	private int exEnergy = 0;
+	private int exStrength = 0;
+	private int exDefence = 0;
+	private int exIntell = 0;
 	
-	private int attackDmg = 0;
-	private float attackRange = 0;
-	private float attackSpeed = 0;
+	private float exMana = 0;
 	
-	private float manaReg;
-	private float healthReg;
+	private float exMvSpd = 0;
+	
+	private float exFOV = 0;
+	
+	private int exAttackDmg = 0;
+	private float exAttackRng = 0;
+	private float exAttackSpd = 0;
+	
+	private float exManaReg = 0;
+	private float exHealthReg = 0;
 	
 	
 	
@@ -55,21 +58,8 @@ public class Player {
 	}
 	
 	private void setStartingAttributes() {
-		vitality = role.getVitality();
-		energy = role.getEnergy();
-		strength = role.getStrength();
-		defence = role.getDefence();
-		intelligence = role.getIntelligence();
-		mana = role.getMana();
-		moveSpeed = role.getMoveSpeed();
-		
-		fieldOfView = role.getFOV();
-		attackDmg = role.getAttackDmg();
-		attackRange = role.getAttackRange();
-		attackSpeed = role.getAttackSpeed();
-		manaReg = role.getManaReg();
-		healthReg = role.getHealthReg();
-		
+		VITALITY_LIMIT = role.getVitality();
+		MANA_LIMIT = role.getMana();
 	}
 	
 	public AbstractClasses getCharClass() {
@@ -107,108 +97,118 @@ public class Player {
 		MANA_LIMIT = MANA_LIMIT - mana;
 	}
 	
-	public void lostVitality(int damage) {
-		vitality = vitality - damage;
+	//--------Manipulate stats-----
+
+	public void addExIntelligence(int intel) {
+		exIntell += intel;
+		role.incrIntell(exIntell);
 	}
 	
-	public void gainVitality(float vital) {
-		vitality = vitality + vital;
+	public void decrExIntelligence(int intell) {
+		exIntell -= intell;
+		role.decrIntell(exIntell);
+	}
+
+	public void addExStrength(int str) {
+		exStrength += str;
+		role.incrStrength(exStrength);
 	}
 	
-	public void gainEnergy(int gainergy) {
-		energy = energy + gainergy;
+	public void decrExStrength(int str) {
+		exStrength -= str;
+		role.decrStrength(exStrength);
+	}
+
+	public void addExDefence(int def) {
+		exDefence += def;
+		role.incrDefence(exDefence);
 	}
 	
-	public void lostEnergy(int losergy) {
-		energy = energy - losergy;
+	public void decrExDefence(int def) {
+		exDefence -= def;
+		role.decrDefence(exDefence);
 	}
 	
-	public void gainIntelligence(int intell) {
-		intelligence = intelligence + intell;
+	public void addExEnergy(int enrg) {
+		exEnergy += enrg;
+		role.incrEnergy(exEnergy);
 	}
 	
-	public void lostIntelligence(int intell) {
-		intelligence = intelligence - intell;
+	public void decrExEnergy(int enrg) {
+		exEnergy -= enrg;
+		role.decrEnergy(exEnergy);
 	}
 	
-	public void gainStrength(int strength) {
-		this.strength = this.strength + strength;
+	public void addExMoveSpeed(float spd) {
+		exMvSpd += spd;
+		role.incrMoveSpeed(exMvSpd);
 	}
 	
-	public void lostStrength(int strength) {
-		this.strength = this.strength - strength;
+	public void decrExMoveSpeed(float spd) {
+		exMvSpd -= spd;
+		role.decrMoveSpeed(exMvSpd);
+	}
+
+	public void addExAttackDmg(int dmg) {
+		exAttackDmg += dmg;
+		role.incrAttackDmg(exAttackDmg);
 	}
 	
-	public void gainDefence(int defence) {
-		this.defence = this.defence + defence;
+	public void decrExAttackDmg(int dmg) {
+		exAttackDmg -= dmg;
+		role.decrAttackDmg(exAttackDmg);
 	}
 	
-	public void lostDefence(int defence) {
-		this.defence = this.defence - defence;
+	public void addExAttackRng(float rng) {
+		exAttackRng += rng;
+		role.incrAttackRange(exAttackRng);
 	}
 	
-	public void gainMana(float mana) {
-		this.mana = this.mana + mana;
+	public void decrExAttackRng(float rng) {
+		exAttackRng -= rng;
+		role.decrAttackRange(exAttackRng);
 	}
 	
-	public void lostMana(float mana) {
-		this.mana = this.mana - mana;
+	public void addExAttackSpd(float spd) {
+		exAttackSpd += spd;
+		role.incrAttackSpeed(exAttackSpd);
 	}
 	
-	public void gainSpeed(float moveSpeed) {
-		this.moveSpeed = this.moveSpeed + moveSpeed;
+	public void decrExAttackSpeed(float spd) {
+		exAttackSpd -= spd;
+		role.decrAttackSpeed(exAttackSpd);
 	}
 	
-	public void lostSpeed(float moveSpeed) {
-		this.moveSpeed = this.moveSpeed - moveSpeed;
+	public void addExFOV(float view) {
+		exFOV += view;
+		role.incrFOV(exFOV);
 	}
 	
-	public void gainVision(float vision) {
-		fieldOfView = fieldOfView + vision;
+	public void decrExFov(float view) {
+		exFOV -= view;
+		role.decrFOV(exFOV);
 	}
 	
-	public void lostVision(float vision) {
-		fieldOfView = fieldOfView - vision;
+	public void addExManaReg(float reg) {
+		exManaReg += reg;
+		role.incrManaReg(exManaReg);
 	}
 	
-	public void incrAttackDmg(int dmg) {
-		attackDmg = attackDmg + dmg;
+	public void decrExManaReg(float reg) {
+		exManaReg -= reg;
+		role.decrManaReg(exManaReg);
 	}
 	
-	public void decrAttackDmg(int dmg) {
-		attackDmg = attackDmg - dmg;
+	public void addExVitalReg(float reg) {
+		exHealthReg += reg;
+		role.incrVitalReg(reg);
 	}
 	
-	public void incrAttackRng(float rng) {
-		attackRange = attackRange + rng;
+	public void decrExVitalReg(float reg) {
+		exHealthReg -= reg;
+		role.decrVitalReg(exHealthReg);
 	}
 	
-	public void decrAttackRng(float rng) {
-		attackRange = attackRange - rng;
-	}
-	
-	public void incrAttackSpd(float spd) {
-		attackSpeed = attackSpeed + spd;
-	}
-	
-	public void decrAttackSpd(float spd) {
-		attackSpeed = attackSpeed - spd;
-	}
-	
-	public void incrManaReg(float reg) {
-		manaReg = manaReg + reg;
-	}
-	
-	public void decrManaReg(float reg) {
-		manaReg = manaReg - reg;
-	}
-	
-	public void incrVitalReg(float reg) {
-		healthReg = healthReg + reg;
-	}
-	
-	public void decrVitalReg(float reg) {
-		healthReg = healthReg - reg;
-	}
+	//-------Add incrementing stats to the base stats------
 	
 }

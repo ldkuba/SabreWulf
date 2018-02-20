@@ -26,9 +26,9 @@ public class GameLogic {
 		return movement.move();
 	}
 	
-	
 	public int receiveDamage(int recvDamage) {
 		//reduce vitality.
+		
 	}
 	
 	public Player getPlayerInfo() {

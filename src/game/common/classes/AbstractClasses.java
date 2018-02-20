@@ -64,19 +64,20 @@ public class AbstractClasses {
 		this.healthReg = healthReg;
 	}
 	
-	public void addExtraStats(int exVitality, int exEnergy, int exIntell, int exStrength, int exDefence, float exFieldOfView, float mana) {
-		this.exVitality = exVitality;
-		this.exEnergy = exEnergy;
-		this.exIntell = exIntell;
-		this.exStrength = exStrength;
-		this.exDefence = exDefence;
-		this.exFieldOfView = exFieldOfView;
-		this.exMana = mana;
+	public void incrStats(int exVitality, int exEnergy, int exIntell, int exStrength, int exDefence, float exFieldOfView, float mana) {
+		vitality = vitality + exVitality;
+		energy = energy + exEnergy;
+		intelligence = intelligence + exIntell;
+		strength = strength + exStrength;
+		defence = defence + exDefence;
+		fieldOfView = fieldOfView + exFieldOfView;
+		this.mana = this.mana + mana;
 	}
 	
-	public void addExtraCombatStats(int exAttackDmg, int exAttackRng) {
-		this.exAttackDmg = exAttackDmg;
-		this.exAttackRng = exAttackRng;
+	public void incrCombatStats(int exAttackDmg, float exAttackRng, float exAttackSpd) {
+		attackDmg = attackDmg + exAttackDmg;
+		attackRange = attackRange + exAttackRng;
+		attackSpeed = attackSpeed + exAttackSpd;
 	}
 
 	//-------Set Base Stats-------
@@ -144,78 +145,129 @@ public class AbstractClasses {
 	public float getAttackRange() {
 		return attackRange;
 	}
+	
+	public float getMana() {
+		return mana;
+	}
 
-	//----------increase base stats using---------
-	public void addVitality(int exVitality) {
+	//----------manipulate base stats using---------
+	public void incrVitality(float exVitality) {
 		vitality = vitality + exVitality;
 	}
 
-	public void reduceVitality(int dmgTaken) {
+	public void decrVitality(int dmgTaken) {
 		vitality = vitality - dmgTaken;
 	}
+	
+	public void incrEnergy(int exEnergy) {
+		energy = energy + exEnergy;
+	}
+	
+	public void decrEnergy(int energy) {
+		this.energy = this.energy - energy;
+	}
 
-	public void addIntelligence(int exIntell) {
+	public void incrIntell(int exIntell) {
 		intelligence = intelligence + exIntell;
 	}
-
-	public void addStrength(int exStrength) {
-		strength = strength + exStrength;
+	
+	public void decrIntell(int intell) {
+		intelligence = intelligence - intell;
 	}
 
-	public void addDefence(int exDefence) {
+	public void incrStrength(int exStrength) {
+		strength = strength + exStrength;
+	}
+	
+	public void decrStrength(int lost) {
+		strength = strength - lost;
+	}
+
+	public void incrDefence(int exDefence) {
 		defence = defence + exDefence;
 	}
 
-	public void addAttackDmg(int exAttackDmg) {
+	public void decrDefence(int def) {
+		defence = defence - def;
+	}
+	
+	public void incrAttackDmg(int exAttackDmg) {
 		attackDmg = attackDmg + exAttackDmg;
 	}
-
-	public void addEnergy(int exEnergy) {
-		energy = energy + exEnergy;
+	
+	public void decrAttackDmg(int dmg) {
+		attackDmg = attackDmg - dmg;
 	}
-
-	public void addAttackRange(float range) {
+	
+	public void incrAttackSpeed(float speed) {
+		attackSpeed = attackSpeed + speed;
+	}
+	
+	public void decrAttackSpeed(float speed) {
+		attackSpeed = attackSpeed - speed;
+	}
+	
+	public void incrAttackRange(float range) {
 		attackRange = attackRange + range;
 	}
-
-	//----------Increase extra stats----------
-	public void addExVitality(int exVitality) {
-		this.exVitality = exVitality;
+	
+	public void decrAttackRange(float range) {
+		attackRange = attackRange - range;
 	}
-
-	public void addExIntelligence(int exIntell) {
-		this.exIntell = exIntell;
+	
+	public void incrMana(float mana) {
+		this.mana = this.mana + mana;
 	}
-
-	public void addExStrength(int exStrength) {
-		this.exStrength = exStrength;
+	
+	public void decrMana(float mana) {
+		this.mana = this.mana - mana;
 	}
-
-	public void addExDefence(int exDefence) {
-		this.exDefence = exDefence;
+	
+	public void incrManaReg(float reg) {
+		manaReg = manaReg + reg;
 	}
-
-	public void addExAttackDmg(int exAttackDmg) {
-		this.exAttackDmg = exAttackDmg;
+	
+	public void decrManaReg(float reg) {
+		manaReg = manaReg - reg;
 	}
-
-	public void addExEnergy(int exEnergy) {
-		this.exEnergy = exEnergy;
+	
+	public void incrVitalReg(float reg) {
+		healthReg = healthReg + reg;
+	}
+	
+	public void decrVitalReg(float reg) {
+		healthReg = healthReg - reg;
+	}
+	
+	public void incrMoveSpeed(float spd) {
+		moveSpeed = moveSpeed + spd;
+	}
+	
+	public void decrMoveSpeed(float spd) {
+		moveSpeed = moveSpeed - spd;
+	}
+	
+	public void incrFOV(float view) {
+		fieldOfView = fieldOfView + view;
+	}
+	
+	public void decrFOV(float view) {
+		fieldOfView = fieldOfView - view;
 	}
 
 	//-----------Set Stat type-----------
 	public void setStatType(StatType type) {
 		switch (type) {
 		case INTELL:
-			addIntelligence(exIntell);
+			incrIntell(exIntell);
 		case STRENGTH:
-			addStrength(exStrength);
+			incrStrength(exStrength);
 		case DEFENCE:
-			addDefence(exDefence);
+			incrDefence(exDefence);
 		case VITALITY:
-			addVitality(exVitality);
+			incrVitality(exVitality);
 		case ENERGY:
-			addEnergy(exEnergy);
+			incrEnergy(exEnergy);
 		}
 	}
 
