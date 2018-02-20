@@ -2,17 +2,17 @@ package game.common.items.attributes.main;
 
 import game.common.items.attributes.Attribute;
 
-public class Energy extends Attribute{
+public class Damage extends Attribute{
 
-	private float energy;
+	private float damage;
 	
-	public Energy(int ener) {
-		energy = ener;
+	public Damage(int dmg) {
+		damage = dmg;
 	}
-
+	
 	@Override
 	public float getValue() {
-		return energy;
+		return damage;
 	}
 	
 }

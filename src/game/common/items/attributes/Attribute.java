@@ -1,9 +1,10 @@
 package game.common.items.attributes;
 
-public class Attribute {
+public abstract class Attribute {
 	
 	public Attribute() {
 		
 	}
 	
+	public abstract float getValue();
 }
