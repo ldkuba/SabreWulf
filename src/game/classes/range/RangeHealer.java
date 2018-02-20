@@ -14,7 +14,7 @@ public class RangeHealer extends RangeClass {
 	private int exDefence = 0;
 	private int exVitality = 0;
 	private int exEnergy = 0;
-
+	
 	private int exAttackDmg = 0;
 	private int exAttackRng = 0;
 
