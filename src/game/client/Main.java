@@ -21,7 +21,7 @@ public class Main extends Application {
 	// private PlayerManager playerManager;
 
 	public Main() {
-		super(1280, 720, 1, "SabreWulf", false, false); // window width, window
+		super(1920, 1080, 1, "SabreWulf", true, false); // window width, window
 														// height, vsync
 														// interval
 

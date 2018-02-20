@@ -1,6 +1,7 @@
 package game.client.states;
 
 import org.lwjgl.glfw.GLFW;
+
 import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.SpriteAnimationComponent;
@@ -8,8 +9,7 @@ import engine.entity.component.SpriteComponent;
 import engine.entity.component.TextComponent;
 import engine.entity.component.TransformComponent;
 import engine.gui.components.Label;
-import engine.gui.components.TextField;
-import engine.gui.components.ToggleButton;
+import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
@@ -32,6 +32,8 @@ public class GameState extends AbstractState {
 	private float second = 0;
 	
 	private Entity ball;
+	
+	private Sprite spellBar;
 	
 	private float zoom = 10.0f;
 	float aspectRatio = Application.s_WindowSize.getX() / Application.s_WindowSize.getY();
@@ -81,6 +83,10 @@ public class GameState extends AbstractState {
 		Label label = new Label(40.0f, 10.0f, app.getAssetManager().getFont("fontSprite.png"), 5.0f, 0.7f, new Vec4(1.0f, 0.0f, 0.0f, 1.0f));
 		label.setText("hello");
 		app.getGui().add(label);
+		
+		spellBar = new Sprite(25.0f, 85.0f, 50.0f, 15.0f, app.getAssetManager().getTexture("res/textures/spellbar.png"));
+		app.getGui().add(spellBar);
+		
 
 		Entity textTest = new Entity(0, "textTest");
 		textTest.addComponent(new TransformComponent());

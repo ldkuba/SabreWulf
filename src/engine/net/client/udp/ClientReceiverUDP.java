@@ -2,13 +2,12 @@ package engine.net.client.udp;
 
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-import engine.net.common_net.Synchronizable;
 import engine.net.common_net.UDPTools;
-import engine.net.common_net.networking_messages.AbstractMessage;
 
 
 public class ClientReceiverUDP extends Thread{
@@ -38,7 +37,7 @@ public class ClientReceiverUDP extends Thread{
     		try {
 				UDPsocket.receive(receivePacket);
 				
-				Synchronizable gameMessage = UDPTools.deserialize(receivePacket.getData());
+				Serializable gameMessage = UDPTools.deserialize(receivePacket.getData());
 				
 				//Notify client. 'gameMessage'
 				

@@ -1,32 +1,30 @@
 package engine.net.server.udp;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import engine.net.common_net.Port;
 import engine.net.common_net.Synchronizable;
 import engine.net.common_net.UDPTools;
-import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.server.core.Player;
 
 public class ServerSenderUDP extends Thread{
 
-	private volatile BlockingQueue<Synchronizable> queueMessages;
+	private BlockingQueue<Serializable> queueMessages;
 	private ArrayList<Player> players;
 	private int port;
 	DatagramPacket packet;
 	private int MAX_PACKET_SIZE;
 
 
-	public ServerSenderUDP(BlockingQueue<Synchronizable> messages, ArrayList<Player> players) {
+	public ServerSenderUDP(ArrayList<Player> players) {
 		this.players = players;
-		this.queueMessages = messages;
+		this.queueMessages = new LinkedBlockingQueue<Serializable>();
 		this.port = port;
 		MAX_PACKET_SIZE = 500;
 	}
@@ -46,7 +44,7 @@ public class ServerSenderUDP extends Thread{
 		while(true) {
 			//Sends packets in queue
 			if(!queueMessages.isEmpty()) {
-				Synchronizable messageToSend = null;
+				Serializable messageToSend = null;
 				try {
 					messageToSend = queueMessages.take();
 				} catch (InterruptedException e) {
