@@ -99,7 +99,7 @@ public class GameState extends AbstractState {
 		scene.addEntity(textTest);
 		
 		Entity ball = new Entity("");
-		ball.addComponent(new NetIdentityComponent(0, app.getNetworkManager(), ball));
+		ball.addComponent(new NetIdentityComponent(0, app.getNetworkManager()));
 		ball.addComponent(new NetTransformComponent());
 		ball.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture("res/textures/characters/placeholder.png"), 2.0f, 2.0f));
 		

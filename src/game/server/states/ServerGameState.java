@@ -1,5 +1,7 @@
 package game.server.states;
 
+import org.lwjgl.glfw.GLFW;
+
 import engine.entity.Entity;
 import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
@@ -14,6 +16,9 @@ public class ServerGameState extends AbstractState
 	private Scene scene;
 	
 	private Entity testNetEntity;
+	
+	private int frame = 0;
+	private float second = System.currentTimeMillis();
 	
 	public ServerGameState(ServerMain app)
 	{
@@ -39,7 +44,7 @@ public class ServerGameState extends AbstractState
 		scene.init();
 		
 		testNetEntity = new Entity("TestNetEntity");
-		testNetEntity.addComponent(new NetIdentityComponent(0, app.getNetworkManager(), testNetEntity));
+		testNetEntity.addComponent(new NetIdentityComponent(0, app.getNetworkManager()));
 		testNetEntity.addComponent(new NetTransformComponent());
 		
 		scene.addEntity(testNetEntity);
@@ -54,12 +59,20 @@ public class ServerGameState extends AbstractState
 	@Override
 	public void update()
 	{
+		if (System.currentTimeMillis() - second >= 1000.0f) {
+			second += 1000.0f;
+			System.out.println("FPS: " + frame);
+			frame = 0;
+		}
+		frame++;
+		
 		NetTransformComponent transform = (NetTransformComponent) testNetEntity.getComponent(NetTransformComponent.class);
 		
 		transform.move(new Vec3(0.2f, 0, 0));
 		
+		
+		
 		scene.update();
-		System.out.println("running game");
 	}
 
 	@Override

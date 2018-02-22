@@ -37,10 +37,10 @@ public class ClientReceiverUDP extends Thread{
 				if(receivePacket!=null){
 
 					// Let's see where we put these packets
-					entityUpdateMessage = UDPTools.deserialize(receivePacket.getData());
+					entityUpdateMessage = UDPTools.deserialize(data);
 					if(entityUpdateMessage.getPacketId()>currentId || Math.abs(entityUpdateMessage.getPacketId() - currentId) > 1000000 ){
                         currentId = entityUpdateMessage.getPacketId();
-					    client.getMain().getNetworkManager().addEntityEvent(entityUpdateMessage);
+					    
                     }
 				}
 			} catch (IOException e) {

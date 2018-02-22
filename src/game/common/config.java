@@ -8,13 +8,13 @@ public class config {
     public static int UDPPort = 4556;
     public static int ServerUDPPort = 5252;
     public static int TCPPort = 4555;
-    public static int UDPMaxPacketSize = 256;
+    public static int UDPMaxPacketSize = 1024;
 
 
     /**
      * Server specific
      */
-    public static int lobbyCountdown = 10;
+    public static int lobbyCountdown = 3;
     public static int globalConnectionsLimit = 100;
     public static int gameConnectionLimit = 1;
 

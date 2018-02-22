@@ -73,4 +73,15 @@ public class Entity {
 	{
 		return (SpriteComponent) getComponent(SpriteComponent.class);
 	}
+	
+	public Entity clone()
+	{
+		Entity result = new Entity(name);
+		for(AbstractComponent comp : components)
+		{
+			result.addComponent(comp);
+		}
+		
+		return result;
+	}
 }

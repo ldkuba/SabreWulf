@@ -11,11 +11,11 @@ import engine.entity.NetworkEntity;
 
 public class UDPTools {
 
-	public static NetworkEntity deserialize(byte[] data) {
+	public static NetworkEntity deserialize(byte[] data) {		
 		ByteArrayInputStream in = new ByteArrayInputStream(data);
 		try {
 			ObjectInputStream is = new ObjectInputStream(in);
-			NetworkEntity message = (NetworkEntity) is.readObject();
+			NetworkEntity message = (NetworkEntity) is.readObject();			
 			return message;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -33,6 +33,7 @@ public class UDPTools {
 			ObjectOutputStream out = new ObjectOutputStream(outputStream);
 			out.writeObject(message);
 			byte[] data = outputStream.toByteArray();
+			out.reset();
 			return data;
 		}
 		catch(IOException ex)
