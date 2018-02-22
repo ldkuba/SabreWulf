@@ -61,6 +61,11 @@ public class NetworkManager {
         udpReceiver.start();
     }
     
+    public void registerNetEntity(Entity e)
+    {
+    	networkEntities.add(e);    	
+    }
+    
     public void updateEntityInNetworkManager(Entity entity, int networkId)
     {
     	//only execute updates on server
@@ -98,7 +103,7 @@ public class NetworkManager {
     	}
     	
     	//if not present add to netowrk entity list
-    	networkEntities.add(entity);
+    	System.out.println("Wrong network setup");
     }
     
     private Entity getEntityByNetId(int networkId, Scene scene)
@@ -154,7 +159,7 @@ public class NetworkManager {
     			
     			if(sceneEntity.hasComponent(NetTransformComponent.class))
     			{
-    				NetTransformComponent comp = (NetTransformComponent) sceneEntity.getComponent(NetIdentityComponent.class);
+    				NetTransformComponent comp = (NetTransformComponent) sceneEntity.getComponent(NetTransformComponent.class);
     				sceneEntity.removeComponent(comp);
     			}
     			

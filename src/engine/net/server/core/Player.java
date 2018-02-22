@@ -1,13 +1,14 @@
 package engine.net.server.core;
 
-import engine.net.common_net.Port;
-import engine.net.common_net.networking_messages.AbstractMessage;
-
 import java.io.Serializable;
 import java.net.DatagramSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import engine.net.common_net.networking_messages.AbstractMessage;
+import game.common.config;
 
 public class Player implements Serializable {
 
@@ -75,7 +76,7 @@ public class Player implements Serializable {
     }
 
     public void generateDatagramSocket() throws SocketException {
-        datagramSocket = new DatagramSocket(Port.UDPPort, socket.getInetAddress());
+        datagramSocket = new DatagramSocket(config.ServerUDPPort, socket.getInetAddress());
     }
 
     public int getCurrentGame() {
