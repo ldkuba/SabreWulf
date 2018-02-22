@@ -3,19 +3,20 @@ package game.classes.melee;
 import game.player.Player;
 
 /*
- * Original Strength: 130
- * MeleeDPS Strength = 190
+ * Original Health: 100
+ * MeleeTank Health: 200
  */
-public class MeleeDPS extends MeleeClass {
 
-	private int exVitality = 0;
+public class MeleeTank extends MeleeClass {
+
+	private int exVitality = 100;
 	private int exEnergy   = 0;
 	private int exIntell   = 0;
-	private int exStrength = 60;
+	private int exStrength = 0;
 	private int exDefence  = 0;
 
-	public MeleeDPS(StatType type) {
-		addStrength(exStrength);
+	public MeleeTank(StatType type) {
+		addExtraStats(exVitality, exEnergy, exIntell, exStrength, exDefence);
 		setStatType(type);
 	}
 
