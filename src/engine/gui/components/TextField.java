@@ -33,7 +33,7 @@ public class TextField extends GuiComponent
 		float worldHeight = (height*Application.s_WindowSize.getY()/100.0f) * (Application.s_Viewport.getY()/(Application.s_WindowSize.getY()/2.0f));
 		float worldWidth = ((width*Application.s_WindowSize.getX()/100.0f) * (Application.s_Viewport.getX()/(Application.s_WindowSize.getX()/2.0f)) + worldHeight) * 1.1f; //dont know why but it looks nicer
 		
-		entity = new Entity(0, "sprite");
+		entity = new Entity("sprite");
 		entity.addComponent(new TransformComponent());
 		spriteComponent = new SpriteComponent(new Vec4(0.8f, 0.8f, 0.8f, 0.7f), worldWidth, worldHeight);
 		entity.addComponent(spriteComponent);

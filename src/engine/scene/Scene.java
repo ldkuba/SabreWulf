@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import engine.application.Application;
 import engine.entity.Entity;
+import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TextComponent;
@@ -47,7 +48,25 @@ public class Scene {
 	public void addEntity(Entity e) {
 		if (!m_Entities.contains(e)) {
 			m_Entities.add(e);
+			
+			int id = 0;
+			while(!isIdFree(id)) id++;
+			
+			e.setId(id);
 		}
+	}
+	
+	private boolean isIdFree(int id)
+	{
+		for(Entity e : m_Entities)
+		{
+			if(e.getId() == id)
+			{
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 	public void removeEntity(Entity e) {
@@ -72,6 +91,13 @@ public class Scene {
 				SpriteAnimationComponent animation = (SpriteAnimationComponent) e.getComponent(SpriteAnimationComponent.class);
 				
 				animation.update();
+			}
+			
+			if(e.hasComponent(NetIdentityComponent.class))
+			{
+				NetIdentityComponent netIdentity = (NetIdentityComponent) e.getComponent(NetIdentityComponent.class);
+				
+				
 			}
 		}
 	}
@@ -136,6 +162,11 @@ public class Scene {
 
 	public Renderer2D getRenderer2D() {
 		return m_Renderer2D;
+	}
+	
+	public ArrayList<Entity> getEntities()
+	{
+		return m_Entities;
 	}
 
 	public void isInView(Entity entity) {
