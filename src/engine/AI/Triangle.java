@@ -26,6 +26,21 @@ public class Triangle {
 		}
 	}
 	
+	public ArrayList<Edge> getEdges(){
+		return edges;
+	}
+	
+	public Edge findEdge(Triangle goal){
+		Edge edge = null;
+		for(int i = 0; i < edges.size(); i++){
+			if(edges.get(i).getGoal() == goal){
+				edge = edges.get(i);
+				break;
+			}
+		}
+		return edge;
+	}
+	
 	public Vec2 getMidpoint(){
 		Vec2 mid = new Vec2();
 		mid.setX((x.getX() + y.getX() + z.getX())/3);
@@ -49,11 +64,26 @@ public class Triangle {
 		return f;
 	}
 
+	public void setF(float f) {
+		this.f = f;
+	}
+
 	public float getG() {
 		return g;
 	}
 
-	public float getH() {
+	public void setG(float g) {
+		this.g = g;
+	}
+
+	public float getHeuristic(){
 		return h;
+	}
+
+	public void setH(Triangle B) {
+		Triangle A = this;
+		Vec2 v = new Vec2(B.getMidpoint().getX() - A.getMidpoint().getX(),
+				  B.getMidpoint().getY() - A.getMidpoint().getY());
+		h = v.getLength();
 	}
 }
