@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import engine.application.Application;
 import engine.entity.Entity;
-import engine.entity.component.NetIdentityComponent;
+//import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TextComponent;

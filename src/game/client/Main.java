@@ -8,10 +8,6 @@ import game.client.states.LobbyState;
 import game.client.states.MenuState;
 import game.common.config;
 
-/*
- * 	Main method - used to run the game
- */
-
 public class Main extends Application {
 
 	private Client client;

@@ -1,5 +1,7 @@
 package game.client;
+import engine.net.client.udp.ClientReceiverUDP;
 import engine.net.common_net.MessageListener;
+import engine.net.common_net.UDPTools;
 import engine.net.common_net.networking_messages.*;
 import engine.net.server.core.Player;
 import engine.sound.Sound;
@@ -13,7 +15,7 @@ public class ClientTCPMessageListener implements MessageListener
 {
 	private Main app;
 	private BlockingQueue<AbstractMessage> abstractMessageInbound;
-
+	private ClientReceiverUDP UDPin;
 	private final int maxTraffic = 100;
 
 	public ClientTCPMessageListener(Main app)
