@@ -15,9 +15,11 @@ import game.common.config;
 public class ClientReceiverUDP extends Thread{
     private static DatagramSocket UDPsocket;
 	Client client;
-	Serializable entityUpdateMessage;
+	private float currentNonce;
+	NetworkEntity entityUpdateMessage;
 
     public ClientReceiverUDP(){
+        currentNonce = 0;
     }
     
     public void run() {
@@ -32,11 +34,14 @@ public class ClientReceiverUDP extends Thread{
     		DatagramPacket receivePacket = new DatagramPacket(data, data.length);
     		try {
 				UDPsocket.receive(receivePacket);
-				if(receivePacket!=null) {
+				if(receivePacket!=null){
 
 					// Let's see where we put these packets
 					entityUpdateMessage = UDPTools.deserialize(receivePacket.getData());
-					client.getMain().getNetworkManager().addEntityEvent(entityUpdateMessage);
+					if(entityUpdateMessage.getNonce()>currentNonce){
+                        currentNonce = entityUpdateMessage.getNonce();
+					    client.getMain().getNetworkManager().addEntityEvent(entityUpdateMessage);
+                    }
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
