@@ -60,6 +60,10 @@ public class NetworkManager {
     
     public void updateEntityInNetworkManager(Entity entity, int networkId)
     {
+    	//only execute updates on server
+    	if(networkType == false)
+    		return;
+    	
     	for(Entity e : networkEntities)
     	{
     		if(((NetIdentityComponent)e.getComponent(NetIdentityComponent.class)).getNetworkId() == networkId)

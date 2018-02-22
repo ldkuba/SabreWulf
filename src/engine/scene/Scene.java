@@ -26,7 +26,10 @@ public class Scene {
 	private Renderer3D m_Renderer3D; // Currently not used
 	private Camera m_Camera;
 
-	public Scene(int id) {
+	private Application app;
+	
+	public Scene(int id, Application app) {
+		this.app = app;
 		m_ID = id;
 	}
 
@@ -96,10 +99,12 @@ public class Scene {
 			if(e.hasComponent(NetIdentityComponent.class))
 			{
 				NetIdentityComponent netIdentity = (NetIdentityComponent) e.getComponent(NetIdentityComponent.class);
-				
+				app.getNetworkManager().updateEntityInNetworkManager(e, netIdentity.getNetworkId());
 				
 			}
 		}
+		
+		app.getNetworkManager().synchronize(this);
 	}
 
 	public void render() {
