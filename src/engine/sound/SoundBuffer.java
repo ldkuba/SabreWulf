@@ -32,9 +32,7 @@ public class SoundBuffer {
 
 	public void cleanup() {
 		alDeleteBuffers(this.bufferId);
-		if (pcm != null) {
-			MemoryUtil.memFree(pcm);
-		}
+		MemoryUtil.memFree(pcm);
 	}
 
 	private ShortBuffer readVorbis(String resource, int bufferSize, STBVorbisInfo info) {

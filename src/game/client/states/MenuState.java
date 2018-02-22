@@ -81,6 +81,7 @@ public class MenuState extends AbstractState {
 			public void onClick() {
 				app.getSoundManager().invokeSound("quit", false);
 				app.exit();
+				app.cleanup();
 				app.getClient().stop();
 			}
 		};
