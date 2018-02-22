@@ -68,5 +68,4 @@ public class GameInstanceManager extends Thread {
         running=false;
     }
 
-
 }
