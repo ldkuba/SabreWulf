@@ -23,7 +23,7 @@ public class Sprite extends GuiComponent
 		float worldWidth = (width*Application.s_WindowSize.getX()/100.0f) * (Application.s_Viewport.getX()/(Application.s_WindowSize.getX()/2.0f));
 		float worldHeight = (height*Application.s_WindowSize.getY()/100.0f) * (Application.s_Viewport.getY()/(Application.s_WindowSize.getY()/2.0f));
 		
-		entity = new Entity(0, "sprite");
+		entity = new Entity("sprite");
 		entity.addComponent(new TransformComponent());
 		entity.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), texture, worldWidth, worldHeight));
 	}

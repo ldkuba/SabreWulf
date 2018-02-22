@@ -88,7 +88,7 @@ public class GameState extends AbstractState {
 		app.getGui().add(spellBar);
 		
 
-		Entity textTest = new Entity(0, "textTest");
+		Entity textTest = new Entity("textTest");
 		textTest.addComponent(new TransformComponent());
 		textTest.addComponent(new TextComponent(app.getAssetManager().getFont("fontSprite.png"), 0.5f, 0.7f, new Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
 		((TextComponent) (textTest.getComponent(TextComponent.class))).setText(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
@@ -96,13 +96,13 @@ public class GameState extends AbstractState {
 		
 		scene.addEntity(textTest);
 		
-		Entity ball = new Entity(0, "");
+		Entity ball = new Entity("");
 		ball.addComponent(new TransformComponent());
 		ball.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture("res/textures/characters/placeholder.png"), 2.0f, 2.0f));
 		
 		scene.addEntity(ball);
 		
-		Entity animTest = new Entity(0, "animTest");
+		Entity animTest = new Entity("animTest");
 		animTest.addComponent(new TransformComponent());
 		animTest.addComponent(new SpriteAnimationComponent(app.getAssetManager().getTexture("res/textures/Cursor/cursorMovementAnimated.png"), 4, 0, 11, 3.0f, 3.0f, 2));
 		animTest.getTransform().setPosition(new Vec3(6.0f, -6.0f, 0.0f));

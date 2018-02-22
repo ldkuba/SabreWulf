@@ -7,9 +7,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import engine.application.Application;
 import engine.entity.Entity;
+import engine.entity.component.NetDataComponent;
+import engine.entity.component.NetIdentityComponent;
+import engine.entity.component.NetTransformComponent;
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.server.core.Player;
-import engine.net.server.udp.ServerSenderUDP;
+import engine.scene.Scene;
 
 public class NetworkManager {
 
@@ -18,16 +21,12 @@ public class NetworkManager {
     private MessageListener messageListener;
     private ConnectionListener connectionListener;
     private ArrayList<Player> players;
-    private ServerSenderUDP udp;
     private CopyOnWriteArrayList<Entity> networkEntities;
 
     public NetworkManager(ArrayList<Player> players, Application app){
         this.networkType = true;
         this.players = players;
         initializeDatagramSockets();
-        udp = new ServerSenderUDP(players);
-        udp.setName("UDPThread ");
-        udp.start();
     }
 
     private void initializeDatagramSockets() {
@@ -44,6 +43,98 @@ public class NetworkManager {
         this.networkType = false;
     }
 
+    public void updateEntityInNetworkManager(Entity entity, int networkId)
+    {
+    	for(Entity e : networkEntities)
+    	{
+    		if(((NetIdentityComponent)e.getComponent(NetIdentityComponent.class)).getNetworkId() == networkId)
+    		{
+    			if(e.hasComponent(NetTransformComponent.class))
+    			{
+    				NetTransformComponent comp = (NetTransformComponent) e.getComponent(NetIdentityComponent.class);
+    				e.removeComponent(comp);
+    			}
+    			
+    			if(e.hasComponent(NetDataComponent.class))
+    			{
+    				NetDataComponent comp = (NetDataComponent) e.getComponent(NetDataComponent.class);
+    				e.removeComponent(comp);
+    			}
+    			
+    			if(entity.hasComponent(NetTransformComponent.class))
+    			{
+    				e.addComponent((NetTransformComponent)entity.getComponent(NetTransformComponent.class));
+    			}
+    			
+    			if(entity.hasComponent(NetDataComponent.class))
+    			{
+    				e.addComponent((NetDataComponent)entity.getComponent(NetDataComponent.class));
+    			}
+    			
+    			return;
+    		}
+    	}
+    	
+    	//if not present add to netowrk entity list
+    	networkEntities.add(entity);
+    }
+    
+    private Entity getEntityByNetId(int networkId, Scene scene)
+    {
+    	for(Entity e : scene.getEntities())
+    	{
+    		if(e.hasComponent(NetIdentityComponent.class))
+    		{
+    			if(((NetIdentityComponent)(e.getComponent(NetIdentityComponent.class))).getNetworkId() == networkId)
+    			{
+    				return e;
+    			}
+    		}
+    	}
+    	
+    	return null;
+    }
+    
+    //updates local snapshot if on client or sends snapshot is on server
+    public void synchronize(Scene scene)
+    {
+    	if(networkType)
+    	{
+    		//server - send snapshot
+    		//TODO
+    	}else
+    	{
+    		//client - update snapshot
+    		for(Entity entity : networkEntities)
+    		{
+    			int netId = ((NetIdentityComponent)(entity.getComponent(NetIdentityComponent.class))).getNetworkId();
+    			Entity sceneEntity = getEntityByNetId(netId, scene);
+    			
+    			if(sceneEntity.hasComponent(NetTransformComponent.class))
+    			{
+    				NetTransformComponent comp = (NetTransformComponent) sceneEntity.getComponent(NetIdentityComponent.class);
+    				sceneEntity.removeComponent(comp);
+    			}
+    			
+    			if(sceneEntity.hasComponent(NetDataComponent.class))
+    			{
+    				NetDataComponent comp = (NetDataComponent) sceneEntity.getComponent(NetDataComponent.class);
+    				sceneEntity.removeComponent(comp);
+    			}
+    			
+    			if(entity.hasComponent(NetTransformComponent.class))
+    			{
+    				sceneEntity.addComponent((NetTransformComponent)entity.getComponent(NetTransformComponent.class));
+    			}
+    			
+    			if(entity.hasComponent(NetDataComponent.class))
+    			{
+    				sceneEntity.addComponent((NetDataComponent)entity.getComponent(NetDataComponent.class));
+    			}
+    		}
+    	}
+    }
+    
     public void registerConnectionListener(ConnectionListener connectionListener){
         this.connectionListener = connectionListener;
     }
