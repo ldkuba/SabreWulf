@@ -17,14 +17,14 @@ public class GameInstanceManager extends Thread {
     private GameServer server;
     private boolean countdownTrigger;
     private ServerMain gameEngine;
-    private NetworkManager netMan;
     private BlockingQueue<AbstractMessage> messages;
     private boolean running = true;
+    
+    private ServerSenderUDP serverSenderUDP;
 
     public GameInstanceManager(GameInstance instance,  GameServer server){
         this.server = server;
         this.instance = instance;
-        netMan = new NetworkManager(gameEngine);
 
         instance.initializeDatagramSockets();
         messages = new LinkedBlockingQueue<>();
