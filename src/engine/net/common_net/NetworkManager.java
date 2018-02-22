@@ -7,9 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import engine.application.Application;
 import engine.entity.Entity;
-import engine.entity.NetworkEntity;
 import engine.entity.component.NetDataComponent;
-import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
 import engine.net.client.udp.ClientReceiverUDP;
 import engine.net.common_net.networking_messages.AbstractMessage;
