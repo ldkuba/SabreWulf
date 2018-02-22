@@ -32,8 +32,10 @@ public class NetworkManager {
         this.networkType = true;
         this.players = players;
         
-        udpSender = new ServerSenderUDP(players);
-        udpSender.start();
+        networkEntities = new CopyOnWriteArrayList<>();
+        
+    	udpSender = new ServerSenderUDP(players);
+    	udpSender.start();
         
         initializeDatagramSockets();
     }
@@ -50,6 +52,7 @@ public class NetworkManager {
 
     public NetworkManager(Application app){
         this.networkType = false;
+        networkEntities = new CopyOnWriteArrayList<>();
     }
     
     public void startUDPReceiver()
@@ -117,6 +120,9 @@ public class NetworkManager {
     //updates local snapshot if on client or sends snapshot is on server
     public void synchronize(Scene scene)
     {
+    	if(scene == null)
+    		return;
+    	
     	if(networkType)
     	{
     		//server - send snapshot

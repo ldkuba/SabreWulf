@@ -36,7 +36,7 @@ public class LobbyState extends AbstractState
 	public LobbyState(Main app)
 	{
 		this.app = app;
-		scene = new Scene(0);
+		scene = new Scene(0, app);
 		localPlayerIndex = 0;
 	}
 

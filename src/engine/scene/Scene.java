@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import engine.application.Application;
 import engine.entity.Entity;
+import engine.entity.component.NetIdentityComponent;
 //import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.SpriteComponent;
@@ -14,9 +15,7 @@ import engine.graphics.renderer.Renderer2D;
 import engine.graphics.renderer.Renderer3D;
 import engine.maths.Mat4;
 import engine.maths.MathUtil;
-import engine.maths.Vec2;
 import engine.maths.Vec3;
-import game.common.map.Map;
 
 public class Scene {
 	private int m_ID;

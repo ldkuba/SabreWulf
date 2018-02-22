@@ -45,7 +45,7 @@ public class GameInstance {
     }
 
     public boolean isReady() {
-        if (playersInLobby.size()==6) {
+        if (playersInLobby.size()==config.gameConnectionLimit) {
             for (int i = 0; i < playersInLobby.size(); i++) {
                 if (!playersInLobby.get(i).getReady()) {
                     return false;

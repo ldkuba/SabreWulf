@@ -2,11 +2,11 @@ package engine.net.client.udp;
 
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+import engine.entity.NetworkEntity;
 import engine.net.client.Client;
 import engine.net.common_net.UDPTools;
 import game.common.config;
@@ -14,12 +14,12 @@ import game.common.config;
 
 public class ClientReceiverUDP extends Thread{
     private static DatagramSocket UDPsocket;
-	Client client;
-	private float currentNonce;
-	NetworkEntity entityUpdateMessage;
+	private Client client;
+	private int currentId;
+	private NetworkEntity entityUpdateMessage;
 
     public ClientReceiverUDP(){
-        currentNonce = 0;
+        currentId = 0;
     }
     
     public void run() {
@@ -38,8 +38,8 @@ public class ClientReceiverUDP extends Thread{
 
 					// Let's see where we put these packets
 					entityUpdateMessage = UDPTools.deserialize(receivePacket.getData());
-					if(entityUpdateMessage.getNonce()>currentNonce){
-                        currentNonce = entityUpdateMessage.getNonce();
+					if(entityUpdateMessage.getPacketId()>currentId || Math.abs(entityUpdateMessage.getPacketId() - currentId) > 1000000 ){
+                        currentId = entityUpdateMessage.getPacketId();
 					    client.getMain().getNetworkManager().addEntityEvent(entityUpdateMessage);
                     }
 				}

@@ -20,7 +20,7 @@ public class ServerSenderUDP extends Thread{
 	private int port;
 	DatagramPacket packet;
 	private int MAX_PACKET_SIZE;
-
+	private int packetId;
 
 	public ServerSenderUDP(ArrayList<Player> players) {
 		this.players = players;
@@ -31,7 +31,15 @@ public class ServerSenderUDP extends Thread{
 	
 	public void addNetworkEntity(NetworkEntity entity)
 	{
+		entity.setPacketId(packetId);
 		queueMessages.add(entity);
+		
+		packetId++;
+		
+		if(packetId > 2000000)
+		{
+			packetId = 0;
+		}
 	}
 	
 	public void run() {
@@ -49,7 +57,7 @@ public class ServerSenderUDP extends Thread{
 		while(true) {
 			//Sends packets in queue
 			if(!queueMessages.isEmpty()) {
-				Serializable messageToSend = null;
+				NetworkEntity messageToSend = null;
 				try {
 					messageToSend = queueMessages.take();
 				} catch (InterruptedException e) {
