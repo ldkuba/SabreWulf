@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import engine.entity.NetworkEntity;
 import engine.net.common_net.Port;
-import engine.net.common_net.Synchronizable;
 import engine.net.common_net.UDPTools;
 import engine.net.server.core.Player;
 
 public class ServerSenderUDP extends Thread{
 
-	private BlockingQueue<Serializable> queueMessages;
+	private BlockingQueue<NetworkEntity> queueMessages;
 	private ArrayList<Player> players;
 	private int port;
 	DatagramPacket packet;
@@ -24,9 +24,14 @@ public class ServerSenderUDP extends Thread{
 
 	public ServerSenderUDP(ArrayList<Player> players) {
 		this.players = players;
-		this.queueMessages = new LinkedBlockingQueue<Serializable>();
+		this.queueMessages = new LinkedBlockingQueue<NetworkEntity>();
 		this.port = port;
 		MAX_PACKET_SIZE = 500;
+	}
+	
+	public void addNetworkEntity(NetworkEntity entity)
+	{
+		queueMessages.add(entity);
 	}
 	
 	public void run() {

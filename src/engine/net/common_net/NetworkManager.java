@@ -7,25 +7,34 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import engine.application.Application;
 import engine.entity.Entity;
+import engine.entity.NetworkEntity;
 import engine.entity.component.NetDataComponent;
 import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
+import engine.net.client.udp.ClientReceiverUDP;
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.server.core.Player;
+import engine.net.server.udp.ServerSenderUDP;
 import engine.scene.Scene;
 
 public class NetworkManager {
 
-    private ArrayList<Synchronizable> syncData;
     private boolean networkType; // False is Client, True is Server
     private MessageListener messageListener;
     private ConnectionListener connectionListener;
     private ArrayList<Player> players;
     private CopyOnWriteArrayList<Entity> networkEntities;
+    
+    private ServerSenderUDP udpSender;
+    private ClientReceiverUDP udpReceiver;
 
     public NetworkManager(ArrayList<Player> players, Application app){
         this.networkType = true;
         this.players = players;
+        
+        udpSender = new ServerSenderUDP(players);
+        udpSender.start();
+        
         initializeDatagramSockets();
     }
 
@@ -42,7 +51,13 @@ public class NetworkManager {
     public NetworkManager(Application app){
         this.networkType = false;
     }
-
+    
+    public void startUDPReceiver()
+    {
+    	udpReceiver = new ClientReceiverUDP();
+        udpReceiver.start();
+    }
+    
     public void updateEntityInNetworkManager(Entity entity, int networkId)
     {
     	for(Entity e : networkEntities)
@@ -102,6 +117,23 @@ public class NetworkManager {
     	{
     		//server - send snapshot
     		//TODO
+    		for(Entity e : networkEntities)
+    		{
+    			NetworkEntity netEntity = new NetworkEntity();
+    			netEntity.setNetIdentity((NetIdentityComponent)e.getComponent(NetIdentityComponent.class));
+    			
+    			if(e.hasComponent(NetTransformComponent.class))
+    			{
+    				netEntity.setNetTransform((NetTransformComponent)e.getComponent(NetTransformComponent.class));
+    			}
+    			
+    			if(e.hasComponent(NetDataComponent.class))
+    			{
+    				netEntity.setNetData((NetDataComponent)e.getComponent(NetDataComponent.class));
+    			}
+    			
+    			udpSender.addNetworkEntity(netEntity);
+    		}
     	}else
     	{
     		//client - update snapshot

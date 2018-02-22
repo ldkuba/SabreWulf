@@ -17,7 +17,7 @@ public class ClientReceiverUDP extends Thread{
 	Client client;
 	Serializable entityUpdateMessage;
 
-    ClientReceiverUDP() {
+    public ClientReceiverUDP() {
     }
     
     public void run() {

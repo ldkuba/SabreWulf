@@ -3,7 +3,7 @@ package engine.entity.component;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class NetDataComponent extends AbstractComponent {
+public class NetDataComponent extends AbstractComponent implements Serializable{
 
     private HashMap<String, Serializable> data;
     public NetDataComponent(){
