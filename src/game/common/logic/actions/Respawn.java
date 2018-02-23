@@ -1,4 +1,4 @@
-package game.logic;
+package game.common.logic.actions;
 
 import engine.maths.Vec2;
 
