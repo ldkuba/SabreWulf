@@ -1,6 +1,7 @@
 package game.common.actors;
 
 import engine.entity.Entity;
+import game.common.classes.AbstractClasses;
 import game.common.inventory.Inventory;
 import game.common.inventory.Item;
 
@@ -13,11 +14,11 @@ public class Actor {
     Inventory inventory;
 
     public void addItem(Item item){
-
+    	inventory.addItem(item);
     }
 
     public void removeItem(Item item){
-
+    	inventory.rmvItem(item);
     }
 
     public Inventory getInventory() {
@@ -25,7 +26,7 @@ public class Actor {
     }
 
     public void cleanInventory(){
-
+    	inventory.clear();
     }
 
     private Entity entity;
@@ -95,22 +96,34 @@ public class Actor {
     public void setResistance(float resistance) {
         this.resistance = resistance;
     }
+    
+    /**
+     * This will be affected by items.
+     */
+    
+    private float damage;
+    
+    public float getDamage() {
+    	return damage;
+    }
+   
+    public void setDamage(float dmg) {
+    	damage = dmg;
+    }
 
     /**
-
-     TODO
-
-     public Player(AbstractClasses role) {
-     setStartingAttributes();
-     }
-
-
-     private void setStartingAttributes() {
-     health = role.getHealth();
-     = role.getStrength();
-     resistance = role.getDefence();
-     intelligence = role.getIntelligence();
-     }
+     * Only used once.
      */
+    
+    private AbstractClasses role;
+    
+    public void setPlayer(AbstractClasses role) {
+    	health = role.getHealth();
+    	resistance = role.getResistance();
+    	movementSpeed = role.getMoveSpeed();
+    	energy = role.getEnergy();
+    	damage = role.getDamage();
+    	this.role = role;
+    }
 
 }
