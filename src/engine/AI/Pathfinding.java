@@ -4,21 +4,17 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-import engine.maths.Vec2;
 
 public class Pathfinding {
 	private float g;
-	private Navmesh navmesh;
-	private ArrayList<Edge> edges;
 	private ArrayList<Triangle> triangles;
+	private ArrayList<Triangle> path;
 	
-	public Pathfinding(Navmesh navmesh, ArrayList<Edge> edges, ArrayList<Triangle> triangles){
-		this.navmesh = navmesh;
-		this.edges = edges;
+	public Pathfinding(ArrayList<Triangle> triangles){
 		this.triangles = triangles;
 	}
 	
-	public void AStar(Navmesh navmesh, Triangle start, Triangle goal){
+	public ArrayList<Triangle> AStar(Triangle start, Triangle goal){
 		Triangle current = start;
 		Triangle last;
 		Triangle temp;
@@ -47,12 +43,19 @@ public class Pathfinding {
 			}
 			last = current;
 			current = toSearch.poll();
+			current.setLast(last);
 			last.setG(last.findEdge(current).getWeight());
 			g += last.findEdge(current).getWeight();
 		}
+		return path;
 	}
 	
 	private void reconstructList(Triangle goal) {
-		
+		Triangle next = goal.getLast();
+		path.add(goal);
+		while (next != null){
+			path.add(next);
+			next = next.getLast();
+		}
 	}
 }

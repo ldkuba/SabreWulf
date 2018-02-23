@@ -13,6 +13,7 @@ public class Triangle {
 	private float f;
 	private float g;
 	private float h;
+	private Triangle last = null;
 	
 	public Triangle(Vec2 x, Vec2 y, Vec2 z){
 		this.x = x;
@@ -85,5 +86,13 @@ public class Triangle {
 		Vec2 v = new Vec2(B.getMidpoint().getX() - A.getMidpoint().getX(),
 				  B.getMidpoint().getY() - A.getMidpoint().getY());
 		h = v.getLength();
+	}
+
+	public void setLast(Triangle last) {
+		this.last = last;
+	}
+	
+	public Triangle getLast(){
+		return last;
 	}
 }
