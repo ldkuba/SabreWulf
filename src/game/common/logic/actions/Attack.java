@@ -1,8 +1,7 @@
-package game.logic;
+package game.common.logic.actions;
 
-import engine.logic.AbstractAction;
 import engine.maths.Vec2;
-import game.player.Player;
+import game.common.player.Player;
 
 public class Attack extends AbstractAction{
 	
@@ -29,14 +28,15 @@ public class Attack extends AbstractAction{
 	}
 
 	public boolean inRange(Vec2 playerCoord, Vec2 enemyCoord, float playerRange) {
-		//Making coordinates positive
-		playerCoord = toPositive(playerCoord);
-		enemyCoord = toPositive(enemyCoord);
 		
 		float rangeX = enemyCoord.getX() - playerCoord.getX();
 		float rangeY = enemyCoord.getY() - playerCoord.getY();
 		
-		if( rangeX <= playerRange || rangeY <= playerRange) {
+		//Make values positive.
+		rangeX = toPositive(rangeX);
+		rangeY = toPositive(rangeY);
+		
+		if( rangeX <= playerRange && rangeY <= playerRange) {
 			return true;
 		} else {
 			return false;
@@ -58,19 +58,8 @@ public class Attack extends AbstractAction{
 	}
 	
 	//Change coordinates to contain positive values
-	private Vec2 toPositive(Vec2 coordinates) {
-		float coordX = coordinates.getX();
-		float coordY = coordinates.getY();
-		
-		if(coordX < 0) {
-			coordX = coordX * -1;
-			coordinates.setX(coordX);
-		}
-		if(coordY < 0) {
-			coordY = coordY * -1;
-			coordinates.setY(coordY);
-		}
-		return coordinates;
+	private float toPositive(float coordinate) {
+		return (coordinate * -1);
 		
 	}
 }

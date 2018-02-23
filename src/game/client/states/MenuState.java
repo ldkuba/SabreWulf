@@ -25,7 +25,7 @@ public class MenuState extends AbstractState {
 
 	public MenuState(Main app) {
 		this.app = app;
-		scene = new Scene(0);
+		scene = new Scene(0, app);
 	}
 
 	@Override
@@ -81,6 +81,7 @@ public class MenuState extends AbstractState {
 			public void onClick() {
 				app.getSoundManager().invokeSound("quit", false);
 				app.exit();
+				app.cleanup();
 				app.getClient().stop();
 			}
 		};

@@ -26,7 +26,7 @@ public class Label extends GuiComponent
 		float worldWidth = (width*Application.s_WindowSize.getX()/100.0f) * (Application.s_Viewport.getX()/(Application.s_WindowSize.getX()/2.0f));
 		float worldHeight = (height*Application.s_WindowSize.getY()/100.0f) * (Application.s_Viewport.getY()/(Application.s_WindowSize.getY()/2.0f));
 		
-		entity = new Entity(0, "sprite");
+		entity = new Entity("sprite");
 		entity.addComponent(new TransformComponent());
 		textComponent = new TextComponent(font, worldHeight, spread, color);
 		entity.addComponent(textComponent);

@@ -15,7 +15,7 @@ public class MeleeDPS extends MeleeClass {
 	private int exDefence  = 0;
 
 	public MeleeDPS(StatType type) {
-		addExtraStats(exVitality, exEnergy, exIntell, exStrength, exDefence);
+		addStrength(exStrength);
 		setStatType(type);
 	}
 

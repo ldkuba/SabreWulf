@@ -1,14 +1,21 @@
 package engine.net.common_net;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+import engine.entity.NetworkEntity;
 
 public class UDPTools {
 
-	public static Synchronizable deserialize(byte[] data) {
+	public static NetworkEntity deserialize(byte[] data) {
 		ByteArrayInputStream in = new ByteArrayInputStream(data);
 		try {
 			ObjectInputStream is = new ObjectInputStream(in);
-			Synchronizable message = (Synchronizable) is.readObject();
+			NetworkEntity message = (NetworkEntity) is.readObject();
 			return message;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -18,8 +25,8 @@ public class UDPTools {
 		return null;
 	}
 
-	public static byte[] serialize(Synchronizable msg) {
-		Synchronizable message = msg;
+	public static byte[] serialize(NetworkEntity msg) {
+		NetworkEntity message = msg;
 		try
 		{
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

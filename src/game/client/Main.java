@@ -6,10 +6,7 @@ import engine.net.common_net.networking_messages.LobbyQuitMessage;
 import game.client.states.GameState;
 import game.client.states.LobbyState;
 import game.client.states.MenuState;
-
-/*
- * 	Main method - used to run the game
- */
+import game.common.config;
 
 public class Main extends Application {
 
@@ -21,10 +18,7 @@ public class Main extends Application {
 	// private PlayerManager playerManager;
 
 	public Main() {
-		super(1280, 720, 1, "SabreWulf", false, false); // window width, window
-														// height, vsync
-														// interval
-
+		super(config.screenWidth, config.screenHeight, 1, config.windowName, config.clientFullScreen, false); // window width, window
 		menuState = new MenuState(this);
 		lobbyState = new LobbyState(this);
 		gameState = new GameState(this);
@@ -36,7 +30,7 @@ public class Main extends Application {
 
 		client = new Client(this);
 		netManager.registerConnectionListener(new ClientConnectionListener(this));
-		netManager.registerMessageListener(new ClientMessageListener(this));
+		netManager.registerMessageListener(new ClientTCPMessageListener(this));
 
 		// set starting state
 		stateManager.setCurrentState(menuState);

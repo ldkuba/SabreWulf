@@ -1,15 +1,17 @@
 package game.client.states;
 
 import org.lwjgl.glfw.GLFW;
+
 import engine.application.Application;
 import engine.entity.Entity;
+import engine.entity.component.NetIdentityComponent;
+import engine.entity.component.NetTransformComponent;
 import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TextComponent;
 import engine.entity.component.TransformComponent;
 import engine.gui.components.Label;
-import engine.gui.components.TextField;
-import engine.gui.components.ToggleButton;
+import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
@@ -27,18 +29,20 @@ public class GameState extends AbstractState {
 	private PlayerController playerController;
 
 	private Map map;
-
+	
 	private int frame = 0;
 	private float second = 0;
 	
 	private Entity ball;
+	
+	private Sprite spellBar;
 	
 	private float zoom = 10.0f;
 	float aspectRatio = Application.s_WindowSize.getX() / Application.s_WindowSize.getY();
 
 	public GameState(Main app) {
 		this.app = app;
-		scene = new Scene(0);
+		scene = new Scene(0, app);
 		// manager = new PlayerManager(scene);
 		playerController = new PlayerController(app, this);
 		map = new Map(scene);
@@ -81,8 +85,12 @@ public class GameState extends AbstractState {
 		Label label = new Label(40.0f, 10.0f, app.getAssetManager().getFont("fontSprite.png"), 5.0f, 0.7f, new Vec4(1.0f, 0.0f, 0.0f, 1.0f));
 		label.setText("hello");
 		app.getGui().add(label);
+		
+		spellBar = new Sprite(25.0f, 85.0f, 50.0f, 15.0f, app.getAssetManager().getTexture("res/textures/spellbar.png"));
+		app.getGui().add(spellBar);
+		
 
-		Entity textTest = new Entity(0, "textTest");
+		Entity textTest = new Entity("textTest");
 		textTest.addComponent(new TransformComponent());
 		textTest.addComponent(new TextComponent(app.getAssetManager().getFont("fontSprite.png"), 0.5f, 0.7f, new Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
 		((TextComponent) (textTest.getComponent(TextComponent.class))).setText(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
@@ -90,13 +98,14 @@ public class GameState extends AbstractState {
 		
 		scene.addEntity(textTest);
 		
-		Entity ball = new Entity(0, "");
-		ball.addComponent(new TransformComponent());
+		Entity ball = new Entity("");
+		ball.addComponent(new NetIdentityComponent(0, app.getNetworkManager(), ball));
+		ball.addComponent(new NetTransformComponent());
 		ball.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture("res/textures/characters/placeholder.png"), 2.0f, 2.0f));
 		
 		scene.addEntity(ball);
 		
-		Entity animTest = new Entity(0, "animTest");
+		Entity animTest = new Entity("animTest");
 		animTest.addComponent(new TransformComponent());
 		animTest.addComponent(new SpriteAnimationComponent(app.getAssetManager().getTexture("res/textures/Cursor/cursorMovementAnimated.png"), 4, 0, 11, 3.0f, 3.0f, 2));
 		animTest.getTransform().setPosition(new Vec3(6.0f, -6.0f, 0.0f));

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import game.common.config;
 import game.server.GameServer;
 /** This class creates the binds between TCP sockets
  *  and manages
@@ -13,10 +14,10 @@ import game.server.GameServer;
 public class Server extends Thread{
 
     private static ServerSocket coreSocket;
-    private static Socket SCSocket; //(SERVER_CLIENT_SOCKET)
+    private static Socket SCSocket;
     private static CoreClientThread clientCoreThread;
 
-    private GameServer gameServer; //For notifying listeners
+    private GameServer gameServer;
     
     public Server(GameServer gs)
     {
@@ -25,20 +26,23 @@ public class Server extends Thread{
 
     public void run(){
         try {
-            coreSocket = new ServerSocket(4446);
+            coreSocket = new ServerSocket(config.TCPPort);
         } catch (IOException e) {
             System.out.println("Port busy. Try another one");
             e.printStackTrace();
         }
 
         try {
-            while(gameServer.players.size()<50) {
+            while(gameServer.players.size()<config.globalConnectionsLimit) {
                 SCSocket = coreSocket.accept();
+
                 Player player = new Player(SCSocket);
+
                 gameServer.addPlayer(player);
                 gameServer.addConnectionEvent(player, true);
+
                 clientCoreThread = new CoreClientThread(player, gameServer);
-                clientCoreThread.setName("player_"+SCSocket.getInetAddress());
+                clientCoreThread.setName("Player_"+SCSocket.getInetAddress());
                 clientCoreThread.start();
             }
         } catch (IOException e) {
