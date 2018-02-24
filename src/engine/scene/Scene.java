@@ -250,9 +250,9 @@ public class Scene
 			//Vec3 y = new Vec3(a.getX(), a.getY() + entHeight, a.getZ());
 			Vec3 x = new Vec3(a.getX()+entWidth, a.getY(), a.getZ());
 			Vec3 z2 = new Vec3(a.getX()+entWidth, a.getY()+entHeight, a.getZ());
-			Vec3 b = new Vec3(a.getX()+(entWidth/2), a.getY()+(entHeight/2), a.getZ());
-			Vec2 u = new Vec2(z2.getX() - a.getX() , z2.getY() - a.getY());
-			Vec2 z = new Vec2(z2.getX() - a.getX() , z2.getY() - a.getY());
+			Vec3 b = new Vec3(a.getX()+(entWidth/2), a.getY()+(entHeight), a.getZ());
+			Vec2 u = new Vec2(b.getX() - a.getX() , b.getY() - a.getY());
+			Vec2 z = new Vec2(b.getX() - a.getX() , b.getY() - a.getY());
 			float nx = u.getX() * z.getX();
 			float ny = u.getY() * z.getY();
 			float dot = (nx * v.getX()) + (ny * v.getY());
