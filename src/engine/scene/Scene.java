@@ -114,6 +114,7 @@ public class Scene
 
 	public void render()
 	{
+		int count = 0; //for checking isInView method
 		m_Renderer2D.init(m_Camera);
 
 		for (Entity e : m_Entities)
@@ -136,8 +137,9 @@ public class Scene
 				}
 
 				// check if visible
-				if(inViewChecker(e)){
+				if(isInView(e)){
 					sprite.submit(m_Renderer2D, transformation);
+					count++; //for checking isInView method
 				}
 			}
 
@@ -159,9 +161,9 @@ public class Scene
 				}
 
 				// check if visible
-				if(inViewChecker(e)){
+				//if(isInView(e)){
 					text.submit(m_Renderer2D, transform);
-				}
+				//}
 			}
 
 			if(e.hasComponent(SpriteAnimationComponent.class))
@@ -181,12 +183,12 @@ public class Scene
 					transformation = transform.getTransformationMatrix();
 				}
 				// check is visible
-				if (inViewChecker(e)){
+				//if (isInView(e)){
 					animation.submit(m_Renderer2D, transformation);
-				}
+				//}
 			}
 		}
-
+		System.out.println("Displayed tiles " + Integer.toString(count));
 		m_Renderer2D.drawAll();
 	}
 
@@ -204,63 +206,32 @@ public class Scene
 	{
 		return m_Entities;
 	}
-
-	public boolean isInView(Entity entity)
-	{
-		// incomplete
-		Vec3 camPos = m_Camera.getPosition();
-		SpriteComponent sprite = entity.getSprite();
-		TransformComponent transform = entity.getTransform();
-		Vec3 entPos = transform.getPosition();
-		float span = app.s_Viewport.getLength()/2;
-		float entWidth = sprite.getWidth();
-		float entHeight = sprite.getHeight();
-		if(entPos.getX() + entWidth <= (camPos.getX()+span))
-		{
-			return true;
-		} else if(entPos.getX() + entWidth >= (camPos.getX()-span))
-		{
-			return true;
-		} else	if(entPos.getY() + entHeight <= (camPos.getY()+span))
-		{
-			return true;
-		} else	if(entPos.getY() + entHeight <= (camPos.getY()-span))
-		{
-			return true;
-		} else {
-			return false;
-		}
-	}
 	
-	public boolean inViewChecker(Entity entity){
+	public boolean isInView(Entity entity){
 		/*
-		 *     y _b__ z2
+		 *       _p2_ 
 		 *      |    |
 		 *      |____| 
-		 *     a      x     
+		 *    p1      p3     
 		 */
-		System.out.println(entity);
-		Vec3 v = m_Camera.getPosition();
+		Vec3 cam = m_Camera.getPosition();
 		SpriteComponent sprite = entity.getSprite();
 		TransformComponent transform = entity.getTransform();
-		if(sprite != null && transform != null){
-			Vec3 a = transform.getPosition(); //bottom left
+		if(sprite != null && transform != null) {
 			float entWidth = sprite.getWidth();
 			float entHeight = sprite.getHeight();
-			//Vec3 y = new Vec3(a.getX(), a.getY() + entHeight, a.getZ());
-			Vec3 x = new Vec3(a.getX()+entWidth, a.getY(), a.getZ());
-			Vec3 z2 = new Vec3(a.getX()+entWidth, a.getY()+entHeight, a.getZ());
-			Vec3 b = new Vec3(a.getX()+(entWidth/2), a.getY()+(entHeight), a.getZ());
-			Vec2 u = new Vec2(b.getX() - a.getX() , b.getY() - a.getY());
-			Vec2 z = new Vec2(b.getX() - a.getX() , b.getY() - a.getY());
-			float nx = u.getX() * z.getX();
-			float ny = u.getY() * z.getY();
-			float dot = (nx * v.getX()) + (ny * v.getY());
-			System.out.println("-----------");
+			Vec3 p1 = transform.getPosition(); 
+			Vec2 p2 = new Vec2(p1.getX()+(entWidth/2), p1.getY()+(entHeight/2));
+			Vec2 p3 = new Vec2(p1.getX()+entWidth, p1.getY());
+			Vec2 u = new Vec2(p2.getX()-p1.getX(), p2.getY()-p1.getY());
+			Vec2 v = new Vec2(p3.getX()-p1.getX(), p3.getY()-p1.getY());
+			float nx = u.getX() - v.getX();
+			float ny = u.getY() - v.getY();
+			float dot = (nx * (cam.getX() - p1.getX())) + (ny * (cam.getY() - p1.getY()));
+			/*System.out.println("**********************");
 			System.out.println(dot);
-			if(dot >= 0){
-				return false;
-			} else {
+			System.out.println(entity.getId());*/
+			if(dot < 0) {
 				return true;
 			}
 		}
