@@ -16,13 +16,14 @@ import engine.graphics.renderer.Renderer2D;
 import engine.graphics.renderer.Renderer3D;
 import engine.maths.Mat4;
 import engine.maths.MathUtil;
+import engine.maths.Vec2;
 import engine.maths.Vec3;
 
 public class Scene
 {
 	private int m_ID;
 	private ArrayList<Entity> m_Entities;
-
+	
 	private Renderer2D m_Renderer2D;
 	private Renderer3D m_Renderer3D; // Currently not used
 	private Camera m_Camera;
@@ -135,8 +136,9 @@ public class Scene
 				}
 
 				// check if visible
-
-				sprite.submit(m_Renderer2D, transformation);
+				if(inViewChecker(e)){
+					sprite.submit(m_Renderer2D, transformation);
+				}
 			}
 
 			if(e.hasComponent(TextComponent.class))
@@ -157,8 +159,9 @@ public class Scene
 				}
 
 				// check if visible
-
-				text.submit(m_Renderer2D, transform);
+				if(inViewChecker(e)){
+					text.submit(m_Renderer2D, transform);
+				}
 			}
 
 			if(e.hasComponent(SpriteAnimationComponent.class))
@@ -178,8 +181,9 @@ public class Scene
 					transformation = transform.getTransformationMatrix();
 				}
 				// check is visible
-
-				animation.submit(m_Renderer2D, transformation);
+				if (inViewChecker(e)){
+					animation.submit(m_Renderer2D, transformation);
+				}
 			}
 		}
 
@@ -201,23 +205,65 @@ public class Scene
 		return m_Entities;
 	}
 
-	public void isInView(Entity entity)
+	public boolean isInView(Entity entity)
 	{
 		// incomplete
 		Vec3 camPos = m_Camera.getPosition();
 		SpriteComponent sprite = entity.getSprite();
 		TransformComponent transform = entity.getTransform();
 		Vec3 entPos = transform.getPosition();
+		float span = app.s_Viewport.getLength()/2;
 		float entWidth = sprite.getWidth();
 		float entHeight = sprite.getHeight();
-		if(entPos.getX() + entWidth <= camPos.getX())
+		if(entPos.getX() + entWidth <= (camPos.getX()+span))
 		{
-
-		}
-		if(entPos.getY() + entHeight <= camPos.getY())
+			return true;
+		} else if(entPos.getX() + entWidth >= (camPos.getX()-span))
 		{
-
+			return true;
+		} else	if(entPos.getY() + entHeight <= (camPos.getY()+span))
+		{
+			return true;
+		} else	if(entPos.getY() + entHeight <= (camPos.getY()-span))
+		{
+			return true;
+		} else {
+			return false;
 		}
-
+	}
+	
+	public boolean inViewChecker(Entity entity){
+		/*
+		 *     y _b__ z2
+		 *      |    |
+		 *      |____| 
+		 *     a      x     
+		 */
+		System.out.println(entity);
+		Vec3 v = m_Camera.getPosition();
+		SpriteComponent sprite = entity.getSprite();
+		TransformComponent transform = entity.getTransform();
+		if(sprite != null && transform != null){
+			Vec3 a = transform.getPosition(); //bottom left
+			float entWidth = sprite.getWidth();
+			float entHeight = sprite.getHeight();
+			//Vec3 y = new Vec3(a.getX(), a.getY() + entHeight, a.getZ());
+			Vec3 x = new Vec3(a.getX()+entWidth, a.getY(), a.getZ());
+			Vec3 z2 = new Vec3(a.getX()+entWidth, a.getY()+entHeight, a.getZ());
+			Vec3 b = new Vec3(a.getX()+(entWidth/2), a.getY()+(entHeight/2), a.getZ());
+			Vec2 u = new Vec2(z2.getX() - a.getX() , z2.getY() - a.getY());
+			Vec2 z = new Vec2(z2.getX() - a.getX() , z2.getY() - a.getY());
+			float nx = u.getX() * z.getX();
+			float ny = u.getY() * z.getY();
+			float dot = (nx * v.getX()) + (ny * v.getY());
+			System.out.println("-----------");
+			System.out.println(dot);
+			if(dot >= 0){
+				return false;
+			} else {
+				return true;
+			}
+		}
+		return false;
 	}
 }
