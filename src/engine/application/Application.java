@@ -40,7 +40,7 @@ import engine.gui.GUI;
 import engine.input.InputManager;
 import engine.maths.Vec2;
 import engine.net.common_net.NetworkManager;
-import engine.net.server.core.Player;
+import engine.net.server.core.NetPlayer;
 import engine.sound.SoundManager;
 import engine.state.StateManager;
 
@@ -92,7 +92,7 @@ public class Application
 		stateManager = new StateManager(this);
 	}
 	
-	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless, ArrayList<Player> netPlayers)
+	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless, ArrayList<NetPlayer> netPlayers)
 	{
 		networkType = true;
 		isHeadless = headless;

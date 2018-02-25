@@ -12,7 +12,7 @@ import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
 import engine.net.client.udp.ClientReceiverUDP;
 import engine.net.common_net.networking_messages.AbstractMessage;
-import engine.net.server.core.Player;
+import engine.net.server.core.NetPlayer;
 import engine.net.server.udp.ServerSenderUDP;
 import engine.scene.Scene;
 
@@ -21,13 +21,13 @@ public class NetworkManager {
     private boolean networkType; // False is Client, True is Server
     private MessageListener messageListener;
     private ConnectionListener connectionListener;
-    private ArrayList<Player> players;
+    private ArrayList<NetPlayer> players;
     private CopyOnWriteArrayList<NetworkEntity> networkEntities;
     
     private ServerSenderUDP udpSender;
     private ClientReceiverUDP udpReceiver;
 
-    public NetworkManager(ArrayList<Player> players, Application app){
+    public NetworkManager(ArrayList<NetPlayer> players, Application app){
         this.networkType = true;
         this.players = players;
         
@@ -173,7 +173,7 @@ public class NetworkManager {
         this.messageListener = messageListener;
     }
 
-    public void addMessage(AbstractMessage message, Player player){
+    public void addMessage(AbstractMessage message, NetPlayer player){
         if(networkType){
             messageListener.addMessage(message,player);
         }
@@ -182,7 +182,7 @@ public class NetworkManager {
         }
     }
 
-    public void addConnectionEvent(Player player, boolean connected){
+    public void addConnectionEvent(NetPlayer player, boolean connected){
         if(networkType){
             connectionListener.addConnectionEvent(connected,player);
         }
@@ -196,7 +196,12 @@ public class NetworkManager {
         connectionListener.handleConnectionQueue();
     }
 
-    public void setPlayers(ArrayList<Player> players) {
+    public void setPlayers(ArrayList<NetPlayer> players) {
         this.players = players;
     }
+
+	public ArrayList<NetPlayer> getNetPlayers()
+	{
+		return players;
+	}
 }

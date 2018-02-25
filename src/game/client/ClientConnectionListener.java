@@ -2,7 +2,7 @@ package game.client;
 
 import engine.net.client.Client;
 import engine.net.common_net.ConnectionListener;
-import engine.net.server.core.Player;
+import engine.net.server.core.NetPlayer;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -22,7 +22,7 @@ public class ClientConnectionListener implements ConnectionListener
 	}
 
 	@Override
-	public void addConnectionEvent(boolean connected, Player player) {
+	public void addConnectionEvent(boolean connected, NetPlayer player) {
 
 	}
 
@@ -45,7 +45,7 @@ public class ClientConnectionListener implements ConnectionListener
 	}
 
 	@Override
-	public void clientConnected(Player player) {
+	public void clientConnected(NetPlayer player) {
 
 	}
 
@@ -54,7 +54,7 @@ public class ClientConnectionListener implements ConnectionListener
 	}
 
 	@Override
-	public void clientDisconnected(Player player) {
+	public void clientDisconnected(NetPlayer player) {
 
 	}
 }

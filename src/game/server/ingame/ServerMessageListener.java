@@ -5,14 +5,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import engine.net.common_net.MessageListener;
 import engine.net.common_net.networking_messages.AbstractMessage;
-import engine.net.common_net.networking_messages.BattleBeginMessage;
 import engine.net.common_net.networking_messages.DesiredLocationMessage;
-import engine.net.common_net.networking_messages.LobbyConnectionResponseMessage;
-import engine.net.common_net.networking_messages.LobbyUpdateMessage;
 import engine.net.common_net.networking_messages.PeerCountMessage;
-import engine.net.common_net.networking_messages.TimerEventMessage;
-import engine.net.server.core.Player;
-import game.client.Main;
+import engine.net.server.core.NetPlayer;
 import game.server.states.ServerMain;
 
 public class ServerMessageListener implements MessageListener
@@ -20,9 +15,9 @@ public class ServerMessageListener implements MessageListener
 	private class MessageEvent
 	{
 		public AbstractMessage msg;
-		public Player player;
+		public NetPlayer player;
 		
-		public MessageEvent(AbstractMessage msg, Player player)
+		public MessageEvent(AbstractMessage msg, NetPlayer player)
 		{
 			this.msg = msg;
 			this.player = player;
@@ -69,7 +64,7 @@ public class ServerMessageListener implements MessageListener
 	}
 
 	@Override
-	public void receiveMessage(AbstractMessage msg, Player player)
+	public void receiveMessage(AbstractMessage msg, NetPlayer player)
 	{
 		if(msg instanceof PeerCountMessage)
 		{
@@ -84,17 +79,16 @@ public class ServerMessageListener implements MessageListener
 		{
 			DesiredLocationMessage dlm = (DesiredLocationMessage) msg;
 			
-			System.out.println("Received dlm MEssage: " + dlm.getPos().getX() + " : " + dlm.getPos().getY());
+			//Compute the path
 			
-			//testing
-			ServerMain.gameState.setBallTarget(dlm.getPos());
-		}
+			ServerMain.gameState.getPlayerManager().getPlayer(player.getPlayerId()).setTargetLocation(dlm.getPos());
+		}	
 		
 		System.out.println("Recieved message in game");
 	}
 
 	@Override
-	public void addMessage(AbstractMessage message, Player player)
+	public void addMessage(AbstractMessage message, NetPlayer player)
 	{
 		abstractMessageInbound.add(new MessageEvent(message, player));
 	}

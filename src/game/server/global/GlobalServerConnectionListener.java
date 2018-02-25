@@ -1,7 +1,7 @@
 package game.server.global;
 
 import engine.net.common_net.networking_messages.QuitMessage;
-import engine.net.server.core.Player;
+import engine.net.server.core.NetPlayer;
 import game.server.GameServer;
 
 import java.io.IOException;
@@ -13,10 +13,10 @@ public class GlobalServerConnectionListener {
         this.gameServer = gameServer;
     }
 
-    public void clientConnected(Player player){
+    public void clientConnected(NetPlayer player){
     }
 
-    public void clientDisconnected(Player player) {
+    public void clientDisconnected(NetPlayer player) {
         gameServer.players.remove(player);
         player.addMsg(new QuitMessage());
         try {

@@ -10,7 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class GameInstance {
 
 	private int gameId;
-    private ArrayList<Player> playersInLobby;
+    private ArrayList<NetPlayer> playersInLobby;
     private GameInstanceManager GIManager;
     private BlockingQueue<AbstractMethodError> messages = new LinkedBlockingQueue<>(150);
 
@@ -23,11 +23,11 @@ public class GameInstance {
         this.gameId = gameId;
     }
 
-    public ArrayList<Player> getPlayersInLobby() {
+    public ArrayList<NetPlayer> getPlayersInLobby() {
         return playersInLobby;
     }
 
-    public void addPlayer(Player player) {
+    public void addPlayer(NetPlayer player) {
         playersInLobby.add(player);
     }
 
@@ -43,7 +43,7 @@ public class GameInstance {
         return pld;
     }
 
-    public void removePlayer(Player player) {
+    public void removePlayer(NetPlayer player) {
         playersInLobby.remove(player);
     }
 

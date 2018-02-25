@@ -19,14 +19,17 @@ import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.client.Main;
 import game.client.player.PlayerController;
+import game.common.actors.Player;
 import game.common.map.Map;
+import game.common.player.PlayerManager;
 
 public class GameState extends AbstractState {
+	
 	private Main app;
 	private Scene scene;
-
-	// private PlayerManager manager;
 	private PlayerController playerController;
+	
+	private PlayerManager playerManager;
 
 	private Map map;
 	
@@ -43,7 +46,7 @@ public class GameState extends AbstractState {
 	public GameState(Main app) {
 		this.app = app;
 		scene = new Scene(0, app);
-		// manager = new PlayerManager(scene);
+		playerManager = new PlayerManager(scene);
 		playerController = new PlayerController(app, this, scene);
 		map = new Map(scene);
 	}
@@ -76,6 +79,15 @@ public class GameState extends AbstractState {
 	public void init() {
 		scene.init();
 		app.getGui().init(scene);
+		
+		//Add players
+		for(int i = 0; i < app.getNetworkManager().getNetPlayers().size(); i++)
+		{
+			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app);
+			// here we would set up more stuff related to the player like class, items, starting position, etc.
+			playerManager.addPlayer(player);
+		}
+		
 		map.init("res/textures/map", app.getAssetManager());
 
 		// set up background sound
@@ -152,6 +164,11 @@ public class GameState extends AbstractState {
 		scene.update();
 		// manager.getStatuses();
 		playerController.update();
+	}
+	
+	public PlayerManager getPlayerManager()
+	{
+		return this.playerManager;
 	}
 
 	@Override

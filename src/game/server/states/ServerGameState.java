@@ -7,6 +7,8 @@ import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.scene.Scene;
 import engine.state.AbstractState;
+import game.common.actors.Player;
+import game.common.player.PlayerManager;
 
 
 public class ServerGameState extends AbstractState
@@ -14,8 +16,9 @@ public class ServerGameState extends AbstractState
 	private ServerMain app;
 	private Scene scene;
 	
+	private PlayerManager playerManager;
+	
 	private Entity testNetEntity;
-	private static Vec2 currentTargetPos;
 	private float speed;
 	
 	private int frame = 0;
@@ -25,6 +28,8 @@ public class ServerGameState extends AbstractState
 	{
 		this.app = app;
 		scene = new Scene(0, app);
+		
+		playerManager = new PlayerManager(scene);
 	}
 		
 	@Override
@@ -43,14 +48,19 @@ public class ServerGameState extends AbstractState
 	public void init()
 	{
 		scene.init();
+
+		//Add players
+		for(int i = 0; i < app.getNetworkManager().getNetPlayers().size(); i++)
+		{
+			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app);
+			// here we would set up more stuff related to the player like class, items, starting position, etc.
+			playerManager.addPlayer(player);
+		}
 		
 		testNetEntity = new Entity("TestNetEntity");
 		testNetEntity.addComponent(new NetIdentityComponent(0, app.getNetworkManager()));
 		testNetEntity.addComponent(new NetTransformComponent());
 		
-		currentTargetPos = new Vec2(0, 0);
-		
-		speed = 0.05f;
 		
 		scene.addEntity(testNetEntity);
 	}
@@ -71,24 +81,13 @@ public class ServerGameState extends AbstractState
 		}
 		frame++;
 		
-		NetTransformComponent transform = (NetTransformComponent) testNetEntity.getComponent(NetTransformComponent.class);
-
-		Vec2 currentPos = new Vec2(transform.getPosition().getX(), transform.getPosition().getY());
-		
-		currentPos.scale(-1.0f);
-		
-		Vec2 moveDir = Vec2.add(currentTargetPos, currentPos);
-		moveDir = Vec2.normalize(moveDir);
-		moveDir.scale(speed);
-		
-		transform.move(new Vec3(moveDir.getX(), moveDir.getY(), 0));
-		
+		playerManager.update();
 		scene.update();
 	}
 	
-	public static void setBallTarget(Vec2 newPos)
+	public PlayerManager getPlayerManager()
 	{
-		currentTargetPos = newPos;
+		return this.playerManager;
 	}
 
 	@Override

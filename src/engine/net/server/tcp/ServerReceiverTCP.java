@@ -1,7 +1,7 @@
 package engine.net.server.tcp;
 
 import engine.net.common_net.networking_messages.AbstractMessage;
-import engine.net.server.core.Player;
+import engine.net.server.core.NetPlayer;
 import game.server.GameServer;
 
 import java.io.IOException;
@@ -9,9 +9,9 @@ import java.io.ObjectInputStream;
 
 public class ServerReceiverTCP extends Thread{
     ObjectInputStream ois = null;
-    Player player;
+    NetPlayer player;
     GameServer gameServer;
-    public ServerReceiverTCP(Player player, GameServer gameServer) {
+    public ServerReceiverTCP(NetPlayer player, GameServer gameServer) {
         this.player = player;
         this.gameServer = gameServer;
     }

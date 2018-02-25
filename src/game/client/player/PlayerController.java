@@ -44,9 +44,7 @@ public class PlayerController {
 			
 			Vec3 worldPos = scene.getCamera().getWorldCoordinates((float)main.getInputManager().getMouseX(), (float)main.getInputManager().getMouseY());
 			
-			Vec2 targetPos = new Vec2(worldPos.getX(), worldPos.getY());
-			
-			msg.setPos(targetPos);
+			msg.setPos(worldPos);
 			
 			main.getClient().sendTCP(msg);
 		}

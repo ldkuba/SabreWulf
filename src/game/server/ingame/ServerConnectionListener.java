@@ -1,7 +1,7 @@
 package game.server.ingame;
 
 import engine.net.common_net.ConnectionListener;
-import engine.net.server.core.Player;
+import engine.net.server.core.NetPlayer;
 import game.client.Main;
 import game.server.states.ServerMain;
 
@@ -21,7 +21,7 @@ public class ServerConnectionListener implements ConnectionListener
 	}
 
 	@Override
-	public void addConnectionEvent(boolean connected, Player player) {
+	public void addConnectionEvent(boolean connected, NetPlayer player) {
 
 	}
 
@@ -44,7 +44,7 @@ public class ServerConnectionListener implements ConnectionListener
 	}
 
 	@Override
-	public void clientConnected(Player player) {
+	public void clientConnected(NetPlayer player) {
 
 	}
 
@@ -53,7 +53,7 @@ public class ServerConnectionListener implements ConnectionListener
 	}
 
 	@Override
-	public void clientDisconnected(Player player) {
+	public void clientDisconnected(NetPlayer player) {
 
 	}
 }

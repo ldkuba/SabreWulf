@@ -10,15 +10,16 @@ import java.util.concurrent.LinkedBlockingQueue;
 import engine.net.common_net.networking_messages.AbstractMessage;
 import game.common.config;
 
-public class Player implements Serializable {
+public class NetPlayer implements Serializable {
 
+	private int netPlayerId;
     private PlayerPayload payload;
     private Socket socket;
     private BlockingQueue<AbstractMessage> pbq;
     private DatagramSocket datagramSocket = null;
 
-    public Player(Socket socket){
-        this.socket=socket;
+    public NetPlayer(Socket socket){
+    	this.socket=socket;
         pbq = new LinkedBlockingQueue<>(1000);
         payload = new PlayerPayload();
     }
@@ -84,5 +85,15 @@ public class Player implements Serializable {
     public void setCurrentGame(int gameId)
     {
     	payload.setCurrentGame(gameId);
+    }
+    
+    public int getPlayerId()
+    {
+    	return this.netPlayerId;
+    }
+    
+    public void setPlayerId(int playerId)
+    {
+    	this.netPlayerId = playerId;
     }
 }

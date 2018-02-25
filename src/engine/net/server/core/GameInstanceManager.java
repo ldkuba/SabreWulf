@@ -61,7 +61,7 @@ public class GameInstanceManager extends Thread {
     public void notifyEndOfCountdown(){
         System.out.println("Starting engine. Wroom!");
         
-        for(Player player : instance.getPlayersInLobby())
+        for(NetPlayer player : instance.getPlayersInLobby())
         {
         	player.setCurrentGame(instance.getGameId());
         }

@@ -9,18 +9,18 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import engine.entity.NetworkEntity;
 import engine.net.common_net.UDPTools;
-import engine.net.server.core.Player;
+import engine.net.server.core.NetPlayer;
 import game.common.config;
 
 public class ServerSenderUDP extends Thread{
 
 	private BlockingQueue<NetworkEntity> queueMessages;
-	private ArrayList<Player> players;
+	private ArrayList<NetPlayer> players;
 	private int port;
 	private DatagramPacket packet;
 	private int packetId;
 
-	public ServerSenderUDP(ArrayList<Player> players) {
+	public ServerSenderUDP(ArrayList<NetPlayer> players) {
 		this.players = players;
 		this.queueMessages = new LinkedBlockingQueue<NetworkEntity>();
 		this.port = port;
