@@ -6,6 +6,7 @@ public class config {
      * Common
      */
     public static int UDPPort = 4556;
+    public static int ServerUDPPort = 5252;
     public static int TCPPort = 4555;
     public static int UDPMaxPacketSize = 256;
 

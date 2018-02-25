@@ -26,17 +26,21 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 import java.nio.IntBuffer;
-import engine.net.common_net.NetworkManager;
+import java.util.ArrayList;
+
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryStack;
+
 import engine.assets.AssetManager;
 import engine.gui.GUI;
 import engine.input.InputManager;
 import engine.maths.Vec2;
+import engine.net.common_net.NetworkManager;
+import engine.net.server.core.Player;
 import engine.sound.SoundManager;
 import engine.state.StateManager;
 
@@ -47,7 +51,7 @@ import engine.state.StateManager;
 public class Application
 {
 	protected NetworkManager netManager;
-	boolean networkType;
+	protected boolean networkType;
 	protected boolean isHeadless;
 	protected long window;
 	protected StateManager stateManager;
@@ -66,6 +70,7 @@ public class Application
 
 	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless)
 	{
+		networkType = false;
 		isHeadless = headless;
 		if(!headless)
 		{
@@ -76,9 +81,33 @@ public class Application
 			soundManager = new SoundManager();
 			gui = new GUI(this);
 			setViewport(10.0f * (s_WindowSize.getX() / s_WindowSize.getY()), 10.0f);
+			netManager = new NetworkManager(this);
+		}else
+		{
+			netManager = new NetworkManager(this);
 		}
 
-		netManager = new NetworkManager(this);
+		stateManager = new StateManager(this);
+	}
+	
+	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless, ArrayList<Player> netPlayers)
+	{
+		networkType = true;
+		isHeadless = headless;
+		if(!headless)
+		{
+
+			initialise(width, height, vsyncInterval, name, fullscreen);
+			inputManager = new InputManager(this);
+			assetManager = new AssetManager();
+			soundManager = new SoundManager();
+			gui = new GUI(this);
+			setViewport(10.0f * (s_WindowSize.getX() / s_WindowSize.getY()), 10.0f);
+			netManager = new NetworkManager(netPlayers, this);
+		}else
+		{
+			netManager = new NetworkManager(netPlayers, this);
+		}
 
 		stateManager = new StateManager(this);
 

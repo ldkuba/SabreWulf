@@ -4,6 +4,8 @@ import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
 import engine.entity.Entity;
+import engine.entity.component.NetIdentityComponent;
+import engine.entity.component.NetTransformComponent;
 import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TextComponent;
@@ -27,7 +29,7 @@ public class GameState extends AbstractState {
 	private PlayerController playerController;
 
 	private Map map;
-
+	
 	private int frame = 0;
 	private float second = 0;
 	
@@ -97,7 +99,8 @@ public class GameState extends AbstractState {
 		scene.addEntity(textTest);
 		
 		Entity ball = new Entity("");
-		ball.addComponent(new TransformComponent());
+		ball.addComponent(new NetIdentityComponent(0, app.getNetworkManager(), ball));
+		ball.addComponent(new NetTransformComponent());
 		ball.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture("res/textures/characters/placeholder.png"), 2.0f, 2.0f));
 		
 		scene.addEntity(ball);

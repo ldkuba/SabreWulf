@@ -61,7 +61,7 @@ public class GameInstanceManager extends Thread {
     public void notifyEndOfCountdown(){
         System.out.println("Starting engine. Wroom!");
         server.broadcastTCP(new BattleBeginMessage(), instance.getPlayersInLobby());
-        gameEngine = new ServerMain();
+        gameEngine = new ServerMain(instance.getPlayersInLobby());
         gameEngine.run();
         running=false;
     }

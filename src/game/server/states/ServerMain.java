@@ -1,13 +1,11 @@
 package game.server.states;
 
+import java.util.ArrayList;
+
 import engine.application.Application;
-import engine.net.common_net.NetworkManager;
-import engine.net.server.core.GameInstanceManager;
-import game.client.ClientConnectionListener;
-import game.client.Main;
+import engine.net.server.core.Player;
 import game.server.ingame.ServerConnectionListener;
 import game.server.ingame.ServerMessageListener;
-import game.server.states.ServerGameState;
 
 public class ServerMain extends Application {
 	
@@ -16,8 +14,8 @@ public class ServerMain extends Application {
 
 	//private PlayerManager playerManager;
 	
-	public ServerMain(){
-		super(1920, 1080, 1, "SabreWulf", false, true); //window width, window height, vsync interval
+	public ServerMain(ArrayList<Player> netPlayers){
+		super(1920, 1080, 1, "SabreWulf", false, true, netPlayers); //window width, window height, vsync interval
 		System.out.println("starting server engine");
 		gameState = new ServerGameState(this);
 

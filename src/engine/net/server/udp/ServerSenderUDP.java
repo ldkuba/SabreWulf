@@ -1,7 +1,6 @@
 package engine.net.server.udp;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.SocketException;
 import java.util.ArrayList;
@@ -9,9 +8,9 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import engine.entity.NetworkEntity;
-import engine.net.common_net.Port;
 import engine.net.common_net.UDPTools;
 import engine.net.server.core.Player;
+import game.common.config;
 
 public class ServerSenderUDP extends Thread{
 
@@ -65,7 +64,7 @@ public class ServerSenderUDP extends Thread{
 				buffer = UDPTools.serialize(messageToSend);
 
 				for(int i=0; i<players.size(); i++){
-					packet = new DatagramPacket(buffer, buffer.length, players.get(i).getSocket().getInetAddress(), Port.UDPPort);
+					packet = new DatagramPacket(buffer, buffer.length, players.get(i).getSocket().getInetAddress(), config.UDPPort);
 					try {
 						players.get(i).getDatagramSocket().send(packet);
 					} catch (IOException e) {
