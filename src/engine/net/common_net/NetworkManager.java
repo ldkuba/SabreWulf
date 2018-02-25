@@ -45,7 +45,7 @@ public class NetworkManager {
     
     public void startUDPReceiver()
     {
-    	udpReceiver = new ClientReceiverUDP();
+    	udpReceiver = new ClientReceiverUDP(this);
         udpReceiver.start();
     }
     
@@ -93,7 +93,8 @@ public class NetworkManager {
     	{
     		if(e.getNetIdentity().getNetworkId() == netEntity.getNetIdentity().getNetworkId())
     		{
-    			e = netEntity;
+    			e.setNetTransform(netEntity.getNetTransform());
+    			e.setNetData(netEntity.getNetData());
     			
     			return;
     		}

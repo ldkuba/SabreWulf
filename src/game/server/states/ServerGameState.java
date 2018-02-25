@@ -68,9 +68,7 @@ public class ServerGameState extends AbstractState
 		
 		NetTransformComponent transform = (NetTransformComponent) testNetEntity.getComponent(NetTransformComponent.class);
 		
-		transform.move(new Vec3(0.2f, 0, 0));
-		
-		
+		transform.move(new Vec3(0.02f, 0, 0));
 		
 		scene.update();
 	}

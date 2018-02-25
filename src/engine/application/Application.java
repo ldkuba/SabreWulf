@@ -88,7 +88,7 @@ public class Application
 			netManager = new NetworkManager(this);
 		}
 		
-		timer = new Timer(2.0f);
+		timer = new Timer(60.0f);
 		stateManager = new StateManager(this);
 	}
 	
@@ -111,7 +111,7 @@ public class Application
 			netManager = new NetworkManager(netPlayers, this);
 		}
 
-		timer = new Timer(2.0f);
+		timer = new Timer(60.0f);
 		stateManager = new StateManager(this);
 
 	}
