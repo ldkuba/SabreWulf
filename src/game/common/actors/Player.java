@@ -1,10 +1,12 @@
 package game.common.actors;
 
+
 /**
  * Player as the engine sees it.
  */
 
 public class Player extends Actor {
+	
 
 	public Player(){
 		//TODO

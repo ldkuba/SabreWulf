@@ -1,9 +1,12 @@
 package game.common.actors;
 
 import engine.entity.Entity;
+import engine.maths.Vec2;
 import game.common.classes.AbstractClasses;
 import game.common.inventory.Inventory;
 import game.common.inventory.Item;
+import game.common.logic.AbstractLogic;
+import game.common.logic.ActorLogic;
 
 public class Actor {
 
@@ -31,7 +34,6 @@ public class Actor {
 
     private Entity entity;
 
-
     /**
      * team can be 1, 2, 3
      * team 1 is composed of three players (first three in lobby)
@@ -43,6 +45,26 @@ public class Actor {
 
     public int getTeam() {
         return team;
+    }
+    
+    private Vec2 base;
+    
+    public Vec2 getBase() {
+    	return  base;
+    }
+    
+    public void setBase(Vec2 base) {
+    	this.base = base;
+    }
+    
+    private Vec2 position;
+    
+    public Vec2 getPosition() {
+    	return position;
+    }
+    
+    public void setPosition(Vec2 position) {
+    	this.position = position;
     }
 
     /**
@@ -110,6 +132,22 @@ public class Actor {
     public void setDamage(float dmg) {
     	damage = dmg;
     }
+    
+    private float attackRange;
+    
+    public float getAttackRange() {
+    	return attackRange;
+    }
+    
+    public void setAttackRange(float rng) {
+    	attackRange = rng;
+    }
+    
+    private ActorLogic logic;
+    
+    public ActorLogic getLogic() {
+    	return logic;
+    }
 
     /**
      * Only used once.
@@ -117,13 +155,15 @@ public class Actor {
     
     private AbstractClasses role;
     
-    public void setPlayer(AbstractClasses role) {
+    public void setPlayer(AbstractClasses role, ActorLogic logic, Vec2 base) {
     	health = role.getHealth();
     	resistance = role.getResistance();
     	movementSpeed = role.getMoveSpeed();
     	energy = role.getEnergy();
     	damage = role.getDamage();
     	this.role = role;
+    	this.logic = logic;
+    	this.base = base;
     }
 
 }

@@ -7,7 +7,7 @@ public class ShootingStars extends AbstractAbility{
 	private int damage = 5;
 
 	@Override
-	public int dealDamage() {
+	public float dealDamage() {
 		// TODO Auto-generated method stub
 		return damage;
 	}
