@@ -21,7 +21,10 @@ public class Timer
 		long delta = currentTime - startTime;
 		
 		if(delta >= timePerTick)
+		{
+			startTime = currentTime;
 			return;
+		}
 		
 		long timeToSleep = timePerTick - delta;
 		
