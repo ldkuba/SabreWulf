@@ -56,7 +56,7 @@ public class Navmesh {
 					midB = B.getMidpoint();
 					weightVec = new Vec2(midB.getX() - midA.getX(), midB.getY() - midA.getY());
 					weight = weightVec.getLength();
-					edge = new Edge(midA, midB, weight);
+					edge = new Edge(A, B, midA, midB, weight);
 					edges.add(edge);
 					A.addEdge(edge);
 					B.addEdge(edge);

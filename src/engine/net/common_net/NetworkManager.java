@@ -34,6 +34,7 @@ public class NetworkManager {
         networkEntities = new CopyOnWriteArrayList<>();
         
     	udpSender = new ServerSenderUDP(players);
+    	udpSender.setName("UDP Sender");
     	udpSender.start();
     }
 

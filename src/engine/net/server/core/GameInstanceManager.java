@@ -19,8 +19,6 @@ public class GameInstanceManager extends Thread {
     private ServerMain gameEngine;
     private BlockingQueue<AbstractMessage> messages;
     private boolean running = true;
-    
-    private ServerSenderUDP serverSenderUDP;
 
     public GameInstanceManager(GameInstance instance,  GameServer server){
         this.server = server;
