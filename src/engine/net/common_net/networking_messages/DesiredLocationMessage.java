@@ -1,6 +1,6 @@
 package engine.net.common_net.networking_messages;
 
-import engine.maths.PosXY;
+import engine.maths.Vec2;
 
 /**
  * This is message is sent when the client wants
@@ -11,16 +11,16 @@ import engine.maths.PosXY;
 
 public class DesiredLocationMessage extends AbstractMessage {
 
-    private PosXY pos;
+    private Vec2 pos;
     public DesiredLocationMessage(){
 
     }
 
-    public void setPos(PosXY pos) {
+    public void setPos(Vec2 pos) {
         this.pos = pos;
     }
 
-    public PosXY getPos() {
+    public Vec2 getPos() {
         return pos;
     }
 }

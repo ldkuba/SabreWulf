@@ -1,10 +1,12 @@
 package game.server.ingame;
+
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import engine.net.common_net.MessageListener;
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.common_net.networking_messages.BattleBeginMessage;
+import engine.net.common_net.networking_messages.DesiredLocationMessage;
 import engine.net.common_net.networking_messages.LobbyConnectionResponseMessage;
 import engine.net.common_net.networking_messages.LobbyUpdateMessage;
 import engine.net.common_net.networking_messages.PeerCountMessage;
@@ -15,8 +17,20 @@ import game.server.states.ServerMain;
 
 public class ServerMessageListener implements MessageListener
 {
+	private class MessageEvent
+	{
+		public AbstractMessage msg;
+		public Player player;
+		
+		public MessageEvent(AbstractMessage msg, Player player)
+		{
+			this.msg = msg;
+			this.player = player;
+		}
+	};
+	
 	private ServerMain app;
-	private BlockingQueue<AbstractMessage> abstractMessageInbound;
+	private BlockingQueue<MessageEvent> abstractMessageInbound;
 
 	private final int maxTraffic = 100;
 
@@ -25,17 +39,23 @@ public class ServerMessageListener implements MessageListener
 		this.app = app;
 		abstractMessageInbound = new LinkedBlockingQueue<>();
 	}
+
 	@Override
-	public void addMessage(AbstractMessage message){
-		abstractMessageInbound.add(message);
+	public void addMessage(AbstractMessage message)
+	{
 	}
 
-	public void handleMessageQueue(){
+	public void handleMessageQueue()
+	{
 		int count = 0;
-		while(count < maxTraffic && !abstractMessageInbound.isEmpty()) {
-			try {
-				receiveMessage(abstractMessageInbound.take());
-			} catch (InterruptedException e) {
+		while (count < maxTraffic && !abstractMessageInbound.isEmpty())
+		{
+			try
+			{
+				MessageEvent msgEvent = abstractMessageInbound.take();
+				receiveMessage(msgEvent.msg, msgEvent.player);
+			}catch (InterruptedException e)
+			{
 				e.printStackTrace();
 			}
 			count++;
@@ -43,12 +63,13 @@ public class ServerMessageListener implements MessageListener
 	}
 
 	@Override
-	public void receiveMessage(AbstractMessage msg, Player player) {
+	public void receiveMessage(AbstractMessage msg)
+	{
 
 	}
 
 	@Override
-	public void receiveMessage(AbstractMessage msg)
+	public void receiveMessage(AbstractMessage msg, Player player)
 	{
 		if(msg instanceof PeerCountMessage)
 		{
@@ -59,36 +80,22 @@ public class ServerMessageListener implements MessageListener
 			PeerCountMessage plm = (PeerCountMessage) msg;
 			System.out.println(plm.getNoPlayers());
 			app.getSoundManager().pauseSoundSource(soundName);
+		}else if(msg instanceof DesiredLocationMessage)
+		{
+			DesiredLocationMessage dlm = (DesiredLocationMessage) msg;
+			
+			System.out.println("Received dlm MEssage: " + dlm.getPos().getX() + " : " + dlm.getPos().getY());
+			
+			//testing
+			ServerMain.gameState.setBallTarget(dlm.getPos());
 		}
-		else if(msg instanceof LobbyConnectionResponseMessage){
-			LobbyConnectionResponseMessage lobbyConn = (LobbyConnectionResponseMessage) msg;
-			if(lobbyConn.isAccepted())
-			{
-				app.getStateManager().setCurrentState(Main.lobbyState);
-			}else
-			{
-				System.out.println(lobbyConn.getMessage());
-			}
-		}
-
-		else if(msg instanceof LobbyUpdateMessage){
-		    LobbyUpdateMessage lobbyUpd = (LobbyUpdateMessage) msg;
-		    // Here's message containing all the players and their state
-        }
-
-        else if(msg instanceof TimerEventMessage){
-			TimerEventMessage time = (TimerEventMessage) msg;
-			System.out.println("Countdown: " + time.getTimePayload());
-		}
-
-		else if(msg instanceof BattleBeginMessage){
-			app.getStateManager().setCurrentState(Main.gameState);
-		}
-		else System.out.println(msg.getClass());
+		
+		System.out.println("Recieved message in game");
 	}
 
 	@Override
-	public void addMessage(AbstractMessage message, Player player) {
-
+	public void addMessage(AbstractMessage message, Player player)
+	{
+		abstractMessageInbound.add(new MessageEvent(message, player));
 	}
 }

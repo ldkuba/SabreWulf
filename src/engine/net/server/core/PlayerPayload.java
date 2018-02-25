@@ -10,8 +10,10 @@ public class PlayerPayload implements Serializable {
     private String name;
     private boolean isReady;
     private int characterSelection;
-
+    private int currentGame;
+    
     public PlayerPayload(){
+    	this.currentGame = -1;
         this.characterSelection = -1;
         this.isReady = false;
         this.name = "temp";
@@ -41,4 +43,14 @@ public class PlayerPayload implements Serializable {
     public boolean getReady(){
         return isReady;
     }
+
+	public int getCurrentGame()
+	{
+		return currentGame;
+	}
+
+	public void setCurrentGame(int currentGame)
+	{
+		this.currentGame = currentGame;
+	}
 }

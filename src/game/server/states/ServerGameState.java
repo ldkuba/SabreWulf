@@ -1,10 +1,9 @@
 package game.server.states;
 
-import org.lwjgl.glfw.GLFW;
-
 import engine.entity.Entity;
 import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
+import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.scene.Scene;
 import engine.state.AbstractState;
@@ -16,6 +15,8 @@ public class ServerGameState extends AbstractState
 	private Scene scene;
 	
 	private Entity testNetEntity;
+	private static Vec2 currentTargetPos;
+	private float speed;
 	
 	private int frame = 0;
 	private float second = System.currentTimeMillis();
@@ -47,6 +48,10 @@ public class ServerGameState extends AbstractState
 		testNetEntity.addComponent(new NetIdentityComponent(0, app.getNetworkManager()));
 		testNetEntity.addComponent(new NetTransformComponent());
 		
+		currentTargetPos = new Vec2(0, 0);
+		
+		speed = 0.05f;
+		
 		scene.addEntity(testNetEntity);
 	}
 
@@ -67,10 +72,23 @@ public class ServerGameState extends AbstractState
 		frame++;
 		
 		NetTransformComponent transform = (NetTransformComponent) testNetEntity.getComponent(NetTransformComponent.class);
+
+		Vec2 currentPos = new Vec2(transform.getPosition().getX(), transform.getPosition().getY());
 		
-		transform.move(new Vec3(0.02f, 0, 0));
+		currentPos.scale(-1.0f);
+		
+		Vec2 moveDir = Vec2.add(currentTargetPos, currentPos);
+		moveDir = Vec2.normalize(moveDir);
+		moveDir.scale(speed);
+		
+		transform.move(new Vec3(moveDir.getX(), moveDir.getY(), 0));
 		
 		scene.update();
+	}
+	
+	public static void setBallTarget(Vec2 newPos)
+	{
+		currentTargetPos = newPos;
 	}
 
 	@Override

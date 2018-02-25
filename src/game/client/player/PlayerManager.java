@@ -1,4 +1,4 @@
-package game.common.player;
+package game.client.player;
 
 public class PlayerManager
 {

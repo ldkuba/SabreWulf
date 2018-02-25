@@ -51,7 +51,7 @@ public class GameServer
 	}
 
 	public GameInstance createGameInstance() {
-		GameInstance gi = new GameInstance(this);
+		GameInstance gi = new GameInstance(this, games.size());
 		games.add(gi);
 		return gi;
 	}

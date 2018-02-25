@@ -9,15 +9,18 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameInstance {
 
+	private int gameId;
     private ArrayList<Player> playersInLobby;
     private GameInstanceManager GIManager;
     private BlockingQueue<AbstractMethodError> messages = new LinkedBlockingQueue<>(150);
 
-    public GameInstance(GameServer server) {
+    public GameInstance(GameServer server, int gameId) {
         playersInLobby = new ArrayList<>();
         this.GIManager = new GameInstanceManager(this, server);
         this.GIManager.setName("GameInstanceManager " + server.getGames().size());
         this.GIManager.start();
+        
+        this.gameId = gameId;
     }
 
     public ArrayList<Player> getPlayersInLobby() {
@@ -73,6 +76,11 @@ public class GameInstance {
         else{
             return false;
         }
+    }
+    
+    public int getGameId()
+    {
+    	return this.gameId;
     }
 
     public GameInstanceManager getGIManager() {

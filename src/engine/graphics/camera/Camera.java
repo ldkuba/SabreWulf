@@ -73,9 +73,9 @@ public class Camera {
 		float newScreenY = screenY * scaleY;
 
 		Vec3 result = new Vec3();
-		result.setX(-1.0f * (newScreenX - Application.s_Viewport.getX()/2.0f));
+		result.setX((newScreenX - Application.s_Viewport.getX()/2.0f));
 		result.setY(-1.0f * (newScreenY - Application.s_Viewport.getY()/2.0f));
-
+		
 		result.scale(2.0f);
 		
 		result = Vec3.add(result, m_Position);
