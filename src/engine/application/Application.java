@@ -58,7 +58,8 @@ public class Application
 	protected InputManager inputManager;
 	protected AssetManager assetManager;
 	protected GUI gui;
-
+	protected Timer timer;
+	
 	protected GLFWWindowSizeCallback windowSizeCallback;
 	public static Vec2 s_WindowSize;
 	public static Vec2 s_Viewport;
@@ -86,7 +87,8 @@ public class Application
 		{
 			netManager = new NetworkManager(this);
 		}
-
+		
+		timer = new Timer(60.0f);
 		stateManager = new StateManager(this);
 	}
 	
@@ -109,6 +111,7 @@ public class Application
 			netManager = new NetworkManager(netPlayers, this);
 		}
 
+		timer = new Timer(60.0f);
 		stateManager = new StateManager(this);
 
 	}
@@ -189,6 +192,14 @@ public class Application
 				glfwPollEvents(); // Poll for window events. The key callback
 									// above
 				// will only be invoked during this call.
+				
+				try
+				{
+					timer.waitForTick();
+				}catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
 			}
 		}else
 		{
@@ -197,6 +208,14 @@ public class Application
 			{
 				netManager.handleMessagesAndConnections();
 				stateManager.updateState();
+				
+				try
+				{
+					timer.waitForTick();
+				}catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 
