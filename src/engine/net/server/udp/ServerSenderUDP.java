@@ -25,7 +25,6 @@ public class ServerSenderUDP extends Thread{
 	public ServerSenderUDP(ArrayList<Player> players) {
 		this.players = players;
 		this.queueMessages = new LinkedBlockingQueue<NetworkEntity>();
-		this.port = port;
 		MAX_PACKET_SIZE = 500;
 	}
 	

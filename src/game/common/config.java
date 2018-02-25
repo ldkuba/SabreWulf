@@ -13,7 +13,7 @@ public class config {
     /**
      * Server specific
      */
-    public static int lobbyCountdown = 10;
+    public static int lobbyCountdown = 3;
     public static int globalConnectionsLimit = 100;
     public static int gameConnectionLimit = 1;
 

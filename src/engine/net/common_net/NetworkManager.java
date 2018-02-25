@@ -35,6 +35,7 @@ public class NetworkManager {
         networkEntities = new CopyOnWriteArrayList<>();
         
     	udpSender = new ServerSenderUDP(players);
+    	udpSender.setName("UDP Sender");
     	udpSender.start();
         
         initializeDatagramSockets();
@@ -125,8 +126,6 @@ public class NetworkManager {
     	
     	if(networkType)
     	{
-    		//server - send snapshot
-    		//TODO
     		for(Entity e : networkEntities)
     		{
     			NetworkEntity netEntity = new NetworkEntity();
