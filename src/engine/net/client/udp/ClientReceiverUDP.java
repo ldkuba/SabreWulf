@@ -2,9 +2,7 @@ package engine.net.client.udp;
 
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
+import java.net.*;
 
 import engine.entity.NetworkEntity;
 import engine.net.client.Client;
@@ -29,11 +27,9 @@ public class ClientReceiverUDP extends Thread{
     public void run() {
     	try {
 			UDPsocket = new DatagramSocket(config.UDPPort);
-		} catch (SocketException e) {
+		} catch (SocketException e){e.printStackTrace();}
 
-		}
-    	
-    	while(true) {
+		while(true) {
     		byte[] data = new byte[config.UDPMaxPacketSize];
     		DatagramPacket receivePacket = new DatagramPacket(data, data.length);
 
@@ -46,7 +42,7 @@ public class ClientReceiverUDP extends Thread{
 					entityUpdateMessage = UDPTools.deserialize(data);
 					if(entityUpdateMessage.getPacketId()>currentId || Math.abs(entityUpdateMessage.getPacketId() - currentId) > 1000000 ){
                         currentId = entityUpdateMessage.getPacketId();
-					    networkManager.updateEntityInNetworkManager(entityUpdateMessage);					    
+					    networkManager.updateEntityInNetworkManager(entityUpdateMessage);
                     }
 				}
 				System.out.println("received");
