@@ -1,4 +1,4 @@
-package game.server.states;
+package game.server.ingame;
 
 import java.util.ArrayList;
 
@@ -8,6 +8,7 @@ import game.common.actors.Player;
 import game.common.player.PlayerManager;
 import game.server.ingame.ServerConnectionListener;
 import game.server.ingame.ServerMessageListener;
+import game.server.states.ServerGameState;
 
 public class ServerMain extends Application {
 	

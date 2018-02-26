@@ -3,12 +3,11 @@ package game.server.states;
 import engine.entity.Entity;
 import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
-import engine.maths.Vec2;
-import engine.maths.Vec3;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.common.actors.Player;
 import game.common.player.PlayerManager;
+import game.server.ingame.ServerMain;
 
 
 public class ServerGameState extends AbstractState
