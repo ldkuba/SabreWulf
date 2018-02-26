@@ -6,7 +6,7 @@ import game.common.logic.actions.Movement;
 import game.common.logic.actions.Respawn;
 import game.common.actors.Player;
 
-public class ActorLogic extends AbstractLogic{
+public class ActorLogic {
 	
 	private Movement movement = new Movement();
 	private Respawn respawn = new Respawn();
@@ -14,7 +14,7 @@ public class ActorLogic extends AbstractLogic{
 	protected static Player myActor;
 
 	public ActorLogic(Player myPlayer) {
-		this.myActor = myPlayer;
+		ActorLogic.myActor = myPlayer;
 	}
 	
 	public boolean attack(Vec2 playCoord, Vec2 enemyCoord, Player enemy) {
@@ -37,6 +37,12 @@ public class ActorLogic extends AbstractLogic{
 		float newHealth = myActor.getHealth() - recvDamage;
 		//Display damage.s
 		myActor.setHealth(newHealth);
+		
+		if(!alive()) {
+			//Give.
+			respawn();
+		}
+		
 	}
 	
 	private boolean inRange(Vec2 playerCoord, Vec2 enemyCoord, float playerRange) {
@@ -63,10 +69,8 @@ public class ActorLogic extends AbstractLogic{
 	
 	
 	
-	public boolean alive() {
+	private boolean alive() {
 		if (zeroVitality()) {
-			//Timer or screen.
-			respawn();
 			return false;
 		} else {
 			return true;
