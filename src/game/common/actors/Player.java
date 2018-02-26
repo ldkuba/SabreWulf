@@ -6,7 +6,6 @@ import engine.entity.component.NetDataComponent;
 import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
 import engine.entity.component.SpriteComponent;
-import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
 
@@ -43,6 +42,8 @@ public class Player extends Actor
 		entity.addComponent(netData);
 		
 		//Colliders go here too
+		
+		movementSpeed = 0.02f;
 		
 		if(!app.isHeadless())
 		{

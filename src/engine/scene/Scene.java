@@ -57,6 +57,7 @@ public class Scene
 	{
 		if(!m_Entities.contains(e))
 		{
+			
 			m_Entities.add(e);
 
 			int id = 0;
