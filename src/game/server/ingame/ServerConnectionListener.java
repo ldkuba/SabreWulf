@@ -2,8 +2,6 @@ package game.server.ingame;
 
 import engine.net.common_net.ConnectionListener;
 import engine.net.server.core.NetPlayer;
-import game.client.Main;
-import game.server.states.ServerMain;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 

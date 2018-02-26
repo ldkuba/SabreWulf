@@ -8,7 +8,6 @@ import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.common_net.networking_messages.DesiredLocationMessage;
 import engine.net.common_net.networking_messages.PeerCountMessage;
 import engine.net.server.core.NetPlayer;
-import game.server.states.ServerMain;
 
 public class ServerMessageListener implements MessageListener
 {
