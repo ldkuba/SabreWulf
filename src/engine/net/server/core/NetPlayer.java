@@ -72,11 +72,7 @@ public class NetPlayer implements Serializable {
     public DatagramSocket getDatagramSocket() {
         return datagramSocket;
     }
-
-    public void generateDatagramSocket() throws SocketException {
-        datagramSocket = new DatagramSocket(config.ServerUDPPort, socket.getInetAddress());
-    }
-
+    
     public int getCurrentGame() {
         return payload.getCurrentGame();
     }

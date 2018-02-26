@@ -2,6 +2,7 @@ package engine.net.server.udp;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
@@ -18,6 +19,7 @@ public class ServerSenderUDP extends Thread{
 	private ArrayList<NetPlayer> players;
 	private int port;
 	private DatagramPacket packet;
+	private DatagramSocket udpSocket;
 	private int packetId;
 
 	public ServerSenderUDP(ArrayList<NetPlayer> players) {
@@ -40,15 +42,15 @@ public class ServerSenderUDP extends Thread{
 	}
 	
 	public void run() {
-		for(int i=0; i<players.size(); i++){
-			try {
-				players.get(i).generateDatagramSocket();
-			} catch (SocketException e) {
-				e.printStackTrace();
-			}
+		
+		try
+		{
+			udpSocket = new DatagramSocket(config.ServerUDPPort);
+		}catch (SocketException e1)
+		{
+			e1.printStackTrace();
 		}
-
-
+		
 		byte[] buffer = new byte[config.UDPMaxPacketSize];
 		
 		while(true) {
@@ -65,7 +67,7 @@ public class ServerSenderUDP extends Thread{
 				for(int i=0; i<players.size(); i++){
 					packet = new DatagramPacket(buffer, buffer.length, players.get(i).getSocket().getInetAddress(), config.UDPPort);
 					try {
-						players.get(i).getDatagramSocket().send(packet);
+						udpSocket.send(packet);
 					} catch (IOException e) {
 						continue;
 					}
