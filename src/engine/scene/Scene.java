@@ -114,6 +114,9 @@ public class Scene
 
 	public void render()
 	{
+		/*for some reason when checking is entity is visible for text/animation it doesnt work
+		* i'm guessing it's something to do with where the respective are positioned
+		*/
 		int count = 0; //for checking isInView method
 		m_Renderer2D.init(m_Camera);
 
@@ -161,9 +164,7 @@ public class Scene
 				}
 
 				// check if visible
-				//if(isInView(e)){
-					text.submit(m_Renderer2D, transform);
-				//}
+				text.submit(m_Renderer2D, transform);
 			}
 
 			if(e.hasComponent(SpriteAnimationComponent.class))
@@ -183,9 +184,7 @@ public class Scene
 					transformation = transform.getTransformationMatrix();
 				}
 				// check is visible
-				//if (isInView(e)){
-					animation.submit(m_Renderer2D, transformation);
-				//}
+				animation.submit(m_Renderer2D, transformation);
 			}
 		}
 		System.out.println("Displayed tiles " + Integer.toString(count));
@@ -206,38 +205,7 @@ public class Scene
 	{
 		return m_Entities;
 	}
-	
-	public boolean isInView2(Entity entity){
-		/*
-		 *       _p2_ 
-		 *      |    |
-		 *      |____| 
-		 *    p1      p3     
-		 */
-		Vec3 cam = m_Camera.getPosition();
-		SpriteComponent sprite = entity.getSprite();
-		TransformComponent transform = entity.getTransform();
-		if(sprite != null && transform != null) {
-			float entWidth = sprite.getWidth();
-			float entHeight = sprite.getHeight();
-			Vec3 p1 = transform.getPosition(); 
-			Vec2 p2 = new Vec2(p1.getX()+(entWidth/2), p1.getY()+(entHeight/2));
-			Vec2 p3 = new Vec2(p1.getX()+entWidth, p1.getY());
-			Vec2 u = new Vec2(p2.getX()-p1.getX(), p2.getY()-p1.getY());
-			Vec2 v = new Vec2(p3.getX()-p1.getX(), p3.getY()-p1.getY());
-			float nx = u.getX() - v.getX();
-			float ny = u.getY() - v.getY();
-			float dot = (nx * (cam.getX() - p1.getX())) + (ny * (cam.getY() - p1.getY()));
-			/*System.out.println("**********************");
-			System.out.println(dot);
-			System.out.println(entity.getId());*/
-			if(dot < 0) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
+		
 	public boolean isInView(Entity entity){
 		/*
 		 *     p4____p2 
@@ -258,8 +226,8 @@ public class Scene
 			Vec2 p4 = new Vec2(p1.getX(), p1.getY()+entHeight);
 			float xMinSpan = cam.getX() - (view/2);
 			float xMaxSpan = cam.getX() + (view/2);
-			float yMinSpan = cam.getY() - (view/2);
-			float yMaxSpan = cam.getY() + (view/2);
+			float yMinSpan = cam.getY() - (view/3);
+			float yMaxSpan = cam.getY() + (view/3);
 			if (p4.getX() < xMaxSpan && p4.getX() > xMinSpan && p4.getY() < yMaxSpan && p4.getY() > yMinSpan){
 				return true;
 			} else if (p3.getX() < xMaxSpan && p3.getX() > xMinSpan && p3.getY() < yMaxSpan && p3.getY() > yMinSpan){
