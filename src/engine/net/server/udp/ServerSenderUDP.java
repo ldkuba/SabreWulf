@@ -67,6 +67,7 @@ public class ServerSenderUDP extends Thread{
 				for(int i=0; i<players.size(); i++){
 					packet = new DatagramPacket(buffer, buffer.length, players.get(i).getSocket().getInetAddress(), config.UDPPort);
 					try {
+						System.out.println("asd");
 						udpSocket.send(packet);
 					} catch (IOException e) {
 						continue;

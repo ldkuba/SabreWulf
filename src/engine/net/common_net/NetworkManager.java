@@ -46,6 +46,7 @@ public class NetworkManager {
     public void startUDPReceiver()
     {
     	udpReceiver = new ClientReceiverUDP(this);
+    	udpReceiver.setName("Udp receiver");
         udpReceiver.start();
     }
     

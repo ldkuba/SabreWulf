@@ -18,7 +18,7 @@ public class ClientTCPMessageListener implements MessageListener
 {
 	private Main app;
 	private BlockingQueue<AbstractMessage> abstractMessageInbound;
-	private ClientReceiverUDP UDPin;
+
 	private final int maxTraffic = 100;
 
 	public ClientTCPMessageListener(Main app)
