@@ -57,7 +57,6 @@ public class Scene
 	{
 		if(!m_Entities.contains(e))
 		{
-			
 			m_Entities.add(e);
 
 			int id = 0;
@@ -66,8 +65,15 @@ public class Scene
 
 			e.setId(id);
 		}
+		
+		sortEntitiesZ();
 	}
 
+	private void sortEntitiesZ()
+	{
+		//Collections.so
+	}
+	
 	private boolean isIdFree(int id)
 	{
 		for (Entity e : m_Entities)
