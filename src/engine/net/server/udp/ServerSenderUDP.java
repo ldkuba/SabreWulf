@@ -45,7 +45,7 @@ public class ServerSenderUDP extends Thread{
 		
 		try
 		{
-			udpSocket = new DatagramSocket(config.UDPPort);
+			udpSocket = new DatagramSocket(config.ServerUDPPort);
 		}catch (SocketException e1)
 		{
 			e1.printStackTrace();
