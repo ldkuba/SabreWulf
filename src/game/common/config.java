@@ -22,8 +22,8 @@ public class config {
     /**
      * Client specific
      */
-    public static String host = "127.0.0.1";
-    public static String hostAWS = "34.241.78.38";
+    public static String hostAWS = "127.0.0.1";
+    public static String host = "34.241.78.38";
     public static String windowName = "Sabrewulf";
     public static boolean clientFullScreen = false;
     public static int screenWidth = 1280;

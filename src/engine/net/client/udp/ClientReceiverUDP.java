@@ -28,7 +28,7 @@ public class ClientReceiverUDP extends Thread{
     
     public void run() {
     	try {
-			UDPsocket = new DatagramSocket(config.UDPPort);
+			UDPsocket = new DatagramSocket();
 		} catch (SocketException e) {
 
 		}
@@ -36,8 +36,14 @@ public class ClientReceiverUDP extends Thread{
     	while(true) {
     		byte[] data = new byte[config.UDPMaxPacketSize];
     		DatagramPacket receivePacket = new DatagramPacket(data, data.length);
+    		
+    		System.out.println("Receiving UDP");
+    		
     		try {
 				UDPsocket.receive(receivePacket);
+				
+				System.out.println("Received UDP packet");
+				
 				if(receivePacket!=null){
 
 					// Let's see where we put these packets
