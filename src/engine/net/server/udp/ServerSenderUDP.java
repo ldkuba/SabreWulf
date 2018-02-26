@@ -9,23 +9,21 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import engine.entity.NetworkEntity;
 import engine.net.common_net.UDPTools;
-import engine.net.server.core.Player;
+import engine.net.server.core.NetPlayer;
 import game.common.config;
 
 public class ServerSenderUDP extends Thread{
 
 	private BlockingQueue<NetworkEntity> queueMessages;
-	private ArrayList<Player> players;
+	private ArrayList<NetPlayer> players;
 	private int port;
-	DatagramPacket packet;
-	private int MAX_PACKET_SIZE;
+	private DatagramPacket packet;
 	private int packetId;
 
-	public ServerSenderUDP(ArrayList<Player> players) {
+	public ServerSenderUDP(ArrayList<NetPlayer> players) {
 		this.players = players;
 		this.queueMessages = new LinkedBlockingQueue<NetworkEntity>();
 		this.port = port;
-		MAX_PACKET_SIZE = 500;
 	}
 	
 	public void addNetworkEntity(NetworkEntity entity)
@@ -51,7 +49,7 @@ public class ServerSenderUDP extends Thread{
 		}
 
 
-		byte[] buffer = new byte[MAX_PACKET_SIZE];
+		byte[] buffer = new byte[config.UDPMaxPacketSize];
 		
 		while(true) {
 			//Sends packets in queue

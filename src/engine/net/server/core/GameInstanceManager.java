@@ -19,8 +19,6 @@ public class GameInstanceManager extends Thread {
     private ServerMain gameEngine;
     private BlockingQueue<AbstractMessage> messages;
     private boolean running = true;
-    
-    private ServerSenderUDP serverSenderUDP;
 
     public GameInstanceManager(GameInstance instance,  GameServer server){
         this.server = server;
@@ -62,8 +60,14 @@ public class GameInstanceManager extends Thread {
 
     public void notifyEndOfCountdown(){
         System.out.println("Starting engine. Wroom!");
+        
+        for(NetPlayer player : instance.getPlayersInLobby())
+        {
+        	player.setCurrentGame(instance.getGameId());
+        }
+        
         server.broadcastTCP(new BattleBeginMessage(), instance.getPlayersInLobby());
-        gameEngine = new ServerMain(instance.getPlayersInLobby());
+        gameEngine = new ServerMain(instance.getPlayersInLobby());        
         gameEngine.run();
         running=false;
     }

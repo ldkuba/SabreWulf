@@ -1,6 +1,7 @@
 package game.common.logic;
 
 import engine.maths.Vec2;
+import engine.net.server.core.NetPlayer;
 import engine.application.Application;
 import game.common.logic.actions.Movement;
 import game.common.logic.actions.Respawn;
@@ -11,9 +12,9 @@ public class ActorLogic {
 	private Movement movement = new Movement();
 	private Respawn respawn = new Respawn();
 	
-	protected static Player myActor;
+	protected static NetPlayer myActor;
 
-	public ActorLogic(Player myPlayer) {
+	public ActorLogic(NetPlayer myPlayer) {
 		ActorLogic.myActor = myPlayer;
 	}
 	

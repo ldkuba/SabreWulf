@@ -9,22 +9,25 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameInstance {
 
-    private ArrayList<Player> playersInLobby;
+	private int gameId;
+    private ArrayList<NetPlayer> playersInLobby;
     private GameInstanceManager GIManager;
     private BlockingQueue<AbstractMethodError> messages = new LinkedBlockingQueue<>(150);
 
-    public GameInstance(GameServer server) {
+    public GameInstance(GameServer server, int gameId) {
         playersInLobby = new ArrayList<>();
         this.GIManager = new GameInstanceManager(this, server);
         this.GIManager.setName("GameInstanceManager " + server.getGames().size());
         this.GIManager.start();
+        
+        this.gameId = gameId;
     }
 
-    public ArrayList<Player> getPlayersInLobby() {
+    public ArrayList<NetPlayer> getPlayersInLobby() {
         return playersInLobby;
     }
 
-    public void addPlayer(Player player) {
+    public void addPlayer(NetPlayer player) {
         playersInLobby.add(player);
     }
 
@@ -40,7 +43,7 @@ public class GameInstance {
         return pld;
     }
 
-    public void removePlayer(Player player) {
+    public void removePlayer(NetPlayer player) {
         playersInLobby.remove(player);
     }
 
@@ -73,6 +76,11 @@ public class GameInstance {
         else{
             return false;
         }
+    }
+    
+    public int getGameId()
+    {
+    	return this.gameId;
     }
 
     public GameInstanceManager getGIManager() {

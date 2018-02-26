@@ -5,16 +5,17 @@ import engine.maths.Vec2;
 import game.common.classes.AbstractClasses;
 import game.common.inventory.Inventory;
 import game.common.inventory.Item;
-import game.common.logic.AbstractLogic;
 import game.common.logic.ActorLogic;
 
-public class Actor {
+public class Actor
+{
 
-    public Actor(){
+	public Actor()
+	{
+		entity = new Entity("Actor");
+	}
 
-    }
-
-    Inventory inventory;
+	protected Inventory inventory;
 
     public void addItem(Item item){
     	inventory.addItem(item);
@@ -32,7 +33,12 @@ public class Actor {
     	inventory.clear();
     }
 
-    private Entity entity;
+    protected Entity entity;
+    
+	public Entity getEntity()
+	{
+		return entity;
+	}
 
     /**
      * team can be 1, 2, 3
@@ -41,13 +47,13 @@ public class Actor {
      * team 3 is composed of neutral npcs (shops, cart etc)
      */
 
-    private int team;
+    protected int team;
 
     public int getTeam() {
         return team;
     }
     
-    private Vec2 base;
+    protected Vec2 base;
     
     public Vec2 getBase() {
     	return  base;
@@ -57,7 +63,7 @@ public class Actor {
     	this.base = base;
     }
     
-    private Vec2 position;
+    protected Vec2 position;
     
     public Vec2 getPosition() {
     	return position;
@@ -70,7 +76,7 @@ public class Actor {
     /**
      *  This will be affected by damage
      */
-    private float health;
+    protected float health;
 
     public float getHealth() {
         return health;
@@ -83,7 +89,7 @@ public class Actor {
     /**
      * This will be affected by casting spells
      */
-    private float energy;
+    protected float energy;
 
     public float getEnergy() {
         return energy;
@@ -96,7 +102,7 @@ public class Actor {
     /**
      * This might be affected by items and root & snare spells
      */
-    private float movementSpeed;
+    protected float movementSpeed;
 
     public void setMovementSpeed(float movementSpeed) {
         this.movementSpeed = movementSpeed;
@@ -109,7 +115,7 @@ public class Actor {
     /**
      * This will be affected by items
      */
-    private float resistance;
+    protected float resistance;
 
     public float getResistance() {
         return resistance;
@@ -123,7 +129,7 @@ public class Actor {
      * This will be affected by items.
      */
     
-    private float damage;
+    protected float damage;
     
     public float getDamage() {
     	return damage;
@@ -133,7 +139,11 @@ public class Actor {
     	damage = dmg;
     }
     
-    private float attackRange;
+    /**
+     * This will remain permanent for now.
+     */
+    
+    protected float attackRange;
     
     public float getAttackRange() {
     	return attackRange;
@@ -143,7 +153,7 @@ public class Actor {
     	attackRange = rng;
     }
     
-    private ActorLogic logic;
+    protected ActorLogic logic;
     
     public ActorLogic getLogic() {
     	return logic;

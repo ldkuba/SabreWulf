@@ -9,11 +9,11 @@ public class NetIdentityComponent extends AbstractComponent implements Serializa
 {
 	private int networkId;
 	
-	public NetIdentityComponent(int id, NetworkManager netManager, Entity owner)
+	public NetIdentityComponent(int id, NetworkManager netManager)
 	{
 		networkId = id;
 		//register
-		netManager.registerNetEntity(owner);
+		netManager.registerNetEntity(this);
 	}
 	
 	public void setNetworkId(int id)

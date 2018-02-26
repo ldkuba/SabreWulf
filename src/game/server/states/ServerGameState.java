@@ -3,9 +3,12 @@ package game.server.states;
 import engine.entity.Entity;
 import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
+import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.scene.Scene;
 import engine.state.AbstractState;
+import game.common.actors.Player;
+import game.common.player.PlayerManager;
 
 
 public class ServerGameState extends AbstractState
@@ -13,12 +16,20 @@ public class ServerGameState extends AbstractState
 	private ServerMain app;
 	private Scene scene;
 	
+	private PlayerManager playerManager;
+	
 	private Entity testNetEntity;
+	private float speed;
+	
+	private int frame = 0;
+	private float second = System.currentTimeMillis();
 	
 	public ServerGameState(ServerMain app)
 	{
 		this.app = app;
 		scene = new Scene(0, app);
+		
+		playerManager = new PlayerManager(scene);
 	}
 		
 	@Override
@@ -37,10 +48,19 @@ public class ServerGameState extends AbstractState
 	public void init()
 	{
 		scene.init();
+
+		//Add players
+		for(int i = 0; i < app.getNetworkManager().getNetPlayers().size(); i++)
+		{
+			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app);
+			// here we would set up more stuff related to the player like class, items, starting position, etc.
+			playerManager.addPlayer(player);
+		}
 		
 		testNetEntity = new Entity("TestNetEntity");
-		testNetEntity.addComponent(new NetIdentityComponent(0, app.getNetworkManager(), testNetEntity));
+		testNetEntity.addComponent(new NetIdentityComponent(0, app.getNetworkManager()));
 		testNetEntity.addComponent(new NetTransformComponent());
+		
 		
 		scene.addEntity(testNetEntity);
 	}
@@ -54,12 +74,20 @@ public class ServerGameState extends AbstractState
 	@Override
 	public void update()
 	{
-		NetTransformComponent transform = (NetTransformComponent) testNetEntity.getComponent(NetTransformComponent.class);
+		if (System.currentTimeMillis() - second >= 1000.0f) {
+			second += 1000.0f;
+			System.out.println("FPS: " + frame);
+			frame = 0;
+		}
+		frame++;
 		
-		transform.move(new Vec3(0.2f, 0, 0));
-		
+		playerManager.update();
 		scene.update();
-		System.out.println("running game");
+	}
+	
+	public PlayerManager getPlayerManager()
+	{
+		return this.playerManager;
 	}
 
 	@Override

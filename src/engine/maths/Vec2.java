@@ -1,6 +1,8 @@
 package engine.maths;
 
-public class Vec2 {
+import java.io.Serializable;
+
+public class Vec2 implements Serializable {
 	private float x, y;
 
 	public Vec2() {

@@ -3,7 +3,7 @@ import engine.net.client.udp.ClientReceiverUDP;
 import engine.net.common_net.MessageListener;
 import engine.net.common_net.UDPTools;
 import engine.net.common_net.networking_messages.*;
-import engine.net.server.core.Player;
+import engine.net.server.core.NetPlayer;
 import engine.sound.Sound;
 import engine.sound.SoundManager;
 
@@ -42,7 +42,7 @@ public class ClientTCPMessageListener implements MessageListener
 	}
 
 	@Override
-	public void receiveMessage(AbstractMessage msg, Player player) {
+	public void receiveMessage(AbstractMessage msg, NetPlayer player) {
 
 	}
 
@@ -89,12 +89,15 @@ public class ClientTCPMessageListener implements MessageListener
 		else if(msg instanceof BattleBeginMessage){
 			app.getSoundManager().stopSoundSource("background/lobby");
 			app.getNetworkManager().startUDPReceiver();
+			
+			//Create and setup player manager
+			
 			app.getStateManager().setCurrentState(Main.gameState);
 		}
 	}
 
 	@Override
-	public void addMessage(AbstractMessage message, Player player) {
+	public void addMessage(AbstractMessage message, NetPlayer player) {
 
 	}
 }
