@@ -23,8 +23,6 @@ public class GameInstanceManager extends Thread {
     public GameInstanceManager(GameInstance instance,  GameServer server){
         this.server = server;
         this.instance = instance;
-
-        instance.initializeDatagramSockets();
         messages = new LinkedBlockingQueue<>();
     }
 

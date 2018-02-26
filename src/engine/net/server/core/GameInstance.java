@@ -59,16 +59,6 @@ public class GameInstance {
         return false;
     }
 
-    public void initializeDatagramSockets(){
-        for(int i=0; i<playersInLobby.size(); i++){
-            try {
-                playersInLobby.get(i).generateDatagramSocket();
-            } catch (SocketException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public boolean isEmpty(){
         if(playersInLobby.size()==0){
             return true;

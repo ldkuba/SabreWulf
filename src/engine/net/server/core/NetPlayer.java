@@ -12,7 +12,6 @@ import game.common.config;
 
 public class NetPlayer implements Serializable {
 
-	private int netPlayerId;
     private PlayerPayload payload;
     private Socket socket;
     private BlockingQueue<AbstractMessage> pbq;
@@ -89,11 +88,11 @@ public class NetPlayer implements Serializable {
     
     public int getPlayerId()
     {
-    	return this.netPlayerId;
+    	return payload.getNetPlayerId();
     }
     
     public void setPlayerId(int playerId)
     {
-    	this.netPlayerId = playerId;
+    	payload.setNetPlayerId(playerId);
     }
 }

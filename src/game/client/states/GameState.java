@@ -35,9 +35,7 @@ public class GameState extends AbstractState {
 	
 	private int frame = 0;
 	private float second = 0;
-	
-	private Entity ball;
-	
+
 	private Sprite spellBar;
 	
 	private float zoom = 10.0f;
@@ -108,13 +106,6 @@ public class GameState extends AbstractState {
 		textTest.getTransform().move(new Vec3(-16.0f, 0.0f, 0.0f));
 		
 		scene.addEntity(textTest);
-		
-		Entity ball = new Entity("");
-		ball.addComponent(new NetIdentityComponent(0, app.getNetworkManager()));
-		ball.addComponent(new NetTransformComponent());
-		ball.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture("res/textures/characters/placeholder.png"), 2.0f, 2.0f));
-		
-		scene.addEntity(ball);
 		
 		Entity animTest = new Entity("animTest");
 		animTest.addComponent(new TransformComponent());

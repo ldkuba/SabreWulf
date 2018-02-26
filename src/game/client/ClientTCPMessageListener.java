@@ -1,15 +1,18 @@
 package game.client;
+import java.util.ArrayList;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import engine.net.client.udp.ClientReceiverUDP;
 import engine.net.common_net.MessageListener;
-import engine.net.common_net.UDPTools;
-import engine.net.common_net.networking_messages.*;
+import engine.net.common_net.networking_messages.AbstractMessage;
+import engine.net.common_net.networking_messages.BattleBeginMessage;
+import engine.net.common_net.networking_messages.LobbyConnectionResponseMessage;
+import engine.net.common_net.networking_messages.LobbyUpdateMessage;
+import engine.net.common_net.networking_messages.PeerCountMessage;
+import engine.net.common_net.networking_messages.TimerEventMessage;
 import engine.net.server.core.NetPlayer;
-import engine.sound.Sound;
-import engine.sound.SoundManager;
-
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
+import game.common.config;
 
 public class ClientTCPMessageListener implements MessageListener
 {
@@ -70,8 +73,24 @@ public class ClientTCPMessageListener implements MessageListener
 		}
 		else if(msg instanceof LobbyUpdateMessage){
 		    LobbyUpdateMessage lobbyUpd = (LobbyUpdateMessage) msg;
-
-		    for(int i=0; i<6; i++){
+		    	
+		    ArrayList<NetPlayer> updatedPlayers = new ArrayList<>();
+		    
+		    for(int i = 0; i < lobbyUpd.getPlayersInLobby().size(); i++)
+		    {
+		    	NetPlayer netPlayer = new NetPlayer(null);
+		    	netPlayer.setChar(lobbyUpd.getPlayersInLobby().get(i).getCharacterSelection());
+		    	netPlayer.setCurrentGame(lobbyUpd.getPlayersInLobby().get(i).getCurrentGame());
+		    	netPlayer.setName(lobbyUpd.getPlayersInLobby().get(i).getName());
+		    	netPlayer.setPlayerId(lobbyUpd.getPlayersInLobby().get(i).getNetPlayerId());
+		    	netPlayer.setReady(lobbyUpd.getPlayersInLobby().get(i).getReady());
+		    	
+		    	updatedPlayers.add(netPlayer);
+		    }
+		    
+		    app.getNetworkManager().setPlayers(updatedPlayers);
+		    
+		    for(int i=0; i<config.gameConnectionLimit; i++){
 		    	if(i<lobbyUpd.getPlayersInLobby().size()){
 		    		Main.lobbyState.updatePlayer(i, lobbyUpd.getPlayersInLobby().get(i).getCharacterSelection(), lobbyUpd.getPlayersInLobby().get(i).getName());
 		    	}
