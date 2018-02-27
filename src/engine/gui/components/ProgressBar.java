@@ -40,4 +40,9 @@ public class ProgressBar extends GuiComponent {
 		return progress;
 	}
 
+	public String getProgressString() {
+		float n = progress;
+		return String.format("%.0f", n * 100) + "%";
+	}
+
 }
