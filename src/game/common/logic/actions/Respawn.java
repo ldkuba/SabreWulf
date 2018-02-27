@@ -13,7 +13,7 @@ public class Respawn {
 	}
 
 	public boolean zeroVitality() {
-		if (myPlayer.getVitality <= 0) {
+		if (myPlayer.getRole.getHealth <= 0) {
 			return true;
 		}
 	}

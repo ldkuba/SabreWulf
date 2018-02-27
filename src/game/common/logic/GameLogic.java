@@ -12,9 +12,9 @@ public class GameLogic {
 	private Damage recvDamage = new Damage();
 	private Movement movement = new Movement();
 	
-	protected static Player myPlayer;
+	protected static NetPlayer myPlayer;
 
-	public GameLogic(Player myPlayer) {
+	public GameLogic(NetPlayer myPlayer) {
 		this.myPlayer = myPlayer;
 	}
 	
@@ -31,7 +31,7 @@ public class GameLogic {
 		
 	}
 	
-	public Player getPlayerInfo() {
+	public NetPlayer getPlayerInfo() {
 		return myPlayer;
 	}
 }

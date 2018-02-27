@@ -10,7 +10,7 @@ public class Attack extends AbstractAction{
 	
 	private Vec2 noMovement = new Vec2(0,0);
 	
-	private Player myPlayer;
+	private NetPlayer myPlayer;
 	
 	public Attack () {
 		

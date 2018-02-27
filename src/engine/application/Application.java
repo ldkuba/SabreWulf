@@ -40,7 +40,7 @@ import engine.gui.GUI;
 import engine.input.InputManager;
 import engine.maths.Vec2;
 import engine.net.common_net.NetworkManager;
-import engine.net.server.core.Player;
+import engine.net.server.core.NetPlayer;
 import engine.sound.SoundManager;
 import engine.state.StateManager;
 
@@ -58,7 +58,8 @@ public class Application
 	protected InputManager inputManager;
 	protected AssetManager assetManager;
 	protected GUI gui;
-
+	protected Timer timer;
+	
 	protected GLFWWindowSizeCallback windowSizeCallback;
 	public static Vec2 s_WindowSize;
 	public static Vec2 s_Viewport;
@@ -86,11 +87,12 @@ public class Application
 		{
 			netManager = new NetworkManager(this);
 		}
-
+		
+		timer = new Timer(60.0f);
 		stateManager = new StateManager(this);
 	}
 	
-	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless, ArrayList<Player> netPlayers)
+	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless, ArrayList<NetPlayer> netPlayers)
 	{
 		networkType = true;
 		isHeadless = headless;
@@ -109,6 +111,7 @@ public class Application
 			netManager = new NetworkManager(netPlayers, this);
 		}
 
+		timer = new Timer(60.0f);
 		stateManager = new StateManager(this);
 
 	}
@@ -189,6 +192,14 @@ public class Application
 				glfwPollEvents(); // Poll for window events. The key callback
 									// above
 				// will only be invoked during this call.
+				
+				try
+				{
+					timer.waitForTick();
+				}catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
 			}
 		}else
 		{
@@ -197,6 +208,14 @@ public class Application
 			{
 				netManager.handleMessagesAndConnections();
 				stateManager.updateState();
+				
+				try
+				{
+					timer.waitForTick();
+				}catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 

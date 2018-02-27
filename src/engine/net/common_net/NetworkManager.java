@@ -1,7 +1,6 @@
 package engine.net.common_net;
 
 import java.io.Serializable;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -13,7 +12,7 @@ import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
 import engine.net.client.udp.ClientReceiverUDP;
 import engine.net.common_net.networking_messages.AbstractMessage;
-import engine.net.server.core.Player;
+import engine.net.server.core.NetPlayer;
 import engine.net.server.udp.ServerSenderUDP;
 import engine.scene.Scene;
 
@@ -22,32 +21,21 @@ public class NetworkManager {
     private boolean networkType; // False is Client, True is Server
     private MessageListener messageListener;
     private ConnectionListener connectionListener;
-    private ArrayList<Player> players;
-    private CopyOnWriteArrayList<Entity> networkEntities;
+    private ArrayList<NetPlayer> players;
+    private CopyOnWriteArrayList<NetworkEntity> networkEntities;
     
     private ServerSenderUDP udpSender;
     private ClientReceiverUDP udpReceiver;
 
-    public NetworkManager(ArrayList<Player> players, Application app){
+    public NetworkManager(ArrayList<NetPlayer> players, Application app){
         this.networkType = true;
         this.players = players;
         
         networkEntities = new CopyOnWriteArrayList<>();
         
     	udpSender = new ServerSenderUDP(players);
+    	udpSender.setName("UDP Sender");
     	udpSender.start();
-        
-        initializeDatagramSockets();
-    }
-
-    private void initializeDatagramSockets() {
-        for(int i=0; i< players.size(); i++){
-            try {
-                players.get(i).generateDatagramSocket();
-            } catch (SocketException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public NetworkManager(Application app){
@@ -57,45 +45,38 @@ public class NetworkManager {
     
     public void startUDPReceiver()
     {
-    	udpReceiver = new ClientReceiverUDP();
+    	udpReceiver = new ClientReceiverUDP(this);
+    	udpReceiver.setName("Udp receiver");
         udpReceiver.start();
     }
     
-    public void registerNetEntity(Entity e)
+    public void registerNetEntity(NetIdentityComponent netIdentity)
     {
-    	networkEntities.add(e);    	
+    	NetworkEntity netEntity = new NetworkEntity();
+    	netEntity.setNetIdentity(netIdentity);
+    	
+    	networkEntities.add(netEntity);    	
     }
     
+    //on server
     public void updateEntityInNetworkManager(Entity entity, int networkId)
     {
     	//only execute updates on server
     	if(networkType == false)
     		return;
     	
-    	for(Entity e : networkEntities)
+    	for(NetworkEntity e : networkEntities)
     	{
-    		if(((NetIdentityComponent)e.getComponent(NetIdentityComponent.class)).getNetworkId() == networkId)
-    		{
-    			if(e.hasComponent(NetTransformComponent.class))
-    			{
-    				NetTransformComponent comp = (NetTransformComponent) e.getComponent(NetIdentityComponent.class);
-    				e.removeComponent(comp);
-    			}
-    			
-    			if(e.hasComponent(NetDataComponent.class))
-    			{
-    				NetDataComponent comp = (NetDataComponent) e.getComponent(NetDataComponent.class);
-    				e.removeComponent(comp);
-    			}
-    			
+    		if(e.getNetIdentity().getNetworkId() == networkId)
+    		{    			
     			if(entity.hasComponent(NetTransformComponent.class))
     			{
-    				e.addComponent((NetTransformComponent)entity.getComponent(NetTransformComponent.class));
+    				e.setNetTransform((NetTransformComponent)entity.getComponent(NetTransformComponent.class));
     			}
     			
     			if(entity.hasComponent(NetDataComponent.class))
     			{
-    				e.addComponent((NetDataComponent)entity.getComponent(NetDataComponent.class));
+    				e.setNetData((NetDataComponent)entity.getComponent(NetDataComponent.class));
     			}
     			
     			return;
@@ -104,6 +85,23 @@ public class NetworkManager {
     	
     	//if not present add to netowrk entity list
     	System.out.println("Wrong network setup");
+    }
+    
+    //on client
+    public void updateEntityInNetworkManager(NetworkEntity netEntity)
+    {
+    	for(NetworkEntity e : networkEntities)
+    	{
+    		if(e.getNetIdentity().getNetworkId() == netEntity.getNetIdentity().getNetworkId())
+    		{
+    			e.setNetTransform(netEntity.getNetTransform());
+    			e.setNetData(netEntity.getNetData());
+    			
+    			return;
+    		}
+    	}
+    	
+    	System.out.println();
     }
     
     private Entity getEntityByNetId(int networkId, Scene scene)
@@ -131,30 +129,16 @@ public class NetworkManager {
     	if(networkType)
     	{
     		//server - send snapshot
-    		//TODO
-    		for(Entity e : networkEntities)
+    		for(NetworkEntity e : networkEntities)
     		{
-    			NetworkEntity netEntity = new NetworkEntity();
-    			netEntity.setNetIdentity((NetIdentityComponent)e.getComponent(NetIdentityComponent.class));
-    			
-    			if(e.hasComponent(NetTransformComponent.class))
-    			{
-    				netEntity.setNetTransform((NetTransformComponent)e.getComponent(NetTransformComponent.class));
-    			}
-    			
-    			if(e.hasComponent(NetDataComponent.class))
-    			{
-    				netEntity.setNetData((NetDataComponent)e.getComponent(NetDataComponent.class));
-    			}
-    			
-    			udpSender.addNetworkEntity(netEntity);
+    			udpSender.addNetworkEntity(e);
     		}
     	}else
     	{
     		//client - update snapshot
-    		for(Entity entity : networkEntities)
+    		for(NetworkEntity entity : networkEntities)
     		{
-    			int netId = ((NetIdentityComponent)(entity.getComponent(NetIdentityComponent.class))).getNetworkId();
+    			int netId = entity.getNetIdentity().getNetworkId();
     			Entity sceneEntity = getEntityByNetId(netId, scene);
     			
     			if(sceneEntity.hasComponent(NetTransformComponent.class))
@@ -169,14 +153,14 @@ public class NetworkManager {
     				sceneEntity.removeComponent(comp);
     			}
     			
-    			if(entity.hasComponent(NetTransformComponent.class))
+    			if(entity.getNetTransform() != null)
     			{
-    				sceneEntity.addComponent((NetTransformComponent)entity.getComponent(NetTransformComponent.class));
+    				sceneEntity.addComponent(entity.getNetTransform());
     			}
     			
-    			if(entity.hasComponent(NetDataComponent.class))
+    			if(entity.getNetData() != null)
     			{
-    				sceneEntity.addComponent((NetDataComponent)entity.getComponent(NetDataComponent.class));
+    				sceneEntity.addComponent(entity.getNetData());
     			}
     		}
     	}
@@ -190,7 +174,7 @@ public class NetworkManager {
         this.messageListener = messageListener;
     }
 
-    public void addMessage(AbstractMessage message, Player player){
+    public void addMessage(AbstractMessage message, NetPlayer player){
         if(networkType){
             messageListener.addMessage(message,player);
         }
@@ -199,7 +183,7 @@ public class NetworkManager {
         }
     }
 
-    public void addConnectionEvent(Player player, boolean connected){
+    public void addConnectionEvent(NetPlayer player, boolean connected){
         if(networkType){
             connectionListener.addConnectionEvent(connected,player);
         }
@@ -213,10 +197,12 @@ public class NetworkManager {
         connectionListener.handleConnectionQueue();
     }
 
-    public void setPlayers(ArrayList<Player> players) {
+    public void setPlayers(ArrayList<NetPlayer> players) {
         this.players = players;
     }
 
-    public void addEntityEvent(Serializable entityUpdateMessage) {
-    }
+	public ArrayList<NetPlayer> getNetPlayers()
+	{
+		return players;
+	}
 }

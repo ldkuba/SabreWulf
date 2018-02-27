@@ -5,12 +5,12 @@ import engine.net.server.tcp.ServerSenderTCP;
 import game.server.GameServer;
 
 public class CoreClientThread extends Thread {
-    Player player;
+    NetPlayer player;
     ServerSenderTCP CSTTCP=null;
     ServerReceiverTCP CLTTCP = null;
     GameServer gameServer;
 
-    CoreClientThread(Player player, GameServer gameServer){
+    CoreClientThread(NetPlayer player, GameServer gameServer){
         this.player=player;
         this.gameServer = gameServer;
     }
