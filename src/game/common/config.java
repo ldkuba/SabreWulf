@@ -22,7 +22,7 @@ public class config {
     /**
      * Client specific
      */
-    public static String host = "192.168.0.102";
+    public static String host = "192.168.137.1";
     public static String host2 = "127.0.0.1";
     public static String hostaws = "34.241.78.38";
     public static String windowName = "Sabrewulf";
