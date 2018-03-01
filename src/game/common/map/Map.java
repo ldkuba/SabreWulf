@@ -44,48 +44,4 @@ public class Map {
 			scene.addEntity(background[i]);
 		}
 	}
-
-	public void update() {
-		for (int i = 0; i < background.length; i++) {
-			if (isInView(background[i])) {
-				scene.addEntity(background[i]);
-			} else {
-				if (scene.getEntities().contains(background[i])) {
-					scene.removeEntity(background[i]);
-				}
-			}
-		}
-	}
-
-	public boolean isInView(Entity entity) {
-		/*
-		 * p4____p2 | | |____| p1 p3
-		 */
-		Vec3 cam = scene.getCamera().getPosition();
-		float view = Application.s_Viewport.getLength();
-		SpriteComponent sprite = entity.getSprite();
-		TransformComponent transform = entity.getTransform();
-		if (sprite != null && transform != null) {
-			float entWidth = sprite.getWidth();
-			float entHeight = sprite.getHeight();
-			Vec3 p1 = transform.getPosition();
-			Vec2 p2 = new Vec2(p1.getX() + (entWidth), p1.getY() + (entHeight));
-			Vec2 p3 = new Vec2(p1.getX() + entWidth, p1.getY());
-			Vec2 p4 = new Vec2(p1.getX(), p1.getY() + entHeight);
-			float xMinSpan = cam.getX() - (view / 2);
-			float xMaxSpan = cam.getX() + (view / 2);
-			float yMinSpan = cam.getY() - (view / 3);
-			float yMaxSpan = cam.getY() + (view / 3);
-			if (p4.getX() < xMaxSpan && p4.getX() > xMinSpan && p4.getY() < yMaxSpan && p4.getY() > yMinSpan) {
-				return true;
-			} else if (p3.getX() < xMaxSpan && p3.getX() > xMinSpan && p3.getY() < yMaxSpan && p3.getY() > yMinSpan) {
-				return true;
-			} else if (p2.getX() < xMaxSpan && p2.getX() > xMinSpan && p2.getY() < yMaxSpan && p2.getY() > yMinSpan) {
-				return true;
-			} else if (p1.getX() < xMaxSpan && p1.getX() > xMinSpan && p1.getY() < yMaxSpan && p1.getY() > yMinSpan) {
-				return true;
-			}
-		}
-		return false;
-	}
 }

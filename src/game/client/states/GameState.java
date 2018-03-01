@@ -43,7 +43,7 @@ public class GameState extends AbstractState {
 
 	public GameState(Main app) {
 		this.app = app;
-		scene = new Scene(0, app);
+		scene = new Scene(0, app, true);
 		playerManager = new PlayerManager(scene);
 		playerController = new PlayerController(app, this, scene);
 		map = new Map(scene);
@@ -151,8 +151,7 @@ public class GameState extends AbstractState {
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
 			scene.getCamera().move(new Vec3(0.0f, -cameraSpeed, 0.0f));
 		}
-		
-		map.update();
+
 		scene.update();
 		// manager.getStatuses();
 		playerController.update();

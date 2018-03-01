@@ -29,11 +29,13 @@ public class Scene
 	private Camera m_Camera;
 
 	private Application app;
+	private boolean isGameState;
 
-	public Scene(int id, Application app)
+	public Scene(int id, Application app, boolean gameState)
 	{
 		this.app = app;
 		m_ID = id;
+		isGameState = gameState;
 	}
 
 	public void init()
@@ -146,9 +148,13 @@ public class Scene
 				}
 
 				// check if visible
-				//if(isInView(e)){
+				if(!isGameState){
 					sprite.submit(m_Renderer2D, transformation);
-				//}
+				} else {
+					if(isInView(e)){
+						sprite.submit(m_Renderer2D, transformation);
+					}
+				}
 			}
 
 			if(e.hasComponent(TextComponent.class))
