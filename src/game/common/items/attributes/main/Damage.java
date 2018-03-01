@@ -6,7 +6,7 @@ public class Damage extends Attribute{
 
 	private float damage;
 	
-	public Damage(int dmg) {
+	public Damage(float dmg) {
 		damage = dmg;
 	}
 	
