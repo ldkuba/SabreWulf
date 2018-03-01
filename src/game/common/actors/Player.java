@@ -12,9 +12,9 @@ import engine.maths.Vec4;
 /**
  * Player as the engine sees it.
  */
+	
+public class Player extends Actor {
 
-public class Player extends Actor
-{
 	private String name;
 	private int role;
 	private int playerId;
