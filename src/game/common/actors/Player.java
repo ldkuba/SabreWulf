@@ -8,94 +8,96 @@ import engine.entity.component.NetTransformComponent;
 import engine.entity.component.SpriteComponent;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
+import game.common.classes.AbstractClasses;
 
 /**
  * Player as the engine sees it.
  */
-	
+
 public class Player extends Actor {
 
 	private String name;
-	private int role;
+	private AbstractClasses role;
 	private int playerId;
-	
-	//temporary
+	private int team;
+
+	// temporary
 	private Vec3 targetLocation;
 
-	public Player(int playerId, String name, Application app)
-	{	
+	public Player(int playerId, String name, Application app) {
 		this.playerId = playerId;
 		this.name = name;
-	
+
 		entity = new Entity("Player" + playerId);
-		
+
 		entity.addComponent(new NetIdentityComponent(playerId, app.getNetworkManager()));
 		entity.addComponent(new NetTransformComponent());
-		
+
 		NetDataComponent netData = new NetDataComponent();
 		netData.addData("Health", health);
 		netData.addData("Energy", energy);
 		netData.addData("MovementSpeed", movementSpeed);
-		netData.addData("Resistance", resistance);		
-		netData.addData("Team", team);		
-		
+		netData.addData("Resistance", resistance);
+		netData.addData("Team", team);
+
 		entity.addComponent(netData);
-		
-		//Colliders go here too
-		
+
+		// Colliders go here too
+
 		movementSpeed = 0.02f;
-		
-		if(!app.isHeadless())
-		{
-			SpriteComponent spriteComponent = new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture("res/textures/characters/placeholder.png"), 1.5f, 1.5f);
+
+		if (!app.isHeadless()) {
+			SpriteComponent spriteComponent = new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f),
+					app.getAssetManager().getTexture("res/textures/characters/placeholder.png"), 1.5f, 1.5f);
 			entity.addComponent(spriteComponent);
 		}
-		
+
 		targetLocation = new Vec3();
 	}
 
-	public int getRole()
-	{
+	public AbstractClasses getRole() {
 		return role;
 	}
 
-	public void setRole(int role)
-	{
+	public void setRole(AbstractClasses role) {
 		this.role = role;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public int getPlayerId()
-	{
+
+	public void setTeam(int team) {
+		this.team = team;
+	}
+
+	public int getTeam() {
+		return team;
+	}
+
+	public int getPlayerId() {
 		return this.playerId;
 	}
-	
-	public void update()
-	{
+
+	public void update() {
 		NetTransformComponent transform = (NetTransformComponent) entity.getComponent(NetTransformComponent.class);
 
 		Vec3 currentPos = new Vec3(transform.getPosition());
-		
+
 		currentPos.scale(-1.0f);
-		
+
 		Vec3 moveDir = Vec3.add(targetLocation, currentPos);
 		moveDir = Vec3.normalize(moveDir);
 		moveDir.scale(movementSpeed);
-		
+
 		transform.move(moveDir);
 	}
-	
-	public void setTargetLocation(Vec3 target)
-	{
+
+	public void setTargetLocation(Vec3 target) {
 		this.targetLocation = target;
 	}
 }
