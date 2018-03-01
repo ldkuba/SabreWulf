@@ -1,12 +1,10 @@
 package game.common.map;
 
 import engine.AI.Navmesh;
-import engine.application.Application;
 import engine.assets.AssetManager;
 import engine.entity.Entity;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TransformComponent;
-import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
 import engine.scene.Scene;
