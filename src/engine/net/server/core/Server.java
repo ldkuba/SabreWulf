@@ -36,7 +36,7 @@ public class Server extends Thread{
             while(gameServer.players.size()<config.globalConnectionsLimit) {
                 SCSocket = coreSocket.accept();
 
-                Player player = new Player(SCSocket);
+                NetPlayer player = new NetPlayer(SCSocket);
 
                 gameServer.addPlayer(player);
                 gameServer.addConnectionEvent(player, true);

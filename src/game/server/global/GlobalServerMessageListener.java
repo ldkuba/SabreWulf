@@ -2,7 +2,7 @@ package game.server.global;
 
 import engine.net.common_net.networking_messages.*;
 import engine.net.server.core.GameInstance;
-import engine.net.server.core.Player;
+import engine.net.server.core.NetPlayer;
 import game.server.GameServer;
 
 public class GlobalServerMessageListener {
@@ -13,7 +13,7 @@ public class GlobalServerMessageListener {
         this.gameServer = gameServer;
     }
 
-    public void receiveMessage(AbstractMessage msg, Player source) {
+    public void receiveMessage(AbstractMessage msg, NetPlayer source) {
 
         // Handling Play button action here
         if(msg instanceof LobbyConnectionRequestMessage) {

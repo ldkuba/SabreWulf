@@ -1,50 +1,62 @@
 package engine.net.server.udp;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import engine.net.common_net.Port;
-import engine.net.common_net.Synchronizable;
+import engine.entity.NetworkEntity;
 import engine.net.common_net.UDPTools;
-import engine.net.server.core.Player;
+import engine.net.server.core.NetPlayer;
+import game.common.config;
 
 public class ServerSenderUDP extends Thread{
 
-	private BlockingQueue<Serializable> queueMessages;
-	private ArrayList<Player> players;
+	private BlockingQueue<NetworkEntity> queueMessages;
+	private ArrayList<NetPlayer> players;
 	private int port;
-	DatagramPacket packet;
-	private int MAX_PACKET_SIZE;
+	private DatagramPacket packet;
+	private DatagramSocket udpSocket;
+	private int packetId;
 
-
-	public ServerSenderUDP(ArrayList<Player> players) {
+	public ServerSenderUDP(ArrayList<NetPlayer> players) {
 		this.players = players;
-		this.queueMessages = new LinkedBlockingQueue<Serializable>();
+		this.queueMessages = new LinkedBlockingQueue<NetworkEntity>();
 		this.port = port;
-		MAX_PACKET_SIZE = 500;
+	}
+	
+	public void addNetworkEntity(NetworkEntity entity)
+	{
+		entity.setPacketId(packetId);
+		queueMessages.add(entity);
+		
+		packetId++;
+		
+		if(packetId > 2000000)
+		{
+			packetId = 0;
+		}
 	}
 	
 	public void run() {
-		for(int i=0; i<players.size(); i++){
-			try {
-				players.get(i).generateDatagramSocket();
-			} catch (SocketException e) {
-				e.printStackTrace();
-			}
+		
+		try
+		{
+			udpSocket = new DatagramSocket(config.ServerUDPPort);
+		}catch (SocketException e1)
+		{
+			e1.printStackTrace();
 		}
-
-
-		byte[] buffer = new byte[MAX_PACKET_SIZE];
+		
+		byte[] buffer = new byte[config.UDPMaxPacketSize];
 		
 		while(true) {
 			//Sends packets in queue
 			if(!queueMessages.isEmpty()) {
-				Serializable messageToSend = null;
+				NetworkEntity messageToSend = null;
 				try {
 					messageToSend = queueMessages.take();
 				} catch (InterruptedException e) {
@@ -53,9 +65,10 @@ public class ServerSenderUDP extends Thread{
 				buffer = UDPTools.serialize(messageToSend);
 
 				for(int i=0; i<players.size(); i++){
-					packet = new DatagramPacket(buffer, buffer.length, players.get(i).getSocket().getInetAddress(), Port.UDPPort);
+					packet = new DatagramPacket(buffer, buffer.length, players.get(i).getSocket().getInetAddress(), config.UDPPort);
 					try {
-						players.get(i).getDatagramSocket().send(packet);
+						System.out.println("asd");
+						udpSocket.send(packet);
 					} catch (IOException e) {
 						continue;
 					}

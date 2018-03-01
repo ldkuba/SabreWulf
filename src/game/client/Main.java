@@ -7,10 +7,7 @@ import game.client.states.GameState;
 import game.client.states.LobbyState;
 import game.client.states.MenuState;
 import game.common.config;
-
-/*
- * 	Main method - used to run the game
- */
+import game.common.player.PlayerManager;
 
 public class Main extends Application {
 
@@ -19,14 +16,14 @@ public class Main extends Application {
 	public static MenuState menuState;
 	public static LobbyState lobbyState;
 	public static GameState gameState;
-	// private PlayerManager playerManager;
+	private PlayerManager playerManager;
 
 	public Main() {
 		super(config.screenWidth, config.screenHeight, 1, config.windowName, config.clientFullScreen, false); // window width, window
 		menuState = new MenuState(this);
 		lobbyState = new LobbyState(this);
 		gameState = new GameState(this);
-
+		
 		// register all states
 		stateManager.addState(menuState);
 		stateManager.addState(lobbyState);

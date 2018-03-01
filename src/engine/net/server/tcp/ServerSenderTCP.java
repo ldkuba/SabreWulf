@@ -2,7 +2,7 @@ package engine.net.server.tcp;
 
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.common_net.networking_messages.LobbyUpdateMessage;
-import engine.net.server.core.Player;
+import engine.net.server.core.NetPlayer;
 import engine.net.common_net.networking_messages.QuitMessage;
 import game.server.GameServer;
 
@@ -10,10 +10,10 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 public class ServerSenderTCP extends Thread{
-    Player player;
+    NetPlayer player;
     GameServer gameServer;
     ObjectOutputStream oos;
-    public ServerSenderTCP(Player player, GameServer gameServer){
+    public ServerSenderTCP(NetPlayer player, GameServer gameServer){
         this.player = player;
         this.gameServer = gameServer;
     }

@@ -15,11 +15,11 @@ public class MeleeDPS extends MeleeClass {
 	private int exDefence  = 0;
 
 	public MeleeDPS(StatType type) {
-		addExtraStats(exVitality, exEnergy, exIntell, exStrength, exDefence);
+		addStrength(exStrength);
 		setStatType(type);
 	}
 
-	public void attack(Player p1, Player p2) {
+	public void attack(NetPlayer p1, NetPlayer p2) {
 		int damageDealt = p1.getCharClass().getAttackDmg() + (p1.getCharClass().getStrength() / 10);
 		int damageReceived = damageDealt - (p2.getCharClass().getDefence() / 10);
 		int p2Vitality = p2.getVitality();

@@ -4,6 +4,8 @@ import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
 import engine.entity.Entity;
+import engine.entity.component.NetIdentityComponent;
+import engine.entity.component.NetTransformComponent;
 import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TextComponent;
@@ -17,22 +19,23 @@ import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.client.Main;
 import game.client.player.PlayerController;
+import game.common.actors.Player;
 import game.common.map.Map;
+import game.common.player.PlayerManager;
 
 public class GameState extends AbstractState {
+	
 	private Main app;
 	private Scene scene;
-
-	// private PlayerManager manager;
 	private PlayerController playerController;
+	
+	private PlayerManager playerManager;
 
 	private Map map;
-
+	
 	private int frame = 0;
 	private float second = 0;
-	
-	private Entity ball;
-	
+
 	private Sprite spellBar;
 	
 	private float zoom = 10.0f;
@@ -40,10 +43,10 @@ public class GameState extends AbstractState {
 
 	public GameState(Main app) {
 		this.app = app;
-		scene = new Scene(0);
-		// manager = new PlayerManager(scene);
-		playerController = new PlayerController(app, this);
-		map = new Map(scene);
+		scene = new Scene(0, app);
+		playerManager = new PlayerManager(scene);
+		playerController = new PlayerController(app, this, scene);
+		map = new Map(scene, "res/textures/map");
 	}
 
 	@Override
@@ -68,14 +71,22 @@ public class GameState extends AbstractState {
 	@Override
 	public void mouseAction(int button, int action) {
 		playerController.mouseAction(button, action);
-		
 	}
 
 	@Override
 	public void init() {
 		scene.init();
 		app.getGui().init(scene);
-		map.init("res/textures/map", app.getAssetManager());
+		
+		//Add players
+		for(int i = 0; i < app.getNetworkManager().getNetPlayers().size(); i++)
+		{
+			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app);
+			// here we would set up more stuff related to the player like class, items, starting position, etc.
+			playerManager.addPlayer(player);
+		}
+		
+		map.init(app.getAssetManager());
 
 		// set up background sound
 		app.getSoundManager().invokeSound("background/game", true);
@@ -88,7 +99,7 @@ public class GameState extends AbstractState {
 		app.getGui().add(spellBar);
 		
 
-		Entity textTest = new Entity(0, "textTest");
+		Entity textTest = new Entity("textTest");
 		textTest.addComponent(new TransformComponent());
 		textTest.addComponent(new TextComponent(app.getAssetManager().getFont("fontSprite.png"), 0.5f, 0.7f, new Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
 		((TextComponent) (textTest.getComponent(TextComponent.class))).setText(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
@@ -96,13 +107,7 @@ public class GameState extends AbstractState {
 		
 		scene.addEntity(textTest);
 		
-		Entity ball = new Entity(0, "");
-		ball.addComponent(new TransformComponent());
-		ball.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture("res/textures/characters/placeholder.png"), 2.0f, 2.0f));
-		
-		scene.addEntity(ball);
-		
-		Entity animTest = new Entity(0, "animTest");
+		Entity animTest = new Entity("animTest");
 		animTest.addComponent(new TransformComponent());
 		animTest.addComponent(new SpriteAnimationComponent(app.getAssetManager().getTexture("res/textures/Cursor/cursorMovementAnimated.png"), 4, 0, 11, 3.0f, 3.0f, 2));
 		animTest.getTransform().setPosition(new Vec3(6.0f, -6.0f, 0.0f));
@@ -150,6 +155,16 @@ public class GameState extends AbstractState {
 		scene.update();
 		// manager.getStatuses();
 		playerController.update();
+	}
+	
+	public PlayerManager getPlayerManager()
+	{
+		return this.playerManager;
+	}
+	
+	public Map getMap()
+	{
+		return this.map;
 	}
 
 	@Override

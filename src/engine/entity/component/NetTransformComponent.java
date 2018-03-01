@@ -7,7 +7,7 @@ import engine.maths.Mat4;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
 
-public class NetTransformComponent extends AbstractComponent
+public class NetTransformComponent extends AbstractComponent implements Serializable
 {
 	private Vec3 position;
 	private Vec3 eulerAngles;
