@@ -1,13 +1,11 @@
 package engine.net.server.core;
 
-import engine.net.common_net.NetworkManager;
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.common_net.networking_messages.BattleBeginMessage;
 import engine.net.common_net.networking_messages.TimerEventMessage;
-import engine.net.server.udp.ServerSenderUDP;
 import game.common.config;
 import game.server.GameServer;
-import game.server.states.ServerMain;
+import game.server.ingame.ServerMain;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -19,14 +17,10 @@ public class GameInstanceManager extends Thread {
     private ServerMain gameEngine;
     private BlockingQueue<AbstractMessage> messages;
     private boolean running = true;
-    
-    private ServerSenderUDP serverSenderUDP;
 
     public GameInstanceManager(GameInstance instance,  GameServer server){
         this.server = server;
         this.instance = instance;
-
-        instance.initializeDatagramSockets();
         messages = new LinkedBlockingQueue<>();
     }
 
@@ -62,8 +56,14 @@ public class GameInstanceManager extends Thread {
 
     public void notifyEndOfCountdown(){
         System.out.println("Starting engine. Wroom!");
+        
+        for(NetPlayer player : instance.getPlayersInLobby())
+        {
+        	player.setCurrentGame(instance.getGameId());
+        }
+        
         server.broadcastTCP(new BattleBeginMessage(), instance.getPlayersInLobby());
-        gameEngine = new ServerMain(instance.getPlayersInLobby());
+        gameEngine = new ServerMain(instance.getPlayersInLobby());        
         gameEngine.run();
         running=false;
     }

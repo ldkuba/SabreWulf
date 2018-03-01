@@ -66,8 +66,15 @@ public class Scene
 
 			e.setId(id);
 		}
+		
+		sortEntitiesZ();
 	}
 
+	private void sortEntitiesZ()
+	{
+		//Collections.so
+	}
+	
 	private boolean isIdFree(int id)
 	{
 		for (Entity e : m_Entities)

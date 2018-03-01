@@ -2,12 +2,11 @@ package engine.net.client.udp;
 
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
+import java.net.*;
 
 import engine.entity.NetworkEntity;
 import engine.net.client.Client;
+import engine.net.common_net.NetworkManager;
 import engine.net.common_net.UDPTools;
 import game.common.config;
 
@@ -17,32 +16,36 @@ public class ClientReceiverUDP extends Thread{
 	private Client client;
 	private int currentId;
 	private NetworkEntity entityUpdateMessage;
+	
+	private NetworkManager networkManager;
 
-    public ClientReceiverUDP(){
+    public ClientReceiverUDP(NetworkManager networkManager){
         currentId = 0;
+        this.networkManager = networkManager;
     }
     
     public void run() {
     	try {
 			UDPsocket = new DatagramSocket(config.UDPPort);
-		} catch (SocketException e) {
+		} catch (SocketException e){e.printStackTrace();}
 
-		}
-    	
-    	while(true) {
+		while(true) {
     		byte[] data = new byte[config.UDPMaxPacketSize];
     		DatagramPacket receivePacket = new DatagramPacket(data, data.length);
+
+            System.out.println("received1");
     		try {
 				UDPsocket.receive(receivePacket);
 				if(receivePacket!=null){
 
 					// Let's see where we put these packets
-					entityUpdateMessage = UDPTools.deserialize(receivePacket.getData());
+					entityUpdateMessage = UDPTools.deserialize(data);
 					if(entityUpdateMessage.getPacketId()>currentId || Math.abs(entityUpdateMessage.getPacketId() - currentId) > 1000000 ){
                         currentId = entityUpdateMessage.getPacketId();
-					    client.getMain().getNetworkManager().addEntityEvent(entityUpdateMessage);
+					    networkManager.updateEntityInNetworkManager(entityUpdateMessage);
                     }
 				}
+				System.out.println("received");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
