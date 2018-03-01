@@ -203,6 +203,7 @@ public class Actor {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * This will be affected by items.
 	 */
 

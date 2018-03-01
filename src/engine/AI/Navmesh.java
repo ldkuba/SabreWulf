@@ -3,14 +3,20 @@ package engine.AI;
 import java.util.ArrayList;
 
 import engine.maths.Vec2;
+import engine.maths.Vec3;
 
 public class Navmesh {
 	
 	private ArrayList<Edge> edges;
 	private ArrayList<Triangle> triangles;
+	private Pathfinding pathfinding;
+	private ParseTriangles parsing;
 	
-	public Navmesh(ArrayList<Triangle> triangles){
-		this.triangles = triangles;
+	public Navmesh(String filename){
+		parsing = new ParseTriangles();
+		parsing.readFile(filename);
+		this.triangles = parsing.getTriangles();
+		this.pathfinding = new Pathfinding(triangles);
 		generateEdges();
 	}
 	
@@ -71,5 +77,70 @@ public class Navmesh {
 	
 	public ArrayList<Triangle> getTriangles(){
 		return triangles;
+	}
+
+	public Pathfinding getPathfinding() {
+		return pathfinding;
+	}
+	
+	private boolean isSameSide(Vec3 point, Vec3 ref, Vec3 a, Vec3 b){
+		Vec3 nega = new Vec3(a);
+		nega.scale(-1);
+		Vec3 p1 = Vec3.crossProduct(Vec3.add(nega, b), Vec3.add(nega, point));
+		Vec3 p2 = Vec3.crossProduct(Vec3.add(nega, b), Vec3.add(nega, ref));
+		
+		if(Vec3.dotProduct(p1, p2) >= 0){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private boolean pointInTriangle(Vec3 point, Triangle t){
+		Vec3 pointA = new Vec3(t.getX().getX(), t.getX().getY(), 0.0f);
+		Vec3 pointB = new Vec3(t.getY().getX(), t.getY().getY(), 0.0f);
+		Vec3 pointC = new Vec3(t.getZ().getX(), t.getZ().getY(), 0.0f);
+		
+		if(isSameSide(point, pointA, pointB, pointC) && isSameSide(point, pointB, pointA, pointC) && isSameSide(point, pointC, pointA, pointB)){
+			return true;
+		}else
+		{
+			return false;
+		}
+	}
+	
+	public ArrayList<Vec3> findPath(Vec3 start, Vec3 end)
+	{
+		ArrayList<Vec3> path = new ArrayList<Vec3>();
+		
+		Triangle startTrig = null;
+		Triangle endTrig = null;
+		
+		for(Triangle t : triangles)
+		{
+			if(pointInTriangle(start, t))
+			{
+				startTrig = t;
+			}
+			
+			if(pointInTriangle(end, t))
+			{
+				endTrig = t;
+			}
+		}
+		
+		ArrayList<Triangle> pathTrigs = pathfinding.AStar(startTrig, endTrig);
+		
+		for(int i = 0; i < pathTrigs.size() - 1; i++)
+		{
+			path.add(new Vec3(pathTrigs.get(i).getMidpoint().getX(), pathTrigs.get(i).getMidpoint().getY(), 0.0f));
+		}
+		
+		path.add(end);
+		
+		return path;
+		
+		
+		
 	}
 }

@@ -79,11 +79,12 @@ public class ServerMessageListener implements MessageListener
 			DesiredLocationMessage dlm = (DesiredLocationMessage) msg;
 			
 			//Compute the path
-			
-			ServerMain.gameState.getPlayerManager().getPlayer(player.getPlayerId()).setTargetLocation(dlm.getPos());
-		}	
+			//ServerMain.gameState.getPlayerManager().getPlayer(player.getPlayerId()).calculatePath(dlm.getPos());
 		
-		System.out.println("Recieved message in game");
+			ServerMain.gameState.getPlayerManager().getPlayer(player.getPlayerId()).setTargetLocation(dlm.getPos());
+			
+			System.out.println("Recieved message in game");
+		}
 	}
 
 	@Override
