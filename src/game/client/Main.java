@@ -34,7 +34,7 @@ public class Main extends Application {
 		netManager.registerMessageListener(new ClientTCPMessageListener(this));
 
 		// set starting state
-		stateManager.setCurrentState(gameState);
+		stateManager.setCurrentState(menuState);
 	}
 
 	public Client getClient() {

@@ -124,7 +124,6 @@ public class Scene
 		/*for some reason when checking is entity is visible for text/animation it doesnt work
 		* i'm guessing it's something to do with where the respective are positioned
 		*/
-		int count = 0; //for checking isInView method
 		m_Renderer2D.init(m_Camera);
 
 		for (Entity e : m_Entities)
@@ -147,10 +146,9 @@ public class Scene
 				}
 
 				// check if visible
-				if(isInView(e)){
+				//if(isInView(e)){
 					sprite.submit(m_Renderer2D, transformation);
-					count++; //for checking isInView method
-				}
+				//}
 			}
 
 			if(e.hasComponent(TextComponent.class))
@@ -194,7 +192,6 @@ public class Scene
 				animation.submit(m_Renderer2D, transformation);
 			}
 		}
-		System.out.println("Displayed tiles " + Integer.toString(count));
 		m_Renderer2D.drawAll();
 	}
 

@@ -152,6 +152,7 @@ public class GameState extends AbstractState {
 			scene.getCamera().move(new Vec3(0.0f, -cameraSpeed, 0.0f));
 		}
 		
+		map.update();
 		scene.update();
 		// manager.getStatuses();
 		playerController.update();
