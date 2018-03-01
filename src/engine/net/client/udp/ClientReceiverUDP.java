@@ -25,9 +25,15 @@ public class ClientReceiverUDP extends Thread{
     }
     
     public void run() {
+		try {
+			Thread.currentThread().sleep(10000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
     	try {
 			UDPsocket = new DatagramSocket(config.UDPPort);
 		} catch (SocketException e){e.printStackTrace();}
+
 
 		while(true) {
     		byte[] data = new byte[config.UDPMaxPacketSize];
