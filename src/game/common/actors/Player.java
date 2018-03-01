@@ -60,6 +60,7 @@ public class Player extends Actor {
 	}
 
 	public void setRole(AbstractClasses role) {
+		setPlayer(role);	//Add the players statistics.
 		this.role = role;
 	}
 

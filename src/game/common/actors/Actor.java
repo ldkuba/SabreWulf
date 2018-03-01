@@ -1,10 +1,15 @@
 package game.common.actors;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 import engine.entity.Entity;
 import engine.maths.Vec2;
 import game.common.classes.AbstractClasses;
 import game.common.inventory.Inventory;
 import game.common.inventory.Item;
+import game.common.items.attributes.Attribute;
+import game.common.items.attributes.main.*;
 import game.common.logic.ActorLogic;
 
 public class Actor {
@@ -16,11 +21,67 @@ public class Actor {
 	protected Inventory inventory;
 
 	public void addItem(Item item) {
+		//Affect the actors stats.
+		addItemAttributes(item);
 		inventory.addItem(item);
+	}
+	
+	//Affect the stats of the player.
+	private void addItemAttributes(Item item) {
+		LinkedList<Attribute> attributes = item.getAttributes();
+		
+		for(int i = 0; i < attributes.size(); i++) {
+			Attribute attribute = attributes.get(i);
+			if (attribute instanceof Damage) {
+				float newDamage = getDamage() + attribute.getValue();
+				setDamage(newDamage);
+			} else if (attribute instanceof Energy) {
+				float newEnergy = getEnergyLimit() + attribute.getValue();
+				setEnergy(newEnergy);
+			} else if (attribute instanceof Health) {
+				float newHealth = getHealthLimit() + attribute.getValue();
+				setHealth(newHealth);
+			} else if (attribute instanceof MovementSpeed) {
+				float newMoveSpeed = getMovementSpeed() + attribute.getValue();
+				setMovementSpeed(newMoveSpeed);
+			} else if (attribute instanceof Resistance) {
+				float newResis = getResistance() + attribute.getValue();
+				setResistance(newResis);
+			}
+		}
+		
 	}
 
 	public void removeItem(Item item) {
+		//Affect the actors stats.
+		remItemAttributes(item);
 		inventory.rmvItem(item);
+	}
+	
+	//Affect the players stats once the item has been removed.
+	private void remItemAttributes(Item item) {
+		LinkedList<Attribute> attributes = item.getAttributes();
+		
+		for(int i = 0; i < attributes.size(); i++) {
+			Attribute attribute = attributes.get(i);
+			if (attribute instanceof Damage) {
+				float newDamage = getDamage() - attribute.getValue();
+				setDamage(newDamage);
+			} else if (attribute instanceof Energy) {
+				float newEnergy = getEnergyLimit() - attribute.getValue();
+				setEnergy(newEnergy);
+			} else if (attribute instanceof Health) {
+				float newHealth = getHealthLimit() - attribute.getValue();
+				setHealth(newHealth);
+			} else if (attribute instanceof MovementSpeed) {
+				float newMoveSpeed = getMovementSpeed() - attribute.getValue();
+				setMovementSpeed(newMoveSpeed);
+			} else if (attribute instanceof Resistance) {
+				float newResis = getResistance() - attribute.getValue();
+				setResistance(newResis);
+			}
+		}
+		
 	}
 
 	public Inventory getInventory() {
@@ -72,6 +133,16 @@ public class Actor {
 	/**
 	 * This will be affected by damage
 	 */
+	protected float HEALTH_LIMIT;
+	
+	public void setHealthLimit(float health) {
+		HEALTH_LIMIT = health;
+	}
+	
+	public float getHealthLimit() {
+		return HEALTH_LIMIT;
+	}
+	
 	protected float health;
 
 	public float getHealth() {
@@ -85,6 +156,16 @@ public class Actor {
 	/**
 	 * This will be affected by casting spells
 	 */
+	protected float ENERGY_LIMIT;
+	
+	public float getEnergyLimit() {
+		return ENERGY_LIMIT;
+	}
+	
+	public void setEnergyLimit(float lim) {
+		ENERGY_LIMIT = lim;
+	}
+	
 	protected float energy;
 
 	public float getEnergy() {
@@ -161,15 +242,13 @@ public class Actor {
 
 	private AbstractClasses role;
 
-	public void setPlayer(AbstractClasses role, ActorLogic logic, Vec2 base) {
+	public void setPlayer(AbstractClasses role) {
 		health = role.getHealth();
 		resistance = role.getResistance();
 		movementSpeed = role.getMoveSpeed();
 		energy = role.getEnergy();
 		damage = role.getDamage();
 		this.role = role;
-		this.logic = logic;
-		this.base = base;
 	}
 
 }
