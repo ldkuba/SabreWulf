@@ -1,5 +1,6 @@
 package game.common.map;
 
+import engine.AI.Navmesh;
 import engine.application.Application;
 import engine.assets.AssetManager;
 import engine.entity.Entity;
@@ -17,17 +18,22 @@ public class Map {
 	private final float TILE_HEIGHT = 12.0f;
 	private final int MAP_SIZE = 16;
 	private Scene scene;
-
-	public Map(Scene scene) {
+	private Navmesh navmesh;
+	
+	private String basePath;
+	
+	public Map(Scene scene, String basePath) {
 		this.scene = scene;
 		background = new Entity[MAP_SIZE * MAP_SIZE];
+		this.basePath = basePath;
+		//navmesh = new Navmesh(basePath + "/navmesh.txt");
 	}
 
-	// only run on the client
-	public void init(String basePath, AssetManager assetManager) {
+	//only run on the client
+	public void init(AssetManager assetManager) {
 		// initialise entities
 		Vec4 white = new Vec4(1.0f, 1.0f, 1.0f, 1.0f);
-
+		
 		// bottom right
 		for (int i = 0; i < background.length; i++) {
 			Entity newEntity = new Entity("mapBackground" + i);
@@ -43,5 +49,9 @@ public class Map {
 		for (int i = 0; i < background.length; i++) {
 			scene.addEntity(background[i]);
 		}
+	}
+	
+	public Navmesh getNavmesh(){
+		return navmesh;
 	}
 }

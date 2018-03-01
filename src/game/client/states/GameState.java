@@ -46,7 +46,7 @@ public class GameState extends AbstractState {
 		scene = new Scene(0, app, true);
 		playerManager = new PlayerManager(scene);
 		playerController = new PlayerController(app, this, scene);
-		map = new Map(scene);
+		map = new Map(scene, "res/textures/map");
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class GameState extends AbstractState {
 			playerManager.addPlayer(player);
 		}
 		
-		map.init("res/textures/map", app.getAssetManager());
+		map.init(app.getAssetManager());
 
 		// set up background sound
 		app.getSoundManager().invokeSound("background/game", true);
@@ -160,6 +160,11 @@ public class GameState extends AbstractState {
 	public PlayerManager getPlayerManager()
 	{
 		return this.playerManager;
+	}
+	
+	public Map getMap()
+	{
+		return this.map;
 	}
 
 	@Override

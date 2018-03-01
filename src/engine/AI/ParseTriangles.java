@@ -12,12 +12,12 @@ public class ParseTriangles {
 	
 	private ArrayList<Triangle> verticies;
 	
-	public void readFile(){
+	public void readFile(String filename){
 		FileReader input = null;
 		String[] array1 = null;
 		try {
 			//TODO: Figure out best way to generalise file path.
-			input = new FileReader("demomapmash.raw");
+			input = new FileReader(filename);
 		} catch (FileNotFoundException e) {
 			System.out.println("Error file not found.");
 		}
@@ -42,9 +42,9 @@ public class ParseTriangles {
 	
 	public void convertArray(String[] strings){
 		Triangle tri;
-		Vec2 x = null;
-		Vec2 y = null;
-		Vec2 z = null;
+		Vec2 x = new Vec2();
+		Vec2 y = new Vec2();
+		Vec2 z = new Vec2();
 		float[] floats = new float[6];
 		for(int i = 0; i < floats.length; i++){
 			if(i != 2 || i != 5 || i != 8){
@@ -60,5 +60,9 @@ public class ParseTriangles {
 		z.setY(floats[5]);
 		tri = new Triangle(x, y, z);
 		verticies.add(tri);
+	}
+	
+	public ArrayList<Triangle> getTriangles(){
+		return verticies;
 	}
 }
