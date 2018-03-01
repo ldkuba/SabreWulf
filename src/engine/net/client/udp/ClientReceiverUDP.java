@@ -38,8 +38,6 @@ public class ClientReceiverUDP extends Thread{
 		while(true) {
     		byte[] data = new byte[config.UDPMaxPacketSize];
     		DatagramPacket receivePacket = new DatagramPacket(data, data.length);
-
-            System.out.println("received1");
     		try {
 				UDPsocket.receive(receivePacket);
 				if(receivePacket!=null){
@@ -51,7 +49,6 @@ public class ClientReceiverUDP extends Thread{
 					    networkManager.updateEntityInNetworkManager(entityUpdateMessage);
                     }
 				}
-				System.out.println("received");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
