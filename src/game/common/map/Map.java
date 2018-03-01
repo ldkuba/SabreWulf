@@ -20,13 +20,17 @@ public class Map {
 	private Scene scene;
 	private Navmesh navmesh;
 	
-	public Map(Scene scene) {
+	private String basePath;
+	
+	public Map(Scene scene, String basePath) {
 		this.scene = scene;
 		background = new Entity[MAP_SIZE * MAP_SIZE];
+		this.basePath = basePath;
+		//navmesh = new Navmesh(basePath + "/navmesh.txt");
 	}
 
 	//only run on the client
-	public void init(String basePath, AssetManager assetManager) {
+	public void init(AssetManager assetManager) {
 		// initialise entities
 		Vec4 white = new Vec4(1.0f, 1.0f, 1.0f, 1.0f);
 		
@@ -43,8 +47,6 @@ public class Map {
 		for (int i = 0; i < background.length; i++) {
 			scene.addEntity(background[i]);
 		}
-		
-		navmesh = new Navmesh(basePath + "/navmesh.txt");
 	}
 	
 	public Navmesh getNavmesh(){

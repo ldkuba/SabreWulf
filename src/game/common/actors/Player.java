@@ -94,7 +94,12 @@ public class Player extends Actor
 		transform.move(moveDir);
 	}
 	
-	public void setTargetLocation(Vec3 target)
+	public void setTargetLocation(Vec3 targetLocation)
+	{
+		this.targetLocation = targetLocation;
+	}
+	
+	public void calculatePath(Vec3 target)
 	{
 		this.targetLocation = target;
 	}

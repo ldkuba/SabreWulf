@@ -1,12 +1,11 @@
 package game.server.states;
 
-import engine.entity.Entity;
-import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
 import engine.maths.Vec3;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.common.actors.Player;
+import game.common.map.Map;
 import game.common.player.PlayerManager;
 import game.server.ingame.ServerMain;
 
@@ -15,6 +14,8 @@ public class ServerGameState extends AbstractState
 {
 	private ServerMain app;
 	private Scene scene;
+	
+	private Map map;
 	
 	private PlayerManager playerManager;
 	
@@ -80,6 +81,11 @@ public class ServerGameState extends AbstractState
 	public PlayerManager getPlayerManager()
 	{
 		return this.playerManager;
+	}
+	
+	public Map getMap()
+	{
+		return map;
 	}
 
 	@Override

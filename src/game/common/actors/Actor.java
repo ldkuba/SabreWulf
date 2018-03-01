@@ -124,6 +124,6 @@ public class Actor
 	 * private void setStartingAttributes() { health = role.getHealth(); =
 	 * role.getStrength(); resistance = role.getDefence(); intelligence =
 	 * role.getIntelligence(); }
-	 */
-
+	 */	
+	
 }
