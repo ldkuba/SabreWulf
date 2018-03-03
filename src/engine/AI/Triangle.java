@@ -19,6 +19,7 @@ public class Triangle {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		edges = new ArrayList<>();
 	}
 	
 	public void addEdge(Edge edge){

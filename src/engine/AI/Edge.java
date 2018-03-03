@@ -14,6 +14,8 @@ public class Edge {
 		this.x = x;
 		this.y = y;
 		this.weight = weight;
+		this.source = source;
+		this.goal = goal;
 	}
 	
 	public Triangle getSource(){
