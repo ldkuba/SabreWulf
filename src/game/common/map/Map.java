@@ -34,7 +34,7 @@ public class Map {
 		
 		// bottom right
 		for (int i = 0; i < background.length; i++) {
-			Entity newEntity = new Entity("mapBackground" + i);
+			Entity newEntity = new Entity("mapBackground" + i, true);
 			SpriteComponent comp1 = new SpriteComponent(white,
 					assetManager.getTexture(basePath + "/untitled_" + (i + 1) + ".png"), TILE_WIDTH, TILE_HEIGHT);
 			newEntity.addComponent(comp1);

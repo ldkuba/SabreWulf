@@ -43,7 +43,7 @@ public class GameState extends AbstractState {
 
 	public GameState(Main app) {
 		this.app = app;
-		scene = new Scene(0, app, true);
+		scene = new Scene(0, app);
 		playerManager = new PlayerManager(scene);
 		playerController = new PlayerController(app, this, scene);
 		map = new Map(scene, "res/textures/map");

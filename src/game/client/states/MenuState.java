@@ -25,7 +25,7 @@ public class MenuState extends AbstractState {
 
 	public MenuState(Main app) {
 		this.app = app;
-		scene = new Scene(0, app, false);
+		scene = new Scene(0, app);
 	}
 
 	@Override

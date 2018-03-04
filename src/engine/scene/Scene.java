@@ -32,11 +32,10 @@ public class Scene
 	private Application app;
 	private boolean isGameState;
 
-	public Scene(int id, Application app, boolean gameState)
+	public Scene(int id, Application app)
 	{
 		this.app = app;
 		m_ID = id;
-		isGameState = gameState;
 	}
 
 	public void init()
@@ -187,14 +186,12 @@ public class Scene
 							.getComponent(NetTransformComponent.class);
 					transformation = transform.getTransformationMatrix();
 				}
-
-				// check if visible
-				if(!isGameState) {
-					sprite.submit(m_Renderer2D, transformation);
-				} else {
+				if (e.shouldBeCulled()){
 					if(mapIsInView(e)) { 
 						sprite.submit(m_Renderer2D, transformation);
 					}
+				} else {
+					sprite.submit(m_Renderer2D, transformation);
 				}
 			}
 
@@ -216,7 +213,14 @@ public class Scene
 				}
 
 				// check if visible
-				text.submit(m_Renderer2D, transform);
+				//text.submit(m_Renderer2D, transform);
+				if (e.shouldBeCulled()){
+					if(mapIsInView(e)) { 
+						text.submit(m_Renderer2D, transform);
+					}
+				} else {
+					text.submit(m_Renderer2D, transform);
+				}
 			}
 
 			if(e.hasComponent(SpriteAnimationComponent.class))
@@ -236,7 +240,14 @@ public class Scene
 					transformation = transform.getTransformationMatrix();
 				}
 				// check is visible
-				animation.submit(m_Renderer2D, transformation);
+				//animation.submit(m_Renderer2D, transformation);
+				if (e.shouldBeCulled()){
+					if(mapIsInView(e)) { 
+						animation.submit(m_Renderer2D, transformation);
+					}
+				} else {
+					animation.submit(m_Renderer2D, transformation);
+				}
 			}
 		}
 		m_Renderer2D.drawAll();
