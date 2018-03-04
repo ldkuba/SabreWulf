@@ -24,7 +24,7 @@ public class Map {
 		this.scene = scene;
 		background = new Entity[MAP_SIZE * MAP_SIZE];
 		this.basePath = basePath;
-		//navmesh = new Navmesh(basePath + "/navmesh.txt");
+		navmesh = new Navmesh(basePath + "/navmesh.txt");
 	}
 
 	//only run on the client

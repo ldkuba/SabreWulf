@@ -26,7 +26,7 @@ public class ServerGameState extends AbstractState
 	{
 		this.app = app;
 		scene = new Scene(0, app);
-		
+		map = new Map(scene, "res/textures/map");
 		playerManager = new PlayerManager(scene);
 	}
 		
@@ -73,6 +73,8 @@ public class ServerGameState extends AbstractState
 			frame = 0;
 		}
 		frame++;
+		
+		System.out.println("ALIVE");
 		
 		playerManager.update();
 		scene.update();

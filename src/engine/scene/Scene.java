@@ -1,12 +1,13 @@
 package engine.scene;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
-//import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TextComponent;
@@ -74,7 +75,45 @@ public class Scene
 
 	private void sortEntitiesZ()
 	{
-		//Collections.so
+		class CompareZ implements Comparator<Entity>{
+
+			@Override
+			public int compare(Entity e1, Entity e2)
+			{
+				float z1 = 0.0f;
+				float z2 = 0.0f;
+				
+				if(e1.hasComponent(TransformComponent.class))
+				{
+					z1 = e1.getTransform().getPosition().getZ();
+				}else if(e1.hasComponent(NetTransformComponent.class))
+				{
+					z1 = ((NetTransformComponent) e1.getComponent(NetTransformComponent.class)).getPosition().getZ();
+				}
+				
+				if(e2.hasComponent(TransformComponent.class))
+				{
+					z2 = e2.getTransform().getPosition().getZ();
+				}else if(e2.hasComponent(NetTransformComponent.class))
+				{
+					z2 = ((NetTransformComponent) e2.getComponent(NetTransformComponent.class)).getPosition().getZ();
+				}
+				
+				if(z1 > z2)
+				{
+					return -1;
+				}else if(z1 == z2)
+				{
+					return 0;
+				}else
+				{
+					return 1;
+				}
+			}
+			
+		}
+		
+		Collections.sort(m_Entities, new CompareZ());
 	}
 	
 	private boolean isIdFree(int id)
@@ -118,13 +157,15 @@ public class Scene
 			}
 		}
 
+		sortEntitiesZ();
+		
 		app.getNetworkManager().synchronize(this);
 	}
 
 	public void render()
 	{
-		/*for some reason when checking is entity is visible for text/animation it doesnt work
-		* i'm guessing it's something to do with where the respective are positioned
+		/*
+		* still doesn't seem to work for anything else
 		*/
 		m_Renderer2D.init(m_Camera);
 
@@ -148,10 +189,10 @@ public class Scene
 				}
 
 				// check if visible
-				if(!isGameState){
+				if(!isGameState) {
 					sprite.submit(m_Renderer2D, transformation);
 				} else {
-					if(isInView(e)){
+					if(mapIsInView(e)) { 
 						sprite.submit(m_Renderer2D, transformation);
 					}
 				}
@@ -216,7 +257,7 @@ public class Scene
 		return m_Entities;
 	}
 		
-	public boolean isInView(Entity entity){
+	public boolean mapIsInView(Entity entity) {
 		/*
 		 *     p4____p2 
 		 *      |    |
@@ -249,5 +290,20 @@ public class Scene
 			} 
 		}
 		return false;
+	}
+	
+	public boolean inView(TransformComponent transform){
+		Vec3 cam = m_Camera.getPosition();
+		float view = Application.s_Viewport.getLength();
+		float x = transform.getPosition().getX();
+		float y = transform.getPosition().getY();
+		float xMinSpan = cam.getX() - (view/2);
+		float xMaxSpan = cam.getX() + (view/2);
+		float yMinSpan = cam.getY() - (view/3);
+		float yMaxSpan = cam.getY() + (view/3);
+		if(x >= xMinSpan && x <= xMaxSpan && y >= yMinSpan && y <= yMaxSpan){
+			return true;
+		}
+		return false;		
 	}
 }

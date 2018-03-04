@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import engine.maths.Vec2;
 import engine.maths.Vec3;
 
+
 public class Navmesh {
 	
 	private ArrayList<Edge> edges;
@@ -17,6 +18,7 @@ public class Navmesh {
 		parsing.readFile(filename);
 		this.triangles = parsing.getTriangles();
 		this.pathfinding = new Pathfinding(triangles);
+		edges = new ArrayList<>();
 		generateEdges();
 	}
 	
@@ -129,7 +131,14 @@ public class Navmesh {
 			}
 		}
 		
+		if(startTrig == null || endTrig == null)
+		{
+			return null;
+		}
+		
 		ArrayList<Triangle> pathTrigs = pathfinding.AStar(startTrig, endTrig);
+		
+		System.out.println(pathTrigs.size());
 		
 		for(int i = 0; i < pathTrigs.size() - 1; i++)
 		{
@@ -138,9 +147,6 @@ public class Navmesh {
 		
 		path.add(end);
 		
-		return path;
-		
-		
-		
+		return path;	
 	}
 }

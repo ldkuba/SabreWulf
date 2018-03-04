@@ -12,6 +12,7 @@ public class Pathfinding {
 	
 	public Pathfinding(ArrayList<Triangle> triangles){
 		this.triangles = triangles;
+		path = new ArrayList<>();
 	}
 	
 	public ArrayList<Triangle> AStar(Triangle start, Triangle goal){
