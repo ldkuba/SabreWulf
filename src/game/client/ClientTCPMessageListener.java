@@ -102,6 +102,11 @@ public class ClientTCPMessageListener implements MessageListener
 
         else if(msg instanceof TimerEventMessage){
 			TimerEventMessage time = (TimerEventMessage) msg;
+			if (time.getTimePayload() == 0){
+				app.getSoundManager().invokeSound("countEnd", false);
+			} else {
+				app.getSoundManager().invokeSound("count", false);
+			}
 			System.out.println("Countdown: " + time.getTimePayload());
 		}
 

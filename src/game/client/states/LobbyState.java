@@ -100,6 +100,7 @@ public class LobbyState extends AbstractState
 				if(characterChoice.getSelectedId() != -1)
 				{
 					//Lock in champ and notify server that player is ready
+					app.getSoundManager().invokeSound("lockIn", false); //has this caused lag or is my laptop just shit
 					LockInMessage lim = new LockInMessage();
 					lim.setCharacterSelected(characterChoice.getSelectedId());
 					lockInButton.setEnabled(false);
