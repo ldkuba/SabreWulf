@@ -5,27 +5,28 @@ import game.common.actors.Player;
 
 public class Respawn {
 
-	private Player myPlayer;
 	Vec2 spawnCoord = new Vec2(0, 0); // zero to be replaced by coords of
-										// spawn
-										// room
-
-	public Respawn() {
-
+	
+	public boolean alive(Player myActor) {
+		if (zeroHealth(myActor)) {
+			respawn(myActor);
+			return false;
+		} else {
+			return true;
+		}
 	}
 
-	public boolean zeroHealth() {
-		if (myPlayer.getHealth() <= 0) {
+	public boolean zeroHealth(Player myActor) {
+		if (myActor.getHealth() <= 0) {
 			return true;
 		}
 		return false;
 	}
 
-	public void respawn() {
-		if (zeroHealth() == true) {
+	private void respawn(Player myActor) {
 			// do a cooldown timer
-			myPlayer.setPosition(spawnCoord);
-		}
+			myActor.setPosition(spawnCoord);
+		
 		// some way to set the player health to max
 	}
 }
