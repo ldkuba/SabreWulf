@@ -12,6 +12,11 @@ public class ParseTriangles {
 	
 	private ArrayList<Triangle> verticies;
 	
+	public ParseTriangles()
+	{
+		verticies = new ArrayList<>();
+	}
+	
 	public void readFile(String filename){
 		FileReader input = null;
 		String[] array1 = null;

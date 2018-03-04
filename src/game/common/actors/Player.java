@@ -1,5 +1,6 @@
 package game.common.actors;
 
+import engine.AI.Navmesh;
 import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.NetDataComponent;
@@ -18,9 +19,6 @@ public class Player extends Actor
 	private String name;
 	private int role;
 	private int playerId;
-	
-	//temporary
-	private Vec3 targetLocation;
 
 	public Player(int playerId, String name, Application app)
 	{	
@@ -31,6 +29,8 @@ public class Player extends Actor
 		
 		entity.addComponent(new NetIdentityComponent(playerId, app.getNetworkManager()));
 		entity.addComponent(new NetTransformComponent());
+		NetTransformComponent transform = (NetTransformComponent) entity.getComponent(NetTransformComponent.class);
+		transform.setPosition(new Vec3(0.0f, 0.0f, -0.7f));
 		
 		NetDataComponent netData = new NetDataComponent();
 		netData.addData("Health", health);
@@ -50,8 +50,6 @@ public class Player extends Actor
 			SpriteComponent spriteComponent = new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture("res/textures/characters/placeholder.png"), 1.5f, 1.5f);
 			entity.addComponent(spriteComponent);
 		}
-		
-		targetLocation = new Vec3();
 	}
 
 	public int getRole()
@@ -79,28 +77,9 @@ public class Player extends Actor
 		return this.playerId;
 	}
 	
+	@Override
 	public void update()
 	{
-		NetTransformComponent transform = (NetTransformComponent) entity.getComponent(NetTransformComponent.class);
-
-		Vec3 currentPos = new Vec3(transform.getPosition());
-		
-		currentPos.scale(-1.0f);
-		
-		Vec3 moveDir = Vec3.add(targetLocation, currentPos);
-		moveDir = Vec3.normalize(moveDir);
-		moveDir.scale(movementSpeed);
-		
-		transform.move(moveDir);
-	}
-	
-	public void setTargetLocation(Vec3 targetLocation)
-	{
-		this.targetLocation = targetLocation;
-	}
-	
-	public void calculatePath(Vec3 target)
-	{
-		this.targetLocation = target;
+		super.update();
 	}
 }
