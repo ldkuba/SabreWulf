@@ -88,13 +88,16 @@ public class GameState extends AbstractState {
 			int characterSelection = app.getNetworkManager().getNetPlayers().get(i).getChar();
 			switch (characterSelection) {
 			case 1:
-				player.setRole(Wizard);
+				//player.setRole(Wizard);
+				System.out.println("WIZARD");
 				break;
 			case 2:
-				player.setRole(Knight);
+				//player.setRole(Knight);
+				System.out.println("KNIGHT");
 				break;
 			case 3:
-				player.setRole(Elf);
+				//player.setRole(Elf);
+				System.out.println("ELF");
 				break;
 			}
 
@@ -106,7 +109,7 @@ public class GameState extends AbstractState {
 				player.setTeam(2);
 			}
 
-			playerManager.addPlayer(player);
+			//playerManager.addPlayer(player);
 
 		}
 

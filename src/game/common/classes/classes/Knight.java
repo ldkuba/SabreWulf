@@ -1,6 +1,6 @@
 package game.common.classes.classes;
 
-import game.classes.melee.MeleeTank;
+
 import game.common.classes.AbstractClasses;
 
 public class Knight extends AbstractClasses {
