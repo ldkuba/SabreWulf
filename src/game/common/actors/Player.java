@@ -7,6 +7,7 @@ import engine.entity.component.NetDataComponent;
 import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
 import engine.entity.component.SpriteComponent;
+import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
 import game.common.classes.AbstractClasses;
@@ -20,8 +21,8 @@ public class Player extends Actor {
 	private String name;
 	private AbstractClasses role;
 	private int playerId;
-
 	private int team;
+	private Vec2 startingPos;
 
 	// temporary
 	private Vec3 targetLocation;
@@ -80,10 +81,22 @@ public class Player extends Actor {
 
 	public void setTeam(int team) {
 		this.team = team;
+		switch(team) {
+		case 1:
+			//startingPos = team 1 start pos
+			break;
+		case 2:
+			// startingPos = team 2 start pos
+			break;
+		}
 	}
 
 	public int getTeam() {
 		return team;
+	}
+	
+	public Vec2 getStartingPos() {
+		return startingPos;	
 	}
 
 	public int getPlayerId() {
