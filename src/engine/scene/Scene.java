@@ -1,6 +1,8 @@
 package engine.scene;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import engine.application.Application;
 import engine.entity.Entity;
@@ -71,7 +73,45 @@ public class Scene
 
 	private void sortEntitiesZ()
 	{
-		//Collections.so
+		class CompareZ implements Comparator<Entity>{
+
+			@Override
+			public int compare(Entity e1, Entity e2)
+			{
+				float z1 = 0.0f;
+				float z2 = 0.0f;
+				
+				if(e1.hasComponent(TransformComponent.class))
+				{
+					z1 = e1.getTransform().getPosition().getZ();
+				}else if(e1.hasComponent(NetTransformComponent.class))
+				{
+					z1 = ((NetTransformComponent) e1.getComponent(NetTransformComponent.class)).getPosition().getZ();
+				}
+				
+				if(e2.hasComponent(TransformComponent.class))
+				{
+					z2 = e2.getTransform().getPosition().getZ();
+				}else if(e2.hasComponent(NetTransformComponent.class))
+				{
+					z2 = ((NetTransformComponent) e2.getComponent(NetTransformComponent.class)).getPosition().getZ();
+				}
+				
+				if(z1 > z2)
+				{
+					return -1;
+				}else if(z1 == z2)
+				{
+					return 0;
+				}else
+				{
+					return 1;
+				}
+			}
+			
+		}
+		
+		Collections.sort(m_Entities, new CompareZ());
 	}
 	
 	private boolean isIdFree(int id)
@@ -115,6 +155,8 @@ public class Scene
 			}
 		}
 
+		sortEntitiesZ();
+		
 		app.getNetworkManager().synchronize(this);
 	}
 
@@ -189,6 +231,8 @@ public class Scene
 				animation.submit(m_Renderer2D, transformation);
 			}
 		}
+		
+		
 
 		m_Renderer2D.drawAll();
 	}

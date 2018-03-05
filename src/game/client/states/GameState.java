@@ -56,6 +56,11 @@ public class GameState extends AbstractState {
 					MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 1.0f, 100.0f));
 			app.setViewport(zoom * aspectRatio, zoom);
 		}
+		
+		if(key == GLFW.GLFW_KEY_D && action == GLFW.GLFW_PRESS)
+		{
+			System.out.println("D FOR DEBUG");
+		}
 
 		if (key == GLFW.GLFW_KEY_X && action == GLFW.GLFW_PRESS) {
 			zoom -= 5.0f;

@@ -1,21 +1,35 @@
 package game.common.actors;
 
+
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import engine.AI.Navmesh;
 
 import engine.entity.Entity;
 import engine.maths.Vec2;
 import game.common.classes.AbstractClasses;
+import engine.entity.component.NetTransformComponent;
+import engine.entity.component.TransformComponent;
+import engine.maths.Vec3;
+
 import game.common.inventory.Inventory;
 import game.common.inventory.Item;
 import game.common.items.attributes.Attribute;
 import game.common.items.attributes.main.*;
 import game.common.logic.ActorLogic;
 
-public class Actor {
 
-	public Actor() {
+
+public class Actor
+{
+	private final float MIN_DISTANCE = 0.2f;
+	private ArrayList<Vec3> currentPath;
+	
+	public Actor()
+	{
 		entity = new Entity("Actor");
+		currentPath = new ArrayList<>();
 	}
 
 	protected Inventory inventory;
@@ -96,6 +110,26 @@ public class Actor {
 
 	public Entity getEntity() {
 		return entity;
+	}
+	
+	public void calculatePath(Vec3 target, Navmesh navmesh)
+	{
+		Vec3 startPos = new Vec3();
+		
+		if(entity.hasComponent(TransformComponent.class))
+		{
+			startPos = entity.getTransform().getPosition();
+		}else if(entity.hasComponent(NetTransformComponent.class))
+		{
+			startPos = ((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).getPosition();
+		}
+		
+		ArrayList<Vec3> path = navmesh.findPath(startPos, target);
+		
+		if(path != null)
+		{
+			this.currentPath = path;
+		}
 	}
 
 	/**
@@ -202,6 +236,63 @@ public class Actor {
 		this.resistance = resistance;
 	}
 
+	public void update()
+	{
+		Vec3 currentPos = new Vec3();
+		
+		if(entity.hasComponent(TransformComponent.class))
+		{
+			if(!currentPath.isEmpty())
+			{
+				currentPos = new Vec3(entity.getTransform().getPosition());
+				
+				currentPos.scale(-1.0f);
+				
+				Vec3 moveDir = Vec3.add(currentPath.get(0), currentPos);
+				
+				if(moveDir.getLength() < MIN_DISTANCE)
+				{
+					entity.getTransform().setPosition(currentPath.get(0));
+					
+					currentPath.remove(0);	
+				}else
+				{
+					moveDir = Vec3.normalize(moveDir);
+					moveDir.scale(movementSpeed);
+				
+					entity.getTransform().move(moveDir);
+				}
+			}
+		}else if(entity.hasComponent(NetTransformComponent.class))
+		{
+			if(!currentPath.isEmpty())
+			{
+				currentPos = new Vec3(((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).getPosition());
+				
+				currentPos.scale(-1.0f);
+				
+				Vec3 moveDir = Vec3.add(currentPath.get(0), currentPos);
+				
+				if(moveDir.getLength() < MIN_DISTANCE)
+				{
+					((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).setPosition(currentPath.get(0));
+					
+					currentPath.remove(0);
+				}else
+				{
+					moveDir = Vec3.normalize(moveDir);
+					moveDir.scale(movementSpeed);
+					
+					((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).move(moveDir);
+				}
+			}
+		}
+		
+		currentPos.scale(-1.0f);
+		
+		System.out.println("Current Pos: " + currentPos.getX() + ", " + currentPos.getY());
+	}
+	
 	/**
 <<<<<<< HEAD
 	 * This will be affected by items.
