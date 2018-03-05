@@ -54,8 +54,10 @@ public class ServerSenderUDP extends Thread{
 		byte[] buffer = new byte[config.UDPMaxPacketSize];
 		
 		while(true) {
+
 			//Sends packets in queue
 			if(!queueMessages.isEmpty()) {
+
 				NetworkEntity messageToSend = null;
 				try {
 					messageToSend = queueMessages.take();
