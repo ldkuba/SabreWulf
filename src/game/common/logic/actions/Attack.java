@@ -15,12 +15,12 @@ public class Attack extends AbstractAction {
 		if(inRange(playCoord, enemyCoord, myActor.getAttackRange())) {
 			
 			Class NetDataComponent;
-			AbstractComponent dmg = myEntity.getComponent(NetDataComponent);
+			//AbstractComponent dmg = myEntity.getComponent(NetDataComponent);
 			/**
 			 * I Have no idea how to change the damage of the other player.
 			 * Will ask how to do this...
 			 */
-			enemy.getLogic().receiveDamage(dmg);	//Replaced by sending it to the server.
+			//enemy.getLogic().receiveDamage(dmg);	//Replaced by sending it to the server.
 			//Display damage.
 			
 			return true;
