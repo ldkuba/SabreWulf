@@ -85,6 +85,7 @@ public class GameState extends AbstractState {
 			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app);
 			// here we would set up more stuff related to the player like class,
 			// items, starting position, etc.
+			/*
 			int characterSelection = app.getNetworkManager().getNetPlayers().get(i).getChar();
 			switch (characterSelection) {
 			case 1:
@@ -107,9 +108,9 @@ public class GameState extends AbstractState {
 
 			else {
 				player.setTeam(2);
-			}
+			}*/
 
-			//playerManager.addPlayer(player);
+			playerManager.addPlayer(player);
 
 		}
 

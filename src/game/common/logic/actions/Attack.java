@@ -2,6 +2,7 @@ package game.common.logic.actions;
 
 import engine.entity.Entity;
 import engine.entity.component.AbstractComponent;
+import engine.entity.component.NetDataComponent;
 import engine.logic.AbstractAction;
 import engine.maths.Vec2;
 import engine.net.server.core.NetPlayer;
@@ -14,12 +15,14 @@ public class Attack extends AbstractAction {
 	public boolean attack(Vec2 playCoord, Player myActor, Entity myEntity,Vec2 enemyCoord, Player enemy) {
 		if(inRange(playCoord, enemyCoord, myActor.getAttackRange())) {
 			
-			Class NetDataComponent;
-			//AbstractComponent dmg = myEntity.getComponent(NetDataComponent);
+
+			NetDataComponent dmgComp = (NetDataComponent) myEntity.getComponent(NetDataComponent.class);
+
 			/**
 			 * I Have no idea how to change the damage of the other player.
 			 * Will ask how to do this...
 			 */
+
 			//enemy.getLogic().receiveDamage(dmg);	//Replaced by sending it to the server.
 			//Display damage.
 			
