@@ -1,9 +1,9 @@
 package game.common.logic.actions;
 
-import engine.logic.AbstractAction;
+//import engine.logic.AbstractAction;
 import engine.maths.Vec2;
 
-public class Movement extends AbstractAction{
+public class Movement{
 	
 
 	public Vec2 moveTo(Vec2 coordPlayer, Vec2 coordEnemy) {
