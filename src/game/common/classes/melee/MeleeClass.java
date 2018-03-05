@@ -7,8 +7,8 @@ public class MeleeClass extends AbstractClasses {
 	//Base Stats.
 	private static float vitality = 100;
 	private static int energy   = 60;
-	private static int intelligence   = 60;
-	private static int strength = 70;
+	private static int damage   = 60;
+	private static int resistance = 70;
 	private static int defence  = 80;
 	private static float mana = 70;
 	private static float moveSpeed = 20f;
@@ -24,9 +24,7 @@ public class MeleeClass extends AbstractClasses {
 	private static float healthReg = 2.5f;
 
 	public MeleeClass() {
-		super(vitality, energy, intelligence, strength, defence, fieldOfView, mana);
-		setCombatStats(attackDmg, attackRange, attackSpeed);
-		setRegStats(manaReg, healthReg);
+		super(vitality, moveSpeed, damage, resistance, energy);
 	}
 
 }

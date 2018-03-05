@@ -6,7 +6,7 @@ public class Energy extends Attribute{
 
 	private float energy;
 	
-	public Energy(int ener) {
+	public Energy(float ener) {
 		energy = ener;
 	}
 

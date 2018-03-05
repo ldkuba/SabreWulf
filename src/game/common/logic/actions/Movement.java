@@ -1,12 +1,18 @@
 package game.common.logic.actions;
 
-import game.common.logic.GameLogic;
+import engine.logic.AbstractAction;
+import engine.maths.Vec2;
 
 public class Movement extends AbstractAction{
 	
-	private float speed = 10;		//Base speed
-	
-	private static GameLogic player = new GameLogic();
+
+	public Vec2 moveTo(Vec2 coordPlayer, Vec2 coordEnemy) {
+		float toX = coordPlayer.getX() - coordEnemy.getX();
+		float toY = coordPlayer.getY() - coordEnemy.getY();
+		Vec2 toPos = new Vec2(toX, toY);
+
+		return toPos;
+	}
 	
 	public float move() {
 		/*
