@@ -17,6 +17,9 @@ import engine.state.AbstractState;
 import game.client.Main;
 import game.client.player.PlayerController;
 import game.common.actors.Player;
+import game.common.classes.classes.Elf;
+import game.common.classes.classes.Knight;
+import game.common.classes.classes.Wizard;
 import game.common.map.Map;
 import game.common.player.PlayerManager;
 
@@ -88,13 +91,13 @@ public class GameState extends AbstractState {
 			int characterSelection = app.getNetworkManager().getNetPlayers().get(i).getChar();
 			switch (characterSelection) {
 			case 1:
-				player.setRole(Wizard);
+				player.setRole(new Wizard());
 				break;
 			case 2:
-				player.setRole(Knight);
+				player.setRole(new Knight());
 				break;
 			case 3:
-				player.setRole(Elf);
+				player.setRole(new Elf());
 				break;
 			}
 

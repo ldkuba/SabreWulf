@@ -1,6 +1,5 @@
 package game.common.classes.classes;
 
-import game.classes.range.RangeHealer;
 import game.common.classes.AbstractClasses;
 
 public class Elf extends AbstractClasses {
