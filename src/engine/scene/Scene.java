@@ -163,9 +163,7 @@ public class Scene
 
 	public void render()
 	{
-		/*
-		* still doesn't seem to work for anything else
-		*/
+		int count = 0;
 		m_Renderer2D.init(m_Camera);
 
 		for (Entity e : m_Entities)
@@ -189,6 +187,7 @@ public class Scene
 				if (e.shouldBeCulled()){
 					if(mapIsInView(e)) { 
 						sprite.submit(m_Renderer2D, transformation);
+						count++;
 					}
 				} else {
 					sprite.submit(m_Renderer2D, transformation);
@@ -213,7 +212,6 @@ public class Scene
 				}
 
 				// check if visible
-				//text.submit(m_Renderer2D, transform);
 				if (e.shouldBeCulled()){
 					if(mapIsInView(e)) { 
 						text.submit(m_Renderer2D, transform);
@@ -240,7 +238,6 @@ public class Scene
 					transformation = transform.getTransformationMatrix();
 				}
 				// check is visible
-				//animation.submit(m_Renderer2D, transformation);
 				if (e.shouldBeCulled()){
 					if(mapIsInView(e)) { 
 						animation.submit(m_Renderer2D, transformation);
@@ -250,6 +247,7 @@ public class Scene
 				}
 			}
 		}
+		System.out.println("Count: " + Integer.toString(count));
 		m_Renderer2D.drawAll();
 	}
 
@@ -288,8 +286,8 @@ public class Scene
 			Vec2 p4 = new Vec2(p1.getX(), p1.getY()+entHeight);
 			float xMinSpan = cam.getX() - (view/2);
 			float xMaxSpan = cam.getX() + (view/2);
-			float yMinSpan = cam.getY() - (view/3);
-			float yMaxSpan = cam.getY() + (view/3);
+			float yMinSpan = cam.getY() - (view/2);
+			float yMaxSpan = cam.getY() + (view/2);
 			if (p4.getX() < xMaxSpan && p4.getX() > xMinSpan && p4.getY() < yMaxSpan && p4.getY() > yMinSpan){
 				return true;
 			} else if (p3.getX() < xMaxSpan && p3.getX() > xMinSpan && p3.getY() < yMaxSpan && p3.getY() > yMinSpan){
@@ -301,20 +299,5 @@ public class Scene
 			} 
 		}
 		return false;
-	}
-	
-	public boolean inView(TransformComponent transform){
-		Vec3 cam = m_Camera.getPosition();
-		float view = Application.s_Viewport.getLength();
-		float x = transform.getPosition().getX();
-		float y = transform.getPosition().getY();
-		float xMinSpan = cam.getX() - (view/2);
-		float xMaxSpan = cam.getX() + (view/2);
-		float yMinSpan = cam.getY() - (view/3);
-		float yMaxSpan = cam.getY() + (view/3);
-		if(x >= xMinSpan && x <= xMaxSpan && y >= yMinSpan && y <= yMaxSpan){
-			return true;
-		}
-		return false;		
 	}
 }
