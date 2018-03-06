@@ -352,6 +352,7 @@ public class Actor
 		movementSpeed = role.getMoveSpeed();
 		energy = role.getEnergy();
 		damage = role.getDamage();
+		attackRange = 2.0f;
 		this.role = role;
 	}
 

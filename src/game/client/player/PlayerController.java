@@ -71,7 +71,7 @@ public class PlayerController {
 			Player myPlayerTest = playerManager.getPlayer(0);
 
 			if(inRadius(worldPos, dummyTrans.getPosition())) {
-				System.out.println("HIT!");
+				System.out.println("Clicked Player");
 
 				System.out.println(myPlayerTest.getAttackRange());
 

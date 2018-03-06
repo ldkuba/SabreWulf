@@ -99,6 +99,8 @@ public class GameState extends AbstractState {
 			// here we would set up more stuff related to the player like class (done),
 			// items, starting position(done), team(done) etc.
 			int characterSelection = app.getNetworkManager().getNetPlayers().get(i).getChar();
+			characterSelection = 1;
+			System.out.println(characterSelection);
 			switch (characterSelection) {
 			case 1:
 				player.setRole(new Wizard());

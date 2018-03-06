@@ -32,8 +32,8 @@ public class Attack extends AbstractAction {
 
 	public boolean inRange(Vec3 playerCoord, Vec3 enemyCoord, float playerRange) {
 		
-		float rangeX = enemyCoord.getX() - playerCoord.getX();
-		float rangeY = enemyCoord.getY() - playerCoord.getY();
+		float rangeX = playerCoord.getX() - enemyCoord.getX();
+		float rangeY = playerCoord.getY() - enemyCoord.getY();
 		
 		//Make values positive.
 		rangeX = toPositive(rangeX);
