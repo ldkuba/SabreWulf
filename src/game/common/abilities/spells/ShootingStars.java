@@ -6,6 +6,10 @@ public class ShootingStars extends AbstractAbility{
 	
 	private int damage = 5;
 
+	public ShootingStars(String name, float damage, float cooldown) {
+		super(name, damage, cooldown);
+	}
+
 	@Override
 	public float dealDamage() {
 		// TODO Auto-generated method stub

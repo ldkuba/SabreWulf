@@ -25,6 +25,8 @@ public class Actor
 {
 	private final float MIN_DISTANCE = 0.2f;
 	private ArrayList<Vec3> currentPath;
+
+	private Vec3 currentPosition;
 	
 	public Actor()
 	{
@@ -119,12 +121,15 @@ public class Actor
 		if(entity.hasComponent(TransformComponent.class))
 		{
 			startPos = entity.getTransform().getPosition();
+			System.out.println(startPos.getX());
 		}else if(entity.hasComponent(NetTransformComponent.class))
 		{
 			startPos = ((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).getPosition();
+			System.out.println(startPos.getX());
 		}
 		
 		ArrayList<Vec3> path = navmesh.findPath(startPos, target);
+
 		
 		if(path != null)
 		{
@@ -144,24 +149,22 @@ public class Actor
 		return team;
 	}
 
-	protected Vec2 base;
+	protected Vec3 base;
 
-	public Vec2 getBase() {
+	public Vec3 getBase() {
 		return base;
 	}
 
-	public void setBase(Vec2 base) {
+	public void setBase(Vec3 base) {
 		this.base = base;
 	}
 
-	protected Vec2 position;
-
-	public Vec2 getPosition() {
-		return position;
+	public Vec3 getPosition() {
+		return currentPosition;
 	}
 
-	public void setPosition(Vec2 position) {
-		this.position = position;
+	public void setPosition(Vec3 position) {
+		currentPosition = position;
 	}
 
 	/**
@@ -245,7 +248,7 @@ public class Actor
 			if(!currentPath.isEmpty())
 			{
 				currentPos = new Vec3(entity.getTransform().getPosition());
-				
+				setPosition(currentPos);
 				currentPos.scale(-1.0f);
 				
 				Vec3 moveDir = Vec3.add(currentPath.get(0), currentPos);
@@ -268,7 +271,7 @@ public class Actor
 			if(!currentPath.isEmpty())
 			{
 				currentPos = new Vec3(((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).getPosition());
-				
+
 				currentPos.scale(-1.0f);
 				
 				Vec3 moveDir = Vec3.add(currentPath.get(0), currentPos);
@@ -289,7 +292,12 @@ public class Actor
 		}
 		
 		currentPos.scale(-1.0f);
-		
+		setPosition(currentPos);
+
+		NetTransformComponent playerTrans = (NetTransformComponent) entity.getComponent(NetTransformComponent.class);
+		System.out.println(playerTrans.getPosition().getX());
+
+		//System.out.println("Player Position: " + currentPosition.getX() + "," + currentPosition.getY());
 		System.out.println("Current Pos: " + currentPos.getX() + ", " + currentPos.getY());
 	}
 	
@@ -326,6 +334,10 @@ public class Actor
 
 	public ActorLogic getLogic() {
 		return logic;
+	}
+
+	public void setLogic(ActorLogic logic) {
+		this.logic = logic;
 	}
 
 	/**

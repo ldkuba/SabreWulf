@@ -1,11 +1,12 @@
 package game.common.logic.actions;
 
 import engine.maths.Vec2;
+import engine.maths.Vec3;
 import game.common.actors.Player;
 
 public class Respawn {
 
-	Vec2 spawnCoord = new Vec2(0, 0); // zero to be replaced by coords of
+	Vec3 spawnCoord = new Vec3(0, 0,0); // zero to be replaced by coords of
 	
 	public boolean alive(Player myActor) {
 		if (zeroHealth(myActor)) {
