@@ -265,30 +265,28 @@ public class Scene
 	{
 		return m_Entities;
 	}
-		
-	public boolean mapIsInView(Entity entity) {
+	
+	public boolean mapIsInView(Entity entity){
 		/*
-		 *     p4____p2 
+		 *     p3____p4 
 		 *      |    |
 		 *      |____| 
-		 *    p1      p3     
+		 *    p1      p2     
 		 */
 		Vec3 cam = m_Camera.getPosition();
-		float view = Application.s_Viewport.getLength();
-		System.out.println(view);
-		System.out.println();
 		SpriteComponent sprite = entity.getSprite();
 		TransformComponent transform = entity.getTransform();
+		float view = Application.s_Viewport.getLength();
 		if(sprite != null && transform != null) {
 			float entWidth = sprite.getWidth();
 			float entHeight = sprite.getHeight();
-			Vec3 p1 = transform.getPosition(); 
-			Vec2 p2 = new Vec2(p1.getX()+(entWidth), p1.getY()+(entHeight));
-			Vec2 p3 = new Vec2(p1.getX()+entWidth, p1.getY());
-			Vec2 p4 = new Vec2(p1.getX(), p1.getY()+entHeight);
-			float xMinSpan = cam.getX() - (view);
-			float xMaxSpan = cam.getX() + (view);
-			float yMinSpan = cam.getY() - (view);
+			Vec3 p1 = transform.getPosition();
+			Vec2 p2 = new Vec2(p1.getX()+entWidth, p1.getY());
+			Vec2 p3 = new Vec2(p1.getX(), p1.getY()+entHeight);
+			Vec2 p4 = new Vec2(p1.getX()+(entWidth), p1.getY()+(entHeight));
+			float xMinSpan = cam.getX() - (view*0.67f);
+			float xMaxSpan = cam.getX() + (view*1.34f);
+			float yMinSpan = cam.getY() - (view*0.5625f);
 			float yMaxSpan = cam.getY() + (view);
 			if (p4.getX() < xMaxSpan && p4.getX() > xMinSpan && p4.getY() < yMaxSpan && p4.getY() > yMinSpan){
 				return true;
@@ -298,7 +296,7 @@ public class Scene
 				return true;
 			} else if (p1.getX() < xMaxSpan && p1.getX() > xMinSpan && p1.getY() < yMaxSpan && p1.getY() > yMinSpan){
 				return true;
-			} 
+			} 			
 		}
 		return false;
 	}
