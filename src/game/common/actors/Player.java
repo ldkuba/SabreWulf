@@ -11,6 +11,7 @@ import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
 import game.common.classes.AbstractClasses;
+import game.common.logic.ActorLogic;
 
 /**
  * Player as the engine sees it.
@@ -22,7 +23,7 @@ public class Player extends Actor {
 	private AbstractClasses role;
 	private int playerId;
 	private int team;
-	private Vec2 startingPos;
+	private Vec3 startingPos;
 
 	// temporary
 	private Vec3 targetLocation;
@@ -37,7 +38,8 @@ public class Player extends Actor {
 		entity.addComponent(new NetTransformComponent());
 		NetTransformComponent transform = (NetTransformComponent) entity.getComponent(NetTransformComponent.class);
 		transform.setPosition(new Vec3(0.0f, 0.0f, -0.7f));
-		
+
+		setPosition(new Vec3(0.0f,0.0f,-7.0f));
 
 		NetDataComponent netData = new NetDataComponent();
 		netData.addData("Health", health);
@@ -48,6 +50,8 @@ public class Player extends Actor {
 		netData.addData("Starting Position", startingPos);
 
 		entity.addComponent(netData);
+
+		logic = new ActorLogic(this);
 
 		// Colliders go here too
 
@@ -96,7 +100,7 @@ public class Player extends Actor {
 		return team;
 	}
 	
-	public Vec2 getStartingPos() {
+	public Vec3 getStartingPos() {
 		return startingPos;	
 	}
 

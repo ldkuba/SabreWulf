@@ -104,4 +104,21 @@ public class Vec3 implements Serializable
 			return new Vec3(vec.getX()/scale, vec.getY()/scale, vec.getZ()/scale);
 		}
 	}
+
+	public static boolean inRadius(Vec3 desLoc, Vec3 playerPos) {
+
+		Vec3 addOne = new Vec3(1.0f,1.0f,0.0f);
+		Vec3 minusOne = new Vec3(-1.0f,-1.0f,0.0f);
+
+
+		if(playerPos.getX() <= desLoc.getX() + addOne.getX() && playerPos.getX() >= desLoc.getX() - addOne.getX()) {
+			if (playerPos.getY() <= desLoc.getY() + addOne.getY() && playerPos.getY() >= desLoc.getY() - addOne.getY()) {
+				return true;
+			}
+			return false;
+		}
+		return false;
+
+
+	}
 }

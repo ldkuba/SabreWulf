@@ -1,3 +1,4 @@
+
 package game.common.logic;
 
 import engine.maths.Vec2;

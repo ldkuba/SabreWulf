@@ -1,5 +1,13 @@
 package game.client.player;
 
+import engine.application.Application;
+import engine.entity.Entity;
+import engine.entity.component.NetTransformComponent;
+import engine.entity.component.TextComponent;
+import engine.entity.component.TransformComponent;
+import engine.maths.Vec4;
+import game.common.actors.Player;
+import game.common.player.PlayerManager;
 import org.lwjgl.glfw.GLFW;
 
 import engine.input.InputManager;
@@ -10,6 +18,8 @@ import engine.scene.Scene;
 import game.client.Main;
 import game.client.states.GameState;
 
+import static engine.maths.Vec3.inRadius;
+
 //For handling actual instruction sets to be passed to transformation and interaction components of the players
 public class PlayerController {
 	
@@ -17,12 +27,17 @@ public class PlayerController {
 	private Main main;
 	private GameState gamestate;
 	private Scene scene;
-	
-	public PlayerController(Main main, GameState gs, Scene scene) {
+
+	private PlayerManager playerManager;
+	private Application app;
+
+	public PlayerController(Main main, GameState gs, Scene scene, PlayerManager playMan) {
 		gamestate = gs;
 		this.main = main;
 		inputManager = main.getInputManager();
 		this.scene = scene;
+		playerManager = playMan;
+
 	}
 	
 	public void update()
@@ -42,8 +57,30 @@ public class PlayerController {
 		{
 			DesiredLocationMessage msg = new DesiredLocationMessage();
 			
+
 			Vec3 worldPos = scene.getCamera().getWorldCoordinates((float)main.getInputManager().getMouseX(), (float)main.getInputManager().getMouseY());
-			
+
+			NetTransformComponent playerTrans = (NetTransformComponent) playerManager.getPlayer(0).getEntity().getComponent(NetTransformComponent.class);
+			NetTransformComponent dummyTrans = (NetTransformComponent) playerManager.getPlayer(1).getEntity().getComponent(NetTransformComponent.class);
+
+			System.out.println("Player x: " + playerTrans.getPosition().getX() + " :: " + "Player y: " + playerTrans.getPosition().getY());
+			System.out.println("Dummy x: " + dummyTrans.getPosition().getX() + " :: " + "Dummy y: " + dummyTrans.getPosition().getY());
+
+			System.out.println("Desired Location: " + worldPos.getX() + " : " + worldPos.getY());
+
+			Player myPlayerTest = playerManager.getPlayer(0);
+
+			if(inRadius(worldPos, dummyTrans.getPosition())) {
+				System.out.println("Clicked Player");
+
+				System.out.println(myPlayerTest.getAttackRange());
+
+				if(playerManager.getPlayer(0).getLogic().inRange(playerTrans.getPosition(), dummyTrans.getPosition(), myPlayerTest.getAttackRange())) {
+					System.out.println("Dealt: " + myPlayerTest.getDamage());
+				}
+
+			}
+
 			msg.setPos(worldPos);
 			
 			main.getClient().sendTCP(msg);

@@ -1,3 +1,4 @@
+
 package game.common.actors;
 
 
@@ -343,3 +344,4 @@ public class Actor
 	}
 
 }
+

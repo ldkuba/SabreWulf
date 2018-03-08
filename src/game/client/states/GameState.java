@@ -25,11 +25,21 @@ import game.common.player.PlayerManager;
 
 public class GameState extends AbstractState {
 
+	/**
+	 * Dummy Player creator
+	 */
+
+	private boolean dummy = true;
+
+	private Player dummyPlayer;
+
+	/*--------------------------*/
+
 	private Main app;
 	private Scene scene;
 	private PlayerController playerController;
 
-	private PlayerManager playerManager;
+	private static PlayerManager playerManager;
 
 	private Map map;
 
@@ -45,7 +55,7 @@ public class GameState extends AbstractState {
 		this.app = app;
 		scene = new Scene(0, app);
 		playerManager = new PlayerManager(scene);
-		playerController = new PlayerController(app, this, scene);
+		playerController = new PlayerController(app, this, scene,playerManager);
 		map = new Map(scene, "res/textures/map");
 	}
 
@@ -89,6 +99,8 @@ public class GameState extends AbstractState {
 			// here we would set up more stuff related to the player like class (done),
 			// items, starting position(done), team(done) etc.
 			int characterSelection = app.getNetworkManager().getNetPlayers().get(i).getChar();
+			characterSelection = 1;
+			System.out.println(characterSelection);
 			switch (characterSelection) {
 			case 1:
 				player.setRole(new Wizard());
@@ -109,12 +121,16 @@ public class GameState extends AbstractState {
 			else {
 				player.setTeam(2);
 			}
-
 			playerManager.addPlayer(player);
 
 		}
 
-		
+		if (dummy) {
+			dummyPlayer = new Player(1, "Dummy", app);
+			dummyPlayer.setTeam(1);
+			dummyPlayer.setRole(new Wizard());
+			playerManager.addPlayer(dummyPlayer);
+		}
 		map.init(app.getAssetManager());
 
 

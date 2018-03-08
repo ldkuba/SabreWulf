@@ -56,6 +56,11 @@ public class ServerGameState extends AbstractState
 			netTransform.setPosition(new Vec3(-10.0f, 0.0f, 0.0f));
 			playerManager.addPlayer(player);
 		}
+
+		//Add Dummy Player
+		Player dummyPlayer = new Player(1, "dummy",app);
+		playerManager.addPlayer(dummyPlayer);
+
 	}
 
 	@Override
@@ -75,7 +80,16 @@ public class ServerGameState extends AbstractState
 		frame++;
 		
 		System.out.println("ALIVE");
-		
+
+		/*
+		Testing Zone
+		 */
+
+		NetTransformComponent playerTrans = (NetTransformComponent) playerManager.getPlayer(0).getEntity().getComponent(NetTransformComponent.class);
+		NetTransformComponent dummyTrans = (NetTransformComponent) playerManager.getPlayer(1).getEntity().getComponent(NetTransformComponent.class);
+		System.out.println(playerTrans.getPosition().getX());
+		System.out.println(dummyTrans.getPosition().getX());
+
 		playerManager.update();
 		scene.update();
 	}

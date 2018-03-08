@@ -3,6 +3,7 @@ package game.server.ingame;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import engine.entity.component.NetTransformComponent;
 import engine.net.common_net.MessageListener;
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.common_net.networking_messages.DesiredLocationMessage;
@@ -79,7 +80,11 @@ public class ServerMessageListener implements MessageListener
 			DesiredLocationMessage dlm = (DesiredLocationMessage) msg;
 			
 			ServerMain.gameState.getPlayerManager().getPlayer(player.getPlayerId()).calculatePath(dlm.getPos(), ServerMain.gameState.getMap().getNavmesh());
-			
+
+			/*
+			 * Testing Zone
+			 */
+
 			System.out.println("Recieved path message in game");
 		}
 	}
