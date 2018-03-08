@@ -7,6 +7,7 @@ import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.common.actors.Player;
 import game.common.classes.classes.Elf;
+import game.common.classes.classes.Knight;
 import game.common.classes.classes.Wizard;
 import game.common.map.Map;
 import game.common.player.PlayerManager;
@@ -60,6 +61,7 @@ public class ServerGameState extends AbstractState
 			// here we would set up more stuff related to the player like class, items, starting position, etc.
 			NetTransformComponent netTransform = (NetTransformComponent) player.getEntity().getComponent(NetTransformComponent.class);
 			netTransform.setPosition(new Vec3(-10.0f, 0.0f, 0.0f));
+			player.setRole(new Knight());
 			playerManager.addPlayer(player);
 		}
 

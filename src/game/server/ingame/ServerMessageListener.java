@@ -113,6 +113,9 @@ public class ServerMessageListener implements MessageListener
 				System.out.println(attacker.getName() + " attacked " + playerAttacked.getName());
 			}
 
+			System.out.println("Damage dealt: " + attacker.getDamage());
+			System.out.println("Health of the attacker: " + attacker.getHealth());
+
 			if(debug) { System.out.println("Custom attack Set"); }
 
 			float damageTest = 20.0f;
