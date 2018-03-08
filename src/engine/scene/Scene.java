@@ -30,7 +30,6 @@ public class Scene
 	private Camera m_Camera;
 
 	private Application app;
-	private boolean isGameState;
 
 	public Scene(int id, Application app)
 	{
@@ -163,7 +162,6 @@ public class Scene
 
 	public void render()
 	{
-		int count = 0;
 		m_Renderer2D.init(m_Camera);
 
 		for (Entity e : m_Entities)
@@ -184,10 +182,10 @@ public class Scene
 							.getComponent(NetTransformComponent.class);
 					transformation = transform.getTransformationMatrix();
 				}
+				//check if visible
 				if (e.shouldBeCulled()){
 					if(mapIsInView(e)) { 
 						sprite.submit(m_Renderer2D, transformation);
-						count++;
 					}
 				} else {
 					sprite.submit(m_Renderer2D, transformation);
@@ -247,7 +245,6 @@ public class Scene
 				}
 			}
 		}
-		System.out.println("Count: " + Integer.toString(count));
 		m_Renderer2D.drawAll();
 	}
 
