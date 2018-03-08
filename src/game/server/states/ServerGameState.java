@@ -1,10 +1,13 @@
 package game.server.states;
 
+import engine.entity.component.NetDataComponent;
 import engine.entity.component.NetTransformComponent;
 import engine.maths.Vec3;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.common.actors.Player;
+import game.common.classes.classes.Elf;
+import game.common.classes.classes.Wizard;
 import game.common.map.Map;
 import game.common.player.PlayerManager;
 import game.server.ingame.ServerMain;
@@ -12,6 +15,9 @@ import game.server.ingame.ServerMain;
 
 public class ServerGameState extends AbstractState
 {
+
+	private boolean debug = true;
+
 	private ServerMain app;
 	private Scene scene;
 	
@@ -59,6 +65,7 @@ public class ServerGameState extends AbstractState
 
 		//Add Dummy Player
 		Player dummyPlayer = new Player(1, "dummy",app);
+		dummyPlayer.setRole(new Wizard());
 		playerManager.addPlayer(dummyPlayer);
 
 	}
@@ -91,6 +98,12 @@ public class ServerGameState extends AbstractState
 		System.out.println(dummyTrans.getPosition().getX());
 
 		playerManager.update();
+		//Check if Health is updated
+		if (debug) {
+			NetDataComponent checkHealth = (NetDataComponent) playerManager.getPlayer(1).getEntity().getComponent(NetDataComponent.class);
+			System.out.println(checkHealth.getData("Health"));
+		}
+
 		scene.update();
 	}
 	

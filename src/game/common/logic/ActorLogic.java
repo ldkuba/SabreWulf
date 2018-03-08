@@ -61,6 +61,11 @@ public class ActorLogic {
 		
 	}
 	*/
+
+	public float recvDamage(float dmg) {
+		return 0.0f;
+	}
+
 	public Player getPlayerInfo() {
 		return myActor;
 	}

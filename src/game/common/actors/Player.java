@@ -39,8 +39,6 @@ public class Player extends Actor {
 		NetTransformComponent transform = (NetTransformComponent) entity.getComponent(NetTransformComponent.class);
 		transform.setPosition(new Vec3(0.0f, 0.0f, -0.7f));
 
-		setPosition(new Vec3(0.0f,0.0f,-7.0f));
-
 		NetDataComponent netData = new NetDataComponent();
 		netData.addData("Health", health);
 		netData.addData("Energy", energy);
