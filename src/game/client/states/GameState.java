@@ -104,6 +104,7 @@ public class GameState extends AbstractState {
 			switch (characterSelection) {
 			case 1:
 				player.setRole(new Wizard());
+				
 				break;
 			case 2:
 				player.setRole(new Knight());

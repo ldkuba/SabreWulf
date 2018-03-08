@@ -168,23 +168,23 @@ public class Actor
 		return team;
 	}
 
-	protected Vec2 base;
+	protected Vec3 base;
 
-	public Vec2 getBase() {
+	public Vec3 getBase() {
 		return base;
 	}
 
-	public void setBase(Vec2 base) {
+	public void setBase(Vec3 base) {
 		this.base = base;
 	}
 
-	protected Vec2 position;
+	protected Vec3 position;
 
-	public Vec2 getPosition() {
+	public Vec3 getPosition() {
 		return position;
 	}
 
-	public void setPosition(Vec2 position) {
+	public void setPosition(Vec3 position) {
 		this.position = position;
 	}
 
@@ -315,7 +315,7 @@ public class Actor
 		currentPos.scale(-1.0f);
 
 		NetTransformComponent playerTrans = (NetTransformComponent) entity.getComponent(NetTransformComponent.class);
-		System.out.println(playerTrans.getPosition().getX());
+		System.out.println("Player Position: " + playerTrans.getPosition().getX());
 
 		//System.out.println("Player Position: " + currentPosition.getX() + "," + currentPosition.getY());
 		System.out.println("Current Pos: " + currentPos.getX() + ", " + currentPos.getY());
@@ -377,8 +377,6 @@ public class Actor
 		//update player statistics.
 		if(entity.hasComponent(NetDataComponent.class)) {
 			NetDataComponent netData = (NetDataComponent) entity.getComponent(NetDataComponent.class);
-
-
 
 			//Update Health.
 			netData.getAllData("Health").put("Health", (Float.parseFloat(netData.getAllData("Health").get("Health").toString()) + health));
