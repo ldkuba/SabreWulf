@@ -60,8 +60,35 @@ public class ServerGameState extends AbstractState
 			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app);
 			// here we would set up more stuff related to the player like class, items, starting position, etc.
 			NetTransformComponent netTransform = (NetTransformComponent) player.getEntity().getComponent(NetTransformComponent.class);
+
 			netTransform.setPosition(new Vec3(-10.0f, 0.0f, 0.0f));
-			player.setRole(new Knight());
+
+			int characterSelection = app.getNetworkManager().getNetPlayers().get(i).getChar();
+			//characterSelection = 1;
+			System.out.println("Character Selected: " +characterSelection);
+			switch (characterSelection) {
+				case 1:
+					player.setRole(new Wizard());
+					break;
+				case 2:
+					player.setRole(new Knight());
+					break;
+				case 3:
+					player.setRole(new Elf());
+					break;
+			}
+
+			if (i >= 0 && i < 3) {
+				player.setTeam(1);
+
+			}
+
+			else {
+				player.setTeam(2);
+			}
+
+			//player.setRole(new Knight());
+
 			playerManager.addPlayer(player);
 		}
 
@@ -103,7 +130,7 @@ public class ServerGameState extends AbstractState
 		//Check if Health is updated
 		if (debug) {
 			NetDataComponent checkHealth = (NetDataComponent) playerManager.getPlayer(1).getEntity().getComponent(NetDataComponent.class);
-			System.out.println(checkHealth.getData("Health"));
+			System.out.println("Health of Dummy: " + checkHealth.getData("Health"));
 		}
 
 		scene.update();

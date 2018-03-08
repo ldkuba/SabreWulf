@@ -92,7 +92,6 @@ public class ServerMessageListener implements MessageListener
 			System.out.println("Recieved path message in game");
 		} else if(msg instanceof AttackPlayerMessage) {
 
-
 			AttackPlayerMessage apm = (AttackPlayerMessage) msg;
 
 			int playerDamaged = apm.getPlayerID();
@@ -102,25 +101,20 @@ public class ServerMessageListener implements MessageListener
 			Player attacker = ServerMain.gameState.getPlayerManager().getPlayer(player.getPlayerId());
 			Player playerAttacked = ServerMain.gameState.getPlayerManager().getPlayer(playerDamaged);
 
-			/*
+			/**
 			Check if they are in the same team.
 			 */
 
-
-
-
 			if (debug) {
 				System.out.println(attacker.getName() + " attacked " + playerAttacked.getName());
+				System.out.println("Damage dealt: " + attacker.getDamage());
+				System.out.println("Health of the attacker: " + attacker.getHealth());
 			}
 
-			System.out.println("Damage dealt: " + attacker.getDamage());
-			System.out.println("Health of the attacker: " + attacker.getHealth());
-
 			if(debug) { System.out.println("Custom attack Set"); }
-
 			float damageTest = 20.0f;
 
-			playerAttacked.lostHealth(damageTest);
+			playerAttacked.lostHealth(attacker.getDamage());
 		}
 	}
 
