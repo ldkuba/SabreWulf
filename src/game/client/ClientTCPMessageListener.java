@@ -2,8 +2,6 @@ package game.client;
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-
-import engine.net.client.udp.ClientReceiverUDP;
 import engine.net.common_net.MessageListener;
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.common_net.networking_messages.BattleBeginMessage;
@@ -112,7 +110,6 @@ public class ClientTCPMessageListener implements MessageListener
 
 		else if(msg instanceof BattleBeginMessage){
 			app.getSoundManager().stopSoundSource("background/lobby");
-			app.getNetworkManager().startUDPReceiver();
 			
 			//Create and setup player manager
 			
