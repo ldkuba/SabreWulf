@@ -148,6 +148,7 @@ public class Actor
 			if (debug) {
 				System.out.println("LOSING HEALTH");
 				System.out.println("Health:" + health.get("Health"));
+				System.out.println("Damage Received: " + damage);
 			}
 
 			health.put("Health",Float.parseFloat(playerData.getData("Health").toString()) - damage);
@@ -372,6 +373,7 @@ public class Actor
 		movementSpeed = role.getMoveSpeed();
 		energy = role.getEnergy();
 		damage = role.getDamage();
+		attackRange = 2.0f;
 		this.role = role;
 
 		//update player statistics.

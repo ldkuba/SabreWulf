@@ -100,11 +100,11 @@ public class GameState extends AbstractState {
 			// items, starting position(done), team(done) etc.
 			int characterSelection = app.getNetworkManager().getNetPlayers().get(i).getChar();
 			characterSelection = 1;
-			System.out.println(characterSelection);
+			System.out.println("Character Selected: " +characterSelection);
 			switch (characterSelection) {
 			case 1:
 				player.setRole(new Wizard());
-				
+
 				break;
 			case 2:
 				player.setRole(new Knight());
