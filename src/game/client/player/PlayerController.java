@@ -122,6 +122,8 @@ public class PlayerController {
 						attmsg.setPlayerID(attackedPlayerID);
 					}
 
+
+
 					main.getClient().sendTCP(attmsg);
 
 				} else {

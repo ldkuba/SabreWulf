@@ -115,7 +115,9 @@ public class ServerMessageListener implements MessageListener
 
 			if(debug) { System.out.println("Custom attack Set"); }
 
-			playerAttacked.lostHealth(attacker.getDamage());
+			float damageTest = 20.0f;
+
+			playerAttacked.lostHealth(damageTest);
 		}
 	}
 
