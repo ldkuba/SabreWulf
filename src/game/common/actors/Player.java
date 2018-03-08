@@ -45,6 +45,7 @@ public class Player extends Actor {
 		netData.addData("MovementSpeed", movementSpeed);
 		netData.addData("Resistance", resistance);
 		netData.addData("Team", team);
+		netData.addData("Starting Position", startingPos);
 
 		entity.addComponent(netData);
 

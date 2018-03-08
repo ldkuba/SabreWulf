@@ -136,7 +136,7 @@ public class Navmesh {
 			return null;
 		}
 		
-		ArrayList<Triangle> pathTrigs = pathfinding.AStar(startTrig, endTrig);
+	/*	ArrayList<Triangle> pathTrigs = pathfinding.AStar(startTrig, endTrig);
 		
 		System.out.println(pathTrigs.size());
 		
@@ -144,7 +144,7 @@ public class Navmesh {
 		{
 			path.add(new Vec3(pathTrigs.get(i).getMidpoint().getX(), pathTrigs.get(i).getMidpoint().getY(), 0.0f));
 		}
-		
+*/		
 		path.add(end);
 		
 		return path;	

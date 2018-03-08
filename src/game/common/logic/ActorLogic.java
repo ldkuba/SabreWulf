@@ -7,6 +7,7 @@ import engine.entity.Entity;
 import game.common.logic.actions.Attack;
 import game.common.logic.actions.Movement;
 import game.common.logic.actions.Respawn;
+import game.common.actors.Actor;
 import game.common.actors.Player;
 
 public class ActorLogic {
@@ -33,8 +34,10 @@ public class ActorLogic {
 		}
 	}
 	
-	public void respawn(Player myActor) {
-		respawn.alive(myActor);
+	public void respawn(Actor myActor) {
+		if (!respawn.alive(myActor)) {
+			respawn.respawn(myActor);
+		}
 	}
 	
 	public float movement() {
