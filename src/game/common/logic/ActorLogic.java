@@ -8,13 +8,14 @@ import engine.entity.Entity;
 import game.common.logic.actions.Attack;
 import game.common.logic.actions.Movement;
 import game.common.logic.actions.Respawn;
+import game.common.actors.Actor;
 import game.common.actors.Player;
 
 public class ActorLogic {
 	
-	protected Movement movement = new Movement();
-	protected Respawn respawn = new Respawn();
-	protected Attack attackAc = new Attack();
+	private Movement movement = new Movement();
+	private Respawn respawn = new Respawn();
+	private Attack attackAc = new Attack();
 	
 	protected static Player myActor;
 	protected static NetPlayer myNetActor;
@@ -38,8 +39,10 @@ public class ActorLogic {
 		return attackAc.inRange(playerCoord, enemyCoord, range);
 	}
 	
-	public void respawn(Player myActor) {
-		respawn.alive(myActor);
+	public void respawn(Actor myActor) {
+		if (!respawn.alive(myActor)) {
+			respawn.respawn(myActor);
+		}
 	}
 	
 	public float movement() {

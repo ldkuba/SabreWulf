@@ -1,3 +1,4 @@
+
 package game.common.actors;
 
 
@@ -26,12 +27,11 @@ import game.common.logic.ActorLogic;
 
 public class Actor
 {
-	private final float MIN_DISTANCE = 0.2f;
-	private ArrayList<Vec3> currentPath;
 
 	private boolean debug = true;
 
-	private Vec3 currentPosition;
+	private final float MIN_DISTANCE = 0.2f;
+	private ArrayList<Vec3> currentPath;
 	
 	public Actor()
 	{
@@ -126,15 +126,12 @@ public class Actor
 		if(entity.hasComponent(TransformComponent.class))
 		{
 			startPos = entity.getTransform().getPosition();
-			System.out.println(startPos.getX());
 		}else if(entity.hasComponent(NetTransformComponent.class))
 		{
 			startPos = ((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).getPosition();
-			System.out.println(startPos.getX());
 		}
 		
 		ArrayList<Vec3> path = navmesh.findPath(startPos, target);
-
 		
 		if(path != null)
 		{
@@ -148,10 +145,10 @@ public class Actor
 			NetDataComponent playerData = (NetDataComponent) entity.getComponent(NetDataComponent.class);
 			HashMap<String, Serializable> health = playerData.getAllData("Health");
 
-			 if (debug) {
-			 	System.out.println("LOSING HEALTH");
-			 	System.out.println("Health:" + health.get("Health"));
-			 }
+			if (debug) {
+				System.out.println("LOSING HEALTH");
+				System.out.println("Health:" + health.get("Health"));
+			}
 
 			health.put("Health",Float.parseFloat(playerData.getData("Health").toString()) - damage);
 
@@ -171,22 +168,24 @@ public class Actor
 		return team;
 	}
 
-	protected Vec3 base;
+	protected Vec2 base;
 
-	public Vec3 getBase() {
+	public Vec2 getBase() {
 		return base;
 	}
 
-	public void setBase(Vec3 base) {
+	public void setBase(Vec2 base) {
 		this.base = base;
 	}
 
-	public Vec3 getPosition() {
-		return currentPosition;
+	protected Vec2 position;
+
+	public Vec2 getPosition() {
+		return position;
 	}
 
-	public void setPosition(Vec3 position) {
-		currentPosition = position;
+	public void setPosition(Vec2 position) {
+		this.position = position;
 	}
 
 	/**
@@ -202,7 +201,7 @@ public class Actor
 		return HEALTH_LIMIT;
 	}
 	
-	protected float health = 80.0f;
+	protected float health;
 
 	public float getHealth() {
 		return health;
@@ -270,7 +269,7 @@ public class Actor
 			if(!currentPath.isEmpty())
 			{
 				currentPos = new Vec3(entity.getTransform().getPosition());
-				setPosition(currentPos);
+				
 				currentPos.scale(-1.0f);
 				
 				Vec3 moveDir = Vec3.add(currentPath.get(0), currentPos);
@@ -293,7 +292,7 @@ public class Actor
 			if(!currentPath.isEmpty())
 			{
 				currentPos = new Vec3(((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).getPosition());
-
+				
 				currentPos.scale(-1.0f);
 				
 				Vec3 moveDir = Vec3.add(currentPath.get(0), currentPos);
@@ -323,7 +322,6 @@ public class Actor
 	}
 	
 	/**
-<<<<<<< HEAD
 	 * This will be affected by items.
 	 */
 
@@ -351,6 +349,7 @@ public class Actor
 		attackRange = rng;
 	}
 
+
 	protected ActorLogic logic;
 
 	public ActorLogic getLogic() {
@@ -373,7 +372,6 @@ public class Actor
 		movementSpeed = role.getMoveSpeed();
 		energy = role.getEnergy();
 		damage = role.getDamage();
-		attackRange = 2.0f;
 		this.role = role;
 
 		//update player statistics.
@@ -399,8 +397,8 @@ public class Actor
 			if(debug) { System.out.println("WARNING: Entity does not have role stats assgined"); }
 		}
 
-
-
 	}
 
 }
+
+
