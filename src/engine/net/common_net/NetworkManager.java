@@ -1,6 +1,5 @@
 package engine.net.common_net;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -11,6 +10,7 @@ import engine.entity.component.NetDataComponent;
 import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
 import engine.net.common_net.networking_messages.AbstractMessage;
+import engine.net.common_net.networking_messages.EntityUpdateMessage;
 import engine.net.server.core.NetPlayer;
 import engine.scene.Scene;
 
@@ -115,11 +115,12 @@ public class NetworkManager {
     		//server - send snapshot
     		for(NetworkEntity e : networkEntities)
     		{
-    			
+    			EntityUpdateMessage msg = new EntityUpdateMessage();
+    			msg.setEntity(e);
     			
     			for(NetPlayer player : players)
     			{
-    				player.addMsg();
+    				player.addMsg(msg);
     			}
     		}
     	}else
