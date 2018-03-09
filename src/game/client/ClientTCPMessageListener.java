@@ -5,6 +5,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import engine.net.common_net.MessageListener;
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.common_net.networking_messages.BattleBeginMessage;
+import engine.net.common_net.networking_messages.EntityUpdateMessage;
 import engine.net.common_net.networking_messages.LobbyConnectionResponseMessage;
 import engine.net.common_net.networking_messages.LobbyUpdateMessage;
 import engine.net.common_net.networking_messages.PeerCountMessage;
@@ -114,6 +115,11 @@ public class ClientTCPMessageListener implements MessageListener
 			//Create and setup player manager
 			
 			app.getStateManager().setCurrentState(Main.gameState);
+		}else if(msg instanceof EntityUpdateMessage)
+		{
+			EntityUpdateMessage eum = (EntityUpdateMessage) msg;
+			
+			app.getNetworkManager().updateEntityInNetworkManager(eum.getEntity());
 		}
 	}
 
