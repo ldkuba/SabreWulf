@@ -15,9 +15,9 @@ public class IndexBuffer
 		m_ID = GL15.glGenBuffers();
 	}
 	
-	public IndexBuffer(int[] data, int count)
+	public IndexBuffer(int[] data)
 	{
-		m_Count = count;
+		m_Count = data.length;
 		
 		m_ID = GL15.glGenBuffers();
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, m_ID);

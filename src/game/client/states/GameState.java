@@ -7,6 +7,9 @@ import engine.entity.Entity;
 import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.TextComponent;
 import engine.entity.component.TransformComponent;
+import engine.graphics.VertexArray;
+import engine.graphics.VertexBuffer;
+import engine.graphics.renderer.Renderable3D;
 import engine.gui.components.Label;
 import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
@@ -111,12 +114,9 @@ public class GameState extends AbstractState {
 			}*/
 
 			playerManager.addPlayer(player);
-
 		}
-
 		
 		map.init(app.getAssetManager());
-
 
 		// set up background sound
 		app.getSoundManager().invokeSound("background/game", true);

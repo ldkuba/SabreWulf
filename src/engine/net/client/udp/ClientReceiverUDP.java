@@ -2,7 +2,10 @@ package engine.net.client.udp;
 
 
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
+import java.net.SocketException;
 
 import engine.entity.NetworkEntity;
 import engine.net.client.Client;
@@ -27,6 +30,7 @@ public class ClientReceiverUDP extends Thread{
     public void run() {
     	try {
 			UDPsocket = new DatagramSocket(config.UDPPort);
+			//UDPsocket.bind(new InetSocketAddress(config.host, config.UDPPort));
 		} catch (SocketException e){e.printStackTrace();}
 
 
