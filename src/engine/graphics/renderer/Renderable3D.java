@@ -71,37 +71,37 @@ public class Renderable3D
 	
 	public void draw(Renderer3D renderer, Mat4 modelMatrix)
 	{
-		m_Shader.bind();
+		m_Material.getShader().bind();
 		//Set Uniforms
 		//Model matrix
-		int modelLoc = m_Shader.getUniformLayout().getUniformLocation(0);
+		int modelLoc = m_Material.getShader().getUniformLayout().getUniformLocation(0);
 		GL20.glUniformMatrix4fv(modelLoc, true, modelMatrix.getElements());
 		
 		//View matrix
-		int viewLoc = m_Shader.getUniformLayout().getUniformLocation(1);
+		int viewLoc = m_Material.getShader().getUniformLayout().getUniformLocation(1);
 		GL20.glUniformMatrix4fv(viewLoc, true, renderer.getCamera().getViewMatrix().getElements());
 		
 		//Projection matrix
-		int projLoc = m_Shader.getUniformLayout().getUniformLocation(2);
+		int projLoc = m_Material.getShader().getUniformLayout().getUniformLocation(2);
 		GL20.glUniformMatrix4fv(projLoc, true, renderer.getCamera().getProjectionMatrix().getElements());	
 		
 		//Texture
-		int loc = GL20.glGetUniformLocation(m_Shader.getID(), "texture");
+		int loc = GL20.glGetUniformLocation(m_Material.getShader().getID(), "texture");
 		GL20.glUniform1i(loc, 0);
 		
 		m_VAO.bind();
 		m_IBO.bind();
 		
-		m_Texture.bind(0);
+		m_Material.getTexture().bind(0);
 		
 		GL11.glDrawElements(GL11.GL_TRIANGLES, m_IBO.getCount(), GL11.GL_UNSIGNED_INT, 0);
 
-		m_Texture.unbind(0);
+		m_Material.getTexture().unbind(0);
 		
 		m_IBO.unbind();
 		m_VAO.unbind();
 		
-		m_Shader.unbind();
+		m_Material.getTexture().unbind(0);
 	}
 	
 	public String getFilename()

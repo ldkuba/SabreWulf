@@ -87,11 +87,14 @@ public class AssetManager
 		for (int i = 0; i < numMaterials; i++) {
 		    AIMaterial aiMaterial = AIMaterial.create(aiMaterials.get(i));   
 		}
+		
+		return null;
 	}
 	
 	private ArrayList<Material> processMaterials()
 	{
-		
+		//for later
+		return null;
 	}
 	
 	public void cleanup()
