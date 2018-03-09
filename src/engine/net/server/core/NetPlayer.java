@@ -19,7 +19,7 @@ public class NetPlayer implements Serializable {
 
     public NetPlayer(Socket socket){
     	this.socket=socket;
-        pbq = new LinkedBlockingQueue<>(1000);
+        pbq = new LinkedBlockingQueue<>(6000);
         payload = new PlayerPayload();
     }
 

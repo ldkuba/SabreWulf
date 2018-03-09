@@ -124,8 +124,8 @@ public class Actor
 			startPos = ((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).getPosition();
 		}
 		
-		ArrayList<Vec3> path = navmesh.findPath(startPos, target);
-		
+		ArrayList<Vec3> path = new ArrayList<>();//navmesh.findPath(startPos, target);
+		path.add(target);
 		if(path != null)
 		{
 			this.currentPath = path;

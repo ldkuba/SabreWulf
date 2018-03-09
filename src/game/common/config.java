@@ -14,13 +14,13 @@ public class config {
      */
     public static int lobbyCountdown = 3;
     public static int globalConnectionsLimit = 100;
-    public static int gameConnectionLimit = 1;
+    public static int gameConnectionLimit = 2;
 
 
     /**
      * Client specific
      */
-    public static String localhost= "localhost";
+    public static String host1= "localhost";
     public static String host = "34.241.78.38";
     public static String windowName = "Sabrewulf";
     public static boolean clientFullScreen = false;
