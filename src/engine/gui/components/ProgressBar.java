@@ -9,11 +9,14 @@ import engine.maths.Vec4;
 
 public class ProgressBar extends GuiComponent {
 
-	Texture bgTexture;
-	Texture barTexture;
+	Texture bgTexture;	//Dynamic Texture
+	Texture barTexture;	//Background texture
 	float progress;
+	float MAX_PROGRESS;
 
-	public ProgressBar(float x, float y, float width, float height, Texture bgTexture, Texture barTexture) {
+	Vec4 color;
+
+	public ProgressBar(float x, float y, float width, float height, Texture bgTexture, Texture barTexture,Vec4 color) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -22,16 +25,26 @@ public class ProgressBar extends GuiComponent {
 		this.barTexture = barTexture;
 		this.enabled = true;
 
+		this.color = color;
+
 		float worldWidth = (width * Application.s_WindowSize.getX() / 100.0f)
 				* (Application.s_Viewport.getX() / (Application.s_WindowSize.getX() / 2.0f));
 		float worldHeight = (height * Application.s_WindowSize.getY() / 100.0f)
 				* (Application.s_Viewport.getY() / (Application.s_WindowSize.getY() / 2.0f));
 
-		entity = new Entity(0, "progress bar");
+		entity = new Entity("progress bar");
 		entity.addComponent(new TransformComponent());
-		entity.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), barTexture, worldWidth, worldHeight));
+		entity.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), barTexture, worldWidth, worldHeight));	//Remains stationary
+		entity.addComponent(new SpriteComponent(color, bgTexture, worldWidth, worldHeight));	//Affected during game.
 	}
 
+	//Only used once, in the beginning.
+	public void initProgress(float progress) {
+		MAX_PROGRESS = progress;
+		this.progress = progress;
+	}
+
+	//Affects the bgtexture of the progress.
 	public void setProgress(float progress) {
 		this.progress = progress;
 	}
