@@ -10,10 +10,8 @@ import engine.entity.NetworkEntity;
 import engine.entity.component.NetDataComponent;
 import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
-import engine.net.client.udp.ClientReceiverUDP;
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.server.core.NetPlayer;
-import engine.net.server.udp.ServerSenderUDP;
 import engine.scene.Scene;
 
 public class NetworkManager {
@@ -23,31 +21,17 @@ public class NetworkManager {
     private ConnectionListener connectionListener;
     private ArrayList<NetPlayer> players;
     private CopyOnWriteArrayList<NetworkEntity> networkEntities;
-    
-    private ServerSenderUDP udpSender;
-    private ClientReceiverUDP udpReceiver;
 
     public NetworkManager(ArrayList<NetPlayer> players, Application app){
         this.networkType = true;
         this.players = players;
         
         networkEntities = new CopyOnWriteArrayList<>();
-        
-    	udpSender = new ServerSenderUDP(players);
-    	udpSender.setName("UDP Sender");
-    	udpSender.start();
     }
 
     public NetworkManager(Application app){
         this.networkType = false;
         networkEntities = new CopyOnWriteArrayList<>();
-    }
-    
-    public void startUDPReceiver()
-    {
-    	udpReceiver = new ClientReceiverUDP(this);
-    	udpReceiver.setName("Udp receiver");
-        udpReceiver.start();
     }
     
     public void registerNetEntity(NetIdentityComponent netIdentity)
@@ -131,7 +115,7 @@ public class NetworkManager {
     		//server - send snapshot
     		for(NetworkEntity e : networkEntities)
     		{
-    			udpSender.addNetworkEntity(e);
+
     		}
     	}else
     	{
