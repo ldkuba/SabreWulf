@@ -1,4 +1,5 @@
 package engine.net.server.core;
+import game.common.config;
 import game.server.GameServer;
 
 import java.net.SocketException;
@@ -7,29 +8,31 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameInstance {
-    int MAX_SIZE_GAME_SIZE = 6;
 
-    private ArrayList<Player> playersInLobby;
+	private int gameId;
+    private ArrayList<NetPlayer> playersInLobby;
     private GameInstanceManager GIManager;
     private BlockingQueue<AbstractMethodError> messages = new LinkedBlockingQueue<>(150);
 
-    public GameInstance(GameServer server) {
-        playersInLobby = new ArrayList<>(MAX_SIZE_GAME_SIZE);
+    public GameInstance(GameServer server, int gameId) {
+        playersInLobby = new ArrayList<>();
         this.GIManager = new GameInstanceManager(this, server);
         this.GIManager.setName("GameInstanceManager " + server.getGames().size());
         this.GIManager.start();
+        
+        this.gameId = gameId;
     }
 
-    public ArrayList<Player> getPlayersInLobby() {
+    public ArrayList<NetPlayer> getPlayersInLobby() {
         return playersInLobby;
     }
 
-    public void addPlayer(Player player) {
+    public void addPlayer(NetPlayer player) {
         playersInLobby.add(player);
     }
 
     public boolean isFull() {
-        return (playersInLobby.size() >= MAX_SIZE_GAME_SIZE);
+        return (playersInLobby.size() >= config.gameConnectionLimit);
     }
 
     public ArrayList<PlayerPayload> getPlayerPayload() {
@@ -40,13 +43,12 @@ public class GameInstance {
         return pld;
     }
 
-
-    public void removePlayer(Player player) {
+    public void removePlayer(NetPlayer player) {
         playersInLobby.remove(player);
     }
 
     public boolean isReady() {
-        if (playersInLobby.size()==6) {
+        if (playersInLobby.size()==config.gameConnectionLimit) {
             for (int i = 0; i < playersInLobby.size(); i++) {
                 if (!playersInLobby.get(i).getReady()) {
                     return false;
@@ -57,16 +59,6 @@ public class GameInstance {
         return false;
     }
 
-    public void initializeDatagramSockets(){
-        for(int i=0; i<playersInLobby.size(); i++){
-            try {
-                playersInLobby.get(i).generateDatagramSocket();
-            } catch (SocketException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public boolean isEmpty(){
         if(playersInLobby.size()==0){
             return true;
@@ -74,6 +66,11 @@ public class GameInstance {
         else{
             return false;
         }
+    }
+    
+    public int getGameId()
+    {
+    	return this.gameId;
     }
 
     public GameInstanceManager getGIManager() {

@@ -97,9 +97,9 @@ public class SoundManager {
 	}
 
 
-	public void invokeSound(String soundName){
+	public void invokeSound(String soundName, boolean loop){
 		setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
-		Sound.setupSounds(this,"res/sounds/"+soundName+".ogg", soundName);
+		Sound.setupSounds(this,"res/sounds/"+soundName+".ogg", soundName, loop);
 	}
 
 
@@ -112,11 +112,11 @@ public class SoundManager {
 			soundBuffer.cleanup();
 		}
 		soundBufferList.clear();
-		if (context != NULL) {
+		//if (context != NULL) {
 			alcDestroyContext(context);
-		}
-		if (device != NULL) {
+		//}
+	//	if (device != NULL) {
 			alcCloseDevice(device);
-		}
+		//}
 	}
 }

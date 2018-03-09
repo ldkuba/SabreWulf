@@ -12,8 +12,8 @@ public class Entity {
 	private String name;
 	private ArrayList<AbstractComponent> components;
 
-	public Entity(int id, String name) {
-		this.id = id;
+	public Entity(String name) {
+		this.id = -1;
 		this.name = name;
 		components = new ArrayList<AbstractComponent>();
 	}
@@ -53,6 +53,16 @@ public class Entity {
 		return false;
 	}
 	
+	public void setId(int id)
+	{
+		this.id = id;
+	}
+	
+	public int getId()
+	{
+		return id;
+	}
+	
 	//for simplicity because its used often	
 	public TransformComponent getTransform()
 	{
@@ -62,5 +72,16 @@ public class Entity {
 	public SpriteComponent getSprite()
 	{
 		return (SpriteComponent) getComponent(SpriteComponent.class);
+	}
+	
+	public Entity clone()
+	{
+		Entity result = new Entity(name);
+		for(AbstractComponent comp : components)
+		{
+			result.addComponent(comp);
+		}
+		
+		return result;
 	}
 }

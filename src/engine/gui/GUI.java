@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
-import engine.entity.component.SpriteComponent;
 import engine.entity.component.TransformComponent;
 import engine.gui.components.GuiComponent;
+import engine.input.KeyboardListener;
 import engine.input.MouseListener;
 import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.scene.Scene;
 
-public class GUI implements MouseListener
+public class GUI implements MouseListener, KeyboardListener
 {
 	private Scene scene;
 	private ArrayList<GuiComponent> components;
@@ -26,6 +26,7 @@ public class GUI implements MouseListener
 		components = new ArrayList<>();
 
 		app.getInputManager().addMouseListener(this);
+		app.getInputManager().addKeyboardListener(this);
 	}
 
 	public void init(Scene newScene)
@@ -101,7 +102,10 @@ public class GUI implements MouseListener
 				if(action == GLFW.GLFW_PRESS)
 				{
 					if(component.isEnabled())
+					{
+						component.setFocused(true);
 						component.onPress(button);
+					}
 				
 				}else if(action == GLFW.GLFW_RELEASE)
 				{
@@ -112,7 +116,31 @@ public class GUI implements MouseListener
 					if(component.isEnabled())
 						component.onRepeat(button);
 				}
+			}else
+			{
+				if(action == GLFW.GLFW_PRESS)
+				{
+					component.setFocused(false);
+				}
 			}
+		}
+	}
+
+	public void resize()
+	{
+		for (GuiComponent component : components)
+		{
+			component.resize();
+		}
+	}
+	
+	@Override
+	public void keyAction(int key, int action)
+	{
+		for (GuiComponent component : components)
+		{
+			if(component.isEnabled() && component.isFocused())
+				component.onKeyPress(key, action);
 		}
 	}
 }

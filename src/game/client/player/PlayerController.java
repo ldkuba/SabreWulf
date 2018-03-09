@@ -1,47 +1,52 @@
 package game.client.player;
 
-import engine.AI.Path;
-import engine.entity.component.TransformComponent;
+import org.lwjgl.glfw.GLFW;
+
 import engine.input.InputManager;
 import engine.maths.Vec2;
 import engine.maths.Vec3;
+import engine.net.common_net.networking_messages.DesiredLocationMessage;
+import engine.scene.Scene;
 import game.client.Main;
 import game.client.states.GameState;
 
 //For handling actual instruction sets to be passed to transformation and interaction components of the players
 public class PlayerController {
 	
-	private TransformComponent transformer;
 	private InputManager inputManager;
 	private Main main;
 	private GameState gamestate;
+	private Scene scene;
 	
-	public PlayerController(Main main, GameState gs) {
+	public PlayerController(Main main, GameState gs, Scene scene) {
 		gamestate = gs;
 		this.main = main;
 		inputManager = main.getInputManager();
+		this.scene = scene;
 	}
 	
 	public void update()
 	{
 		//input
+				
 	}
 	
-	public void onKeyPress(int button, int action)
+	public void onKeyPress(int key, int action)
 	{
 		
 	}
-
 	
-	public void movePlayer(Vec3 position){
-		transformer.setPosition(position);
-	}
-	
-	public void rotatePlayer(Vec3 angle){
-		transformer.setRotationAngles(angle);
-	}
-	
-	public void scalePlayer(Vec3 scale){
-		transformer.setScale(scale);
+	public void mouseAction(int button, int action)
+	{
+		if(button == GLFW.GLFW_MOUSE_BUTTON_2 && action == GLFW.GLFW_PRESS)
+		{
+			DesiredLocationMessage msg = new DesiredLocationMessage();
+			
+			Vec3 worldPos = scene.getCamera().getWorldCoordinates((float)main.getInputManager().getMouseX(), (float)main.getInputManager().getMouseY());
+			
+			msg.setPos(worldPos);
+			
+			main.getClient().sendTCP(msg);
+		}
 	}
 }

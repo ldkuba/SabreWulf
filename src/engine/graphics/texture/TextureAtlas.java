@@ -25,17 +25,22 @@ public class TextureAtlas {
 
 		Vec2[] resultUVs = new Vec2[4];
 
-		int btmRightX = m_ElementWidth * ix;
-		int btmRightY = m_ElementHeight * iy;
-		Vec2 btmRight = new Vec2(btmRightX, btmRightY);
-		Vec2 topRight = new Vec2(btmRightX, btmRightY - m_ElementHeight);
-		Vec2 btmLeft = new Vec2(btmRightX - m_ElementWidth, btmRightY);
-		Vec2 topLeft = new Vec2(btmRightX - m_ElementWidth, btmRightY - m_ElementHeight);
+		int topLeftX = m_ElementWidth * ix;
+		int topLeftY = m_ElementHeight * iy;
+		Vec2 topLeft = new Vec2(topLeftX, topLeftY);
+		Vec2 topRight = new Vec2(topLeftX + m_ElementWidth, topLeftY);
+		Vec2 btmLeft = new Vec2(topLeftX, topLeftY + m_ElementHeight);
+		Vec2 btmRight = new Vec2(topLeftX + m_ElementWidth, topLeftY + m_ElementHeight);
+		
+		topLeft.scale(1/((float)(m_Texture.getWidth())));
+		topRight.scale(1/((float)(m_Texture.getWidth())));
+		btmLeft.scale(1/((float)(m_Texture.getWidth())));
+		btmRight.scale(1/((float)(m_Texture.getWidth())));
 
 		resultUVs[0] = topLeft;
-		resultUVs[1] = topRight;
-		resultUVs[2] = btmLeft;
-		resultUVs[3] = btmRight;
+		resultUVs[1] = btmLeft;
+		resultUVs[2] = btmRight;
+		resultUVs[3] = topRight;
 
 		return resultUVs;
 	}

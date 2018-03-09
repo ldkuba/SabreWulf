@@ -5,6 +5,7 @@ public class Timer extends Thread {
     GameInstanceManager instanceManager;
     public Timer(int time, GameInstanceManager GIManager){
         this.instanceManager = GIManager;
+        this.setName("lobby timer");
         this.time = time;
     }
 
@@ -18,5 +19,8 @@ public class Timer extends Thread {
             instanceManager.notifyTick(i);
         }
         instanceManager.notifyEndOfCountdown();
+
+        System.out.print("is this the end");
     }
+
 }

@@ -1,25 +1,24 @@
 package engine.net.server.core;
 
-import engine.net.common_net.Port;
-import engine.net.common_net.networking_messages.AbstractMessage;
-
 import java.io.Serializable;
 import java.net.DatagramSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
-public class Player implements Serializable {
+import engine.net.common_net.networking_messages.AbstractMessage;
+import game.common.config;
+
+public class NetPlayer implements Serializable {
 
     private PlayerPayload payload;
     private Socket socket;
     private BlockingQueue<AbstractMessage> pbq;
     private DatagramSocket datagramSocket = null;
-    private int currentGame;
 
-    public Player(Socket socket){
-        currentGame = -1;
-        this.socket=socket;
+    public NetPlayer(Socket socket){
+    	this.socket=socket;
         pbq = new LinkedBlockingQueue<>(1000);
         payload = new PlayerPayload();
     }
@@ -73,12 +72,23 @@ public class Player implements Serializable {
     public DatagramSocket getDatagramSocket() {
         return datagramSocket;
     }
-
-    public void generateDatagramSocket() throws SocketException {
-        datagramSocket = new DatagramSocket(Port.UDPPort, socket.getInetAddress());
-    }
-
+    
     public int getCurrentGame() {
-        return currentGame;
+        return payload.getCurrentGame();
+    }
+    
+    public void setCurrentGame(int gameId)
+    {
+    	payload.setCurrentGame(gameId);
+    }
+    
+    public int getPlayerId()
+    {
+    	return payload.getNetPlayerId();
+    }
+    
+    public void setPlayerId(int playerId)
+    {
+    	payload.setNetPlayerId(playerId);
     }
 }

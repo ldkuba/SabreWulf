@@ -17,19 +17,20 @@ public class GameServer
 
 	private PlayerCountManager pcm;
 
-	public ArrayList<Player> players = null;
+	public ArrayList<NetPlayer> players;
 
-	private CopyOnWriteArrayList<GameInstance> games = null;
+	private CopyOnWriteArrayList<GameInstance> games;
 
 	public int getNoPlayers() {
 		return players.size();
 	}
 
-	synchronized public void addPlayer(Player player){
+	synchronized public void addPlayer(NetPlayer player){
+		player.setPlayerId(players.size());
 		players.add(player);
 	}
 
-	synchronized public void removePlayer(Player player){
+	synchronized public void removePlayer(NetPlayer player){
 		players.remove(player);
 	}
 
@@ -37,8 +38,10 @@ public class GameServer
 	{
 		connectionListener = new GlobalServerConnectionListener(this);
 		messageListener = new GlobalServerMessageListener(this);
-		players = new ArrayList<Player>(50);
+
+		players = new ArrayList<NetPlayer>(50);
 		games = new CopyOnWriteArrayList<GameInstance>();
+
 		server = new Server(this);
 		server.setName("Socket Connection Manager");
 		server.start();
@@ -49,7 +52,7 @@ public class GameServer
 	}
 
 	public GameInstance createGameInstance() {
-		GameInstance gi = new GameInstance(this);
+		GameInstance gi = new GameInstance(this, games.size());
 		games.add(gi);
 		return gi;
 	}
@@ -58,7 +61,7 @@ public class GameServer
 		return games;
 	}
 
-	public void addMessage(AbstractMessage message, Player player){
+	public void addMessage(AbstractMessage message, NetPlayer player){
 		if(player.getCurrentGame()==-1){
 			messageListener.receiveMessage(message,player);
 		}
@@ -67,7 +70,7 @@ public class GameServer
 		}
 	}
 
-	public void addConnectionEvent(Player player, boolean status){
+	public void addConnectionEvent(NetPlayer player, boolean status){
 		if(player.getCurrentGame()==-1){
 			//maybe Concurrency issues
 			if(status){
@@ -83,11 +86,11 @@ public class GameServer
 		}
 	}
 
-	public void sendTCP(AbstractMessage msg, Player destination){
+	public void sendTCP(AbstractMessage msg, NetPlayer destination){
 		destination.addMsg(msg);
 	}
 
-	public void broadcastTCP(AbstractMessage msg, ArrayList<Player> destination){
+	public void broadcastTCP(AbstractMessage msg, ArrayList<NetPlayer> destination){
 		for(int i = 0; i<destination.size(); i++){
 			sendTCP(msg, destination.get(i));
 		}
