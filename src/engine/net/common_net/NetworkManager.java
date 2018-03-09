@@ -13,6 +13,7 @@ import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.common_net.networking_messages.EntityUpdateMessage;
 import engine.net.server.core.NetPlayer;
 import engine.scene.Scene;
+import game.common.config;
 
 public class NetworkManager {
 
@@ -21,10 +22,14 @@ public class NetworkManager {
     private ConnectionListener connectionListener;
     private ArrayList<NetPlayer> players;
     private CopyOnWriteArrayList<NetworkEntity> networkEntities;
+    
+    private int tick;
 
     public NetworkManager(ArrayList<NetPlayer> players, Application app){
         this.networkType = true;
         this.players = players;
+        
+        tick = 0;
         
         networkEntities = new CopyOnWriteArrayList<>();
     }
@@ -32,6 +37,8 @@ public class NetworkManager {
     public NetworkManager(Application app){
         this.networkType = false;
         networkEntities = new CopyOnWriteArrayList<>();
+        
+        tick = 0;
     }
     
     public void registerNetEntity(NetIdentityComponent netIdentity)
@@ -112,16 +119,23 @@ public class NetworkManager {
     	
     	if(networkType)
     	{
-    		//server - send snapshot
-    		for(NetworkEntity e : networkEntities)
+    		if(tick >= config.framesPerTick)
     		{
-    			EntityUpdateMessage msg = new EntityUpdateMessage();
-    			msg.setEntity(e);
-    			
-    			for(NetPlayer player : players)
-    			{
-    				player.addMsg(msg);
-    			}
+    			//server - send snapshot
+	    		for(NetworkEntity e : networkEntities)
+	    		{
+	    			EntityUpdateMessage msg = new EntityUpdateMessage();
+	    			msg.setEntity(e);
+	    			
+	    			for(NetPlayer player : players)
+	    			{
+	    				player.addMsg(msg);
+	    			}
+	    		}
+	    		tick = 0;
+    		}else
+    		{
+    			tick++;
     		}
     	}else
     	{
