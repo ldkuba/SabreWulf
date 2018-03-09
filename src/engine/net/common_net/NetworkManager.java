@@ -115,7 +115,12 @@ public class NetworkManager {
     		//server - send snapshot
     		for(NetworkEntity e : networkEntities)
     		{
-
+    			
+    			
+    			for(NetPlayer player : players)
+    			{
+    				player.addMsg();
+    			}
     		}
     	}else
     	{
