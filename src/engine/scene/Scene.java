@@ -159,6 +159,7 @@ public class Scene
 
 		sortEntitiesZ();
 		
+		
 		app.getNetworkManager().synchronize(this);
 	}
 
