@@ -1,13 +1,15 @@
-
 package game.common.actors;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import engine.AI.Navmesh;
 
 import engine.entity.Entity;
+import engine.entity.component.NetDataComponent;
 import engine.maths.Vec2;
 import game.common.classes.AbstractClasses;
 import engine.entity.component.NetTransformComponent;
@@ -24,6 +26,9 @@ import game.common.logic.ActorLogic;
 
 public class Actor
 {
+
+	private boolean debug = true;
+
 	private final float MIN_DISTANCE = 0.2f;
 	private ArrayList<Vec3> currentPath;
 	
@@ -133,6 +138,24 @@ public class Actor
 		}
 	}
 
+	public void lostHealth(float damage) {
+		if (debug ) { System.out.println("About to lose health"); }
+		if(entity.hasComponent(NetDataComponent.class)) {
+			NetDataComponent playerData = (NetDataComponent) entity.getComponent(NetDataComponent.class);
+			HashMap<String, Serializable> health = playerData.getAllData("Health");
+
+			if (debug) {
+				System.out.println("LOSING HEALTH");
+				System.out.println("Health:" + health.get("Health"));
+				System.out.println("Damage Received: " + damage);
+			}
+
+			health.put("Health",Float.parseFloat(playerData.getData("Health").toString()) - damage);
+
+			System.out.println("New Health: " + health.get("Health"));
+		}
+	}
+
 	/**
 	 * team can be 1, 2, 3 team 1 is composed of three players (first three in
 	 * lobby) team 2 is composed of the other three players (last three in
@@ -145,13 +168,13 @@ public class Actor
 		return team;
 	}
 
-	protected Vec2 base;
+	protected Vec3 base;
 
-	public Vec2 getBase() {
+	public Vec3 getBase() {
 		return base;
 	}
 
-	public void setBase(Vec2 base) {
+	public void setBase(Vec3 base) {
 		this.base = base;
 	}
 
@@ -287,11 +310,14 @@ public class Actor
 					((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).move(moveDir);
 				}
 			}
-			
 		}
 		
 		currentPos.scale(-1.0f);
-		
+
+		NetTransformComponent playerTrans = (NetTransformComponent) entity.getComponent(NetTransformComponent.class);
+		System.out.println("Player Position: " + playerTrans.getPosition().getX());
+
+		//System.out.println("Player Position: " + currentPosition.getX() + "," + currentPosition.getY());
 		System.out.println("Current Pos: " + currentPos.getX() + ", " + currentPos.getY());
 	}
 	
@@ -323,10 +349,15 @@ public class Actor
 		attackRange = rng;
 	}
 
+
 	protected ActorLogic logic;
 
 	public ActorLogic getLogic() {
 		return logic;
+	}
+
+	public void setLogic(ActorLogic logic) {
+		this.logic = logic;
 	}
 
 	/**
@@ -341,8 +372,33 @@ public class Actor
 		movementSpeed = role.getMoveSpeed();
 		energy = role.getEnergy();
 		damage = role.getDamage();
+		attackRange = 2.0f;
 		this.role = role;
+
+		//update player statistics.
+		if(entity.hasComponent(NetDataComponent.class)) {
+			NetDataComponent netData = (NetDataComponent) entity.getComponent(NetDataComponent.class);
+
+			//Update Health.
+			netData.getAllData("Health").put("Health", (Float.parseFloat(netData.getAllData("Health").get("Health").toString()) + health));
+			//Upate Energy
+			netData.getAllData("Energy").put("Energy", (Float.parseFloat(netData.getAllData("Energy").get("Energy").toString()) + energy));
+			//Update Resistance
+			netData.getAllData("Resistance").put("Resistance", (Float.parseFloat(netData.getAllData("Resistance").get("Resistance").toString()) + resistance));
+			//Update Damage
+			//netData.getAllData("Damage").put("Damage", (Float.parseFloat(netData.getAllData("Damage").get("Damage").toString()) + damage));
+			//Update Movement Speed
+			netData.getAllData("MovementSpeed").put("MovementSpeed", (Float.parseFloat(netData.getAllData("MovementSpeed").get("MovementSpeed").toString()) + movementSpeed));
+
+			if(debug) { System.out.println("Entity role stats assigned"); }
+
+		} else {
+			if(debug) { System.out.println("WARNING: Entity does not have role stats assgined"); }
+		}
+
 	}
 
 }
+
+>>>>>>> 8994ae8d5a8ceb85eb82e6dccc1349345c2b99df
 

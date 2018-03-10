@@ -7,6 +7,7 @@ import engine.maths.Vec3;
 import game.object.Outpost;
 
 public class Caravan extends NPC {
+	
 	private ArrayList<Outpost> outposts;
 	private float minRange;
 
@@ -42,7 +43,5 @@ public class Caravan extends NPC {
 		public void dropItems() {
 			
 		}
-		
-		
 	
 }

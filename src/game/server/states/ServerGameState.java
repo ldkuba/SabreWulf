@@ -1,10 +1,14 @@
 package game.server.states;
 
+import engine.entity.component.NetDataComponent;
 import engine.entity.component.NetTransformComponent;
 import engine.maths.Vec3;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.common.actors.Player;
+import game.common.classes.classes.Elf;
+import game.common.classes.classes.Knight;
+import game.common.classes.classes.Wizard;
 import game.common.map.Map;
 import game.common.player.PlayerManager;
 import game.server.ingame.ServerMain;
@@ -12,6 +16,9 @@ import game.server.ingame.ServerMain;
 
 public class ServerGameState extends AbstractState
 {
+
+	private boolean debug = true;
+
 	private ServerMain app;
 	private Scene scene;
 	
@@ -53,12 +60,41 @@ public class ServerGameState extends AbstractState
 			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app);
 			// here we would set up more stuff related to the player like class, items, starting position, etc.
 			NetTransformComponent netTransform = (NetTransformComponent) player.getEntity().getComponent(NetTransformComponent.class);
+
 			netTransform.setPosition(new Vec3(-10.0f, 0.0f, 0.0f));
+
+			int characterSelection = app.getNetworkManager().getNetPlayers().get(i).getChar();
+			//characterSelection = 1;
+			System.out.println("Character Selected: " +characterSelection);
+			switch (characterSelection) {
+				case 1:
+					player.setRole(new Wizard());
+					break;
+				case 2:
+					player.setRole(new Knight());
+					break;
+				case 3:
+					player.setRole(new Elf());
+					break;
+			}
+
+			if (i >= 0 && i < 3) {
+				player.setTeam(1);
+
+			}
+
+			else {
+				player.setTeam(2);
+			}
+
+			//player.setRole(new Knight());
+
 			playerManager.addPlayer(player);
 		}
 
 		//Add Dummy Player
 		Player dummyPlayer = new Player(1, "dummy",app);
+		dummyPlayer.setRole(new Wizard());
 		playerManager.addPlayer(dummyPlayer);
 
 	}
@@ -91,6 +127,12 @@ public class ServerGameState extends AbstractState
 		System.out.println(dummyTrans.getPosition().getX());
 
 		playerManager.update();
+		//Check if Health is updated
+		if (debug) {
+			NetDataComponent checkHealth = (NetDataComponent) playerManager.getPlayer(1).getEntity().getComponent(NetDataComponent.class);
+			System.out.println("Health of Dummy: " + checkHealth.getData("Health"));
+		}
+
 		scene.update();
 	}
 	

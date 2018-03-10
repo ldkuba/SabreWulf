@@ -20,8 +20,10 @@ public class config {
     /**
      * Client specific
      */
-    public static String host= "localhost";
-    public static String hostawp = "34.241.78.38";
+
+    public static String host1 = "192.168.0.100";
+    public static String host = "127.0.0.1";
+    public static String host2 = "34.241.78.38";
     public static String windowName = "Sabrewulf";
     public static boolean clientFullScreen = false;
     public static int screenWidth = 1280;

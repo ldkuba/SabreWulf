@@ -89,6 +89,7 @@ public class GUI implements MouseListener, KeyboardListener
 		scene.removeEntity(component.getEntity());
 	}
 
+
 	@Override
 	public void mouseAction(int button, int action)
 	{

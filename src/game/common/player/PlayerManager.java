@@ -42,4 +42,8 @@ public class PlayerManager
 			player.update();
 		}
 	}
+
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
 }

@@ -10,6 +10,7 @@ import game.common.items.attributes.Attribute;
 public class Outpost {
 	private int occupier;
 	private Vec3 position;
+
 	private Entity entity;
 	// image of outpost
 	private ArrayList<Attribute> attributes;
@@ -18,8 +19,9 @@ public class Outpost {
 	
 	public Outpost(Vec3 pos, Entity entity, ArrayList<Attribute> attributes, ArrayList<Item> items) {
 		position = pos;
+
 		this.entity = entity;
-		attributes = new ArrayList<Attribute>;
+		attributes = new ArrayList<Attribute>();
 		
 	}
 	

@@ -6,9 +6,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 import engine.entity.component.NetTransformComponent;
 import engine.net.common_net.MessageListener;
 import engine.net.common_net.networking_messages.AbstractMessage;
+import engine.net.common_net.networking_messages.AttackPlayerMessage;
 import engine.net.common_net.networking_messages.DesiredLocationMessage;
 import engine.net.common_net.networking_messages.PeerCountMessage;
 import engine.net.server.core.NetPlayer;
+import game.common.actors.Player;
 
 public class ServerMessageListener implements MessageListener
 {
@@ -26,6 +28,8 @@ public class ServerMessageListener implements MessageListener
 	
 	private ServerMain app;
 	private BlockingQueue<MessageEvent> abstractMessageInbound;
+
+	private boolean debug = true;
 
 	private final int maxTraffic = 100;
 
@@ -86,6 +90,31 @@ public class ServerMessageListener implements MessageListener
 			 */
 
 			System.out.println("Recieved path message in game");
+		} else if(msg instanceof AttackPlayerMessage) {
+
+			AttackPlayerMessage apm = (AttackPlayerMessage) msg;
+
+			int playerDamaged = apm.getPlayerID();
+			float damageToGive;
+
+			//Get bully and victim.
+			Player attacker = ServerMain.gameState.getPlayerManager().getPlayer(player.getPlayerId());
+			Player playerAttacked = ServerMain.gameState.getPlayerManager().getPlayer(playerDamaged);
+
+			/**
+			Check if they are in the same team.
+			 */
+
+			if (debug) {
+				System.out.println(attacker.getName() + " attacked " + playerAttacked.getName());
+				System.out.println("Damage dealt: " + attacker.getDamage());
+				System.out.println("Health of the attacker: " + attacker.getHealth());
+			}
+
+			if(debug) { System.out.println("Custom attack Set"); }
+			float damageTest = 20.0f;
+
+			playerAttacked.lostHealth(attacker.getDamage());
 		}
 	}
 
