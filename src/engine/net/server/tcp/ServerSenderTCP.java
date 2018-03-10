@@ -1,13 +1,13 @@
 package engine.net.server.tcp;
 
-import engine.net.common_net.networking_messages.AbstractMessage;
-import engine.net.common_net.networking_messages.LobbyUpdateMessage;
-import engine.net.server.core.NetPlayer;
-import engine.net.common_net.networking_messages.QuitMessage;
-import game.server.GameServer;
-
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+
+import engine.application.Timer;
+import engine.net.common_net.networking_messages.AbstractMessage;
+import engine.net.common_net.networking_messages.QuitMessage;
+import engine.net.server.core.NetPlayer;
+import game.server.GameServer;
 
 public class ServerSenderTCP extends Thread{
     NetPlayer player;
@@ -40,6 +40,8 @@ public class ServerSenderTCP extends Thread{
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            
+            
         }
     }
 }

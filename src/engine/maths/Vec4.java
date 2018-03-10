@@ -81,4 +81,24 @@ public class Vec4
 		
 		return result;
 	}
+	
+	public float[] elements()
+	{
+		float[] elements = new float[4];
+		elements[0] = this.w;
+		elements[1] = this.x;
+		elements[2] = this.y;
+		elements[3] = this.z;
+		return elements;
+	}
+	
+	public float[] elementsFlipped()
+	{
+		float[] elements = new float[4];
+		elements[3] = this.w;
+		elements[2] = this.x;
+		elements[1] = this.y;
+		elements[0] = this.z;
+		return elements;
+	}
 }

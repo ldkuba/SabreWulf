@@ -104,4 +104,22 @@ public class Vec3 implements Serializable
 			return new Vec3(vec.getX()/scale, vec.getY()/scale, vec.getZ()/scale);
 		}
 	}
+	
+	public float[] elements()
+	{
+		float[] elements = new float[3];
+		elements[0] = this.x;
+		elements[1] = this.y;
+		elements[2] = this.z;
+		return elements;
+	}
+	
+	public float[] elementsFlipped()
+	{
+		float[] elements = new float[3];
+		elements[2] = this.x;
+		elements[1] = this.y;
+		elements[0] = this.z;
+		return elements;
+	}
 }

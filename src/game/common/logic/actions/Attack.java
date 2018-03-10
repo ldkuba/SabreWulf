@@ -3,12 +3,11 @@ package game.common.logic.actions;
 import engine.entity.Entity;
 import engine.entity.component.AbstractComponent;
 import engine.entity.component.NetDataComponent;
-import engine.logic.AbstractAction;
 import engine.maths.Vec2;
 import engine.net.server.core.NetPlayer;
 import game.common.actors.Player;
 
-public class Attack extends AbstractAction {
+public class Attack {
 
 
 	// Player control: If inRange attack <damage>, else get closer.
