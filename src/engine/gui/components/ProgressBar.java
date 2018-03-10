@@ -34,8 +34,12 @@ public class ProgressBar extends GuiComponent {
 
 		entity = new Entity("progress bar");
 		entity.addComponent(new TransformComponent());
-		entity.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), barTexture, worldWidth, worldHeight));	//Remains stationary
-		entity.addComponent(new SpriteComponent(color, bgTexture, worldWidth, worldHeight));	//Affected during game.
+		entity.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), barTexture, worldWidth, worldHeight));	
+		
+		entity = new Entity("background");
+		entity.addComponent(new TransformComponent());
+		entity.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), bgTexture, worldWidth, worldHeight));	
+		
 	}
 
 	//Only used once, in the beginning.
