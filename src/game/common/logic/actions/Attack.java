@@ -2,13 +2,13 @@ package game.common.logic.actions;
 
 import engine.entity.Entity;
 import engine.entity.component.AbstractComponent;
-import engine.logic.AbstractAction;
+import engine.entity.component.NetDataComponent;
 import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.net.server.core.NetPlayer;
 import game.common.actors.Player;
 
-public class Attack extends AbstractAction {
+public class Attack {
 
 
 	// Player control: If inRange attack <damage>, else get closer.
@@ -17,10 +17,15 @@ public class Attack extends AbstractAction {
 			
 			//Class NetDataComponent;
 			//AbstractComponent dmg = myEntity.getComponent(NetDataComponent);
+
+
+			NetDataComponent dmgComp = (NetDataComponent) myEntity.getComponent(NetDataComponent.class);
+
 			/**
 			 * I Have no idea how to change the damage of the other player.
 			 * Will ask how to do this...
 			 */
+
 			//enemy.getLogic().receiveDamage(dmg);	//Replaced by sending it to the server.
 			//Display damage.
 			

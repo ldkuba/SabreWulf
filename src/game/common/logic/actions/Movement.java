@@ -1,10 +1,11 @@
 package game.common.logic.actions;
 
-import engine.logic.AbstractAction;
 import engine.maths.Vec2;
 import engine.maths.Vec3;
 
-public class Movement extends AbstractAction{
+import javax.swing.*;
+
+public class Movement {
 	
 
 	public Vec3 moveTo(Vec3 coordPlayer, Vec3 coordEnemy) {

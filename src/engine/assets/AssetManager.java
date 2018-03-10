@@ -1,23 +1,28 @@
 package engine.assets;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.List;
 
-import org.lwjgl.BufferUtils;
-import org.lwjgl.stb.STBTTBakedChar;
-import org.lwjgl.stb.STBTruetype;
+import org.lwjgl.PointerBuffer;
+import org.lwjgl.assimp.AIColor4D;
+import org.lwjgl.assimp.AIMaterial;
+import org.lwjgl.assimp.AIScene;
+import org.lwjgl.assimp.AIString;
+import org.lwjgl.assimp.Assimp;
 
 import engine.font.Font;
+import engine.graphics.materials.Material;
+import engine.graphics.renderer.Renderable3D;
+import engine.graphics.shader.ShaderProgram;
 import engine.graphics.texture.Texture;
+import engine.maths.Vec4;
 
 public class AssetManager
 {
 	private ArrayList<Texture> m_Textures;
 	private ArrayList<Font> m_Fonts;
+	private ArrayList<Renderable3D[]> m_Meshes;
 	
 	public AssetManager()
 	{	
@@ -53,6 +58,43 @@ public class AssetManager
 		Font font = new Font(name);
 		m_Fonts.add(font);
 		return font;	    
+	}
+	
+	public Renderable3D[] getModel(String model, String shader, String texture)
+	{
+		//load a mesh
+		for(Renderable3D[] meshes : m_Meshes)
+		{
+			if(meshes[0].getFilename().equals(model))
+			{
+				return meshes;
+			}
+		}
+		
+		Texture tex = this.getTexture(texture);
+		ShaderProgram shaderProgram = new ShaderProgram();
+		shaderProgram.loadShader(shader);
+		
+		//Parse the file
+		AIScene aiScene = Assimp.aiImportFile(model, 0);
+		if (aiScene == null) {
+		    System.out.println("Error loading model: " + model);
+		}
+		
+		int numMaterials = aiScene.mNumMaterials();
+		PointerBuffer aiMaterials = aiScene.mMaterials();
+		List<Material> materials = new ArrayList<>();
+		for (int i = 0; i < numMaterials; i++) {
+		    AIMaterial aiMaterial = AIMaterial.create(aiMaterials.get(i));   
+		}
+		
+		return null;
+	}
+	
+	private ArrayList<Material> processMaterials()
+	{
+		//for later
+		return null;
 	}
 	
 	public void cleanup()

@@ -9,7 +9,7 @@ import game.common.items.attributes.main.*;
 
 /**
  * Manages all the items that will be available during the game.
- * @author junasleu
+ * no author.
  *
  */
 

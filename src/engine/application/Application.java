@@ -49,7 +49,7 @@ public class Application {
 	public static Vec2 s_WindowSize;
 	public static Vec2 s_Viewport;
 	protected boolean isFullScreen;
-
+	
 	protected SoundManager soundManager;
 
 	private boolean running = true;
@@ -74,8 +74,7 @@ public class Application {
 		stateManager = new StateManager(this);
 	}
 
-	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless,
-			ArrayList<NetPlayer> netPlayers) {
+	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless, ArrayList<NetPlayer> netPlayers) {
 		networkType = true;
 		isHeadless = headless;
 		if (!headless) {

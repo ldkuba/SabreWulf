@@ -44,6 +44,16 @@ public class GameInstanceManager extends Thread {
             }
         }
 
+        System.out.println("Starting engine. Wroom!");
+
+        for(NetPlayer player : instance.getPlayersInLobby())
+        {
+            player.setCurrentGame(instance.getGameId());
+        }
+
+        server.broadcastTCP(new BattleBeginMessage(), instance.getPlayersInLobby());
+        gameEngine = new ServerMain(instance.getPlayersInLobby());
+        gameEngine.run();
     }
 
     public ServerMain getGameEngine() {
@@ -55,17 +65,7 @@ public class GameInstanceManager extends Thread {
     }
 
     public void notifyEndOfCountdown(){
-        System.out.println("Starting engine. Wroom!");
-        
-        for(NetPlayer player : instance.getPlayersInLobby())
-        {
-        	player.setCurrentGame(instance.getGameId());
-        }
-        
-        server.broadcastTCP(new BattleBeginMessage(), instance.getPlayersInLobby());
-        gameEngine = new ServerMain(instance.getPlayersInLobby());        
-        gameEngine.run();
-        running=false;
+        running = false;
     }
 
 }
