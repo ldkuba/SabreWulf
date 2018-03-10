@@ -5,9 +5,7 @@ public class config {
     /**
      * Common
      */
-    public static int UDPPort = 4556;
     public static int TCPPort = 4555;
-    public static int ServerUDPPort = 4557;
     public static int UDPMaxPacketSize = 1024;
 
 
@@ -16,15 +14,14 @@ public class config {
      */
     public static int lobbyCountdown = 3;
     public static int globalConnectionsLimit = 100;
-    public static int gameConnectionLimit = 4;
+    public static int gameConnectionLimit = 1;
 
 
     /**
      * Client specific
      */
-    public static String host = "192.168.0.100";
-    public static String host1 = "127.0.0.1";
-    public static String host2 = "34.241.78.38";
+    public static String host= "localhost";
+    public static String hostawp = "34.241.78.38";
     public static String windowName = "Sabrewulf";
     public static boolean clientFullScreen = false;
     public static int screenWidth = 1280;

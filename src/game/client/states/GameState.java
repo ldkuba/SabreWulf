@@ -217,6 +217,10 @@ public class GameState extends AbstractState {
 	{
 		return this.map;
 	}
+	
+	public void respawn() {
+		// add filter here?
+	}
 
 	@Override
 	public void deactivate() {

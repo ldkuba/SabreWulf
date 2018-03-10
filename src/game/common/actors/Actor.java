@@ -155,13 +155,13 @@ public class Actor
 		this.base = base;
 	}
 
-	protected Vec2 position;
+	protected Vec3 position;
 
-	public Vec2 getPosition() {
+	public Vec3 getPosition() {
 		return position;
 	}
 
-	public void setPosition(Vec2 position) {
+	public void setPosition(Vec3 position) {
 		this.position = position;
 	}
 
@@ -287,6 +287,7 @@ public class Actor
 					((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).move(moveDir);
 				}
 			}
+			
 		}
 		
 		currentPos.scale(-1.0f);
