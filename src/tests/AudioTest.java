@@ -14,34 +14,56 @@ public class AudioTest {
 	private SoundManager soundManager = new SoundManager();
 	private SoundBuffer buffer;
 	private SoundSource source;
-	/*
-	 * public static void setupSounds(SoundManager soundMgr, String path, String name, boolean loop) {
-		SoundBuffer buffer = new SoundBuffer(path);
-		soundMgr.addSoundBuffer(buffer);
-		SoundSource source = new SoundSource(loop, false); //loop will normally be true
-		source.setBuffer(buffer.getBufferId());
-		soundMgr.addSoundSource(name, source);
-		source.play();
-		soundMgr.setListener(new SoundListener());
-		}
-	 * 
-	 * 
-	 * 
-	 */
+
 	@Test
 	public void bufferTest() {
 		//ones that exist
 		String path = basePath + "beep.ogg";
 		buffer = new SoundBuffer(path);
 		int actual = buffer.getBufferId();
-		int expected = 1;
+		int expected = 2;
 		assertEquals(expected, actual);	
 		
 		path = basePath + "background/Menu.ogg";
 		buffer = new SoundBuffer(path);
 		actual = buffer.getBufferId();
-		expected = 2;
-		System.out.println(actual);
+		expected = 3;
 		assertEquals(expected, actual);	
+		
+		buffer.cleanup();
+	}
+	
+	@Test
+	public void sourceTest() {
+		String path = basePath + "count.ogg";
+		buffer = new SoundBuffer(path);
+		source = new SoundSource(false, false);
+		soundManager.addSoundSource("count", source);
+		source.setBuffer(buffer.getBufferId());
+		
+		boolean playing = source.isPlaying(); //should not be playing initially
+		assertEquals(false, playing);
+		
+		source.play(); //start playing
+		playing = source.isPlaying();
+		assertEquals(true, playing); 
+		
+		source.pause(); //pause
+		playing = source.isPlaying();
+		assertEquals(false, playing);
+		
+		source.stop(); //stop
+		playing = source.isPlaying();
+		assertEquals(false, playing);
+		source.cleanup(); //clean up just to be nice
+	}
+	
+	@Test
+	public void existingSoundChecks(){
+		boolean exists = soundManager.doesSoundFileExist("lemon");
+		assertEquals(false, exists);
+		
+		exists = soundManager.doesSoundFileExist("lockIn");
+		assertEquals(true, exists);
 	}
 }
