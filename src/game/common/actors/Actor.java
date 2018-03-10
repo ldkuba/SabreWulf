@@ -126,7 +126,7 @@ public class Actor
 		
 		ArrayList<Vec3> path = new ArrayList<>();//navmesh.findPath(startPos, target);
 		path.add(target);
-		
+
 		if(path != null)
 		{
 			this.currentPath = path;
