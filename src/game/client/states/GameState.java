@@ -4,6 +4,7 @@ import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
 import engine.entity.Entity;
+import engine.entity.component.MeshComponent;
 import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.TextComponent;
 import engine.entity.component.TransformComponent;
@@ -148,7 +149,11 @@ public class GameState extends AbstractState {
 		animTest.getTransform().setPosition(new Vec3(6.0f, -6.0f, 0.0f));
 
 		scene.addEntity(animTest);
-
+		
+//		Entity entity3D = new Entity("3D test");
+//		entity3D.addComponent(new TransformComponent());
+//		entity3D.addComponent(new MeshComponent(app.getAssetManager().getModel("res/models/testModel.obj", "res/shaders/simpleshader3D.txt", null, false)));
+		
 		scene.getCamera().setProjectionMatrix(
 				MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 1.0f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));

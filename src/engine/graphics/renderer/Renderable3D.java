@@ -13,8 +13,8 @@ import engine.graphics.VertexBuffer;
 import engine.graphics.VertexBuffer.VertexBufferUsage;
 import engine.graphics.VertexLayout;
 import engine.graphics.VertexLayout.AttributeTypes;
-import engine.graphics.camera.Camera;
 import engine.graphics.materials.Material;
+import engine.graphics.shader.ShaderProgram;
 import engine.maths.Mat4;
 
 public class Renderable3D
@@ -25,9 +25,12 @@ public class Renderable3D
 	private IndexBuffer m_IBO;
 	
 	private Material m_Material;
+	private ShaderProgram m_Shader;
 	
-	public Renderable3D(float[] vertices, float[] uvs, float[] normals, int[] indicies, Material material, String filename)
+	public Renderable3D(float[] vertices, float[] uvs, float[] normals, int[] indicies, ShaderProgram shader, String filename)
 	{
+		m_Shader = shader;
+		
 		m_VAO = new VertexArray();
 		m_VAO.bind();
 		
@@ -59,8 +62,7 @@ public class Renderable3D
 		m_VAO.addVertexBuffer(vbo);
 		
 		m_IBO = new IndexBuffer(indicies);
-	
-		m_Material = material;
+		
 		m_Filename = filename;
 		
 		//clean
@@ -69,24 +71,44 @@ public class Renderable3D
 		m_VAO.unbind();
 	}
 	
+	public void setMaterial(Material material)
+	{
+		m_Material = material;
+	}
+	
+	public Material getMaterial()
+	{
+		return m_Material;
+	}
+	
 	public void draw(Renderer3D renderer, Mat4 modelMatrix)
 	{
-		m_Material.getShader().bind();
+		m_Shader.bind();
 		//Set Uniforms
 		//Model matrix
-		int modelLoc = m_Material.getShader().getUniformLayout().getUniformLocation(0);
+		int modelLoc = m_Shader.getUniformLayout().getUniformLocation("modelMatrix");
 		GL20.glUniformMatrix4fv(modelLoc, true, modelMatrix.getElements());
 		
 		//View matrix
-		int viewLoc = m_Material.getShader().getUniformLayout().getUniformLocation(1);
+		int viewLoc = m_Shader.getUniformLayout().getUniformLocation("viewMatrix");
 		GL20.glUniformMatrix4fv(viewLoc, true, renderer.getCamera().getViewMatrix().getElements());
 		
 		//Projection matrix
-		int projLoc = m_Material.getShader().getUniformLayout().getUniformLocation(2);
+		int projLoc = m_Shader.getUniformLayout().getUniformLocation("projectionMatrix");
 		GL20.glUniformMatrix4fv(projLoc, true, renderer.getCamera().getProjectionMatrix().getElements());	
 		
+		//Ambient Light
+		int ambientLoc = m_Shader.getUniformLayout().getUniformLocation("ambientLight");
+		GL20.glUniform3fv(ambientLoc, renderer.getAmbientLight().elementsFlipped());
+		
+		//Material
+		m_Material.setUniforms(m_Shader);
+		
+		int cameraPosLoc = m_Shader.getUniformLayout().getUniformLocation("camera_pos");
+		GL20.glUniform3fv(cameraPosLoc, renderer.getCamera().getPosition().elementsFlipped());
+		
 		//Texture
-		int loc = GL20.glGetUniformLocation(m_Material.getShader().getID(), "texture");
+		int loc = GL20.glGetUniformLocation(m_Shader.getID(), "texture_sampler");
 		GL20.glUniform1i(loc, 0);
 		
 		m_VAO.bind();
@@ -101,7 +123,7 @@ public class Renderable3D
 		m_IBO.unbind();
 		m_VAO.unbind();
 		
-		m_Material.getTexture().unbind(0);
+		m_Shader.unbind();
 	}
 	
 	public String getFilename()

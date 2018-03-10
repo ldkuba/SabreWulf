@@ -42,4 +42,17 @@ public class ShaderUniformLayout
 	{
 		return m_ShaderUniforms.get(index).getLocation();
 	}
+	
+	public int getUniformLocation(String name)
+	{
+		for(ShaderUniform uniform : m_ShaderUniforms)
+		{
+			if(uniform.getName().equals(name))
+			{
+				return uniform.getLocation();
+			}
+		}
+		
+		return -1;
+	}
 }
