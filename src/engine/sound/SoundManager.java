@@ -26,7 +26,7 @@ public class SoundManager {
 
 	private final List<SoundBuffer> soundBufferList;
 	private final Map<String, SoundSource> soundSourceMap;
-	private final String[] Sounds = {"countEnd", "count", "background/game", "background/lobby", "lockIn", "background/menu", "quit"};
+	private final String[] Sounds = {"countEnd", "count", "background/game", "background/lobby", "lockIn", "background/menu", "quit", "click"};
 	
 	public SoundManager() {
 		soundBufferList = new ArrayList<>();

@@ -57,6 +57,7 @@ public class MenuState extends AbstractState {
 				cnm.setName(playerNameField.getText());
 				app.getClient().sendTCP(cnm);
 				app.getSoundManager().stopSoundSource("background/menu");
+				app.getSoundManager().invokeSound("click", false);
 			}
 		};
 		app.getGui().add(playButton);
@@ -79,7 +80,6 @@ public class MenuState extends AbstractState {
 		exitButton = new Button(95.0f, 93.0f, 4.0f, 6.0f, exitButtonPressedTexture, exitButtonReleasedTexture) {
 			@Override
 			public void onClick() {
-				app.getSoundManager().invokeSound("quit", false);
 				app.exit();
 				app.cleanup();
 				app.getClient().stop();

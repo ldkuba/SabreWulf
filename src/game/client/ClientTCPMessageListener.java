@@ -53,12 +53,10 @@ public class ClientTCPMessageListener implements MessageListener
 	{
 		if(msg instanceof PeerCountMessage)
 		{
-			String soundName = "beep";
 			PeerCountMessage pcm = (PeerCountMessage) msg;
 			System.out.println("Number of players online: " + pcm.getNoPlayers());
-			app.getSoundManager().invokeSound(soundName, false);
+			//app.getSoundManager().invokeSound("beep", false);
 			PeerCountMessage plm = (PeerCountMessage) msg;
-			app.getSoundManager().pauseSoundSource(soundName);
 		}
 		else if(msg instanceof LobbyConnectionResponseMessage){
 			LobbyConnectionResponseMessage lobbyConn = (LobbyConnectionResponseMessage) msg;
