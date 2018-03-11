@@ -118,8 +118,10 @@ public class LobbyState extends AbstractState
 			@Override
 			public void onClick()
 			{
-				app.getSoundManager().invokeSound("click", false);
-				app.getSoundManager().stopSoundSource("background/lobby");
+				if(!app.getSoundManager().getIsMuted()){
+					app.getSoundManager().invokeSound("click", false);
+					app.getSoundManager().stopSoundSource("background/lobby");
+				}
 				app.getStateManager().setCurrentState(Main.menuState);
 				LobbyQuitMessage quit = new LobbyQuitMessage();
 				app.getClient().sendTCP(quit);

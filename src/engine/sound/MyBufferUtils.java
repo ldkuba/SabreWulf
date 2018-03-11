@@ -16,15 +16,14 @@ import static org.lwjgl.BufferUtils.*;
 public class MyBufferUtils {
 
 	public static ByteBuffer ioResourceToByteBuffer(String resource, int bufferSize) {
-		
 		ByteBuffer buffer = null;
 		Path path = Paths.get(resource);
-		
 		if (Files.isReadable(path)) {
 			try (SeekableByteChannel fc = Files.newByteChannel(path)) {
 				buffer = BufferUtils.createByteBuffer((int) fc.size() + 1);
-				while (fc.read(buffer) != -1);
-			} catch (IOException e){
+				while (fc.read(buffer) != -1)
+					;
+			} catch (IOException e) {
 				e.getMessage();
 			}
 		} else {
@@ -42,7 +41,7 @@ public class MyBufferUtils {
 						buffer = resizeBuffer(buffer, buffer.capacity() * 2);
 					}
 				}
-			} catch (IOException e){
+			} catch (IOException e) {
 				e.getMessage();
 			}
 		}

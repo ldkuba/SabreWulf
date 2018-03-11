@@ -99,17 +99,20 @@ public class ClientTCPMessageListener implements MessageListener
 
         else if(msg instanceof TimerEventMessage){
 			TimerEventMessage time = (TimerEventMessage) msg;
-			if (time.getTimePayload() == 0){
-				app.getSoundManager().invokeSound("countEnd", false);
-			} else {
-				app.getSoundManager().invokeSound("count", false);
+			if(!app.getSoundManager().getIsMuted()){
+				if (time.getTimePayload() == 0){
+					app.getSoundManager().invokeSound("countEnd", false);
+				} else {
+					app.getSoundManager().invokeSound("count", false);
+				}
 			}
 			System.out.println("Countdown: " + time.getTimePayload());
 		}
 
 		else if(msg instanceof BattleBeginMessage){
-			app.getSoundManager().stopSoundSource("background/lobby");
-			
+			if(!app.getSoundManager().getIsMuted()){
+				app.getSoundManager().stopSoundSource("background/lobby");
+			}			
 			//Create and setup player manager
 			
 			app.getStateManager().setCurrentState(Main.gameState);

@@ -22,6 +22,7 @@ public class SoundManager {
 
 	private long device;
 	private long context;
+	private boolean isMuted;
 	private SoundListener listener;
 
 	private final List<SoundBuffer> soundBufferList;
@@ -42,6 +43,7 @@ public class SoundManager {
 		}
 		alcMakeContextCurrent(context);
 		AL.createCapabilities(deviceCaps);
+		this.isMuted = false;
 	}
 
 	public void addSoundBuffer(SoundBuffer soundBuffer) {
@@ -90,7 +92,7 @@ public class SoundManager {
 	public void setAttenuationModel(int model) {
 		alDistanceModel(model);
 	}
-
+	
 	public void playSoundSource(String name) {
 		if (name != null) {
 			SoundSource soundSource = this.soundSourceMap.get(name);
@@ -103,19 +105,6 @@ public class SoundManager {
 			System.err.println("Cannot play sound source: No source specified");
 		}
 
-	}
-
-	public void stopSoundSource(String name) {
-		if (name != null) {
-			SoundSource soundSource = this.soundSourceMap.get(name);
-			if (soundSource != null && soundSource.isPlaying()) {
-				soundSource.stop();
-			} else {
-				System.err.println("Cannot pause sound source: No source exists or sound is not playing");
-			}
-		} else {
-			System.err.println("Cannot stop sound source: No source specified");
-		}
 	}
 
 	public void pauseSoundSource(String name) {
@@ -131,8 +120,21 @@ public class SoundManager {
 		}
 	}
 
+	public void stopSoundSource(String name) {
+		if (name != null) {
+			SoundSource soundSource = this.soundSourceMap.get(name);
+			if (soundSource != null && soundSource.isPlaying()) {
+				soundSource.stop();
+			} else {
+				System.err.println("Cannot stop sound source: No source exists or sound is not playing");
+			}
+		} else {
+			System.err.println("Cannot stop sound source: No source specified");
+		}
+	}
+
 	public void invokeSound(String soundName, boolean loop) {
-		if (doesSoundFileExist(soundName)) {
+		if (soundName != null && doesSoundFileExist(soundName)) {
 			setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
 			setupSounds(this, "res/sounds/" + soundName + ".ogg", soundName, loop);
 		} else {
@@ -162,7 +164,9 @@ public class SoundManager {
 				SoundSource source = new SoundSource(loop, false); //normally true
 				source.setBuffer(buffer.getBufferId());
 				soundMgr.addSoundSource(name, source);
-				source.play();
+				if(!isMuted){
+					source.play();
+				}
 				soundMgr.setListener(new SoundListener());
 			} catch (Exception e) {
 				e.getMessage();
@@ -179,6 +183,14 @@ public class SoundManager {
 			}
 		}
 		return false;
+	}
+
+	public void muteSounds() {
+		this.isMuted = true;
+	}
+	
+	public boolean getIsMuted(){
+		return this.isMuted;
 	}
 
 }

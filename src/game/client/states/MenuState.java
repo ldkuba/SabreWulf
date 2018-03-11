@@ -20,6 +20,7 @@ public class MenuState extends AbstractState {
 	private Sprite menuBackground;
 	private Button playButton;
 	private Button settingsButton;
+	private Button muteButton;
 	private Button exitButton;
 	private TextField playerNameField;
 
@@ -74,6 +75,21 @@ public class MenuState extends AbstractState {
 			}
 		};
 		app.getGui().add(settingsButton);
+		
+		Texture muteButtonReleasedTexture = app.getAssetManager()
+				.getTexture("res/textures/mute_button_released.png");
+		Texture muteButtonPressedTexture = app.getAssetManager()
+				.getTexture("res/textures/mute_button_pressed.png");
+		muteButton = new Button(85.0f, 93.0f, 4.0f, 6.0f, muteButtonPressedTexture,
+				muteButtonReleasedTexture) {
+			@Override
+			public void onClick() {
+				app.getSoundManager().invokeSound("click", false);
+				app.getSoundManager().stopSoundSource("background/menu");
+				app.getSoundManager().muteSounds();
+			}
+		};
+		app.getGui().add(muteButton);
 
 		Texture exitButtonReleasedTexture = app.getAssetManager().getTexture("res/textures/exit_button_released.png");
 		Texture exitButtonPressedTexture = app.getAssetManager().getTexture("res/textures/exit_button_pressed.png");
