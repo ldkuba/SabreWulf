@@ -57,8 +57,10 @@ public class MenuState extends AbstractState {
 				LobbyConnectionRequestMessage cnm = new LobbyConnectionRequestMessage();
 				cnm.setName(playerNameField.getText());
 				app.getClient().sendTCP(cnm);
-				app.getSoundManager().stopSoundSource("background/menu");
-				app.getSoundManager().invokeSound("click", false);
+				if(!app.getSoundManager().getIsMuted()){
+					app.getSoundManager().stopSoundSource("background/menu");
+					app.getSoundManager().invokeSound("click", false);
+				}
 			}
 		};
 		app.getGui().add(playButton);
