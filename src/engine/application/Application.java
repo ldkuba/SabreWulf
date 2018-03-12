@@ -38,6 +38,9 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GLUtil;
+import org.lwjgl.system.Callback;
+import org.lwjgl.system.Configuration;
 import org.lwjgl.system.MemoryStack;
 
 import engine.assets.AssetManager;
@@ -68,6 +71,7 @@ public class Application {
 	public static Vec2 s_WindowSize;
 	public static Vec2 s_Viewport;
 	protected boolean isFullScreen;
+	private Callback debugProc;
 	
 	protected SoundManager soundManager;
 
@@ -122,6 +126,8 @@ public class Application {
 
 		isFullScreen = fullscreen;
 
+		Configuration.DEBUG.set(true);
+		
 		GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
 		if (!isFullScreen) {
@@ -149,6 +155,9 @@ public class Application {
 			setResolution(vidmode.width(), vidmode.height());
 		}
 
+		// before context creation
+		glfwWindowHint(GLFW.GLFW_OPENGL_DEBUG_CONTEXT, GLFW.GLFW_TRUE);
+		
 		if (window == NULL) {
 			throw new RuntimeException("Failed to create window");
 		}
@@ -171,7 +180,14 @@ public class Application {
 		glfwShowWindow(window);
 
 		GL.createCapabilities();
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		
+		debugProc = GLUtil.setupDebugMessageCallback(); // may return null if the debug mode is not available
+		
+		if(debugProc == null)
+		{
+			System.out.println("NULL DEBUG PROCESSOR");
+		}
+		
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 	}
@@ -251,6 +267,10 @@ public class Application {
 
 	public void cleanup() {
 		if (!isHeadless) {
+			
+			if ( debugProc != null )
+			    debugProc.free();
+			
 			glfwFreeCallbacks(window);
 			glfwDestroyWindow(window);
 			// Terminate GLFW

@@ -45,7 +45,7 @@ public class Map {
 		}
 		
 		for (int i = 0; i < background.length; i++) {
-			scene.addEntity(background[i]);
+			//scene.addEntity(background[i]);
 		}
 	}
 	

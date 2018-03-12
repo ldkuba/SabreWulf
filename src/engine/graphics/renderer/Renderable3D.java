@@ -25,9 +25,7 @@ public class Renderable3D
 	private IndexBuffer m_IBO;
 	
 	private Material m_Material;
-	private ShaderProgram m_Shader;
-	
-	public Renderable3D(float[] vertices, float[] uvs, float[] normals, int[] indicies, ShaderProgram shader, String filename)
+	private ShaderProgram m_Shader;	public Renderable3D(float[] vertices, float[] uvs, float[] normals, int[] indicies, ShaderProgram shader, String filename)
 	{
 		m_Shader = shader;
 		
@@ -39,30 +37,35 @@ public class Renderable3D
 		vertexLayout.addAttribute(new VertexAttribute(AttributeTypes.Float, 2, false), 1); // uvs
 		vertexLayout.addAttribute(new VertexAttribute(AttributeTypes.Float, 3, false), 1); // normals
 		
-		ByteBuffer buffer = BufferUtils.createByteBuffer(vertexLayout.getVertexSizeInBytes() * vertices.length);
+		ByteBuffer buffer = BufferUtils.createByteBuffer(vertexLayout.getVertexSizeInBytes() * (vertices.length/3));
 		
 		for(int v = 0, u = 0, n = 0; v < vertices.length; v += 3, u += 2, n += 3)
-		{
-			buffer.asFloatBuffer().put(vertices[v+0]);
-			buffer.asFloatBuffer().put(vertices[v+1]);
-			buffer.asFloatBuffer().put(vertices[v+2]);
+		{			
+			buffer.putFloat(vertices[v+0]);
+			buffer.putFloat(vertices[v+1]);
+			buffer.putFloat(vertices[v+2]);
 			
-			buffer.asFloatBuffer().put(uvs[u+0]);
-			buffer.asFloatBuffer().put(uvs[u+1]);
+			buffer.putFloat(uvs[u+0]);
+			buffer.putFloat(uvs[u+1]);
 			
-			buffer.asFloatBuffer().put(normals[n+0]);
-			buffer.asFloatBuffer().put(normals[n+1]);
-			buffer.asFloatBuffer().put(normals[n+2]);
+			buffer.putFloat(normals[n+0]);
+			buffer.putFloat(normals[n+1]);
+			buffer.putFloat(normals[n+2]);
 		}
+		
+//		buffer.rewind();
+//		
+//		float[] test = new float[48];
+//		buffer.asFloatBuffer().get(test);
 		
 		buffer.flip();
 		
-		VertexBuffer vbo = new VertexBuffer(vertexLayout, buffer, vertices.length, VertexBufferUsage.STATIC);
+		VertexBuffer vbo = new VertexBuffer(vertexLayout, buffer, vertices.length/3, VertexBufferUsage.STATIC);
 		vbo.bind();
 		m_VAO.addVertexBuffer(vbo);
 		
 		m_IBO = new IndexBuffer(indicies);
-		
+
 		m_Filename = filename;
 		
 		//clean
@@ -83,6 +86,8 @@ public class Renderable3D
 	
 	public void draw(Renderer3D renderer, Mat4 modelMatrix)
 	{
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		
 		m_Shader.bind();
 		//Set Uniforms
 		//Model matrix
@@ -112,18 +117,24 @@ public class Renderable3D
 		GL20.glUniform1i(loc, 0);
 		
 		m_VAO.bind();
+		m_VAO.getVertexBuffer().bind();
 		m_IBO.bind();
 		
-		m_Material.getTexture().bind(0);
+		if(m_Material.getTexture() != null)
+			m_Material.getTexture().bind(0);
 		
 		GL11.glDrawElements(GL11.GL_TRIANGLES, m_IBO.getCount(), GL11.GL_UNSIGNED_INT, 0);
 
-		m_Material.getTexture().unbind(0);
+		if(m_Material.getTexture() != null)
+			m_Material.getTexture().unbind(0);
 		
 		m_IBO.unbind();
+		m_VAO.getVertexBuffer().unbind();
 		m_VAO.unbind();
 		
 		m_Shader.unbind();
+		
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
 	}
 	
 	public String getFilename()

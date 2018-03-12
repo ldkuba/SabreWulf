@@ -63,7 +63,6 @@ public class Renderer2D extends Renderer
 		m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("modelMatrix"), 1);
 		m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("viewMatrix"), 1);
 		m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("projectionMatrix"), 1);
-		//m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("myMatrix"), 1);
 		m_Shader.locateUniforms();
 		
 		m_Shader.unbind();
@@ -166,7 +165,7 @@ public class Renderer2D extends Renderer
 	}
 
 	public void drawAll()
-	{				
+	{			
 		m_Shader.bind();
 		
 		m_VertexData.flip();
@@ -201,7 +200,5 @@ public class Renderer2D extends Renderer
 		m_IndexBuffer.unbind();
 		m_VertexBuffer.unbind();
 		m_VertexArray.unbind();
-		
-		m_Shader.unbind();
 	}
 }

@@ -24,8 +24,8 @@ public class ServerGameState extends AbstractState
 	
 	public ServerGameState(ServerMain app)
 	{
+		super(app);
 		this.app = app;
-		scene = new Scene(0, app);
 		map = new Map(scene, "res/textures/map");
 		playerManager = new PlayerManager(scene);
 	}
@@ -45,7 +45,7 @@ public class ServerGameState extends AbstractState
 	@Override
 	public void init()
 	{
-		scene.init();
+		super.init();
 
 		//Add players
 		for(int i = 0; i < app.getNetworkManager().getNetPlayers().size(); i++)
@@ -59,25 +59,13 @@ public class ServerGameState extends AbstractState
 	}
 
 	@Override
-	public void render()
-	{
-		
-	}
-
-	@Override
 	public void update()
 	{
-		if (System.currentTimeMillis() - second >= 1000.0f) {
-			second += 1000.0f;
-			System.out.println("FPS: " + frame);
-			frame = 0;
-		}
-		frame++;
+		super.update();
 		
 		System.out.println("ALIVE");
 		
 		playerManager.update();
-		scene.update();
 	}
 	
 	public PlayerManager getPlayerManager()

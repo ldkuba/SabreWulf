@@ -15,7 +15,6 @@ import game.client.Main;
 
 public class MenuState extends AbstractState {
 	private Main app;
-	private Scene scene;
 
 	private Sprite menuBackground;
 	private Button playButton;
@@ -24,8 +23,8 @@ public class MenuState extends AbstractState {
 	private TextField playerNameField;
 
 	public MenuState(Main app) {
+		super(app);
 		this.app = app;
-		scene = new Scene(0, app);
 	}
 
 	@Override
@@ -40,8 +39,8 @@ public class MenuState extends AbstractState {
 
 	@Override
 	public void init() {
-		scene.init();
-		app.getGui().init(scene);
+		super.init();
+		
 		app.getSoundManager().invokeSound("background/menu", true);
 		Texture menuBackgroundTexture = app.getAssetManager().getTexture("res/textures/mainmenu_background.png");
 		menuBackground = new Sprite(0, 0, 100.0f, 100.0f, menuBackgroundTexture);
@@ -91,20 +90,18 @@ public class MenuState extends AbstractState {
 		app.getGui().add(playerNameField);
 
 		float aspectRatio = Application.s_WindowSize.getX() / Application.s_WindowSize.getY();
-		scene.getCamera().setProjectionMatrix(
-				MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.1f, 100.0f));
+		scene.getCamera().setProjectionMatrix(MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.1f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
-
 	}
 
 	@Override
 	public void render() {
-		scene.render();
+		super.render();
 	}
 
 	@Override
 	public void update() {
-		scene.update();
+		super.update();
 	}
 
 	@Override

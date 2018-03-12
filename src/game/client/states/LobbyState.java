@@ -20,7 +20,6 @@ import game.client.Main;
 public class LobbyState extends AbstractState
 {
 	private Main app;
-	private Scene scene;
 	
 	private Sprite lobbyBackground;
 	private SelectList characterChoice;
@@ -35,8 +34,9 @@ public class LobbyState extends AbstractState
 
 	public LobbyState(Main app)
 	{
+		super(app);
 		this.app = app;
-		scene = new Scene(0, app);
+		
 		localPlayerIndex = 0;
 	}
 
@@ -55,8 +55,7 @@ public class LobbyState extends AbstractState
 	@Override
 	public void init()
 	{
-		scene.init();
-		app.getGui().init(scene);
+		super.init();
 		// set up background sound
 		app.getSoundManager().invokeSound("background/lobby", true);
 		playerAvatars = new ArrayList<>();
@@ -158,13 +157,13 @@ public class LobbyState extends AbstractState
 	@Override
 	public void render()
 	{
-		scene.render();
+		super.render();
 	}
 
 	@Override
 	public void update()
 	{
-		scene.update();
+		super.update();
 	}
 
 	//Set from message listener when a accept message from a lobby is received
