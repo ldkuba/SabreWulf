@@ -8,6 +8,7 @@ import engine.entity.Entity;
 import engine.entity.NetworkEntity;
 import engine.entity.component.NetDataComponent;
 import engine.entity.component.NetIdentityComponent;
+import engine.entity.component.NetSpriteAnimationComponent;
 import engine.entity.component.NetTransformComponent;
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.common_net.networking_messages.EntityUpdateMessage;
@@ -70,6 +71,11 @@ public class NetworkManager {
     				e.setNetData((NetDataComponent)entity.getComponent(NetDataComponent.class));
     			}
     			
+    			if(entity.hasComponent(NetSpriteAnimationComponent.class))
+    			{
+    				e.setNetAnimation((NetSpriteAnimationComponent)entity.getComponent(NetSpriteAnimationComponent.class));
+    			}
+    			
     			return;
     		}
     	}
@@ -87,6 +93,7 @@ public class NetworkManager {
     		{
     			e.setNetTransform(netEntity.getNetTransform());
     			e.setNetData(netEntity.getNetData());
+    			e.setNetAnimation(netEntity.getNetAnimation());
     			
     			return;
     		}
@@ -157,6 +164,12 @@ public class NetworkManager {
     				sceneEntity.removeComponent(comp);
     			}
     			
+    			if(sceneEntity.hasComponent(NetSpriteAnimationComponent.class))
+    			{
+    				NetSpriteAnimationComponent comp = (NetSpriteAnimationComponent) sceneEntity.getComponent(NetSpriteAnimationComponent.class);
+    				sceneEntity.removeComponent(comp);
+    			}
+    			
     			if(entity.getNetTransform() != null)
     			{
     				sceneEntity.addComponent(entity.getNetTransform());
@@ -165,6 +178,11 @@ public class NetworkManager {
     			if(entity.getNetData() != null)
     			{
     				sceneEntity.addComponent(entity.getNetData());
+    			}
+    			
+    			if(entity.getNetAnimation() != null)
+    			{
+    				sceneEntity.addComponent(entity.getNetAnimation());
     			}
     		}
     	}

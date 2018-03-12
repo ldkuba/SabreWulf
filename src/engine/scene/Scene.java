@@ -8,6 +8,7 @@ import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.MeshComponent;
 import engine.entity.component.NetIdentityComponent;
+import engine.entity.component.NetSpriteAnimationComponent;
 import engine.entity.component.NetTransformComponent;
 import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.SpriteComponent;
@@ -48,9 +49,8 @@ public class Scene
 			float aspectRatio = 4.0f / 3.0f;
 
 			m_Camera = new Camera();
-			m_Camera.setPosition(new Vec3(0.0f, 0.0f, -10.0f));
-			m_Camera.setProjectionMatrix(
-					MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.01f, 100.0f));
+			m_Camera.setPosition(new Vec3(0.0f, 0.0f, -20.0f));
+			m_Camera.setProjectionMatrix(MathUtil.perspProjMat(aspectRatio, 70.0f, 0.1f, 100.0f));
 
 			m_Renderer2D = new Renderer2D();
 			m_Renderer3D = new Renderer3D(m_Camera);
@@ -143,13 +143,26 @@ public class Scene
 	{
 		for (Entity e : m_Entities)
 		{
-			if(e.hasComponent(SpriteAnimationComponent.class))
+			if(e.hasComponent(NetSpriteAnimationComponent.class))
+			{
+				NetSpriteAnimationComponent animation = (NetSpriteAnimationComponent) e.getComponent(NetSpriteAnimationComponent.class);
+				
+				if(e.hasComponent(SpriteAnimationComponent.class))
+				{
+					SpriteAnimationComponent localAnim = (SpriteAnimationComponent) e.getComponent(SpriteAnimationComponent.class);
+					localAnim.update(animation);
+				}else
+				{
+					animation.update();
+					System.out.println("Frame: " + animation.getCurrentFrame());
+				}
+				
+			}else if(e.hasComponent(SpriteAnimationComponent.class))
 			{
 				SpriteAnimationComponent animation = (SpriteAnimationComponent) e.getComponent(SpriteAnimationComponent.class);
-
 				animation.update();
 			}
-
+			
 			if(e.hasComponent(NetIdentityComponent.class))
 			{
 				NetIdentityComponent netIdentity = (NetIdentityComponent) e.getComponent(NetIdentityComponent.class);

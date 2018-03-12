@@ -5,6 +5,7 @@ import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.NetDataComponent;
 import engine.entity.component.NetIdentityComponent;
+import engine.entity.component.NetSpriteAnimationComponent;
 import engine.entity.component.NetTransformComponent;
 import engine.entity.component.SpriteComponent;
 import engine.maths.Vec3;
@@ -21,44 +22,14 @@ public class Player extends Actor {
 	private AbstractClasses role;
 	private int playerId;
 
-	private int team;
-
-	// temporary
-	private Vec3 targetLocation;
-
-	public Player(int playerId, String name, Application app) {
+	public Player(int playerId, String name, Application app) 
+	{	
+		super(playerId, app);
+		
+		super.init("res/actors/archer/");
+		
 		this.playerId = playerId;
 		this.name = name;
-
-		entity = new Entity("Player" + playerId);
-
-		entity.addComponent(new NetIdentityComponent(playerId, app.getNetworkManager()));
-		entity.addComponent(new NetTransformComponent());
-		NetTransformComponent transform = (NetTransformComponent) entity.getComponent(NetTransformComponent.class);
-		transform.setPosition(new Vec3(0.0f, 0.0f, -0.7f));
-		
-
-		NetDataComponent netData = new NetDataComponent();
-		netData.addData("Health", health);
-		netData.addData("Energy", energy);
-		netData.addData("MovementSpeed", movementSpeed);
-		netData.addData("Resistance", resistance);
-		netData.addData("Team", team);
-
-		entity.addComponent(netData);
-
-		// Colliders go here too
-
-		movementSpeed = 0.02f;
-
-		if (!app.isHeadless()) {
-			SpriteComponent spriteComponent = new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f),
-			app.getAssetManager().getTexture("res/textures/characters/placeholder.png"), 1.5f, 1.5f);
-			entity.addComponent(spriteComponent);
-		}
-
-		targetLocation = new Vec3();
-
 	}
 
 	public AbstractClasses getRole() {
@@ -76,14 +47,6 @@ public class Player extends Actor {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public void setTeam(int team) {
-		this.team = team;
-	}
-
-	public int getTeam() {
-		return team;
 	}
 
 	public int getPlayerId() {

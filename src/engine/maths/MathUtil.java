@@ -345,4 +345,30 @@ public class MathUtil
 		
 		return result;
 	}
+	
+	//convertes a direction vector to a 4-way direction
+	// 0 - up, 1 - left, 2 - down, 3 - right
+	public static int dirTo4Dir(Vec3 direction)
+	{
+		if(Math.abs(direction.getX()) >= Math.abs(direction.getY()))
+		{
+			if(direction.getX() >= 0)
+			{
+				return 3;
+			}else
+			{
+				return 1;
+			}
+		}else
+		{
+			if(direction.getY() >= 0)
+			{
+				return 0;
+			}else
+			{
+				return 2;
+			}
+		}
+	}
+	
 }
