@@ -150,11 +150,16 @@ public class Actor
 				System.out.println("Damage Received: " + damage);
 			}
 
+			//Update Health.
 			health.put("Health",Float.parseFloat(playerData.getData("Health").toString()) - damage);
-
+			if( Float.parseFloat(playerData.getData("Health").toString()) <= 0 ){
+				if (debug) { System.out.println("I Died..."); }
+				logic.respawn(this);
+			}
 			System.out.println("New Health: " + health.get("Health"));
 		}
 	}
+
 
 	/**
 	 * team can be 1, 2, 3 team 1 is composed of three players (first three in
