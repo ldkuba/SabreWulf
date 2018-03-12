@@ -16,7 +16,7 @@ public class ProgressBar extends GuiComponent {
 
 	Vec4 color;
 
-	public ProgressBar(float x, float y, float width, float height, Texture bgTexture, Texture barTexture,Vec4 color) {
+	public ProgressBar(float x, float y, float width, float height, Texture bgTexture, Texture barTexture) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
