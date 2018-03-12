@@ -3,7 +3,6 @@ package game.server.ingame;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import engine.entity.component.NetTransformComponent;
 import engine.net.common_net.MessageListener;
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.common_net.networking_messages.AttackPlayerMessage;
@@ -14,6 +13,9 @@ import game.common.actors.Player;
 
 public class ServerMessageListener implements MessageListener
 {
+
+	private boolean debug = true;
+
 	private class MessageEvent
 	{
 		public AbstractMessage msg;
@@ -28,8 +30,6 @@ public class ServerMessageListener implements MessageListener
 	
 	private ServerMain app;
 	private BlockingQueue<MessageEvent> abstractMessageInbound;
-
-	private boolean debug = true;
 
 	private final int maxTraffic = 100;
 
@@ -84,11 +84,7 @@ public class ServerMessageListener implements MessageListener
 			DesiredLocationMessage dlm = (DesiredLocationMessage) msg;
 			
 			ServerMain.gameState.getPlayerManager().getPlayer(player.getPlayerId()).calculatePath(dlm.getPos(), ServerMain.gameState.getMap().getNavmesh());
-
-			/*
-			 * Testing Zone
-			 */
-
+			
 			System.out.println("Recieved path message in game");
 		} else if(msg instanceof AttackPlayerMessage) {
 
@@ -102,7 +98,7 @@ public class ServerMessageListener implements MessageListener
 			Player playerAttacked = ServerMain.gameState.getPlayerManager().getPlayer(playerDamaged);
 
 			/**
-			Check if they are in the same team.
+			 Check if they are in the same team.
 			 */
 
 			if (debug) {
@@ -116,6 +112,7 @@ public class ServerMessageListener implements MessageListener
 
 			playerAttacked.lostHealth(attacker.getDamage());
 		}
+
 	}
 
 	@Override

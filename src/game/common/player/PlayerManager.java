@@ -34,6 +34,10 @@ public class PlayerManager
 		
 		return null;
 	}
+
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
 	
 	public void update()
 	{
@@ -43,7 +47,4 @@ public class PlayerManager
 		}
 	}
 
-	public ArrayList<Player> getPlayers() {
-		return players;
-	}
 }

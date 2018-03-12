@@ -1,6 +1,8 @@
-package engine.net.common_net.networking_messages;
 
-public class AttackPlayerMessage extends AbstractMessage{
+package engine.net.common_net.networking_messages;
+import engine.net.common_net.networking_messages.AbstractMessage;
+
+public class AttackPlayerMessage extends AbstractMessage {
 
     private int playerID;
 
@@ -16,3 +18,4 @@ public class AttackPlayerMessage extends AbstractMessage{
         return playerID;
     }
 }
+
