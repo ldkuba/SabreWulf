@@ -5,6 +5,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import engine.net.common_net.MessageListener;
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.common_net.networking_messages.BattleBeginMessage;
+import engine.net.common_net.networking_messages.EntityUpdateMessage;
 import engine.net.common_net.networking_messages.LobbyConnectionResponseMessage;
 import engine.net.common_net.networking_messages.LobbyUpdateMessage;
 import engine.net.common_net.networking_messages.PeerCountMessage;
@@ -52,12 +53,10 @@ public class ClientTCPMessageListener implements MessageListener
 	{
 		if(msg instanceof PeerCountMessage)
 		{
-			String soundName = "beep";
 			PeerCountMessage pcm = (PeerCountMessage) msg;
 			System.out.println("Number of players online: " + pcm.getNoPlayers());
-			app.getSoundManager().invokeSound(soundName, false);
+			//app.getSoundManager().invokeSound("beep", false);
 			PeerCountMessage plm = (PeerCountMessage) msg;
-			app.getSoundManager().pauseSoundSource(soundName);
 		}
 		else if(msg instanceof LobbyConnectionResponseMessage){
 			LobbyConnectionResponseMessage lobbyConn = (LobbyConnectionResponseMessage) msg;
@@ -100,20 +99,28 @@ public class ClientTCPMessageListener implements MessageListener
 
         else if(msg instanceof TimerEventMessage){
 			TimerEventMessage time = (TimerEventMessage) msg;
-			if (time.getTimePayload() == 0){
-				app.getSoundManager().invokeSound("countEnd", false);
-			} else {
-				app.getSoundManager().invokeSound("count", false);
+			if(!app.getSoundManager().getIsMuted()){
+				if (time.getTimePayload() == 0){
+					app.getSoundManager().invokeSound("countEnd", false);
+				} else {
+					app.getSoundManager().invokeSound("count", false);
+				}
 			}
 			System.out.println("Countdown: " + time.getTimePayload());
 		}
 
 		else if(msg instanceof BattleBeginMessage){
-			app.getSoundManager().stopSoundSource("background/lobby");
-			
+			if(!app.getSoundManager().getIsMuted()){
+				app.getSoundManager().stopSoundSource("background/lobby");
+			}			
 			//Create and setup player manager
 			
 			app.getStateManager().setCurrentState(Main.gameState);
+		}else if(msg instanceof EntityUpdateMessage)
+		{
+			EntityUpdateMessage eum = (EntityUpdateMessage) msg;
+			
+			app.getNetworkManager().updateEntityInNetworkManager(eum.getEntity());
 		}
 	}
 

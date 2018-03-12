@@ -124,8 +124,9 @@ public class Actor
 			startPos = ((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).getPosition();
 		}
 		
-		ArrayList<Vec3> path = navmesh.findPath(startPos, target);
-		
+		ArrayList<Vec3> path = new ArrayList<>();//navmesh.findPath(startPos, target);
+		path.add(target);
+
 		if(path != null)
 		{
 			this.currentPath = path;
@@ -133,7 +134,7 @@ public class Actor
 	}
 
 	/**
-	 * team can be 1, 2, 3 team 1 is composed of three players (first three in
+	 * team can be 1, 2, 3 team 1 is composed of three players (first three inTc
 	 * lobby) team 2 is composed of the other three players (last three in
 	 * lobby) team 3 is composed of neutral npcs (shops, cart etc)
 	 */

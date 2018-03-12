@@ -6,25 +6,27 @@ import java.util.Comparator;
 
 import engine.application.Application;
 import engine.entity.Entity;
+import engine.entity.component.MeshComponent;
 import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
-//import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TextComponent;
 import engine.entity.component.TransformComponent;
 import engine.graphics.camera.Camera;
+import engine.graphics.renderer.Renderable3D;
 import engine.graphics.renderer.Renderer2D;
 import engine.graphics.renderer.Renderer3D;
 import engine.maths.Mat4;
 import engine.maths.MathUtil;
+import engine.maths.Vec2;
 import engine.maths.Vec3;
 
 public class Scene
 {
 	private int m_ID;
 	private ArrayList<Entity> m_Entities;
-
+	
 	private Renderer2D m_Renderer2D;
 	private Renderer3D m_Renderer3D; // Currently not used
 	private Camera m_Camera;
@@ -51,7 +53,7 @@ public class Scene
 					MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.01f, 100.0f));
 
 			m_Renderer2D = new Renderer2D();
-			m_Renderer3D = new Renderer3D();
+			m_Renderer3D = new Renderer3D(m_Camera);
 		}
 	}
 
@@ -157,11 +159,12 @@ public class Scene
 
 		sortEntitiesZ();
 		
+		
 		app.getNetworkManager().synchronize(this);
 	}
 
 	public void render()
-	{
+	{		
 		m_Renderer2D.init(m_Camera);
 
 		for (Entity e : m_Entities)
@@ -182,10 +185,14 @@ public class Scene
 							.getComponent(NetTransformComponent.class);
 					transformation = transform.getTransformationMatrix();
 				}
-
-				// check if visible
-
-				sprite.submit(m_Renderer2D, transformation);
+				//check if visible
+				if (e.shouldBeCulled()){
+					if(mapIsInView(e)) { 
+						sprite.submit(m_Renderer2D, transformation);
+					}
+				} else {
+					sprite.submit(m_Renderer2D, transformation);
+				}
 			}
 
 			if(e.hasComponent(TextComponent.class))
@@ -206,8 +213,13 @@ public class Scene
 				}
 
 				// check if visible
-
-				text.submit(m_Renderer2D, transform);
+				if (e.shouldBeCulled()){
+					if(mapIsInView(e)) { 
+						text.submit(m_Renderer2D, transform);
+					}
+				} else {
+					text.submit(m_Renderer2D, transform);
+				}
 			}
 
 			if(e.hasComponent(SpriteAnimationComponent.class))
@@ -227,13 +239,36 @@ public class Scene
 					transformation = transform.getTransformationMatrix();
 				}
 				// check is visible
+				if (e.shouldBeCulled()){
+					if(mapIsInView(e)) { 
+						animation.submit(m_Renderer2D, transformation);
+					}
+				} else {
+					animation.submit(m_Renderer2D, transformation);
+				}
+			}
+			
+			if(e.hasComponent(MeshComponent.class))
+			{
+				Mat4 transformation = Mat4.identity();
 
-				animation.submit(m_Renderer2D, transformation);
+				if(e.hasComponent(TransformComponent.class))
+				{
+					TransformComponent transform = (TransformComponent) e.getComponent(TransformComponent.class);
+					transformation = transform.getTransformationMatrix();
+				}else if(e.hasComponent(NetTransformComponent.class))
+				{
+					NetTransformComponent transform = (NetTransformComponent) e
+							.getComponent(NetTransformComponent.class);
+					transformation = transform.getTransformationMatrix();
+				}
+				
+				MeshComponent model = ((MeshComponent)e.getComponent(MeshComponent.class));
+				
+				model.draw(m_Renderer3D, transformation);
+				
 			}
 		}
-		
-		
-
 		m_Renderer2D.drawAll();
 	}
 
@@ -251,24 +286,39 @@ public class Scene
 	{
 		return m_Entities;
 	}
-
-	public void isInView(Entity entity)
-	{
-		// incomplete
-		Vec3 camPos = m_Camera.getPosition();
+	
+	public boolean mapIsInView(Entity entity){
+		/*
+		 *     p3____p4 
+		 *      |    |
+		 *      |____| 
+		 *    p1      p2     
+		 */
+		Vec3 cam = m_Camera.getPosition();
 		SpriteComponent sprite = entity.getSprite();
 		TransformComponent transform = entity.getTransform();
-		Vec3 entPos = transform.getPosition();
-		float entWidth = sprite.getWidth();
-		float entHeight = sprite.getHeight();
-		if(entPos.getX() + entWidth <= camPos.getX())
-		{
-
+		float view = Application.s_Viewport.getLength();
+		if(sprite != null && transform != null) {
+			float entWidth = sprite.getWidth();
+			float entHeight = sprite.getHeight();
+			Vec3 p1 = transform.getPosition();
+			Vec2 p2 = new Vec2(p1.getX()+entWidth, p1.getY());
+			Vec2 p3 = new Vec2(p1.getX(), p1.getY()+entHeight);
+			Vec2 p4 = new Vec2(p1.getX()+(entWidth), p1.getY()+(entHeight));
+			float xMinSpan = cam.getX() - (view*0.67f);
+			float xMaxSpan = cam.getX() + (view*1.34f);
+			float yMinSpan = cam.getY() - (view*0.5625f);
+			float yMaxSpan = cam.getY() + (view);
+			if (p4.getX() < xMaxSpan && p4.getX() > xMinSpan && p4.getY() < yMaxSpan && p4.getY() > yMinSpan){
+				return true;
+			} else if (p3.getX() < xMaxSpan && p3.getX() > xMinSpan && p3.getY() < yMaxSpan && p3.getY() > yMinSpan){
+				return true;
+			} else if (p2.getX() < xMaxSpan && p2.getX() > xMinSpan && p2.getY() < yMaxSpan && p2.getY() > yMinSpan){
+				return true;
+			} else if (p1.getX() < xMaxSpan && p1.getX() > xMinSpan && p1.getY() < yMaxSpan && p1.getY() > yMinSpan){
+				return true;
+			} 			
 		}
-		if(entPos.getY() + entHeight <= camPos.getY())
-		{
-
-		}
-
+		return false;
 	}
 }

@@ -31,4 +31,8 @@ public class ShaderUniform
 		return m_ID;
 	}
 	
+	public String getName()
+	{
+		return m_Name;
+	}
 }
