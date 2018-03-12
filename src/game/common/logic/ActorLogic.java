@@ -5,10 +5,10 @@ import engine.maths.Vec3;
 import engine.net.server.core.NetPlayer;
 import engine.application.Application;
 import engine.entity.Entity;
+import game.common.actors.Actor;
 import game.common.logic.actions.Attack;
 import game.common.logic.actions.Movement;
 import game.common.logic.actions.Respawn;
-import game.common.actors.Actor;
 import game.common.actors.Player;
 
 public class ActorLogic {
@@ -38,7 +38,8 @@ public class ActorLogic {
 	public boolean inRange(Vec3 playerCoord, Vec3 enemyCoord, float range) {
 		return attackAc.inRange(playerCoord, enemyCoord, range);
 	}
-	
+
+
 	public void respawn(Actor myActor) {
 		/*if (!respawn.alive(myActor)) {
 			respawn.respawn(myActor);
@@ -64,12 +65,8 @@ public class ActorLogic {
 		
 	}
 	*/
-
-	public float recvDamage(float dmg) {
-		return 0.0f;
-	}
-
 	public Player getPlayerInfo() {
 		return myActor;
 	}
 }
+

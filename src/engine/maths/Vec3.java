@@ -137,4 +137,6 @@ public class Vec3 implements Serializable
 		elements[0] = this.z;
 		return elements;
 	}
+
+
 }

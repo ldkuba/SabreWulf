@@ -7,7 +7,6 @@ import engine.entity.component.NetDataComponent;
 import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
 import engine.entity.component.SpriteComponent;
-import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
 import game.common.classes.AbstractClasses;
@@ -22,8 +21,9 @@ public class Player extends Actor {
 	private String name;
 	private AbstractClasses role;
 	private int playerId;
-	private int team;
 	private Vec3 startingPos;
+
+	private int team;
 
 	// temporary
 	private Vec3 targetLocation;
@@ -39,17 +39,16 @@ public class Player extends Actor {
 		NetTransformComponent transform = (NetTransformComponent) entity.getComponent(NetTransformComponent.class);
 		transform.setPosition(new Vec3(0.0f, 0.0f, -0.7f));
 
+		logic = new ActorLogic(this);
+
 		NetDataComponent netData = new NetDataComponent();
 		netData.addData("Health", health);
 		netData.addData("Energy", energy);
 		netData.addData("MovementSpeed", movementSpeed);
 		netData.addData("Resistance", resistance);
 		netData.addData("Team", team);
-		netData.addData("Starting Position", startingPos);
 
 		entity.addComponent(netData);
-
-		logic = new ActorLogic(this);
 
 		// Colliders go here too
 
@@ -70,8 +69,14 @@ public class Player extends Actor {
 	}
 
 	public void setRole(AbstractClasses role) {
-		setPlayer(role);	//Add the players statistics.
+		//setPlayer(role);	-> Breaks the movement
+
+		NetDataComponent data = (NetDataComponent) entity.getComponent(NetDataComponent.class);
 		this.role = role;
+		data.getAllData("Health").put("Health", Float.parseFloat(data.getData("Health").toString()) + role.getHealth());
+		data.getAllData("Energy").put("Energy", Float.parseFloat(data.getData("Energy").toString()) + role.getEnergy());
+		data.getAllData("MovementSpeed").put("MovementSpeed", Float.parseFloat(data.getData("MovementSpeed").toString()) + role.getMoveSpeed());
+		data.getAllData("Resistance").put("Resistance", Float.parseFloat(data.getData("Resistance").toString()) + role.getResistance());
 	}
 
 	public String getName() {
@@ -85,21 +90,21 @@ public class Player extends Actor {
 	public void setTeam(int team) {
 		this.team = team;
 		switch(team) {
-		case 1:
-			//startingPos = team 1 start pos
-			break;
-		case 2:
-			// startingPos = team 2 start pos
-			break;
+			case 1:
+				//startingPos = team 1 start pos
+				break;
+			case 2:
+				// startingPos = team 2 start pos
+				break;
 		}
 	}
 
 	public int getTeam() {
 		return team;
 	}
-	
+
 	public Vec3 getStartingPos() {
-		return startingPos;	
+		return startingPos;
 	}
 
 	public int getPlayerId() {

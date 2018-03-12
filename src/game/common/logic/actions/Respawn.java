@@ -9,6 +9,7 @@ import game.common.actors.Player;
 
 public class Respawn {
 
+
 	Vec3 spawnCoord = new Vec3(0, 0,0); // zero to be replaced by coords of base
 
 	Timer timer;
@@ -28,3 +29,4 @@ public class Respawn {
 			myActor.setHealth(myActor.getHealthLimit());
 	}
 }
+

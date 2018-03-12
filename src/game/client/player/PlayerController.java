@@ -1,14 +1,8 @@
 package game.client.player;
 
-import engine.application.Application;
-import engine.entity.Entity;
 import engine.entity.component.NetTransformComponent;
-import engine.entity.component.TextComponent;
-import engine.entity.component.TransformComponent;
-import engine.maths.Vec4;
 import engine.net.common_net.networking_messages.AttackPlayerMessage;
 import game.common.actors.Player;
-import game.common.items.ItemsManager;
 import game.common.player.PlayerManager;
 import org.lwjgl.glfw.GLFW;
 
@@ -26,23 +20,19 @@ import static engine.maths.Vec3.inRadius;
 public class PlayerController {
 
 	private boolean debug = true;
-	
+
 	private InputManager inputManager;
 	private Main main;
 	private GameState gamestate;
 	private Scene scene;
-
-	private ItemsManager itemsManager;
 	private PlayerManager playerManager;
-	private Application app;
-
-	public PlayerController(Main main, GameState gs, Scene scene, PlayerManager playMan) {
+	
+	public PlayerController(Main main, GameState gs, Scene scene, PlayerManager pm) {
 		gamestate = gs;
 		this.main = main;
 		inputManager = main.getInputManager();
 		this.scene = scene;
-		playerManager = playMan;
-
+		playerManager = pm;
 	}
 	
 	public void update()
@@ -55,15 +45,12 @@ public class PlayerController {
 	{
 		
 	}
-	
+
 	public void mouseAction(int button, int action)
 	{
 		if(button == GLFW.GLFW_MOUSE_BUTTON_2 && action == GLFW.GLFW_PRESS)
 		{
 			DesiredLocationMessage msg = new DesiredLocationMessage();
-
-
-
 			Vec3 worldPos = scene.getCamera().getWorldCoordinates((float)main.getInputManager().getMouseX(), (float)main.getInputManager().getMouseY());
 
 			NetTransformComponent playerTrans = (NetTransformComponent) playerManager.getPlayer(0).getEntity().getComponent(NetTransformComponent.class);
@@ -72,7 +59,6 @@ public class PlayerController {
 
 				System.out.println("Player x: " + playerTrans.getPosition().getX() + " :: " + "Player y: " + playerTrans.getPosition().getY());
 				//System.out.println("Dummy x: " + dummyTrans.getPosition().getX() + " :: " + "Dummy y: " + dummyTrans.getPosition().getY());
-
 				System.out.println("Desired Location: " + worldPos.getX() + " : " + worldPos.getY());
 
 			}
@@ -130,6 +116,9 @@ public class PlayerController {
 					attackedPlayerID = i;
 					break;
 				} else {
+					msg.setPos(worldPos);
+
+					main.getClient().sendTCP(msg);
 					//Look for items.
 					/*for (int i = 0; i < itemsManager.getIngameItems().size(); i++) {
 
@@ -137,11 +126,7 @@ public class PlayerController {
 				}
 				dummyTrans = null;
 			}
-
-
-
-
-
 		}
 	}
+
 }

@@ -1,6 +1,8 @@
 package game.client.states;
 
-import game.common.classes.classes.*;
+import game.common.classes.classes.Elf;
+import game.common.classes.classes.Knight;
+import game.common.classes.classes.Wizard;
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
@@ -26,6 +28,7 @@ import game.common.map.Map;
 import game.common.player.PlayerManager;
 
 public class GameState extends AbstractState {
+
 
 	/**
 	 * Dummy Player creator
@@ -97,15 +100,15 @@ public class GameState extends AbstractState {
 		// Add players
 		for (int i = 0; i < app.getNetworkManager().getNetPlayers().size(); i++) {
 			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app);
-			// here we would set up more stuff related to the player like class (done),
-			// items, starting position(done), team(done) etc.
+			// here we would set up more stuff related to the player like class,
+			// items, starting position, etc.
 			int characterSelection = app.getNetworkManager().getNetPlayers().get(i).getChar();
 			characterSelection = 1;
 			System.out.println("Character Selected: " +characterSelection);
 			switch (characterSelection) {
 				case 1:
 					player.setRole(new Wizard());
-
+					//player.setPlayer(player.getRole());
 					break;
 				case 2:
 					player.setRole(new Knight());
@@ -123,8 +126,9 @@ public class GameState extends AbstractState {
 			else {
 				player.setTeam(2);
 			}
-			playerManager.addPlayer(player);
 
+
+			playerManager.addPlayer(player);
 		}
 
 		if (dummy) {
@@ -133,7 +137,8 @@ public class GameState extends AbstractState {
 			dummyPlayer.setRole(new Wizard());
 			playerManager.addPlayer(dummyPlayer);
 		}
-		
+
+
 		map.init(app.getAssetManager());
 
 		// set up background sound
