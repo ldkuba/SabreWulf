@@ -1,6 +1,7 @@
 package game.object;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import engine.entity.Entity;
 import engine.maths.Vec3;
@@ -17,12 +18,27 @@ public class Outpost {
 	private ArrayList<Item> items;
 	private int captureProgress;
 	
-	public Outpost(Vec3 pos, Entity entity, ArrayList<Attribute> attributes, ArrayList<Item> items) {
+	public Outpost(Vec3 pos, Entity entity) {
 		position = pos;
-
 		this.entity = entity;
-		attributes = new ArrayList<Attribute>();
-		
+		this.attributes = new ArrayList<Attribute>();
+		this.items = new ArrayList<Item>();
+	}
+	
+	public void addAttribute(Attribute attribute) {
+		attributes.add(attribute);
+	}
+	
+	public ArrayList<Attribute> getAttributes() {
+		return attributes;
+	}
+	
+	public void addItem(Item item) {
+		items.add(item);
+	}
+	
+	public ArrayList<Item> getItems() {
+		return items;
 	}
 	
 	public void setPosition(Vec3 pos) {
@@ -38,6 +54,10 @@ public class Outpost {
 	
 	public int getOccupier() {
 		return occupier;
+	}
+	
+	public Entity getEntity() {
+		return entity;
 	}
 	
 }
