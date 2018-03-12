@@ -1,4 +1,3 @@
-
 package game.client.states;
 
 import org.lwjgl.glfw.GLFW;
