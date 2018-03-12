@@ -1,9 +1,11 @@
 package game.common.logic;
 
 import engine.maths.Vec2;
+import engine.maths.Vec3;
 import engine.net.server.core.NetPlayer;
 import engine.application.Application;
 import engine.entity.Entity;
+import game.common.actors.Actor;
 import game.common.logic.actions.Attack;
 import game.common.logic.actions.Movement;
 import game.common.logic.actions.Respawn;
@@ -25,15 +27,20 @@ public class ActorLogic {
 		myEntity = myActor.getEntity();
 	}
 	
-	public void attack(Vec2 playCoord, Vec2 enemyCoord, Player enemy) {
+	public void attack(Vec3 playCoord, Vec3 enemyCoord, Player enemy) {
 		boolean willAttack = attackAc.attack(playCoord, myActor, myEntity, enemyCoord, enemy);
 		
 		if(!willAttack) {
 			movement.moveTo(playCoord, enemyCoord);
 		}
 	}
-	
-	public void respawn(Player myActor) {
+
+	public boolean inRange(Vec3 playerCoord, Vec3 enemyCoord, float range) {
+		return attackAc.inRange(playerCoord, enemyCoord, range);
+	}
+
+
+	public void respawn(Actor myActor) {
 		respawn.alive(myActor);
 	}
 	

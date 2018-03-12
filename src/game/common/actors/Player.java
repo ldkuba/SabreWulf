@@ -66,8 +66,14 @@ public class Player extends Actor {
 	}
 
 	public void setRole(AbstractClasses role) {
-		setPlayer(role);	//Add the players statistics.
+		//setPlayer(role);	-> Breaks the movement
+
+		NetDataComponent data = (NetDataComponent) entity.getComponent(NetDataComponent.class);
 		this.role = role;
+		data.getAllData("Health").put("Health", Float.parseFloat(data.getData("Health").toString()) + role.getHealth());
+		data.getAllData("Energy").put("Energy", Float.parseFloat(data.getData("Energy").toString()) + role.getEnergy());
+		data.getAllData("MovementSpeed").put("MovementSpeed", Float.parseFloat(data.getData("MovementSpeed").toString()) + role.getMoveSpeed());
+		data.getAllData("Resistance").put("Resistance", Float.parseFloat(data.getData("Resistance").toString()) + role.getResistance());
 	}
 
 	public String getName() {

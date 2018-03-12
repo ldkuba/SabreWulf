@@ -1,12 +1,15 @@
 package game.common.actors;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import engine.AI.Navmesh;
 
 import engine.entity.Entity;
+import engine.entity.component.NetDataComponent;
 import engine.maths.Vec2;
 import game.common.classes.AbstractClasses;
 import engine.entity.component.NetTransformComponent;
@@ -23,6 +26,9 @@ import game.common.logic.ActorLogic;
 
 public class Actor
 {
+
+	private boolean debug = true;
+
 	private final float MIN_DISTANCE = 0.2f;
 	private ArrayList<Vec3> currentPath;
 	
@@ -132,6 +138,29 @@ public class Actor
 			this.currentPath = path;
 		}
 	}
+
+	public void lostHealth(float damage) {
+		if (debug ) { System.out.println("About to lose health"); }
+		if(entity.hasComponent(NetDataComponent.class)) {
+			NetDataComponent playerData = (NetDataComponent) entity.getComponent(NetDataComponent.class);
+			HashMap<String, Serializable> health = playerData.getAllData("Health");
+
+			if (debug) {
+				System.out.println("LOSING HEALTH");
+				System.out.println("Health:" + health.get("Health"));
+				System.out.println("Damage Received: " + damage);
+			}
+
+			//Update Health.
+			health.put("Health",Float.parseFloat(playerData.getData("Health").toString()) - damage);
+			if( Float.parseFloat(playerData.getData("Health").toString()) <= 0 ){
+				if (debug) { System.out.println("I Died..."); }
+				logic.respawn(this);
+			}
+			System.out.println("New Health: " + health.get("Health"));
+		}
+	}
+
 
 	/**
 	 * team can be 1, 2, 3 team 1 is composed of three players (first three inTc

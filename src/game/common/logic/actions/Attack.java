@@ -4,6 +4,7 @@ import engine.entity.Entity;
 import engine.entity.component.AbstractComponent;
 import engine.entity.component.NetDataComponent;
 import engine.maths.Vec2;
+import engine.maths.Vec3;
 import engine.net.server.core.NetPlayer;
 import game.common.actors.Player;
 
@@ -11,7 +12,7 @@ public class Attack {
 
 
 	// Player control: If inRange attack <damage>, else get closer.
-	public boolean attack(Vec2 playCoord, Player myActor, Entity myEntity,Vec2 enemyCoord, Player enemy) {
+	public boolean attack(Vec3 playCoord, Player myActor, Entity myEntity,Vec3 enemyCoord, Player enemy) {
 		if(inRange(playCoord, enemyCoord, myActor.getAttackRange())) {
 			
 
@@ -31,7 +32,7 @@ public class Attack {
 		}
 	}
 
-	private boolean inRange(Vec2 playerCoord, Vec2 enemyCoord, float playerRange) {
+	public boolean inRange(Vec3 playerCoord, Vec3 enemyCoord, float playerRange) {
 		
 		float rangeX = enemyCoord.getX() - playerCoord.getX();
 		float rangeY = enemyCoord.getY() - playerCoord.getY();

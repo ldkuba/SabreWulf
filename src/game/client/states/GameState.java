@@ -1,5 +1,8 @@
 package game.client.states;
 
+import game.common.classes.classes.Elf;
+import game.common.classes.classes.Knight;
+import game.common.classes.classes.Wizard;
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
@@ -26,6 +29,16 @@ import game.common.player.PlayerManager;
 
 public class GameState extends AbstractState {
 
+
+	/**
+	 * Dummy Player creator
+	 */
+
+	private boolean dummy = true;
+	private Player dummyPlayer;
+
+	/*--------------------------*/
+
 	private Main app;
 	private Scene scene;
 	private PlayerController playerController;
@@ -46,7 +59,7 @@ public class GameState extends AbstractState {
 		this.app = app;
 		scene = new Scene(0, app);
 		playerManager = new PlayerManager(scene);
-		playerController = new PlayerController(app, this, scene);
+		playerController = new PlayerController(app, this, scene, playerManager);
 		map = new Map(scene, "res/textures/map");
 	}
 
@@ -89,34 +102,43 @@ public class GameState extends AbstractState {
 			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app);
 			// here we would set up more stuff related to the player like class,
 			// items, starting position, etc.
-			/*
 			int characterSelection = app.getNetworkManager().getNetPlayers().get(i).getChar();
+			characterSelection = 1;
+			System.out.println("Character Selected: " +characterSelection);
 			switch (characterSelection) {
-			case 1:
-				//player.setRole(Wizard);
-				System.out.println("WIZARD");
-				break;
-			case 2:
-				//player.setRole(Knight);
-				System.out.println("KNIGHT");
-				break;
-			case 3:
-				//player.setRole(Elf);
-				System.out.println("ELF");
-				break;
+				case 1:
+					player.setRole(new Wizard());
+					//player.setPlayer(player.getRole());
+					break;
+				case 2:
+					player.setRole(new Knight());
+					break;
+				case 3:
+					player.setRole(new Elf());
+					break;
 			}
 
 			if (i >= 0 && i < 3) {
 				player.setTeam(1);
+
 			}
 
 			else {
 				player.setTeam(2);
-			}*/
+			}
+
 
 			playerManager.addPlayer(player);
 		}
-		
+
+		if (dummy) {
+			dummyPlayer = new Player(1, "Dummy", app);
+			dummyPlayer.setTeam(1);
+			dummyPlayer.setRole(new Wizard());
+			playerManager.addPlayer(dummyPlayer);
+		}
+
+
 		map.init(app.getAssetManager());
 
 		// set up background sound
