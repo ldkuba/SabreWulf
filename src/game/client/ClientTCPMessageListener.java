@@ -53,12 +53,10 @@ public class ClientTCPMessageListener implements MessageListener
 	{
 		if(msg instanceof PeerCountMessage)
 		{
-			String soundName = "beep";
 			PeerCountMessage pcm = (PeerCountMessage) msg;
 			System.out.println("Number of players online: " + pcm.getNoPlayers());
-			app.getSoundManager().invokeSound(soundName, false);
+			//app.getSoundManager().invokeSound("beep", false);
 			PeerCountMessage plm = (PeerCountMessage) msg;
-			app.getSoundManager().pauseSoundSource(soundName);
 		}
 		else if(msg instanceof LobbyConnectionResponseMessage){
 			LobbyConnectionResponseMessage lobbyConn = (LobbyConnectionResponseMessage) msg;
@@ -101,17 +99,20 @@ public class ClientTCPMessageListener implements MessageListener
 
         else if(msg instanceof TimerEventMessage){
 			TimerEventMessage time = (TimerEventMessage) msg;
-			if (time.getTimePayload() == 0){
-				app.getSoundManager().invokeSound("countEnd", false);
-			} else {
-				app.getSoundManager().invokeSound("count", false);
+			if(!app.getSoundManager().getIsMuted()){
+				if (time.getTimePayload() == 0){
+					app.getSoundManager().invokeSound("countEnd", false);
+				} else {
+					app.getSoundManager().invokeSound("count", false);
+				}
 			}
 			System.out.println("Countdown: " + time.getTimePayload());
 		}
 
 		else if(msg instanceof BattleBeginMessage){
-			app.getSoundManager().stopSoundSource("background/lobby");
-			
+			if(!app.getSoundManager().getIsMuted()){
+				app.getSoundManager().stopSoundSource("background/lobby");
+			}			
 			//Create and setup player manager
 			
 			app.getStateManager().setCurrentState(Main.gameState);

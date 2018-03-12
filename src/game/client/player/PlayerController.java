@@ -8,6 +8,7 @@ import engine.entity.component.TransformComponent;
 import engine.maths.Vec4;
 import engine.net.common_net.networking_messages.AttackPlayerMessage;
 import game.common.actors.Player;
+import game.common.items.ItemsManager;
 import game.common.player.PlayerManager;
 import org.lwjgl.glfw.GLFW;
 
@@ -31,6 +32,7 @@ public class PlayerController {
 	private GameState gamestate;
 	private Scene scene;
 
+	private ItemsManager itemsManager;
 	private PlayerManager playerManager;
 	private Application app;
 
@@ -92,54 +94,53 @@ public class PlayerController {
 						System.out.println(i);
 						System.out.println("------End of Click Action--------");
 					}
-					attackedPlayerID = i;
-					break;
-				}
 
-				dummyTrans = null;
-
-			}
-
-			if(dummyTrans != null) {
-				//In range to attack.
-				if(playerManager.getPlayer(0).getLogic().inRange(playerTrans.getPosition(), dummyTrans.getPosition(), myPlayerTest.getAttackRange())) {
-					if (debug) {
-						System.out.println("------Attack Action-----");
-						System.out.println("Player attack ID: " + attackedPlayerID);
-						//System.out.println("Dealt: " + myPlayerTest.getDamage());
-						System.out.println("------End of Attack Action----");
-					}
-
-					//Prepare attack message
-					AttackPlayerMessage attmsg = new AttackPlayerMessage();
-
+					if(dummyTrans != null) {
+						//In range to attack.
+						if(playerManager.getPlayer(0).getLogic().inRange(playerTrans.getPosition(), dummyTrans.getPosition(), myPlayerTest.getAttackRange())) {
+							if (debug) {
+								System.out.println("------Attack Action-----");
+								System.out.println("Player attack ID: " + attackedPlayerID);
+								//System.out.println("Dealt: " + myPlayerTest.getDamage());
+								System.out.println("------End of Attack Action----");
+							}
+							//Prepare attack message
+							AttackPlayerMessage attmsg = new AttackPlayerMessage();
 					/*
 					Server handles the damage.
 					 */
-					//attmsg.setDamage(5);
+							//attmsg.setDamage(5);
+							if(attackedPlayerID != -1) {
+								attmsg.setPlayerID(attackedPlayerID);
+							}
+							main.getClient().sendTCP(attmsg);
+						} else {
+							msg.setPos(worldPos);
+							main.getClient().sendTCP(msg);
+						}
+					}
+					//No entity in the position.
+					else {
 
-					if(attackedPlayerID != -1) {
-						attmsg.setPlayerID(attackedPlayerID);
+						msg.setPos(worldPos);
+
+						main.getClient().sendTCP(msg);
 					}
 
-
-
-					main.getClient().sendTCP(attmsg);
-
+					attackedPlayerID = i;
+					break;
 				} else {
-					msg.setPos(worldPos);
+					//Look for items.
+					/*for (int i = 0; i < itemsManager.getIngameItems().size(); i++) {
 
-					main.getClient().sendTCP(msg);
+					}*/
 				}
-
+				dummyTrans = null;
 			}
-			//No entity in the position.
-			else {
 
-				msg.setPos(worldPos);
 
-				main.getClient().sendTCP(msg);
-			}
+
+
 
 		}
 	}

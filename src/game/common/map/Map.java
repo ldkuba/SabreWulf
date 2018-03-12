@@ -1,7 +1,6 @@
 package game.common.map;
 
 import engine.AI.Navmesh;
-import engine.application.Application;
 import engine.assets.AssetManager;
 import engine.entity.Entity;
 import engine.entity.component.SpriteComponent;
@@ -16,7 +15,6 @@ public class Map {
 	private final float TILE_WIDTH = 12.0f;
 	private final float TILE_HEIGHT = 12.0f;
 	private final int MAP_SIZE = 16;
-	private final int ARRAY_SIZE = MAP_SIZE * MAP_SIZE;
 	private Scene scene;
 	private Navmesh navmesh;
 	
@@ -34,16 +32,18 @@ public class Map {
 		// initialise entities
 		Vec4 white = new Vec4(1.0f, 1.0f, 1.0f, 1.0f);
 		
-		// top right
+		// bottom right
 		for (int i = 0; i < background.length; i++) {
-			Entity newEntity = new Entity("mapBackground" + i);
-			SpriteComponent comp1 = new SpriteComponent(white, assetManager.getTexture(basePath + "/untitled_" + (i+1) + ".png"), TILE_WIDTH, TILE_HEIGHT);
+			Entity newEntity = new Entity("mapBackground" + i, true);
+			SpriteComponent comp1 = new SpriteComponent(white,
+					assetManager.getTexture(basePath + "/untitled_" + (i + 1) + ".png"), TILE_WIDTH, TILE_HEIGHT);
 			newEntity.addComponent(comp1);
 			newEntity.addComponent(new TransformComponent());
-			newEntity.getTransform().setPosition(new Vec3(0 + TILE_WIDTH * (i % MAP_SIZE), 0 - TILE_HEIGHT * (i / MAP_SIZE), 1.0f));
+			newEntity.getTransform()
+					.setPosition(new Vec3(0 + TILE_WIDTH * (i % MAP_SIZE), 0 - TILE_HEIGHT * (i / MAP_SIZE), 1.0f));
 			background[i] = newEntity;
 		}
-		
+
 		for (int i = 0; i < background.length; i++) {
 			scene.addEntity(background[i]);
 		}

@@ -107,18 +107,34 @@ public class Vec3 implements Serializable
 
 	public static boolean inRadius(Vec3 desLoc, Vec3 playerPos) {
 
-		Vec3 addOne = new Vec3(1.0f,1.0f,0.0f);
-		Vec3 minusOne = new Vec3(-1.0f,-1.0f,0.0f);
+		Vec3 addOne = new Vec3(1.0f, 1.0f, 0.0f);
+		Vec3 minusOne = new Vec3(-1.0f, -1.0f, 0.0f);
 
 
-		if(playerPos.getX() <= desLoc.getX() + addOne.getX() && playerPos.getX() >= desLoc.getX() - addOne.getX()) {
+		if (playerPos.getX() <= desLoc.getX() + addOne.getX() && playerPos.getX() >= desLoc.getX() - addOne.getX()) {
 			if (playerPos.getY() <= desLoc.getY() + addOne.getY() && playerPos.getY() >= desLoc.getY() - addOne.getY()) {
 				return true;
 			}
 			return false;
 		}
 		return false;
-
-
+	}
+	
+	public float[] elements()
+	{
+		float[] elements = new float[3];
+		elements[0] = this.x;
+		elements[1] = this.y;
+		elements[2] = this.z;
+		return elements;
+	}
+	
+	public float[] elementsFlipped()
+	{
+		float[] elements = new float[3];
+		elements[2] = this.x;
+		elements[1] = this.y;
+		elements[0] = this.z;
+		return elements;
 	}
 }

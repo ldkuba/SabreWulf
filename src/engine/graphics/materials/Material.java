@@ -1,5 +1,7 @@
 package engine.graphics.materials;
 
+import org.lwjgl.opengl.GL20;
+
 import engine.graphics.shader.ShaderProgram;
 import engine.graphics.texture.Texture;
 import engine.maths.Vec3;
@@ -7,7 +9,6 @@ import engine.maths.Vec4;
 
 public class Material
 {
-	private ShaderProgram m_Shader;
 	private Texture m_Texture;
 
 	private Vec4 m_AmbientColor;
@@ -16,24 +17,26 @@ public class Material
 	
 	private float m_Reflectance;
 	
-	public Material(Vec4 ambient, Vec4 diffuse, Vec4 specular, float reflectance, ShaderProgram shader)
+	private boolean m_IsLit;
+	
+	public Material()
+	{
+		m_AmbientColor = new Vec4(1.0f, 1.0f, 1.0f, 1.0f);
+		m_DiffuseColor = new Vec4(0.7f, 0.7f, 0.7f, 1.0f);
+		m_SpecularColor = new Vec4(0.5f, 0.5f, 0.5f, 1.0f);
+		m_Reflectance = 1.0f;
+		
+		m_IsLit = false;
+	}
+	
+	public Material(Vec4 ambient, Vec4 diffuse, Vec4 specular, float reflectance, boolean isLit)
 	{
 		m_AmbientColor = ambient;
 		m_DiffuseColor = diffuse;
 		m_SpecularColor = specular;
 		m_Reflectance = reflectance;
 		
-		m_Shader = shader;
-	}
-
-	public ShaderProgram getShader()
-	{
-		return m_Shader;
-	}
-
-	public void setShader(ShaderProgram m_Shader)
-	{
-		this.m_Shader = m_Shader;
+		m_IsLit = isLit;
 	}
 
 	public Texture getTexture()
@@ -85,4 +88,32 @@ public class Material
 	{
 		this.m_Reflectance = m_Reflectance;
 	}	
+	
+	public boolean getIsLit()
+	{
+		return m_IsLit;
+	}
+	
+	public void setIsLit(boolean isLit)
+	{
+		m_IsLit = isLit;
+	}
+	
+	public void setUniforms(ShaderProgram shader)
+	{
+		int ambientLoc = shader.getUniformLayout().getUniformLocation("material.ambient");
+		GL20.glUniform4fv(ambientLoc, m_AmbientColor.elementsFlipped());
+		
+		int diffuseLoc = shader.getUniformLayout().getUniformLocation("material.diffuse");
+		GL20.glUniform4fv(diffuseLoc, m_DiffuseColor.elementsFlipped());
+		
+		int specularLoc = shader.getUniformLayout().getUniformLocation("material.specular");
+		GL20.glUniform4fv(specularLoc, m_SpecularColor.elementsFlipped());
+		
+		int hasTextureLoc = shader.getUniformLayout().getUniformLocation("material.hasTexture");
+		GL20.glUniform1i(hasTextureLoc, (m_Texture == null) ? 0 : 1);
+		
+		int reflectanceLoc = shader.getUniformLayout().getUniformLocation("material.reflectance");
+		GL20.glUniform1f(reflectanceLoc, m_Reflectance);
+	}
 }

@@ -11,8 +11,17 @@ public class Entity {
 	private int id;
 	private String name;
 	private ArrayList<AbstractComponent> components;
+	private boolean shouldBeCulled;
 
 	public Entity(String name) {
+		this.shouldBeCulled = false;
+		this.id = -1;
+		this.name = name;
+		components = new ArrayList<AbstractComponent>();
+	}
+	
+	public Entity(String name, boolean culled) {
+		this.shouldBeCulled = culled;
 		this.id = -1;
 		this.name = name;
 		components = new ArrayList<AbstractComponent>();
@@ -83,5 +92,9 @@ public class Entity {
 		}
 		
 		return result;
+	}
+	
+	public boolean shouldBeCulled(){
+		return shouldBeCulled;
 	}
 }

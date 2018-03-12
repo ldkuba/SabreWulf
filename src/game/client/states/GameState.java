@@ -1,12 +1,17 @@
 package game.client.states;
 
+import game.common.classes.classes.*;
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
 import engine.entity.Entity;
+import engine.entity.component.MeshComponent;
 import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.TextComponent;
 import engine.entity.component.TransformComponent;
+import engine.graphics.VertexArray;
+import engine.graphics.VertexBuffer;
+import engine.graphics.renderer.Renderable3D;
 import engine.gui.components.Label;
 import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
@@ -17,9 +22,6 @@ import engine.state.AbstractState;
 import game.client.Main;
 import game.client.player.PlayerController;
 import game.common.actors.Player;
-import game.common.classes.classes.Elf;
-import game.common.classes.classes.Knight;
-import game.common.classes.classes.Wizard;
 import game.common.map.Map;
 import game.common.player.PlayerManager;
 
@@ -38,7 +40,7 @@ public class GameState extends AbstractState {
 	private Scene scene;
 	private PlayerController playerController;
 
-	private static PlayerManager playerManager;
+	private PlayerManager playerManager;
 
 	private Map map;
 
@@ -101,21 +103,21 @@ public class GameState extends AbstractState {
 			characterSelection = 1;
 			System.out.println("Character Selected: " +characterSelection);
 			switch (characterSelection) {
-			case 1:
-				player.setRole(new Wizard());
+				case 1:
+					player.setRole(new Wizard());
 
-				break;
-			case 2:
-				player.setRole(new Knight());
-				break;
-			case 3:
-				player.setRole(new Elf());
-				break;
+					break;
+				case 2:
+					player.setRole(new Knight());
+					break;
+				case 3:
+					player.setRole(new Elf());
+					break;
 			}
 
 			if (i >= 0 && i < 3) {
 				player.setTeam(1);
-				
+
 			}
 
 			else {
@@ -131,8 +133,8 @@ public class GameState extends AbstractState {
 			dummyPlayer.setRole(new Wizard());
 			playerManager.addPlayer(dummyPlayer);
 		}
+		
 		map.init(app.getAssetManager());
-
 
 		// set up background sound
 		app.getSoundManager().invokeSound("background/game", true);
@@ -164,7 +166,11 @@ public class GameState extends AbstractState {
 		animTest.getTransform().setPosition(new Vec3(6.0f, -6.0f, 0.0f));
 
 		scene.addEntity(animTest);
-
+		
+//		Entity entity3D = new Entity("3D test");
+//		entity3D.addComponent(new TransformComponent());
+//		entity3D.addComponent(new MeshComponent(app.getAssetManager().getModel("res/models/testModel.obj", "res/shaders/simpleshader3D.txt", null, false)));
+		
 		scene.getCamera().setProjectionMatrix(
 				MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 1.0f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
@@ -217,13 +223,10 @@ public class GameState extends AbstractState {
 	{
 		return this.map;
 	}
-	
-	public void respawn() {
-		// add filter here?
-	}
 
 	@Override
 	public void deactivate() {
 
 	}
 }
+
