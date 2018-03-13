@@ -142,7 +142,6 @@ public class Actor
 		}
 	}
 
-
 	public Inventory getInventory() {
 		return inventory;
 	}
@@ -384,7 +383,7 @@ public class Actor
 	 * This will remain permanent for now.
 	 */
 
-	protected float attackRange;
+	protected float attackRange = 2.0f;
 
 	public float getAttackRange() {
 		return attackRange;
