@@ -141,7 +141,6 @@ public class Actor
 			setResistance(newResis);
 		}
 	}
-	}
 
 	public Inventory getInventory() {
 		return inventory;
