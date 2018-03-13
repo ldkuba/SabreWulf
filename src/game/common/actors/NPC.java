@@ -9,14 +9,14 @@ public class NPC {
 
 	private ArrayList<Vec3> currentPath;
 	protected Entity entity;
-	protected Vec3 position;
+	protected Vec3 startPos;
+	protected float movementSpeed;
 	
 	public NPC () {
 		entity = new Entity("NPC");
 		currentPath = new ArrayList<>();
 	}
 	
-	protected float movementSpeed;
 	
 	public void setMovementSpeed(float movementSpeed) {
 		this.movementSpeed = movementSpeed;
@@ -30,12 +30,12 @@ public class NPC {
 		return entity;
 	}
 	
-	public Vec3 getPosition() {
-		return position;
+	public Vec3 getStartPosition() {
+		return startPos;
 	}
 	
-	public void setPosition(Vec3 position) {
-		this.position = position;
+	public void setStartPosition(Vec3 position) {
+		this.startPos = position;
 	}
 	
 	public void update() {

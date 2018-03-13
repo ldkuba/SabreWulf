@@ -40,7 +40,7 @@ public class ActorLogic {
 	}
 
 
-	public void respawn(Actor myActor) {
+	public void respawn(Actor actor) {
 		/*if (!respawn.alive(myActor)) {
 			respawn.respawn(myActor);
 		}*/
