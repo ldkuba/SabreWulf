@@ -73,6 +73,8 @@ public class Player extends Actor {
 
 		NetDataComponent data = (NetDataComponent) entity.getComponent(NetDataComponent.class);
 		this.role = role;
+		HEALTH_LIMIT = role.getHealth();
+		ENERGY_LIMIT = role.getEnergy();
 		data.getAllData("Health").put("Health", Float.parseFloat(data.getData("Health").toString()) + role.getHealth());
 		data.getAllData("Energy").put("Energy", Float.parseFloat(data.getData("Energy").toString()) + role.getEnergy());
 		data.getAllData("MovementSpeed").put("MovementSpeed", Float.parseFloat(data.getData("MovementSpeed").toString()) + role.getMoveSpeed());
