@@ -103,6 +103,45 @@ public class Actor
 		}
 		
 	}
+	
+	public void addAttribute(Attribute attribute)  {
+		if (attribute instanceof Damage) {
+			float newDamage = getDamage() + attribute.getValue();
+			setDamage(newDamage);
+		} else if (attribute instanceof Energy) {
+			float newEnergy = getEnergyLimit() + attribute.getValue();
+			setEnergy(newEnergy);
+		} else if (attribute instanceof Health) {
+			float newHealth = getHealthLimit() + attribute.getValue();
+			setHealth(newHealth);
+		} else if (attribute instanceof MovementSpeed) {
+			float newMoveSpeed = getMovementSpeed() + attribute.getValue();
+			setMovementSpeed(newMoveSpeed);
+		} else if (attribute instanceof Resistance) {
+			float newResis = getResistance() + attribute.getValue();
+			setResistance(newResis);
+		}
+	}
+	
+	public void remAttribute(Attribute attribute) {
+		if (attribute instanceof Damage) {
+			float newDamage = getDamage() - attribute.getValue();
+			setDamage(newDamage);
+		} else if (attribute instanceof Energy) {
+			float newEnergy = getEnergyLimit() - attribute.getValue();
+			setEnergy(newEnergy);
+		} else if (attribute instanceof Health) {
+			float newHealth = getHealthLimit() - attribute.getValue();
+			setHealth(newHealth);
+		} else if (attribute instanceof MovementSpeed) {
+			float newMoveSpeed = getMovementSpeed() - attribute.getValue();
+			setMovementSpeed(newMoveSpeed);
+		} else if (attribute instanceof Resistance) {
+			float newResis = getResistance() - attribute.getValue();
+			setResistance(newResis);
+		}
+	}
+	}
 
 	public Inventory getInventory() {
 		return inventory;

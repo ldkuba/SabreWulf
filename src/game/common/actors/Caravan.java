@@ -65,7 +65,7 @@ public class Caravan extends NPC {
 								player.addItem(item);
 							}
 							for (Attribute attribute : outpostAttributes) {
-								//player.addAttribute(attribute) or smtg similar
+								player.addAttribute(attribute);
 							}
 						}
 					}
