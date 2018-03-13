@@ -10,16 +10,21 @@ public class Triangle {
 	private Vec2 y;
 	private Vec2 z;
 	private ArrayList<Edge> edges;
-	private float f;
 	private float g;
 	private float h;
-	private Triangle last = null;
+	private float f;
+	private Triangle last;
+	private int i;
 	
 	public Triangle(Vec2 x, Vec2 y, Vec2 z){
 		this.x = x;
 		this.y = y;
 		this.z = z;
 		edges = new ArrayList<>();
+		last = this;
+		g = 0;
+		h = 9999;
+		f = g + h;
 	}
 	
 	public void addEdge(Edge edge){
@@ -95,5 +100,19 @@ public class Triangle {
 	
 	public Triangle getLast(){
 		return last;
+	}
+
+	public void setInt(int i) {
+		this.i = i;
+	}
+	
+	public int getInt(){
+		return i;
+	}
+	
+	@Override
+	public String toString(){
+		return "Number of Edges: " + this.getEdges().size() + ". " + "Midpoint: " + this.getMidpoint().getX() + " " + this.getMidpoint().getY();
+	
 	}
 }

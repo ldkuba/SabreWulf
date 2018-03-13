@@ -53,7 +53,7 @@ public class ServerGameState extends AbstractState
 			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app);
 			// here we would set up more stuff related to the player like class, items, starting position, etc.
 			NetTransformComponent netTransform = (NetTransformComponent) player.getEntity().getComponent(NetTransformComponent.class);
-			netTransform.setPosition(new Vec3(-10.0f, 0.0f, 0.0f));
+			netTransform.setPosition(new Vec3(10.0f, -10.0f, 0.0f));
 			playerManager.addPlayer(player);
 		}
 	}
