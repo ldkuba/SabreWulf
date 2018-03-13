@@ -103,6 +103,45 @@ public class Actor
 		}
 		
 	}
+	
+	public void addAttribute(Attribute attribute)  {
+		if (attribute instanceof Damage) {
+			float newDamage = getDamage() + attribute.getValue();
+			setDamage(newDamage);
+		} else if (attribute instanceof Energy) {
+			float newEnergy = getEnergyLimit() + attribute.getValue();
+			setEnergy(newEnergy);
+		} else if (attribute instanceof Health) {
+			float newHealth = getHealthLimit() + attribute.getValue();
+			setHealth(newHealth);
+		} else if (attribute instanceof MovementSpeed) {
+			float newMoveSpeed = getMovementSpeed() + attribute.getValue();
+			setMovementSpeed(newMoveSpeed);
+		} else if (attribute instanceof Resistance) {
+			float newResis = getResistance() + attribute.getValue();
+			setResistance(newResis);
+		}
+	}
+	
+	public void remAttribute(Attribute attribute) {
+		if (attribute instanceof Damage) {
+			float newDamage = getDamage() - attribute.getValue();
+			setDamage(newDamage);
+		} else if (attribute instanceof Energy) {
+			float newEnergy = getEnergyLimit() - attribute.getValue();
+			setEnergy(newEnergy);
+		} else if (attribute instanceof Health) {
+			float newHealth = getHealthLimit() - attribute.getValue();
+			setHealth(newHealth);
+		} else if (attribute instanceof MovementSpeed) {
+			float newMoveSpeed = getMovementSpeed() - attribute.getValue();
+			setMovementSpeed(newMoveSpeed);
+		} else if (attribute instanceof Resistance) {
+			float newResis = getResistance() - attribute.getValue();
+			setResistance(newResis);
+		}
+	}
+	}
 
 	public Inventory getInventory() {
 		return inventory;
@@ -387,7 +426,7 @@ public class Actor
 
 			//Update Health.
 			netData.getAllData("Health").put("Health", (Float.parseFloat(netData.getAllData("Health").get("Health").toString()) + health));
-			//Upate Energy
+			//Update Energy
 			netData.getAllData("Energy").put("Energy", (Float.parseFloat(netData.getAllData("Energy").get("Energy").toString()) + energy));
 			//Update Resistance
 			netData.getAllData("Resistance").put("Resistance", (Float.parseFloat(netData.getAllData("Resistance").get("Resistance").toString()) + resistance));
