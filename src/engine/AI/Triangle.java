@@ -14,7 +14,6 @@ public class Triangle {
 	private float h;
 	private float f;
 	private Triangle last;
-	private int i;
 	
 	public Triangle(Vec2 x, Vec2 y, Vec2 z){
 		this.x = x;
@@ -100,14 +99,6 @@ public class Triangle {
 	
 	public Triangle getLast(){
 		return last;
-	}
-
-	public void setInt(int i) {
-		this.i = i;
-	}
-	
-	public int getInt(){
-		return i;
 	}
 	
 	@Override

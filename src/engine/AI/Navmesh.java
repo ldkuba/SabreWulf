@@ -69,8 +69,12 @@ public class Navmesh {
 					edgeA = new Edge(A, B, midA, midB, weight);
 					edgeB = new Edge(B, A, midA, midB, weight);
 					if(A != B){
-						edges.add(edgeA);
-						edges.add(edgeB);
+						if(!edges.contains(edgeA)){
+							edges.add(edgeA);							
+						}
+						if(!edges.contains(edgeB)){
+							edges.add(edgeB);							
+						}
 						A.addEdge(edgeA);
 						B.addEdge(edgeB);						
 					}
