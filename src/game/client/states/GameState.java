@@ -16,8 +16,10 @@ import engine.graphics.renderer.Renderable3D;
 import engine.gui.components.Label;
 import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
+import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
+import engine.net.common_net.networking_messages.DesiredLocationMessage;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.client.Main;
@@ -79,7 +81,25 @@ public class GameState extends AbstractState {
 
 	@Override
 	public void mouseAction(int button, int action) {
-		playerController.mouseAction(button, action);
+		if(!app.getSoundManager().getIsMuted()){
+			app.getSoundManager().getSoundSource("background/game").setGain(0.3f);
+			app.getSoundManager().invokeSound("movement/grass", false, false);
+			/*System.out.println("----------");
+			float v = playerManager.getPlayer(0).getMovementSpeed();
+			Vec2 cur = playerManager.getPlayer(0).getPosition();
+			Vec3 pos = scene.getCamera().getWorldCoordinates((float)app.getInputManager().getMouseX(), (float)app.getInputManager().getMouseY());
+			System.out.println(cur.getX());
+			System.out.println(cur.getY());
+			System.out.println(pos.getX());
+			System.out.println(pos.getY());
+			System.out.println(v);
+			float s = Math.abs(pos.getX() + pos.getY());
+			int t = (int)(s/v);
+			System.out.println(t);*/		
+			playerController.mouseAction(button, action);		
+		} else {
+			playerController.mouseAction(button, action);
+		}
 	}
 
 	@Override
@@ -97,7 +117,7 @@ public class GameState extends AbstractState {
 		map.init(app.getAssetManager());
 
 		// set up background sound
-		app.getSoundManager().invokeSound("background/game", true);
+		app.getSoundManager().invokeSound("background/game", true, true);
 
 		Label label = new Label(40.0f, 10.0f, app.getAssetManager().getFont("fontSprite.png"), 5.0f, 0.7f,
 				new Vec4(1.0f, 0.0f, 0.0f, 1.0f));

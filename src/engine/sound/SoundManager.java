@@ -27,7 +27,7 @@ public class SoundManager {
 
 	private final List<SoundBuffer> soundBufferList;
 	private final Map<String, SoundSource> soundSourceMap;
-	private final String[] Sounds = {"countEnd", "count", "background/game", "background/lobby", "lockIn", "background/menu", "quit", "click"};
+	private final String[] Sounds = {"countEnd", "count", "background/game", "background/lobby", "lockIn", "background/menu", "quit", "click", "movement/forest", "movement/grass"};
 	
 	public SoundManager() {
 		soundBufferList = new ArrayList<>();
@@ -133,10 +133,10 @@ public class SoundManager {
 		}
 	}
 
-	public void invokeSound(String soundName, boolean loop) {
+	public void invokeSound(String soundName, boolean loop, boolean autoPlay) {
 		if (soundName != null && doesSoundFileExist(soundName)) {
 			setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
-			setupSounds(this, "res/sounds/" + soundName + ".ogg", soundName, loop);
+			setupSounds(this, "res/sounds/" + soundName + ".ogg", soundName, loop, autoPlay);
 		} else {
 			System.err.println("Sound file does not exist");
 		}
@@ -155,7 +155,7 @@ public class SoundManager {
 		alcCloseDevice(device);
 	}
 
-	public void setupSounds(SoundManager soundMgr, String path, String name, boolean loop) {
+	public void setupSounds(SoundManager soundMgr, String path, String name, boolean loop, boolean autoPlay) {
 		if (soundMgr != null && path != null && name != null) {
 			SoundBuffer buffer;
 			try {
@@ -164,7 +164,7 @@ public class SoundManager {
 				SoundSource source = new SoundSource(loop, false); //normally true
 				source.setBuffer(buffer.getBufferId());
 				soundMgr.addSoundSource(name, source);
-				if(!isMuted){
+				if(!isMuted && autoPlay){
 					source.play();
 				}
 				soundMgr.setListener(new SoundListener());

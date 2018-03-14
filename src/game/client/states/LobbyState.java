@@ -57,7 +57,7 @@ public class LobbyState extends AbstractState
 	{
 		super.init();
 		// set up background sound
-		app.getSoundManager().invokeSound("background/lobby", true);
+		app.getSoundManager().invokeSound("background/lobby", true, true);
 		playerAvatars = new ArrayList<>();
 		playerNames = new ArrayList<>();
 		characterAvatars = new ArrayList<>();
@@ -99,7 +99,9 @@ public class LobbyState extends AbstractState
 				if(characterChoice.getSelectedId() != -1)
 				{
 					//Lock in champ and notify server that player is ready
-					app.getSoundManager().invokeSound("lockIn", false); 
+					if(!app.getSoundManager().getIsMuted()){
+						app.getSoundManager().invokeSound("lockIn", false, true); 
+					}
 					LockInMessage lim = new LockInMessage();
 					lim.setCharacterSelected(characterChoice.getSelectedId());
 					lockInButton.setEnabled(false);
@@ -117,6 +119,10 @@ public class LobbyState extends AbstractState
 			@Override
 			public void onClick()
 			{
+				if(!app.getSoundManager().getIsMuted()){
+					app.getSoundManager().invokeSound("click", false, true);
+					app.getSoundManager().stopSoundSource("background/lobby");
+				}
 				app.getStateManager().setCurrentState(Main.menuState);
 				LobbyQuitMessage quit = new LobbyQuitMessage();
 				app.getClient().sendTCP(quit);
