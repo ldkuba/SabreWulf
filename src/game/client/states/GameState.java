@@ -81,25 +81,7 @@ public class GameState extends AbstractState {
 
 	@Override
 	public void mouseAction(int button, int action) {
-		if(!app.getSoundManager().getIsMuted()){
-			app.getSoundManager().getSoundSource("background/game").setGain(0.3f);
-			app.getSoundManager().invokeSound("movement/grass", false, false);
-			/*System.out.println("----------");
-			float v = playerManager.getPlayer(0).getMovementSpeed();
-			Vec2 cur = playerManager.getPlayer(0).getPosition();
-			Vec3 pos = scene.getCamera().getWorldCoordinates((float)app.getInputManager().getMouseX(), (float)app.getInputManager().getMouseY());
-			System.out.println(cur.getX());
-			System.out.println(cur.getY());
-			System.out.println(pos.getX());
-			System.out.println(pos.getY());
-			System.out.println(v);
-			float s = Math.abs(pos.getX() + pos.getY());
-			int t = (int)(s/v);
-			System.out.println(t);*/		
-			playerController.mouseAction(button, action);		
-		} else {
-			playerController.mouseAction(button, action);
-		}
+		playerController.mouseAction(button, action);
 	}
 
 	@Override

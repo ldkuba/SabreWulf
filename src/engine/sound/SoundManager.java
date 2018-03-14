@@ -4,10 +4,8 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL11;
@@ -27,7 +25,6 @@ public class SoundManager {
 
 	private final List<SoundBuffer> soundBufferList;
 	private final Map<String, SoundSource> soundSourceMap;
-	private final String[] Sounds = {"countEnd", "count", "background/game", "background/lobby", "lockIn", "background/menu", "quit", "click", "movement/forest", "movement/grass"};
 	
 	public SoundManager() {
 		soundBufferList = new ArrayList<>();
@@ -134,7 +131,7 @@ public class SoundManager {
 	}
 
 	public void invokeSound(String soundName, boolean loop, boolean autoPlay) {
-		if (soundName != null && doesSoundFileExist(soundName)) {
+		if (soundName != null && SoundUtils.doesSoundFileExist(soundName)) {
 			setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
 			setupSounds(this, "res/sounds/" + soundName + ".ogg", soundName, loop, autoPlay);
 		} else {
@@ -176,14 +173,6 @@ public class SoundManager {
 		}
 	}
 	
-	public boolean doesSoundFileExist(String soundName){
-		for (int i = 0; i < Sounds.length; i++){
-			if (Sounds[i].equals(soundName)){
-				return true;
-			}
-		}
-		return false;
-	}
 
 	public void muteSounds() {
 		this.isMuted = true;
