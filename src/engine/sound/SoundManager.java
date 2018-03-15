@@ -131,6 +131,7 @@ public class SoundManager {
 	}
 
 	public void invokeSound(String soundName, boolean loop, boolean autoPlay) {
+		System.err.println("invoke " + soundName);
 		if (soundName != null && SoundUtils.doesSoundFileExist(soundName)) {
 			setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
 			setupSounds(this, "res/sounds/" + soundName + ".ogg", soundName, loop, autoPlay);
@@ -166,7 +167,7 @@ public class SoundManager {
 				}
 				soundMgr.setListener(new SoundListener());
 			} catch (Exception e) {
-				e.getMessage();
+				System.out.println("cannot set up sound because : " + e.getMessage());
 			}
 		} else {
 			System.err.println("Cannot set up the sound");
@@ -180,6 +181,10 @@ public class SoundManager {
 	
 	public boolean getIsMuted(){
 		return this.isMuted;
+	}
+	
+	public int test(){
+		return 5;
 	}
 
 }

@@ -49,7 +49,6 @@ public class Actor
 	public Actor(int netId, Application app)
 	{
 		this.app = app;
-		
 		entity = new Entity("Actor");
 		currentPath = new ArrayList<>();	
 		
@@ -67,6 +66,10 @@ public class Actor
 		entity.addComponent(netData);
 		
 		netSprite = new NetSpriteAnimationComponent(0, 7, 8);
+		//set up sound
+		this.app.getSoundManager().invokeSound("movement/footstep", true, false);
+		System.err.println("why you no workin");
+		
 		stopMovement();
 		entity.addComponent(netSprite);
 		
@@ -373,10 +376,16 @@ public class Actor
 	
 	public void stopMovement()
 	{
+		System.err.println("stop moving");
 		if(movingDir != -1)
 		{
 			netSprite.stopAnimation();
 			movingDir = -1;
+			//stop sound of movement too
+			if(!app.getSoundManager().getIsMuted()){
+				System.err.println("stop moving sound");
+				app.getSoundManager().stopSoundSource("movement/footstep");
+			}
 		}
 	}
 	
