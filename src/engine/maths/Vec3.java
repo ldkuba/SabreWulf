@@ -93,6 +93,24 @@ public class Vec3 implements Serializable
 						v1.getX()*v2.getY() - v1.getY()*v2.getX());
 	}
 	
+	public float[] elements()
+	{
+		float[] elements = new float[3];
+		elements[0] = this.x;
+		elements[1] = this.y;
+		elements[2] = this.z;
+		return elements;
+	}
+	
+	public float[] elementsFlipped()
+	{
+		float[] elements = new float[3];
+		elements[2] = this.x;
+		elements[1] = this.y;
+		elements[0] = this.z;
+		return elements;
+	}
+	
 	public static Vec3 normalize(Vec3 vec)
 	{
 		float scale = vec.getLength();
@@ -103,5 +121,10 @@ public class Vec3 implements Serializable
 		{
 			return new Vec3(vec.getX()/scale, vec.getY()/scale, vec.getZ()/scale);
 		}
+	}
+	
+	public static float distance(Vec3 v1, Vec3 v2)
+	{
+		return (float) Math.sqrt((v1.getX() - v2.getX())*(v1.getX() - v2.getX()) + (v1.getY() - v2.getY())*(v1.getY() - v2.getY()));
 	}
 }

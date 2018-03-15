@@ -58,4 +58,9 @@ public class SpriteComponent extends AbstractComponent
 	{
 		m_Sprite.setHeight(height);
 	}
+	
+	public void setOverlayColor(Vec4 overlayColor)
+	{
+		m_Sprite.setOverlayColor(overlayColor);
+	}
 }

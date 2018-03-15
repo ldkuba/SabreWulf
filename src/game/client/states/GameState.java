@@ -1,19 +1,27 @@
 package game.client.states;
 
-import com.sun.javaws.progress.Progress;
 import engine.gui.components.ProgressBar;
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
 import engine.entity.Entity;
+import engine.entity.component.ColliderComponent;
+import engine.entity.component.MeshComponent;
+import engine.entity.component.NetSpriteAnimationComponent;
 import engine.entity.component.SpriteAnimationComponent;
+import engine.entity.component.SpriteComponent;
 import engine.entity.component.TextComponent;
 import engine.entity.component.TransformComponent;
+import engine.graphics.VertexArray;
+import engine.graphics.VertexBuffer;
+import engine.graphics.renderer.Renderable3D;
 import engine.gui.components.Label;
 import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
+import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
+import engine.net.common_net.networking_messages.DesiredLocationMessage;
 import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.client.Main;
@@ -25,24 +33,27 @@ import game.common.player.PlayerManager;
 public class GameState extends AbstractState {
 
 	private Main app;
-	private Scene scene;
 	private PlayerController playerController;
 
 	private PlayerManager playerManager;
 
 	private Map map;
 
-	private int frame = 0;
-	private float second = 0;
-
 	private Sprite spellBar;
 	private ProgressBar healthBar;
+
+	
+	private float dirX = 0.0f;
+	private float dirY = 0.0f;
+
 	private float zoom = 10.0f;
 	float aspectRatio = Application.s_WindowSize.getX() / Application.s_WindowSize.getY();
 
 	public GameState(Main app) {
+		super(app);
+		
 		this.app = app;
-		scene = new Scene(0, app);
+		
 		playerManager = new PlayerManager(scene);
 		playerController = new PlayerController(app, this, scene);
 		map = new Map(scene, "res/textures/map");
@@ -90,8 +101,7 @@ public class GameState extends AbstractState {
 
 	@Override
 	public void init() {
-		scene.init();
-		app.getGui().init(scene);
+		super.init();
 
 		// Add players
 		for (int i = 0; i < app.getNetworkManager().getNetPlayers().size(); i++) {
@@ -100,15 +110,12 @@ public class GameState extends AbstractState {
 			// items, starting position, etc.
 
 			playerManager.addPlayer(player);
-
 		}
-
 		
 		map.init(app.getAssetManager());
 
-
 		// set up background sound
-		app.getSoundManager().invokeSound("background/game", true);
+		app.getSoundManager().invokeSound("background/game", true, true);
 
 		Label label = new Label(40.0f, 10.0f, app.getAssetManager().getFont("fontSprite.png"), 5.0f, 0.7f,
 				new Vec4(1.0f, 0.0f, 0.0f, 1.0f));
@@ -125,18 +132,6 @@ public class GameState extends AbstractState {
 				app.getAssetManager().getTexture("res/textures/spellbar.png"));
 		app.getGui().add(spellBar);
 
-		Entity textTest = new Entity("textTest");
-		textTest.addComponent(new TransformComponent());
-		textTest.addComponent(new TextComponent(app.getAssetManager().getFont("fontSprite.png"), 0.5f, 0.7f,
-				new Vec4(1.0f, 1.0f, 1.0f, 1.0f)));
-		((TextComponent) (textTest.getComponent(TextComponent.class))).setText(
-				" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
-		textTest.getTransform().move(new Vec3(-16.0f, 0.0f, 0.0f));
-
-
-
-		scene.addEntity(textTest);
-
 		Entity animTest = new Entity("animTest");
 		animTest.addComponent(new TransformComponent());
 		animTest.addComponent(new SpriteAnimationComponent(
@@ -145,29 +140,33 @@ public class GameState extends AbstractState {
 		animTest.getTransform().setPosition(new Vec3(6.0f, -6.0f, 0.0f));
 
 		scene.addEntity(animTest);
-
-		scene.getCamera().setProjectionMatrix(
-				MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 1.0f, 100.0f));
+		
+//		Entity entity3D = new Entity("3D test");
+//		entity3D.addComponent(new TransformComponent());
+//		entity3D.addComponent(new MeshComponent(app.getAssetManager().getModel("res/models/testModel.obj", "res/shaders/simpleshader3D.txt", null, false)));
+//		scene.addEntity(entity3D);
+		
+		Entity entityCollider = new Entity("ColliderTest");
+		entityCollider.addComponent(new TransformComponent());
+		entityCollider.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture("res/textures/characters/placeholder.png"), 3.0f, 3.0f));
+		entityCollider.addComponent(new ColliderComponent(1.6f, false));
+		entityCollider.addTag("Targetable");
+		scene.addEntity(entityCollider);
+		
+		scene.getCamera().setProjectionMatrix(MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 1.0f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
 	}
 
 	@Override
 	public void render() {
-		scene.render();
-		// manager.render(); not used anymore
+		super.render();
 	}
 
 	@Override
 	public void update() {
-		// FPS Counter
-		if (GLFW.glfwGetTime() - second >= 1.0f) {
-			second += 1.0f;
-			System.out.println("FPS: " + frame);
-			frame = 0;
-		}
-		frame++;
+		super.update();
 
-		float cameraSpeed = 0.08f;
+		float cameraSpeed = 0.3f;
 
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
 			scene.getCamera().move(new Vec3(-cameraSpeed, 0.0f, 0.0f));
@@ -184,9 +183,25 @@ public class GameState extends AbstractState {
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
 			scene.getCamera().move(new Vec3(0.0f, -cameraSpeed, 0.0f));
 		}
-
-		scene.update();
-		// manager.getStatuses();
+		
+		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_A)) {
+			dirX -= 0.04f;
+		}
+		
+		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_F)) {
+			dirX += 0.04f;
+		}
+		
+		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_W)) {
+			dirY -= 0.04f;
+		}
+		
+		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_S)) {
+			dirY += 0.04f;
+		}
+		
+		//scene.getCamera().setDirection(new Vec3(dirX, dirY, 5.0f));
+		
 		playerController.update();
 	}
 

@@ -1,5 +1,6 @@
 package engine.sound;
 
+import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.entity.component.AbstractComponent;
 
@@ -28,8 +29,8 @@ public class SoundSource extends AbstractComponent {
 		alSourcef(sourceId, AL_GAIN, gain);
 	}
 
-	public void setPosition(Vec3 position) {
-		alSource3f(sourceId, AL_POSITION, position.getX(), position.getY(), position.getZ());
+	public void setPosition(Vec2 position) {
+		alSource3f(sourceId, AL_POSITION, position.getX(), position.getY(), 0);
 	}
 	
 	public void setProperty(int param, float value) {

@@ -11,13 +11,42 @@ public class Entity {
 	private int id;
 	private String name;
 	private ArrayList<AbstractComponent> components;
+	private boolean shouldBeCulled;
 
+	private ArrayList<String> tags;
+	
 	public Entity(String name) {
+		this.shouldBeCulled = false;
 		this.id = -1;
 		this.name = name;
 		components = new ArrayList<AbstractComponent>();
+		
+		tags = new ArrayList<>();
+	}
+	
+	public Entity(String name, boolean culled) {
+		this.shouldBeCulled = culled;
+		this.id = -1;
+		this.name = name;
+		components = new ArrayList<AbstractComponent>();
+		
+		tags = new ArrayList<>();
+	}
+	
+	public void addTag(String tag)
+	{
+		if(!tags.contains(tag))
+		{
+			tags.add(tag);
+			
+		}
 	}
 
+	public boolean hasTag(String tag)
+	{
+		return tags.contains(tag);
+	}
+	
 	public void addComponent(AbstractComponent comp) {
 		if (!hasComponent(comp.getClass())) {
 			components.add(comp);
@@ -40,7 +69,7 @@ public class Entity {
 				return components.get(i);
 			}
 		}
-
+		
 		return null;
 	}
 
@@ -83,5 +112,9 @@ public class Entity {
 		}
 		
 		return result;
+	}
+	
+	public boolean shouldBeCulled(){
+		return shouldBeCulled;
 	}
 }
