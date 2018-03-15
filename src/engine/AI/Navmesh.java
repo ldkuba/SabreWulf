@@ -153,6 +153,11 @@ public class Navmesh {
 		System.out.println("Start Triangle: " + startTrig.toString());
 		System.out.println("End Triangle: " + endTrig.toString());
 		
+		if(startTrig.equals(endTrig)){
+			path.add(end);
+			return path;
+		}
+		
 		ArrayList<Triangle> pathTrigs = pathfinding.AStar(startTrig, endTrig);
 		
 		System.out.println("Path Size:" + pathTrigs.size());

@@ -14,6 +14,7 @@ public class Triangle {
 	private float h;
 	private float f;
 	private Triangle last;
+	private Vec2 midpoint;
 	
 	public Triangle(Vec2 x, Vec2 y, Vec2 z){
 		this.x = x;
@@ -24,6 +25,7 @@ public class Triangle {
 		g = 0;
 		h = 9999;
 		f = g + h;
+		midpoint = this.getMidpoint();
 	}
 	
 	public void addEdge(Edge edge){
