@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import engine.AI.Navmesh;
 import engine.application.Application;
 import engine.entity.Entity;
+import engine.entity.component.ColliderComponent;
 import engine.entity.component.NetDataComponent;
 import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetSpriteAnimationComponent;
@@ -65,6 +66,9 @@ public class Actor
 		netData.addData("Team", team);
 		entity.addComponent(netData);
 		
+		ColliderComponent collider = new ColliderComponent(2.5f, false);
+		entity.addComponent(collider);
+		
 		netSprite = new NetSpriteAnimationComponent(0, 7, 8);
 		//set up sound
 		this.app.getSoundManager().invokeSound("movement/footstep", true, false);
@@ -81,7 +85,7 @@ public class Actor
 	public void init(String basePath)
 	{		
 		if (!app.isHeadless()) {
-			sprite = new SpriteAnimationComponent(app.getAssetManager().getTexture(basePath + "textures/defaultTexture.png"), MOVE_ANIMATION_LENGTH+1, 0, 0, 3.0f, 3.0f, 8);
+			sprite = new SpriteAnimationComponent(app.getAssetManager().getTexture(basePath + "textures/defaultTexture.png"), MOVE_ANIMATION_LENGTH+1, 0, 0, 5.0f, 5.0f, 8);
 			entity.addComponent(sprite);
 		}
 	}

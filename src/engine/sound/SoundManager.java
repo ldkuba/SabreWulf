@@ -179,6 +179,11 @@ public class SoundManager {
 		this.isMuted = true;
 	}
 	
+	public void unmuteSounds()
+	{
+		this.isMuted = false;
+	}
+	
 	public boolean getIsMuted(){
 		return this.isMuted;
 	}

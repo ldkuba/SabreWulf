@@ -5,11 +5,11 @@ import engine.graphics.texture.Texture;
 import engine.gui.components.Button;
 import engine.gui.components.Sprite;
 import engine.gui.components.TextField;
+import engine.gui.components.ToggleButton;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
 import engine.net.common_net.networking_messages.LobbyConnectionRequestMessage;
-import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.client.Main;
 
@@ -18,7 +18,7 @@ public class MenuState extends AbstractState {
 
 	private Sprite menuBackground;
 	private Button playButton;
-	private Button muteButton;
+	private ToggleButton muteButton;
 	private Button settingsButton;
 	private Button exitButton;
 	private TextField playerNameField;
@@ -68,13 +68,20 @@ public class MenuState extends AbstractState {
 				.getTexture("res/textures/mute_button_released.png");
 		Texture muteButtonPressedTexture = app.getAssetManager()
 				.getTexture("res/textures/mute_button_pressed.png");
-		muteButton = new Button(85.0f, 93.0f, 4.0f, 6.0f, muteButtonPressedTexture,
-				muteButtonReleasedTexture) {
+		muteButton = new ToggleButton(85.0f, 93.0f, 4.0f, 6.0f, muteButtonPressedTexture, muteButtonReleasedTexture) {
 			@Override
-			public void onClick() {
-				app.getSoundManager().invokeSound("click", false, true);
-				app.getSoundManager().stopSoundSource("background/menu");
-				app.getSoundManager().muteSounds();
+			public void onClick(boolean toggled) {
+				if(toggled)
+				{
+					app.getSoundManager().invokeSound("click", false, true);
+					app.getSoundManager().stopSoundSource("background/menu");
+					app.getSoundManager().muteSounds();
+				}else
+				{
+					app.getSoundManager().invokeSound("click", false, true);
+					app.getSoundManager().unmuteSounds();
+					app.getSoundManager().playSoundSource("background/menu");
+				}
 			}
 		};
 		app.getGui().add(muteButton);
