@@ -15,13 +15,16 @@ import javax.xml.soap.Text;
 
 public class ProgressBar extends GuiComponent {
 
-	Texture bgTexture;	//Dynamic Texture
-	Texture barTexture;	//Background texture
-	float progress;
-	float MAX_PROGRESS;
-	float m_Size;
-	float m_Spread;
-	float maxStringLength;
+	private Texture bgTexture;	//Dynamic Texture
+	private Texture barTexture;	//Background texture
+	private float progress;
+	private float MAX_PROGRESS;
+	private float m_Size;
+	private float m_Spread;
+	private float maxStringLength;
+
+	private float barWidth;
+	private float barHeight;
 
 	TextComponent text;
 
@@ -32,6 +35,8 @@ public class ProgressBar extends GuiComponent {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		barWidth = width;
+		barHeight = height;
 		this.bgTexture = bgTexture;
 		this.barTexture = barTexture;
 		this.enabled = true;
@@ -42,6 +47,8 @@ public class ProgressBar extends GuiComponent {
 				* (Application.s_Viewport.getX() / (Application.s_WindowSize.getX() / 2.0f));
 		float worldHeight = (height * Application.s_WindowSize.getY() / 100.0f)
 				* (Application.s_Viewport.getY() / (Application.s_WindowSize.getY() / 2.0f));
+		float worldBarWidth = (barWidth * Application.s_WindowSize.getX() / 100.0f)
+				* (Application.s_Viewport.getX() / (Application.s_WindowSize.getX() / 2.0f));
 
 		entity = new Entity("progress bar");
 		entity.addComponent(new TransformComponent());
@@ -50,7 +57,7 @@ public class ProgressBar extends GuiComponent {
 		m_Spread = 0.7f;
 		text.setText("100%");
 		maxStringLength = 4;
-		entity.addComponent(new ProgressBarComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), barTexture, worldWidth, worldHeight,5,5));
+		entity.addComponent(new ProgressBarComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), barTexture, worldBarWidth, worldHeight,5,5));
 		entity.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), bgTexture, worldWidth, worldHeight));
 		entity.addComponent(text);
 
@@ -83,22 +90,33 @@ public class ProgressBar extends GuiComponent {
 		float worldWidth = (width*Application.s_WindowSize.getX()/100.0f) * (Application.s_Viewport.getX()/(Application.s_WindowSize.getX()/2.0f));
 		float worldHeight = (height*Application.s_WindowSize.getY()/100.0f) * (Application.s_Viewport.getY()/(Application.s_WindowSize.getY()/2.0f));
 
+		//Affect background
 		entity.getSprite().setWidth(worldWidth);
 		entity.getSprite().setHeight(worldHeight);
 
+		//Affect Progress Bar
 		ProgressBarComponent bar = (ProgressBarComponent) entity.getComponent(ProgressBarComponent.class);
-		bar.setWidth(worldWidth);
+		float worldBarWidth = (barWidth*Application.s_WindowSize.getX()/100.0f) * (Application.s_Viewport.getX()/(Application.s_WindowSize.getX()/2.0f));
+		bar.setWidth(worldBarWidth);
 		bar.setHeight(worldHeight);
+		System.out.println("Bar resized");
+		System.out.println(bar.getWidth());
 
+		//Affect Text
 		TextComponent text = (TextComponent) entity.getComponent(TextComponent.class);
 		//float worldHeight = (height*Application.s_WindowSize.getY()/100.0f) * (Application.s_Viewport.getY()/(Application.s_WindowSize.getY()/2.0f));
 		text.setSize(worldHeight*0.07f);
 	}
 
-	public void changeBar() {
+	public void changeBar(float reduce) {
 		ProgressBarComponent bar = (ProgressBarComponent) entity.getComponent(ProgressBarComponent.class);
-		bar.setWidth(10.0f);
-		
+		 float curWidth = bar.getWidth();
+		 System.out.println(curWidth);
+		 System.out.println(bar.getWidth());
+		 barWidth = curWidth - reduce;
+		float worldBarWidth = (barWidth*Application.s_WindowSize.getX()/100.0f) * (Application.s_Viewport.getX()/(Application.s_WindowSize.getX()/2.0f));
+		bar.setWidth(worldBarWidth);
+		 System.out.println("Bar change");
 	}
 
 }
