@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 import engine.application.Application;
 import engine.entity.Entity;
+import engine.entity.component.ColliderComponent;
 import engine.entity.component.MeshComponent;
 import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetSpriteAnimationComponent;
@@ -15,7 +16,6 @@ import engine.entity.component.SpriteComponent;
 import engine.entity.component.TextComponent;
 import engine.entity.component.TransformComponent;
 import engine.graphics.camera.Camera;
-import engine.graphics.renderer.Renderable3D;
 import engine.graphics.renderer.Renderer2D;
 import engine.graphics.renderer.Renderer3D;
 import engine.maths.Mat4;
@@ -333,5 +333,39 @@ public class Scene
 			} 			
 		}
 		return false;
+	}
+	
+	//2D version
+	public ArrayList<Entity> pickEntities(float mouseX, float mouseY)
+	{
+		Vec3 worldPos = m_Camera.getWorldCoordinates(mouseX, mouseY);
+		
+		ArrayList<Entity> result = new ArrayList<>();
+		
+		for(Entity e : m_Entities)
+		{
+			if(e.hasComponent(ColliderComponent.class))
+			{
+				Vec3 position = null;
+				if(e.hasComponent(TransformComponent.class))
+				{
+					TransformComponent transform = e.getTransform();
+					position = transform.getPosition();
+				}else if(e.hasComponent(NetTransformComponent.class))
+				{
+					NetTransformComponent transform = (NetTransformComponent) e.getComponent(NetTransformComponent.class);
+					position = transform.getPosition();
+				}
+			
+				ColliderComponent collider = (ColliderComponent) e.getComponent(ColliderComponent.class);
+				
+				if(collider.isInBounds(worldPos, position))
+				{
+					result.add(e);
+				}
+			}
+		}
+		
+		return result;
 	}
 }

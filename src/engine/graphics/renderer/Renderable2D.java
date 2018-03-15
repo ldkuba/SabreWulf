@@ -21,11 +21,15 @@ public class Renderable2D
 	private Texture m_Texture;
 	private Vec4 m_Color;
 	
+	private Vec4 m_OverlayColor;
+	
 	public Renderable2D(float width, float height, Vec4 color, Texture texture)
 	{
 		this(width, height, color);
 		
 		m_Texture = texture;
+		
+		m_OverlayColor = new Vec4(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 	
 	public Renderable2D(float width, float height, Vec4 color)
@@ -39,6 +43,8 @@ public class Renderable2D
 		m_UVs[1] = new Vec2(0.0f, 1.0f);
 		m_UVs[2] = new Vec2(1.0f, 1.0f);
 		m_UVs[3] = new Vec2(1.0f, 0.0f);
+		
+		m_OverlayColor = new Vec4(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 	
 	public static VertexLayout getVertexLayout()
@@ -50,6 +56,7 @@ public class Renderable2D
 			s_VertexLayout.addAttribute(new VertexAttribute(AttributeTypes.Float, 2, false), 1); // UV (x, z)
 			s_VertexLayout.addAttribute(new VertexAttribute(AttributeTypes.Float, 1, false), 1); // textureSlot
 			s_VertexLayout.addAttribute(new VertexAttribute(AttributeTypes.Float, 4, false), 1); // colour (r, g, b, a)
+			s_VertexLayout.addAttribute(new VertexAttribute(AttributeTypes.Float, 4, false), 1); // overlay colour (r, g, b, a)
 		}
 		
 		return s_VertexLayout;
@@ -103,5 +110,15 @@ public class Renderable2D
 	public void setTexture(Texture texture)
 	{
 		m_Texture = texture;
+	}
+	
+	public void setOverlayColor(Vec4 overlayColor)
+	{
+		m_OverlayColor = overlayColor;
+	}
+	
+	public Vec4 getOverlayColor()
+	{
+		return m_OverlayColor;
 	}
 }

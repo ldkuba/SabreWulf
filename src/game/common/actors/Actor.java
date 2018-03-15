@@ -70,6 +70,8 @@ public class Actor
 		stopMovement();
 		entity.addComponent(netSprite);
 		
+		entity.addTag("Targetable");
+		
 		movementSpeed = 0.05f; //base for each actor
 	}
 	

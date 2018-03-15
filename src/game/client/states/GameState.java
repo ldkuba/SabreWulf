@@ -4,6 +4,7 @@ import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
 import engine.entity.Entity;
+import engine.entity.component.ColliderComponent;
 import engine.entity.component.MeshComponent;
 import engine.entity.component.NetSpriteAnimationComponent;
 import engine.entity.component.SpriteAnimationComponent;
@@ -121,6 +122,13 @@ public class GameState extends AbstractState {
 //		entity3D.addComponent(new TransformComponent());
 //		entity3D.addComponent(new MeshComponent(app.getAssetManager().getModel("res/models/testModel.obj", "res/shaders/simpleshader3D.txt", null, false)));
 //		scene.addEntity(entity3D);
+		
+		Entity entityCollider = new Entity("ColliderTest");
+		entityCollider.addComponent(new TransformComponent());
+		entityCollider.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture("res/textures/characters/placeholder.png"), 3.0f, 3.0f));
+		entityCollider.addComponent(new ColliderComponent(1.6f, false));
+		entityCollider.addTag("Targetable");
+		scene.addEntity(entityCollider);
 		
 		scene.getCamera().setProjectionMatrix(MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 1.0f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
