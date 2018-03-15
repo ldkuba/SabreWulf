@@ -104,11 +104,11 @@ public class GameState extends AbstractState {
 		label.setText("hello");
 		app.getGui().add(label);
 
-		ProgressBar healthBar = new ProgressBar(20.0f,20.0f, 40.0f, 40.0f, app.getAssetManager().getTexture("res/textures/bars/potion.png"), app.getAssetManager().getTexture("res/textures/bars/progress.png"), app.getAssetManager().getFont("fontSprite.png"));
+		ProgressBar healthBar = new ProgressBar(20.0f,20.0f, 20.0f, 20.0f, app.getAssetManager().getTexture("res/textures/bars/potion.png"), app.getAssetManager().getTexture("res/textures/bars/progress.png"), app.getAssetManager().getFont("fontSprite.png"), app.getGui());
 		//healthBar.initProgress(400.0f);
 		//healthBar.getEntity().getTransform().move(new Vec3(50.0f,50.0f,0.0f));
-		app.getGui().add(healthBar);
-		healthBar.changeBar(5.0f);
+		healthBar.setMaxProgress(240.0f);
+		healthBar.setBar(120.0f);
 
 		spellBar = new Sprite(25.0f, 85.0f, 50.0f, 15.0f,
 				app.getAssetManager().getTexture("res/textures/spellbar.png"));

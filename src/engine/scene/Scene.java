@@ -11,7 +11,6 @@ import engine.entity.component.*;
 import engine.graphics.camera.Camera;
 import engine.graphics.renderer.Renderer2D;
 import engine.graphics.renderer.Renderer3D;
-import engine.gui.components.ProgressBar;
 import engine.maths.Mat4;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
@@ -206,18 +205,15 @@ public class Scene
 				text.submit(m_Renderer2D, transform);
 			}
 
-			if(e.hasComponent(SpriteAnimationComponent.class))
-			{
+			if(e.hasComponent(SpriteAnimationComponent.class)) {
 				SpriteAnimationComponent animation = (SpriteAnimationComponent) e.getComponent(SpriteAnimationComponent.class);
 
 				Mat4 transformation = Mat4.identity();
 
-				if(e.hasComponent(TransformComponent.class))
-				{
+				if (e.hasComponent(TransformComponent.class)) {
 					TransformComponent transform = (TransformComponent) e.getComponent(TransformComponent.class);
 					transformation = transform.getTransformationMatrix();
-				}else if(e.hasComponent(NetTransformComponent.class))
-				{
+				} else if (e.hasComponent(NetTransformComponent.class)) {
 					NetTransformComponent transform = (NetTransformComponent) e
 							.getComponent(NetTransformComponent.class);
 					transformation = transform.getTransformationMatrix();
@@ -226,30 +222,7 @@ public class Scene
 
 				animation.submit(m_Renderer2D, transformation);
 			}
-			if(e.hasComponent(ProgressBarComponent.class))
-			{
-				ProgressBarComponent progressBar = (ProgressBarComponent) e.getComponent(ProgressBarComponent.class);
-
-				TransformComponent transform = new TransformComponent();
-
-				if(e.hasComponent(TransformComponent.class))
-				{
-					transform = e.getTransform();
-				}else if(e.hasComponent(NetTransformComponent.class))
-				{
-					NetTransformComponent netTransform = (NetTransformComponent) e.getComponent(NetTransformComponent.class);
-					transform.setPosition(netTransform.getPosition());
-					transform.setRotationAngles(netTransform.getRotationAngles());
-					transform.setScale(netTransform.getScale());
-				}
-
-				// check if visible
-
-				progressBar.submit(m_Renderer2D, transform);
-			}
 		}
-		
-		
 
 		m_Renderer2D.drawAll();
 	}
