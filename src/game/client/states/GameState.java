@@ -1,5 +1,6 @@
 package game.client.states;
 
+import engine.gui.components.ProgressBar;
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
@@ -94,6 +95,7 @@ public class GameState extends AbstractState {
 			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app);
 			// here we would set up more stuff related to the player like class,
 			// items, starting position, etc.
+
 			playerManager.addPlayer(player);
 		}
 		
@@ -106,6 +108,12 @@ public class GameState extends AbstractState {
 				new Vec4(1.0f, 0.0f, 0.0f, 1.0f));
 		label.setText("hello");
 		app.getGui().add(label);
+
+		ProgressBar healthBar = new ProgressBar(20.0f,20.0f, 20.0f, 20.0f, app.getAssetManager().getTexture("res/textures/bars/potion.png"), app.getAssetManager().getTexture("res/textures/bars/progress.png"), app.getAssetManager().getFont("fontSprite.png"), app.getGui());
+		//healthBar.initProgress(400.0f);
+		//healthBar.getEntity().getTransform().move(new Vec3(50.0f,50.0f,0.0f));
+		healthBar.setMaxProgress(240.0f);
+		healthBar.setBar(120.0f);
 
 		spellBar = new Sprite(25.0f, 85.0f, 50.0f, 15.0f,
 				app.getAssetManager().getTexture("res/textures/spellbar.png"));
