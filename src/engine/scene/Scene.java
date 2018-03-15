@@ -6,16 +6,12 @@ import java.util.Comparator;
 
 import engine.application.Application;
 import engine.entity.Entity;
-import engine.entity.component.NetIdentityComponent;
-import engine.entity.component.NetTransformComponent;
+import engine.entity.component.*;
 //import engine.entity.component.NetIdentityComponent;
-import engine.entity.component.SpriteAnimationComponent;
-import engine.entity.component.SpriteComponent;
-import engine.entity.component.TextComponent;
-import engine.entity.component.TransformComponent;
 import engine.graphics.camera.Camera;
 import engine.graphics.renderer.Renderer2D;
 import engine.graphics.renderer.Renderer3D;
+import engine.gui.components.ProgressBar;
 import engine.maths.Mat4;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
@@ -229,6 +225,27 @@ public class Scene
 				// check is visible
 
 				animation.submit(m_Renderer2D, transformation);
+			}
+			if(e.hasComponent(ProgressBarComponent.class))
+			{
+				ProgressBarComponent progressBar = (ProgressBarComponent) e.getComponent(ProgressBarComponent.class);
+
+				TransformComponent transform = new TransformComponent();
+
+				if(e.hasComponent(TransformComponent.class))
+				{
+					transform = e.getTransform();
+				}else if(e.hasComponent(NetTransformComponent.class))
+				{
+					NetTransformComponent netTransform = (NetTransformComponent) e.getComponent(NetTransformComponent.class);
+					transform.setPosition(netTransform.getPosition());
+					transform.setRotationAngles(netTransform.getRotationAngles());
+					transform.setScale(netTransform.getScale());
+				}
+
+				// check if visible
+
+				progressBar.submit(m_Renderer2D, transform);
 			}
 		}
 		

@@ -1,5 +1,7 @@
 package game.client.states;
 
+import com.sun.javaws.progress.Progress;
+import engine.gui.components.ProgressBar;
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
@@ -85,30 +87,6 @@ public class GameState extends AbstractState {
 			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app);
 			// here we would set up more stuff related to the player like class,
 			// items, starting position, etc.
-			/*
-			int characterSelection = app.getNetworkManager().getNetPlayers().get(i).getChar();
-			switch (characterSelection) {
-			case 1:
-				//player.setRole(Wizard);
-				System.out.println("WIZARD");
-				break;
-			case 2:
-				//player.setRole(Knight);
-				System.out.println("KNIGHT");
-				break;
-			case 3:
-				//player.setRole(Elf);
-				System.out.println("ELF");
-				break;
-			}
-
-			if (i >= 0 && i < 3) {
-				player.setTeam(1);
-			}
-
-			else {
-				player.setTeam(2);
-			}*/
 
 			playerManager.addPlayer(player);
 
@@ -126,6 +104,12 @@ public class GameState extends AbstractState {
 		label.setText("hello");
 		app.getGui().add(label);
 
+		ProgressBar healthBar = new ProgressBar(20.0f,20.0f, 40.0f, 40.0f, app.getAssetManager().getTexture("res/textures/bars/potion.png"), app.getAssetManager().getTexture("res/textures/bars/progress.png"), app.getAssetManager().getFont("fontSprite.png"));
+		//healthBar.initProgress(400.0f);
+		healthBar.getEntity().getTransform().move(new Vec3(50.0f,50.0f,0.0f));
+		healthBar.changeBar();
+		app.getGui().add(healthBar);
+
 		spellBar = new Sprite(25.0f, 85.0f, 50.0f, 15.0f,
 				app.getAssetManager().getTexture("res/textures/spellbar.png"));
 		app.getGui().add(spellBar);
@@ -137,6 +121,8 @@ public class GameState extends AbstractState {
 		((TextComponent) (textTest.getComponent(TextComponent.class))).setText(
 				" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
 		textTest.getTransform().move(new Vec3(-16.0f, 0.0f, 0.0f));
+
+
 
 		scene.addEntity(textTest);
 

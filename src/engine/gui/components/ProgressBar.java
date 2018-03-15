@@ -2,10 +2,16 @@ package engine.gui.components;
 
 import engine.application.Application;
 import engine.entity.Entity;
+import engine.entity.component.ProgressBarComponent;
 import engine.entity.component.SpriteComponent;
+import engine.entity.component.TextComponent;
 import engine.entity.component.TransformComponent;
+import engine.font.Font;
 import engine.graphics.texture.Texture;
+import engine.maths.Vec3;
 import engine.maths.Vec4;
+
+import javax.xml.soap.Text;
 
 public class ProgressBar extends GuiComponent {
 
@@ -13,10 +19,15 @@ public class ProgressBar extends GuiComponent {
 	Texture barTexture;	//Background texture
 	float progress;
 	float MAX_PROGRESS;
+	float m_Size;
+	float m_Spread;
+	float maxStringLength;
+
+	TextComponent text;
 
 	Vec4 color;
 
-	public ProgressBar(float x, float y, float width, float height, Texture bgTexture, Texture barTexture) {
+	public ProgressBar(float x, float y, float width, float height, Texture bgTexture, Texture barTexture, Font font) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -34,21 +45,24 @@ public class ProgressBar extends GuiComponent {
 
 		entity = new Entity("progress bar");
 		entity.addComponent(new TransformComponent());
-		entity.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), barTexture, worldWidth, worldHeight));	
-		
-		entity = new Entity("background");
-		entity.addComponent(new TransformComponent());
-		entity.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), bgTexture, worldWidth, worldHeight));	
-		
+		TextComponent text = new TextComponent(font, worldHeight*0.07f, 0.7f, new Vec4(1.0f, 1.0f, 1.0f, 1.0f));
+		m_Size = 0.5f;
+		m_Spread = 0.7f;
+		text.setText("100%");
+		maxStringLength = 4;
+		entity.addComponent(new ProgressBarComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), barTexture, worldWidth, worldHeight,5,5));
+		entity.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), bgTexture, worldWidth, worldHeight));
+		entity.addComponent(text);
+
 	}
 
-	//Only used once, in the beginning.
+	//Only used once in the beginning.
 	public void initProgress(float progress) {
 		MAX_PROGRESS = progress;
 		this.progress = progress;
 	}
 
-	//Affects the bgtexture of the progress.
+	//Affects the bartexture of the progress.
 	public void setProgress(float progress) {
 		this.progress = progress;
 	}
@@ -60,6 +74,31 @@ public class ProgressBar extends GuiComponent {
 	public String getProgressString() {
 		float n = progress;
 		return String.format("%.0f", n * 100) + "%";
+	}
+
+	//Zooming in and out
+	@Override
+	public void resize()
+	{
+		float worldWidth = (width*Application.s_WindowSize.getX()/100.0f) * (Application.s_Viewport.getX()/(Application.s_WindowSize.getX()/2.0f));
+		float worldHeight = (height*Application.s_WindowSize.getY()/100.0f) * (Application.s_Viewport.getY()/(Application.s_WindowSize.getY()/2.0f));
+
+		entity.getSprite().setWidth(worldWidth);
+		entity.getSprite().setHeight(worldHeight);
+
+		ProgressBarComponent bar = (ProgressBarComponent) entity.getComponent(ProgressBarComponent.class);
+		bar.setWidth(worldWidth);
+		bar.setHeight(worldHeight);
+
+		TextComponent text = (TextComponent) entity.getComponent(TextComponent.class);
+		//float worldHeight = (height*Application.s_WindowSize.getY()/100.0f) * (Application.s_Viewport.getY()/(Application.s_WindowSize.getY()/2.0f));
+		text.setSize(worldHeight*0.07f);
+	}
+
+	public void changeBar() {
+		ProgressBarComponent bar = (ProgressBarComponent) entity.getComponent(ProgressBarComponent.class);
+		bar.setWidth(10.0f);
+		
 	}
 
 }
