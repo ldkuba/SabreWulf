@@ -20,7 +20,6 @@ import game.client.Main;
 public class LobbyState extends AbstractState
 {
 	private Main app;
-	private Scene scene;
 	
 	private Sprite lobbyBackground;
 	private SelectList characterChoice;
@@ -35,8 +34,9 @@ public class LobbyState extends AbstractState
 
 	public LobbyState(Main app)
 	{
+		super(app);
 		this.app = app;
-		scene = new Scene(0, app);
+		
 		localPlayerIndex = 0;
 	}
 
@@ -55,10 +55,9 @@ public class LobbyState extends AbstractState
 	@Override
 	public void init()
 	{
-		scene.init();
-		app.getGui().init(scene);
+		super.init();
 		// set up background sound
-		app.getSoundManager().invokeSound("background/lobby", true);
+		app.getSoundManager().invokeSound("background/lobby", true, true);
 		playerAvatars = new ArrayList<>();
 		playerNames = new ArrayList<>();
 		characterAvatars = new ArrayList<>();
@@ -100,7 +99,9 @@ public class LobbyState extends AbstractState
 				if(characterChoice.getSelectedId() != -1)
 				{
 					//Lock in champ and notify server that player is ready
-					app.getSoundManager().invokeSound("lockIn", false); 
+					if(!app.getSoundManager().getIsMuted()){
+						app.getSoundManager().invokeSound("lockIn", false, true); 
+					}
 					LockInMessage lim = new LockInMessage();
 					lim.setCharacterSelected(characterChoice.getSelectedId());
 					lockInButton.setEnabled(false);
@@ -119,7 +120,7 @@ public class LobbyState extends AbstractState
 			public void onClick()
 			{
 				if(!app.getSoundManager().getIsMuted()){
-					app.getSoundManager().invokeSound("click", false);
+					app.getSoundManager().invokeSound("click", false, true);
 					app.getSoundManager().stopSoundSource("background/lobby");
 				}
 				app.getStateManager().setCurrentState(Main.menuState);
@@ -162,13 +163,13 @@ public class LobbyState extends AbstractState
 	@Override
 	public void render()
 	{
-		scene.render();
+		super.render();
 	}
 
 	@Override
 	public void update()
 	{
-		scene.update();
+		super.update();
 	}
 
 	//Set from message listener when a accept message from a lobby is received

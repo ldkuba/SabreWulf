@@ -184,7 +184,7 @@ public class AssetManager
 		float[] uvs = new float[mesh.mNumVertices() * 2];
 
 		AIVector3D.Buffer aiUVs = mesh.mTextureCoords(0);
-
+ 
 		index = 0;
 		while (aiUVs.remaining() > 0)
 		{
@@ -197,7 +197,7 @@ public class AssetManager
 		// Normals
 		float[] normals = new float[mesh.mNumVertices() * 3];
 
-		AIVector3D.Buffer aiNormals = mesh.mVertices();
+		AIVector3D.Buffer aiNormals = mesh.mNormals();
 		index = 0;
 		while (aiNormals.remaining() > 0)
 		{

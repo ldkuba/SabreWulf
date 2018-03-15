@@ -38,7 +38,7 @@ public class SoundBuffer {
 	private ShortBuffer readVorbis(String resource, int bufferSize, STBVorbisInfo info) {
 		ShortBuffer temp = null;
 		MemoryStack stack = MemoryStack.stackPush();
-		vorbis = MyBufferUtils.ioResourceToByteBuffer(resource, bufferSize);
+		vorbis = SoundUtils.ioResourceToByteBuffer(resource, bufferSize);
 		IntBuffer error = stack.mallocInt(1);
 		long decoder = stb_vorbis_open_memory(vorbis, error, null);
 		if (decoder == NULL) {

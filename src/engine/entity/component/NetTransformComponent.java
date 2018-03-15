@@ -19,15 +19,6 @@ public class NetTransformComponent extends AbstractComponent implements Serializ
 		eulerAngles = new Vec3(0, 0, 0);
 		scale = new Vec3(1.0f, 1.0f, 1.0f);
 	}
-	
-	public ArrayList<Serializable> getData()
-	{
-		ArrayList<Serializable> data = new ArrayList<>();
-		data.add(position);
-		data.add(eulerAngles);
-		data.add(scale);
-		return data;
-	}
 
 	public Vec3 getPosition()
 	{

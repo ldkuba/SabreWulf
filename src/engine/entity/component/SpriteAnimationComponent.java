@@ -51,6 +51,35 @@ public class SpriteAnimationComponent extends AbstractComponent
 		}
 	}
 	
+	public void update(NetSpriteAnimationComponent netAnim)
+	{
+		m_StartFrame = netAnim.getStartFrame();
+		m_EndFrame = netAnim.getEndFrame();
+		m_CurrentFrame = netAnim.getCurrentFrame();
+		m_TimeOfFrame = netAnim.getTimeOfFrame();
+		m_CurrentTime = netAnim.getCurrentTime();
+		
+		if(m_CurrentFrame > m_EndFrame)
+		{
+			onEndPlayback();
+		}
+		
+		m_Sprite.setUVs(m_TextureAtlas.getElementUVs(m_CurrentFrame));
+	}
+	
+	public void changeAnimationFrames(int firstIndex, int lastIndex)
+	{
+		m_StartFrame = firstIndex;
+		m_EndFrame = lastIndex;
+		m_CurrentFrame = firstIndex;
+	}
+	
+	public void stopAnimation()
+	{
+		m_CurrentFrame = m_StartFrame;
+		m_EndFrame = m_StartFrame;
+	}
+	
 	//callback when finished animating, overridable
 	public void onEndPlayback()
 	{

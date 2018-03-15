@@ -5,6 +5,7 @@ import engine.entity.Entity;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TransformComponent;
 import engine.graphics.texture.Texture;
+import engine.maths.Vec2;
 import engine.maths.Vec4;
 
 public class Sprite extends GuiComponent
@@ -27,7 +28,11 @@ public class Sprite extends GuiComponent
 		entity.addComponent(new TransformComponent());
 		entity.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), texture, worldWidth, worldHeight));
 	}
-	
+
+	public void setUVs(Vec2[] uvs){
+		entity.getSprite().setUVs(uvs);
+	}
+
 	@Override
 	public void resize()
 	{
