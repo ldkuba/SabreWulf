@@ -36,7 +36,7 @@ public class GameState extends AbstractState {
 	private float second = 0;
 
 	private Sprite spellBar;
-
+	private ProgressBar healthBar;
 	private float zoom = 10.0f;
 	float aspectRatio = Application.s_WindowSize.getX() / Application.s_WindowSize.getY();
 
@@ -63,6 +63,17 @@ public class GameState extends AbstractState {
 		{
 			System.out.println("D FOR DEBUG");
 		}
+
+		if(key == GLFW.GLFW_KEY_P && action == GLFW.GLFW_PRESS)
+		{
+			healthBar.changeBar(10.0f);
+		}
+
+		if(key == GLFW.GLFW_KEY_O && action == GLFW.GLFW_PRESS)
+		{
+			healthBar.changeBar(-10.0f);
+		}
+
 
 		if (key == GLFW.GLFW_KEY_X && action == GLFW.GLFW_PRESS) {
 			zoom -= 5.0f;
@@ -104,7 +115,7 @@ public class GameState extends AbstractState {
 		label.setText("hello");
 		app.getGui().add(label);
 
-		ProgressBar healthBar = new ProgressBar(20.0f,20.0f, 20.0f, 20.0f, app.getAssetManager().getTexture("res/textures/bars/potion.png"), app.getAssetManager().getTexture("res/textures/bars/progress.png"), app.getAssetManager().getFont("fontSprite.png"), app.getGui());
+		healthBar = new ProgressBar(20.0f,20.0f, 20.0f, 5.0f, app.getAssetManager().getTexture("res/textures/bars/potion.png"), app.getAssetManager().getTexture("res/textures/bars/progress.png"), app.getAssetManager().getFont("fontSprite.png"), app.getGui());
 		//healthBar.initProgress(400.0f);
 		//healthBar.getEntity().getTransform().move(new Vec3(50.0f,50.0f,0.0f));
 		healthBar.setMaxProgress(240.0f);

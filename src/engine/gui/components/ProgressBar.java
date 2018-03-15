@@ -28,6 +28,7 @@ public class ProgressBar {
 		this.gui = gui;
 		maxProgres = 88.4f;
 		progress = maxProgres;
+		maxBarWidth = width;
 
 		background = new Sprite(x, y, width, height, bgTexture);
 		gui.add(background);
@@ -58,6 +59,7 @@ public class ProgressBar {
 	public void setMaxProgress(float maxProgress) {
 		this.maxProgres = maxProgress;
 		float barWidth = (progress/maxProgress) * maxBarWidth;
+		System.out.println("WIDTH: "+ barWidth);
 		resize(barWidth);
 	}
 
@@ -71,6 +73,11 @@ public class ProgressBar {
 
 	//delta in value
 	public void changeBar(float delta) {
+		if(progress + delta > maxProgres || progress + delta < 0)
+		{
+			return;
+		}
+		System.out.println(progress);
 		progress += delta;
 		float barWidth = (progress/maxProgres) * maxBarWidth;
 		resize(barWidth);
@@ -78,7 +85,7 @@ public class ProgressBar {
 
 	public void setBar(float progress)
 	{
-		progress = progress;
+		this.progress = progress;
 		float barWidth = (progress/maxProgres) * maxBarWidth;
 		resize(barWidth);
 	}
