@@ -1,5 +1,6 @@
 package game.client.states;
 
+
 import engine.gui.components.ProgressBar;
 import org.lwjgl.glfw.GLFW;
 
@@ -104,30 +105,14 @@ public class GameState extends AbstractState {
 		// set up background sound
 		app.getSoundManager().invokeSound("background/game", true, true);
 
-		Label label = new Label(40.0f, 10.0f, app.getAssetManager().getFont("fontSprite.png"), 5.0f, 0.7f,
-				new Vec4(1.0f, 0.0f, 0.0f, 1.0f));
-		label.setText("hello");
-		app.getGui().add(label);
-
-		ProgressBar healthBar = new ProgressBar(20.0f,20.0f, 20.0f, 20.0f, app.getAssetManager().getTexture("res/textures/bars/potion.png"), app.getAssetManager().getTexture("res/textures/bars/progress.png"), app.getAssetManager().getFont("fontSprite.png"), app.getGui());
-		//healthBar.initProgress(400.0f);
-		//healthBar.getEntity().getTransform().move(new Vec3(50.0f,50.0f,0.0f));
-		healthBar.setMaxProgress(240.0f);
-		healthBar.setBar(120.0f);
+//		ProgressBar healthBar = new ProgressBar(20.0f,20.0f, 20.0f, 20.0f, app.getAssetManager().getTexture("res/textures/bars/potion.png"), app.getAssetManager().getTexture("res/textures/bars/progress.png"), app.getAssetManager().getFont("fontSprite.png"), app.getGui());
+//		healthBar.setMaxProgress(240.0f);
+//		healthBar.setBar(120.0f);
 
 		spellBar = new Sprite(25.0f, 85.0f, 50.0f, 15.0f,
 				app.getAssetManager().getTexture("res/textures/spellbar.png"));
 		app.getGui().add(spellBar);
 
-		Entity animTest = new Entity("animTest");
-		animTest.addComponent(new TransformComponent());
-		animTest.addComponent(new SpriteAnimationComponent(
-				app.getAssetManager().getTexture("res/textures/Cursor/cursorMovementAnimated.png"), 4, 0, 11, 3.0f,
-				3.0f, 2));
-		animTest.getTransform().setPosition(new Vec3(6.0f, -6.0f, 0.0f));
-
-		scene.addEntity(animTest);
-		
 //		Entity entity3D = new Entity("3D test");
 //		entity3D.addComponent(new TransformComponent());
 //		entity3D.addComponent(new MeshComponent(app.getAssetManager().getModel("res/models/testModel.obj", "res/shaders/simpleshader3D.txt", null, false)));
