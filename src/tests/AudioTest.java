@@ -7,6 +7,7 @@ import org.junit.Test;
 import engine.sound.SoundBuffer;
 import engine.sound.SoundManager;
 import engine.sound.SoundSource;
+import engine.sound.SoundUtils;
 
 public class AudioTest {
 
@@ -62,10 +63,10 @@ public class AudioTest {
 
 	@Test
 	public void soundExistsTest() {
-		boolean exists = soundManager.doesSoundFileExist("lemon");
+		boolean exists = SoundUtils.doesSoundFileExist("lemon");
 		assertEquals(false, exists);
 
-		exists = soundManager.doesSoundFileExist("lockIn");
+		exists = SoundUtils.doesSoundFileExist("lockIn");
 		assertEquals(true, exists);
 	}
 

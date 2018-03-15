@@ -18,6 +18,7 @@ public class MenuState extends AbstractState {
 
 	private Sprite menuBackground;
 	private Button playButton;
+	private Button muteButton;
 	private Button settingsButton;
 	private Button exitButton;
 	private TextField playerNameField;
@@ -41,7 +42,7 @@ public class MenuState extends AbstractState {
 	public void init() {
 		super.init();
 		
-		app.getSoundManager().invokeSound("background/menu", true);
+		app.getSoundManager().invokeSound("background/menu", true, true);
 		Texture menuBackgroundTexture = app.getAssetManager().getTexture("res/textures/mainmenu_background.png");
 		menuBackground = new Sprite(0, 0, 100.0f, 100.0f, menuBackgroundTexture);
 		app.getGui().add(menuBackground);
@@ -52,6 +53,9 @@ public class MenuState extends AbstractState {
 
 			@Override
 			public void onClick() {
+				if(!app.getSoundManager().getIsMuted()){
+					app.getSoundManager().invokeSound("click", false, true);
+				}
 				LobbyConnectionRequestMessage cnm = new LobbyConnectionRequestMessage();
 				cnm.setName(playerNameField.getText());
 				app.getClient().sendTCP(cnm);
@@ -59,6 +63,21 @@ public class MenuState extends AbstractState {
 			}
 		};
 		app.getGui().add(playButton);
+
+		Texture muteButtonReleasedTexture = app.getAssetManager()
+				.getTexture("res/textures/mute_button_released.png");
+		Texture muteButtonPressedTexture = app.getAssetManager()
+				.getTexture("res/textures/mute_button_pressed.png");
+		muteButton = new Button(85.0f, 93.0f, 4.0f, 6.0f, muteButtonPressedTexture,
+				muteButtonReleasedTexture) {
+			@Override
+			public void onClick() {
+				app.getSoundManager().invokeSound("click", false, true);
+				app.getSoundManager().stopSoundSource("background/menu");
+				app.getSoundManager().muteSounds();
+			}
+		};
+		app.getGui().add(muteButton);
 
 		Texture settingButtonReleasedTexture = app.getAssetManager()
 				.getTexture("res/textures/settings_button_released.png");
@@ -68,7 +87,9 @@ public class MenuState extends AbstractState {
 				settingButtonReleasedTexture) {
 			@Override
 			public void onClick() {
-
+				if(!app.getSoundManager().getIsMuted()){
+					app.getSoundManager().invokeSound("click", false, true);
+				}
 			}
 		};
 		app.getGui().add(settingsButton);
@@ -78,7 +99,9 @@ public class MenuState extends AbstractState {
 		exitButton = new Button(95.0f, 93.0f, 4.0f, 6.0f, exitButtonPressedTexture, exitButtonReleasedTexture) {
 			@Override
 			public void onClick() {
-				app.getSoundManager().invokeSound("quit", false);
+				if(!app.getSoundManager().getIsMuted()){
+					app.getSoundManager().invokeSound("quit", false, true);
+				}
 				app.exit();
 				app.cleanup();
 				app.getClient().stop();
