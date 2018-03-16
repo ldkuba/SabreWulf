@@ -27,6 +27,7 @@ public class PlayerController {
 		this.main = main;
 		inputManager = main.getInputManager();
 		this.scene = scene;
+		//this.main.getSoundManager().invokeSound("movement/footstep", true, false);
 	}
 	
 	public void update()
@@ -74,11 +75,11 @@ public class PlayerController {
 			main.getClient().sendTCP(msg);
 			if(!main.getSoundManager().getIsMuted()){
 				main.getSoundManager().getSoundSource("background/game").setGain(0.3f);
-				main.getSoundManager().playSoundSource("movement/footstep");
+				//main.getSoundManager().playSoundSource("movement/footstep");
 			}
 		} else if (button == GLFW.GLFW_MOUSE_BUTTON_1 && action == GLFW.GLFW_PRESS){
 			if (!main.getSoundManager().getIsMuted()){
-				main.getSoundManager().invokeSound("attack/scratch", false, true);
+				main.getSoundManager().invokeSound("attack/s2", false, true);
 			}
 		}
 	}

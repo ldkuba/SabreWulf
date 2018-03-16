@@ -71,8 +71,8 @@ public class Actor
 		
 		netSprite = new NetSpriteAnimationComponent(0, 7, 8);
 		//set up sound
-		this.app.getSoundManager().invokeSound("movement/footstep", true, false);
-		System.err.println("why you no workin");
+		//this.app.getSoundManager().invokeSound("movement/footstep", true, false);
+		//System.err.println("why you no workin");
 		
 		stopMovement();
 		entity.addComponent(netSprite);
@@ -380,16 +380,16 @@ public class Actor
 	
 	public void stopMovement()
 	{
-		System.err.println("stop moving");
+		//System.err.println("stop moving");
 		if(movingDir != -1)
 		{
 			netSprite.stopAnimation();
 			movingDir = -1;
 			//stop sound of movement too
-			if(!app.getSoundManager().getIsMuted()){
+			/*if(!app.getSoundManager().getIsMuted()){
 				System.err.println("stop moving sound");
 				app.getSoundManager().stopSoundSource("movement/footstep");
-			}
+			}*/
 		}
 	}
 	
