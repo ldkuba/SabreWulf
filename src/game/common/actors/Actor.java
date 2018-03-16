@@ -89,7 +89,7 @@ public class Actor
 		ColliderComponent collider = new ColliderComponent(1.5f, false);
 		entity.addComponent(collider);
 		
-		netSprite = new NetSpriteAnimationComponent(0, 7, 8);
+		netSprite = new NetSpriteAnimationComponent(0, 0, 2);
 		
 		stopMovement();
 		entity.addComponent(netSprite);
@@ -437,10 +437,6 @@ public class Actor
 		
 		currentPos.scale(-1.0f);
 
-		NetTransformComponent playerTrans = (NetTransformComponent) entity.getComponent(NetTransformComponent.class);
-		System.out.println("Player Position: " + playerTrans.getPosition().getX());
-
-		//System.out.println("Player Position: " + currentPosition.getX() + "," + currentPosition.getY());
 		System.out.println("Current Pos: " + currentPos.getX() + ", " + currentPos.getY());
 	}
 	

@@ -68,7 +68,7 @@ public class GameState extends AbstractState {
 		this.app = app;
 		
 		playerManager = new PlayerManager(scene);
-		playerController = new PlayerController(app, this, scene, playerManager);
+		playerController = new PlayerController(app, this, scene);
 		map = new Map(scene, "res/textures/map");
 	}
 
@@ -138,14 +138,6 @@ public class GameState extends AbstractState {
 			*/
 			playerManager.addPlayer(player);
 		}
-
-		if (dummy) {
-			dummyPlayer = new Player(1, "Dummy", app);
-			dummyPlayer.setTeam(1);
-			dummyPlayer.setRole(new Wizard());
-			playerManager.addPlayer(dummyPlayer);
-		}
-
 
 		map.init(app.getAssetManager());
 

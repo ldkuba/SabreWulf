@@ -3,11 +3,10 @@ package game.server.ingame;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import engine.entity.component.NetTransformComponent;
+import engine.maths.Vec3;
 import engine.net.common_net.MessageListener;
-import engine.net.common_net.networking_messages.AbstractMessage;
-import engine.net.common_net.networking_messages.AttackPlayerMessage;
-import engine.net.common_net.networking_messages.DesiredLocationMessage;
-import engine.net.common_net.networking_messages.PeerCountMessage;
+import engine.net.common_net.networking_messages.*;
 import engine.net.server.core.NetPlayer;
 import game.common.actors.Player;
 
@@ -86,31 +85,40 @@ public class ServerMessageListener implements MessageListener
 			ServerMain.gameState.getPlayerManager().getPlayer(player.getPlayerId()).calculatePath(dlm.getPos(), ServerMain.gameState.getMap().getNavmesh());
 			
 			System.out.println("Recieved path message in game");
-		} else if(msg instanceof AttackPlayerMessage) {
+		} else if(msg instanceof CoordinateMessage) {
 
-			AttackPlayerMessage apm = (AttackPlayerMessage) msg;
+			System.out.println("Received Coordinate MEssage");
 
-			int playerDamaged = apm.getPlayerID();
+			CoordinateMessage entityPos = (CoordinateMessage) msg;
+
+			Vec3 coordinates = entityPos.getCoordinates();
 			float damageToGive;
 
-			//Get bully and victim.
 			Player attacker = ServerMain.gameState.getPlayerManager().getPlayer(player.getPlayerId());
-			Player playerAttacked = ServerMain.gameState.getPlayerManager().getPlayer(playerDamaged);
+			//Check if entity is a player
+			boolean clickedPlayer = false;
+			for(int i = 0; i < ServerMain.gameState.getPlayerManager().getPlayers().size(); i++) {
+				Player currentPlayer = ServerMain.gameState.getPlayerManager().getPlayer(i);
 
-			/**
-			 Check if they are in the same team.
-			 */
+				NetTransformComponent currTransform = (NetTransformComponent) currentPlayer.getEntity().getComponent(NetTransformComponent.class);
 
-			if (debug) {
-				System.out.println(attacker.getName() + " attacked " + playerAttacked.getName());
-				System.out.println("Damage dealt: " + attacker.getDamage());
-				System.out.println("Health of the attacker: " + attacker.getHealth());
+				//Check in range
+				if ( Vec3.distance(currTransform.getPosition(),coordinates) <=1.0f && Vec3.distance(currTransform.getPosition(),coordinates) >= -1.0f){
+
+					//Make sure you do not attack yourself.
+					if(currentPlayer.equals(attacker)) {
+						System.out.println("Not myself!");
+					}else {
+						currentPlayer.lostHealth(attacker.getDamage());
+						clickedPlayer = true;
+					}
+				}
 			}
 
-			if(debug) { System.out.println("Custom attack Set"); }
-			float damageTest = 20.0f;
+			if(!clickedPlayer) {
+				//More Search
+			}
 
-			playerAttacked.lostHealth(attacker.getDamage());
 		}
 
 	}

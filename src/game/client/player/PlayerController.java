@@ -2,6 +2,10 @@ package game.client.player;
 
 import java.util.ArrayList;
 
+import engine.entity.component.NetIdentityComponent;
+import engine.entity.component.NetTransformComponent;
+import engine.net.common_net.networking_messages.AttackPlayerMessage;
+import engine.net.common_net.networking_messages.CoordinateMessage;
 import game.common.player.PlayerManager;
 import org.lwjgl.glfw.GLFW;
 
@@ -19,18 +23,17 @@ import game.client.states.GameState;
 //For handling actual instruction sets to be passed to transformation and interaction components of the players
 public class PlayerController {
 
-	private PlayerManager playerManager;
 	private InputManager inputManager;
 	private Main main;
 	private GameState gamestate;
 	private Scene scene;
+	ArrayList<Entity> selectedEntities;
 	
-	public PlayerController(Main main, GameState gs, Scene scene, PlayerManager pm) {
+	public PlayerController(Main main, GameState gs, Scene scene) {
 		gamestate = gs;
 		this.main = main;
 		inputManager = main.getInputManager();
 		this.scene = scene;
-		playerManager = pm;
 		//this.main.getSoundManager().invokeSound("movement/footstep", true, false);
 	}
 	
@@ -38,7 +41,7 @@ public class PlayerController {
 	{
 		//input
 		//Hover selection
-		ArrayList<Entity> selectedEntities = scene.pickEntities((float)inputManager.getMouseX(), (float)inputManager.getMouseY());
+		selectedEntities = scene.pickEntities((float)inputManager.getMouseX(), (float)inputManager.getMouseY());
 		
 		for(Entity e : scene.getEntities())
 		{
@@ -46,6 +49,7 @@ public class PlayerController {
 			{
 				if(selectedEntities.contains(e))
 				{
+
 					if(e.hasComponent(SpriteComponent.class))
 					{
 						e.getSprite().setOverlayColor(new Vec4(1.0f, 0.0f, 0.0f, 0.4f));
@@ -84,12 +88,33 @@ public class PlayerController {
 	
 	public void mouseAction(int button, int action)
 	{
+
+		boolean clickedEntity = false;
+
 		if(button == GLFW.GLFW_MOUSE_BUTTON_2 && action == GLFW.GLFW_PRESS)
 		{
 			DesiredLocationMessage msg = new DesiredLocationMessage();
 			Vec3 worldPos = scene.getCamera().getWorldCoordinates((float)main.getInputManager().getMouseX(), (float)main.getInputManager().getMouseY());
-			msg.setPos(worldPos);
-			main.getClient().sendTCP(msg);
+			//msg.setPos(worldPos);
+
+			for(Entity e : scene.getEntities())
+			{
+				if(e.hasTag("Targetable"))
+				{
+					if(selectedEntities.contains(e))
+					{
+						NetTransformComponent entityTransform = (NetTransformComponent) e.getComponent(NetTransformComponent.class);
+						CoordinateMessage entityMessage = new CoordinateMessage(entityTransform.getPosition());
+						main.getClient().sendTCP(entityMessage);
+						clickedEntity = true;
+					}
+				}
+			}
+
+			if(clickedEntity == false) {
+				main.getClient().sendTCP(msg);
+			}
+
 			if(!main.getSoundManager().getIsMuted()){
 				main.getSoundManager().getSoundSource("background/game").setGain(0.5f);				
 			}
