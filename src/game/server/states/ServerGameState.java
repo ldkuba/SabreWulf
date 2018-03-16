@@ -89,13 +89,6 @@ public class ServerGameState extends AbstractState
 			playerManager.addPlayer(player);
 		}
 
-		if(dummy) {
-			//Add Dummy Player
-			Player dummyPlayer = new Player(1, "dummy", app);
-			dummyPlayer.setRole(new Wizard());
-			playerManager.addPlayer(dummyPlayer);
-		}
-
 	}
 
 	@Override

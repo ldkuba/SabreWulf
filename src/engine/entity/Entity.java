@@ -32,7 +32,11 @@ public class Entity {
 		
 		tags = new ArrayList<>();
 	}
-	
+
+	public String getName() {
+		return name;
+	}
+
 	public void addTag(String tag)
 	{
 		if(!tags.contains(tag))

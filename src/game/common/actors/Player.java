@@ -36,10 +36,12 @@ public class Player extends Actor {
 		return role;
 	}
 
+	/*
 	public void setRole(AbstractClasses role) {
-		setPlayer(role);	//Add the players statistics.
+		//setPlayer(role);	//Add the players statistics.
 		this.role = role;
 	}
+	*/
 
 	public String getName() {
 		return name;
