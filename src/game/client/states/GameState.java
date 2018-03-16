@@ -37,6 +37,8 @@ public class GameState extends AbstractState {
 	private PlayerController playerController;
 
 	private PlayerManager playerManager;
+	private ProgressBar heathBar;
+	private ProgressBar energyBar;
 
 	private Map map;
 
@@ -56,6 +58,7 @@ public class GameState extends AbstractState {
 		playerManager = new PlayerManager(scene);
 		playerController = new PlayerController(app, this, scene);
 		map = new Map(scene, "res/textures/map");
+
 	}
 
 	@Override
@@ -112,6 +115,10 @@ public class GameState extends AbstractState {
 		spellBar = new Sprite(25.0f, 85.0f, 50.0f, 15.0f,
 				app.getAssetManager().getTexture("res/textures/spellbar.png"));
 		app.getGui().add(spellBar);
+
+		heathBar = new ProgressBar(25.0f, 85.0f, 3.0f, 1.0f, app.getAssetManager().getTexture("res/textures/gui/bars/health_bar_background"),app.getAssetManager().getTexture("res/textures/gui/bars/health_bar"),app.getAssetManager().getFont("res/fonts/fontSprite.png"),app.getGui());
+
+		energyBar = new ProgressBar(25.0f, 80.0f, 3.0f, 1.0f, app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar_background"),app.getAssetManager().getTexture("res/textures/gui/bars/health_bar"),app.getAssetManager().getFont("res/fonts/fontSprite.png"),app.getGui());
 
 //		Entity entity3D = new Entity("3D test");
 //		entity3D.addComponent(new TransformComponent());
