@@ -51,6 +51,8 @@ public class GameState extends AbstractState {
 	private PlayerController playerController;
 
 	private PlayerManager playerManager;
+	private ProgressBar heathBar;
+	private ProgressBar energyBar;
 
 	private Map map;
 
@@ -70,6 +72,7 @@ public class GameState extends AbstractState {
 		playerManager = new PlayerManager(scene);
 		playerController = new PlayerController(app, this, scene);
 		map = new Map(scene, "res/textures/map");
+
 	}
 
 	@Override
@@ -142,15 +145,21 @@ public class GameState extends AbstractState {
 		map.init(app.getAssetManager());
 
 		// set up background sound
-		app.getSoundManager().invokeSound("background/game", true, true);
+		if(!app.getSoundManager().getIsMuted()){
+			app.getSoundManager().invokeSound("background/game", true, true);
+		}
 
 //		ProgressBar healthBar = new ProgressBar(20.0f,20.0f, 20.0f, 20.0f, app.getAssetManager().getTexture("res/textures/bars/potion.png"), app.getAssetManager().getTexture("res/textures/bars/progress.png"), app.getAssetManager().getFont("fontSprite.png"), app.getGui());
 //		healthBar.setMaxProgress(240.0f);
 //		healthBar.setBar(120.0f);
 
 		spellBar = new Sprite(25.0f, 85.0f, 50.0f, 15.0f,
-				app.getAssetManager().getTexture("res/textures/spellbar.png"));
+				app.getAssetManager().getTexture("res/textures/gui/placeholders/spellbar.png"));
 		app.getGui().add(spellBar);
+
+		heathBar = new ProgressBar(43.6f, 93.4f, 12.25f, 2.5f, app.getAssetManager().getTexture("res/textures/gui/bars/health_bar_background.png"),app.getAssetManager().getTexture("res/textures/gui/bars/health_bar.png"),app.getAssetManager().getFont("fontSprite.png"),app.getGui());
+
+		energyBar = new ProgressBar(43.6f, 96.4f, 12.25f, 2.5f, app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar_background.png"),app.getAssetManager().getTexture("res/textures/gui/bars/ENERGY_bar.png"),app.getAssetManager().getFont("fontSprite.png"),app.getGui());
 
 //		Entity entity3D = new Entity("3D test");
 //		entity3D.addComponent(new TransformComponent());

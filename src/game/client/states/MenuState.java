@@ -43,12 +43,12 @@ public class MenuState extends AbstractState {
 		super.init();
 		
 		app.getSoundManager().invokeSound("background/menu", true, true);
-		Texture menuBackgroundTexture = app.getAssetManager().getTexture("res/textures/mainmenu_background.png");
+		Texture menuBackgroundTexture = app.getAssetManager().getTexture("res/textures/gui/backgrounds/mainmenu_background.png");
 		menuBackground = new Sprite(0, 0, 100.0f, 100.0f, menuBackgroundTexture);
 		app.getGui().add(menuBackground);
 
-		Texture playButtonReleasedTexture = app.getAssetManager().getTexture("res/textures/play_button_released.png");
-		Texture playButtonPressedTexture = app.getAssetManager().getTexture("res/textures/play_button_pressed.png");
+		Texture playButtonReleasedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/play_button_released.png");
+		Texture playButtonPressedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/play_button_pressed.png");
 		playButton = new Button(45.0f, 90.0f, 10.0f, 6.0f, playButtonPressedTexture, playButtonReleasedTexture) {
 
 			@Override
@@ -65,9 +65,9 @@ public class MenuState extends AbstractState {
 		app.getGui().add(playButton);
 
 		Texture muteButtonReleasedTexture = app.getAssetManager()
-				.getTexture("res/textures/mute_button_released.png");
+				.getTexture("res/textures/gui/buttons/mute_button_released.png");
 		Texture muteButtonPressedTexture = app.getAssetManager()
-				.getTexture("res/textures/mute_button_pressed.png");
+				.getTexture("res/textures/gui/buttons/mute_button_pressed.png");
 		muteButton = new ToggleButton(85.0f, 93.0f, 4.0f, 6.0f, muteButtonPressedTexture, muteButtonReleasedTexture) {
 			@Override
 			public void onClick(boolean toggled) {
@@ -87,9 +87,9 @@ public class MenuState extends AbstractState {
 		app.getGui().add(muteButton);
 
 		Texture settingButtonReleasedTexture = app.getAssetManager()
-				.getTexture("res/textures/settings_button_released.png");
+				.getTexture("res/textures/gui/buttons/settings_button_released.png");
 		Texture settingButtonPressedTexture = app.getAssetManager()
-				.getTexture("res/textures/settings_button_pressed.png");
+				.getTexture("res/textures/gui/buttons/settings_button_pressed.png");
 		settingsButton = new Button(90.0f, 93.0f, 4.0f, 6.0f, settingButtonPressedTexture,
 				settingButtonReleasedTexture) {
 			@Override
@@ -101,8 +101,8 @@ public class MenuState extends AbstractState {
 		};
 		app.getGui().add(settingsButton);
 
-		Texture exitButtonReleasedTexture = app.getAssetManager().getTexture("res/textures/exit_button_released.png");
-		Texture exitButtonPressedTexture = app.getAssetManager().getTexture("res/textures/exit_button_pressed.png");
+		Texture exitButtonReleasedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/exit_button_released.png");
+		Texture exitButtonPressedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/exit_button_pressed.png");
 		exitButton = new Button(95.0f, 93.0f, 4.0f, 6.0f, exitButtonPressedTexture, exitButtonReleasedTexture) {
 			@Override
 			public void onClick() {

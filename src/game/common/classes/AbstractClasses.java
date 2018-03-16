@@ -21,8 +21,11 @@ public class AbstractClasses {
 		this.energy = energy;
 	}
 	
-	public void setRegStats(float manaReg, float healthReg) {
-		this.energyReg = manaReg;
+	public void setEnergyRegen(float energyReg) {
+		this.energyReg = energyReg;
+	}
+	
+	public void setHealthRegen(float healthReg) {
 		this.healthReg = healthReg;
 	}
 	/*

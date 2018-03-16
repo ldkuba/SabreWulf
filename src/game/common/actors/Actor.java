@@ -35,7 +35,6 @@ import game.common.logic.ActorLogic;
 
 public class Actor
 {
-
 	private boolean debug = true;
 
 	private final int MOVE_ANIMATION_LENGTH = 7;
@@ -102,7 +101,7 @@ public class Actor
 	public void init(String basePath)
 	{		
 		if (!app.isHeadless()) {
-			sprite = new SpriteAnimationComponent(app.getAssetManager().getTexture(basePath + "textures/defaultTexture.png"), MOVE_ANIMATION_LENGTH+1, 0, 0, 5.0f, 5.0f, 8);
+			sprite = new SpriteAnimationComponent(app.getAssetManager().getTexture(basePath + "textures/sprite.png"), 4, 0, 0, 5.0f, 5.0f, 2);
 			entity.addComponent(sprite);
 		}
 	}
