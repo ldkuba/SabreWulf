@@ -30,11 +30,11 @@ import game.common.logic.ActorLogic;
 
 public class Actor
 {
-	private final int MOVE_ANIMATION_LENGTH = 7;
-	private final int MOVE_ANIMATION_RIGHT = 0;
-	private final int MOVE_ANIMATION_UP = 8;
-	private final int MOVE_ANIMATION_LEFT = 16;
-	private final int MOVE_ANIMATION_DOWN = 24;
+	private final int MOVE_ANIMATION_LENGTH = 3-1;
+	private final int MOVE_ANIMATION_RIGHT = 4;
+	private final int MOVE_ANIMATION_UP = 10;
+	private final int MOVE_ANIMATION_LEFT = 7;
+	private final int MOVE_ANIMATION_DOWN = 13;
 	
 	//-1 = stop, 0 = up, 1 = left, 2 = down, 3 = right
 	private int movingDir = -1;
@@ -50,7 +50,6 @@ public class Actor
 	public Actor(int netId, Application app)
 	{
 		this.app = app;
-		
 		entity = new Entity("Actor");
 		currentPath = new ArrayList<>();	
 		
@@ -67,10 +66,11 @@ public class Actor
 		netData.addData("Team", team);
 		entity.addComponent(netData);
 		
-		ColliderComponent collider = new ColliderComponent(2.5f, false);
+		ColliderComponent collider = new ColliderComponent(1.5f, false);
 		entity.addComponent(collider);
 		
-		netSprite = new NetSpriteAnimationComponent(0, 7, 8);
+		netSprite = new NetSpriteAnimationComponent(0, 0, 2);
+		
 		stopMovement();
 		entity.addComponent(netSprite);
 		
@@ -82,7 +82,7 @@ public class Actor
 	public void init(String basePath)
 	{		
 		if (!app.isHeadless()) {
-			sprite = new SpriteAnimationComponent(app.getAssetManager().getTexture(basePath + "textures/defaultTexture.png"), MOVE_ANIMATION_LENGTH+1, 0, 0, 5.0f, 5.0f, 8);
+			sprite = new SpriteAnimationComponent(app.getAssetManager().getTexture(basePath + "textures/sprite.png"), 4, 0, 0, 5.0f, 5.0f, 2);
 			entity.addComponent(sprite);
 		}
 	}
@@ -179,12 +179,12 @@ public class Actor
 			startPos = ((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).getPosition();
 		}
 		
-		ArrayList<Vec3> path = new ArrayList<>();//navmesh.findPath(startPos, target);
-		path.add(target);
+		ArrayList<Vec3> path = navmesh.findPath(startPos, target);
 
 		if(path != null)
 		{
-			this.currentPath = path;
+			path.add(target);
+			this.currentPath = path;		
 		}
 	}
 

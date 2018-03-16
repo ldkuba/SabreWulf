@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.lwjgl.glfw.GLFW;
 
 import engine.entity.Entity;
+import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.SpriteComponent;
 import engine.input.InputManager;
 import engine.maths.Vec3;
@@ -27,6 +28,7 @@ public class PlayerController {
 		this.main = main;
 		inputManager = main.getInputManager();
 		this.scene = scene;
+		//this.main.getSoundManager().invokeSound("movement/footstep", true, false);
 	}
 	
 	public void update()
@@ -45,12 +47,26 @@ public class PlayerController {
 					{
 						e.getSprite().setOverlayColor(new Vec4(1.0f, 0.0f, 0.0f, 0.4f));
 					}
+					
+					if(e.hasComponent(SpriteAnimationComponent.class))
+					{
+						SpriteAnimationComponent spriteAnim = (SpriteAnimationComponent) e.getComponent(SpriteAnimationComponent.class);
+						spriteAnim.setOverlayColor(new Vec4(1.0f, 0.0f, 0.0f, 0.3f));
+					}
+					
 				}else
 				{
 					if(e.hasComponent(SpriteComponent.class))
 					{
 						e.getSprite().setOverlayColor(new Vec4(0.0f, 0.0f, 0.0f, 0.0f));
 					}
+					
+					if(e.hasComponent(SpriteAnimationComponent.class))
+					{
+						SpriteAnimationComponent spriteAnim = (SpriteAnimationComponent) e.getComponent(SpriteAnimationComponent.class);
+						spriteAnim.setOverlayColor(new Vec4(0.0f, 0.0f, 0.0f, 0.0f));
+					}
+					
 				}
 			}
 		}
@@ -73,23 +89,11 @@ public class PlayerController {
 			
 			main.getClient().sendTCP(msg);
 			if(!main.getSoundManager().getIsMuted()){
-				main.getSoundManager().getSoundSource("background/game").setGain(0.3f);
-				main.getSoundManager().invokeSound("movement/footstep", false, false);
-				/*System.out.println("----------");
-				float v = playerManager.getPlayer(0).getMovementSpeed();
-				Vec2 cur = playerManager.getPlayer(0).getPosition();
-				System.out.println(cur.getX());
-				System.out.println(cur.getY());
-				System.out.println(worldPos.getX());
-				System.out.println(worldPos.getY());
-				System.out.println(v);
-				float s = Math.abs(worldPos.getX() + pos.getY());
-				int t = (int)(s/v);
-				System.out.println(t);*/
+				main.getSoundManager().getSoundSource("background/game").setGain(0.5f);				
 			}
 		} else if (button == GLFW.GLFW_MOUSE_BUTTON_1 && action == GLFW.GLFW_PRESS){
 			if (!main.getSoundManager().getIsMuted()){
-				main.getSoundManager().invokeSound("attack/a2", false, true);
+				main.getSoundManager().invokeSound("attack/s2", false, true);
 			}
 		}
 	}

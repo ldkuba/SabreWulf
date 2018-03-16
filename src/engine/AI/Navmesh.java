@@ -26,12 +26,13 @@ public class Navmesh {
 		
 		Triangle A = null;
 		Triangle B = null;
-		Edge edge;
+		Edge edgeA;
 		boolean[] boollist = new boolean[9]; 
 		Vec2 midA = null;
 		Vec2 midB = null;
 		Vec2 weightVec = null;
 		float weight = 0;
+		int count;
 		
 		for(int i = 0; i < triangles.size(); i++){
 			
@@ -41,17 +42,17 @@ public class Navmesh {
 				
 				B = triangles.get(j);
 				
-				boollist[0] = A.getX() == B.getX();
-				boollist[1] = A.getX() == B.getY();
-				boollist[2] = A.getX() == B.getZ();
-				boollist[3] = A.getY() == B.getX();
-				boollist[4] = A.getY() == B.getY();
-				boollist[5] = A.getY() == B.getZ();
-				boollist[6] = A.getZ() == B.getX();
-				boollist[7] = A.getZ() == B.getY();
-				boollist[8] = A.getZ() == B.getZ();
+				boollist[0] = (equals(A.getX(), B.getX()));
+				boollist[1] = (equals(A.getX(), B.getY()));
+				boollist[2] = (equals(A.getX(), B.getZ()));
+				boollist[3] = (equals(A.getY(), B.getX()));
+				boollist[4] = (equals(A.getY(), B.getY()));
+				boollist[5] = (equals(A.getY(), B.getZ()));
+				boollist[6] = (equals(A.getZ(), B.getX()));
+				boollist[7] = (equals(A.getZ(), B.getY()));
+				boollist[8] = (equals(A.getZ(), B.getZ()));
 				
-				int count = 0;
+				count = 0;
 				
 				for(int k = 0; k < boollist.length; k++){
 					if(boollist[k]){
@@ -59,15 +60,18 @@ public class Navmesh {
 					}
 				}
 				
-				if(count >= 2){
+				if(count == 2){
 					midA = A.getMidpoint();
 					midB = B.getMidpoint();
 					weightVec = new Vec2(midB.getX() - midA.getX(), midB.getY() - midA.getY());
 					weight = weightVec.getLength();
-					edge = new Edge(A, B, midA, midB, weight);
-					edges.add(edge);
-					A.addEdge(edge);
-					B.addEdge(edge);
+					edgeA = new Edge(A, B, midA, midB, weight);
+					if(A != B){
+						if(!edges.contains(edgeA)){
+							edges.add(edgeA);							
+						}
+						A.addEdge(edgeA);					
+					}
 				}
 			}
 		}
@@ -103,7 +107,9 @@ public class Navmesh {
 		Vec3 pointB = new Vec3(t.getY().getX(), t.getY().getY(), 0.0f);
 		Vec3 pointC = new Vec3(t.getZ().getX(), t.getZ().getY(), 0.0f);
 		
-		if(isSameSide(point, pointA, pointB, pointC) && isSameSide(point, pointB, pointA, pointC) && isSameSide(point, pointC, pointA, pointB)){
+		if(isSameSide(point, pointA, pointB, pointC) && 
+		   isSameSide(point, pointB, pointA, pointC) && 
+		   isSameSide(point, pointC, pointA, pointB)){
 			return true;
 		}else
 		{
@@ -117,6 +123,8 @@ public class Navmesh {
 		
 		Triangle startTrig = null;
 		Triangle endTrig = null;
+		
+		System.out.println("Triangle Array Size: " + triangles.size());
 		
 		for(Triangle t : triangles)
 		{
@@ -136,9 +144,17 @@ public class Navmesh {
 			return null;
 		}
 		
+		System.out.println("Start Triangle: " + startTrig.toString());
+		System.out.println("End Triangle: " + endTrig.toString());
+		
+		if(startTrig.equals(endTrig)){
+			path.add(end);
+			return path;
+		}
+		
 		ArrayList<Triangle> pathTrigs = pathfinding.AStar(startTrig, endTrig);
 		
-		System.out.println(pathTrigs.size());
+		System.out.println("Path Size:" + pathTrigs.size());
 		
 		for(int i = 0; i < pathTrigs.size() - 1; i++)
 		{
@@ -148,5 +164,10 @@ public class Navmesh {
 		path.add(end);
 		
 		return path;	
+	}
+	
+	
+	public boolean equals(Vec2 A, Vec2 B){
+		return (A.getX() == B.getX()) && (A.getY() == B.getY());
 	}
 }
