@@ -118,9 +118,9 @@ public class GameState extends AbstractState {
 				app.getAssetManager().getTexture("res/textures/gui/placeholders/spellbar.png"));
 		app.getGui().add(spellBar);
 
-		heathBar = new ProgressBar(25.0f, 85.0f, 3.0f, 1.0f, app.getAssetManager().getTexture("res/textures/gui/bars/health_bar_background"),app.getAssetManager().getTexture("res/textures/gui/bars/health_bar"),app.getAssetManager().getFont("res/fonts/fontSprite.png"),app.getGui());
+		heathBar = new ProgressBar(43.6f, 93.4f, 12.25f, 2.5f, app.getAssetManager().getTexture("res/textures/gui/bars/health_bar_background.png"),app.getAssetManager().getTexture("res/textures/gui/bars/health_bar.png"),app.getAssetManager().getFont("fontSprite.png"),app.getGui());
 
-		energyBar = new ProgressBar(25.0f, 80.0f, 3.0f, 1.0f, app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar_background"),app.getAssetManager().getTexture("res/textures/gui/bars/health_bar"),app.getAssetManager().getFont("res/fonts/fontSprite.png"),app.getGui());
+		energyBar = new ProgressBar(43.6f, 96.4f, 12.25f, 2.5f, app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar_background.png"),app.getAssetManager().getTexture("res/textures/gui/bars/ENERGY_bar.png"),app.getAssetManager().getFont("fontSprite.png"),app.getGui());
 
 //		Entity entity3D = new Entity("3D test");
 //		entity3D.addComponent(new TransformComponent());
