@@ -103,7 +103,9 @@ public class GameState extends AbstractState {
 		map.init(app.getAssetManager());
 
 		// set up background sound
-		app.getSoundManager().invokeSound("background/game", true, true);
+		if(!app.getSoundManager().getIsMuted()){
+			app.getSoundManager().invokeSound("background/game", true, true);
+		}
 
 //		ProgressBar healthBar = new ProgressBar(20.0f,20.0f, 20.0f, 20.0f, app.getAssetManager().getTexture("res/textures/bars/potion.png"), app.getAssetManager().getTexture("res/textures/bars/progress.png"), app.getAssetManager().getFont("fontSprite.png"), app.getGui());
 //		healthBar.setMaxProgress(240.0f);
