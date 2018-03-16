@@ -35,6 +35,10 @@ public class ProgressBar {
 
 		progressBar = new Sprite(x, y, width, height, barTexture);
 		gui.add(progressBar);
+
+		label = new Label(x,y+1.5f,font,3.0f,0.6f, new Vec4(1.0f,1.0f,1.0f,1.0f));
+		label.setText(""+progress+"/"+maxProgres);
+		gui.add(label);
 	}
 
 	private void resize(float barWidth)
@@ -61,6 +65,7 @@ public class ProgressBar {
 		float barWidth = (progress/maxProgress) * maxBarWidth;
 		System.out.println("WIDTH: "+ barWidth);
 		resize(barWidth);
+		label.setText(""+progress+"/"+maxProgres);
 	}
 
 	public float getProgress() {
@@ -81,6 +86,7 @@ public class ProgressBar {
 		progress += delta;
 		float barWidth = (progress/maxProgres) * maxBarWidth;
 		resize(barWidth);
+		label.setText(""+progress+"/"+maxProgres);
 	}
 
 	public void setBar(float progress)
@@ -88,5 +94,6 @@ public class ProgressBar {
 		this.progress = progress;
 		float barWidth = (progress/maxProgres) * maxBarWidth;
 		resize(barWidth);
+		label.setText(""+progress+"/"+maxProgres);
 	}
 }
