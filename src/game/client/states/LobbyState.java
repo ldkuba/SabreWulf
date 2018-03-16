@@ -61,14 +61,14 @@ public class LobbyState extends AbstractState
 		playerAvatars = new ArrayList<>();
 		playerNames = new ArrayList<>();
 		characterAvatars = new ArrayList<>();
-		Texture lobbyBackgroundTexture = app.getAssetManager().getTexture("res/textures/lobby_background.png");
+		Texture lobbyBackgroundTexture = app.getAssetManager().getTexture("res/textures/gui/backgrounds/lobby_background.png");
 		lobbyBackground = new Sprite(0, 0, 100.0f, 100.0f, lobbyBackgroundTexture);
 		app.getGui().add(lobbyBackground);
 		
 		//currently 3 characters
-		Texture char1Avatar = app.getAssetManager().getTexture("res/textures/avatars/dps_range_mage_clr.png");
-		Texture char2Avatar = app.getAssetManager().getTexture("res/textures/avatars/dps_melee_clr.png");
-		Texture char3Avatar = app.getAssetManager().getTexture("res/textures/avatars/dps_range_clr.png");
+		Texture char1Avatar = app.getAssetManager().getTexture("res/actors/link/textures/link_avatar.png");
+		Texture char2Avatar = app.getAssetManager().getTexture("res/actors/wolf/textures/wolf_avatar.png");
+		Texture char3Avatar = app.getAssetManager().getTexture("res/actors/ghost/textures/ghost_avatar.png");
 		
 		characterAvatars.add(char1Avatar);
 		characterAvatars.add(char2Avatar);
@@ -89,8 +89,8 @@ public class LobbyState extends AbstractState
 		characterChoice.addButton(44.8f, 16.8f, 10.5f, 18.2f, charSelected, charDeselected);
 		characterChoice.addButton(57.5f, 16.8f, 10.5f, 18.2f, charSelected, charDeselected);
 		
-		Texture lockInPressedTexture = app.getAssetManager().getTexture("res/textures/lock_button_pressed.png");
-		Texture lockInReleasedTexture = app.getAssetManager().getTexture("res/textures/lock_button_released.png");
+		Texture lockInPressedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/lock_button_pressed.png");
+		Texture lockInReleasedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/lock_button_released.png");
 		lockInButton = new Button(50.0f, 60.0f, 10.0f, 7.0f, lockInPressedTexture, lockInReleasedTexture)
 		{
 			@Override
@@ -112,8 +112,8 @@ public class LobbyState extends AbstractState
 		};
 		app.getGui().add(lockInButton);
 		
-		Texture quitPressedTexture = app.getAssetManager().getTexture("res/textures/quit_button_pressed.png");
-		Texture quitReleasedTexture = app.getAssetManager().getTexture("res/textures/quit_button_released.png");
+		Texture quitPressedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/quit_button_pressed.png");
+		Texture quitReleasedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/quit_button_released.png");
 		quitButton = new Button(32.0f, 60.0f, 10.0f, 7.0f, quitPressedTexture, quitReleasedTexture)
 		{
 			@Override

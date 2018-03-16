@@ -4,7 +4,6 @@ layout (location = 0) in vec3 position;
 layout (location = 1) in vec2 uv;
 layout (location = 2) in float textureSlot;
 layout (location = 3) in vec4 color;
-layout (location = 4) in vec4 overlayColor;
 
 uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
@@ -13,13 +12,11 @@ uniform mat4 projectionMatrix;
 out vec4 theColor;
 out vec2 UVs;
 out float texSlot;
-out vec4 theOverlayColor;
 
 void main()
 {
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
     theColor = color;
-    theOverlayColor = overlayColor;
     UVs = uv;
     texSlot = textureSlot;
 }
@@ -32,23 +29,18 @@ uniform sampler2D texture[32];
 in vec4 theColor;
 in vec2 UVs;
 in float texSlot;
-in vec4 theOverlayColor;
 
 out vec4 outputColor;
 
 void main()
 {
-	outputColor = theColor + theOverlayColor;
+	outputColor = theColor;
 
 	if(texSlot >= 0.0)
 	{
 		int tid = int(texSlot + 0.5);
 		outputColor = texture2D(texture[tid], UVs);
-		
-		if(outputColor.w > 0.0)
-		{
-			outputColor = outputColor + theOverlayColor;
-		}		
 	}
+	
   	
 }

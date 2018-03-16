@@ -110,7 +110,7 @@ public class GameState extends AbstractState {
 //		healthBar.setBar(120.0f);
 
 		spellBar = new Sprite(25.0f, 85.0f, 50.0f, 15.0f,
-				app.getAssetManager().getTexture("res/textures/spellbar.png"));
+				app.getAssetManager().getTexture("res/textures/gui/placeholders/spellbar.png"));
 		app.getGui().add(spellBar);
 
 //		Entity entity3D = new Entity("3D test");
