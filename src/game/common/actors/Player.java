@@ -26,7 +26,8 @@ public class Player extends Actor {
 	{	
 		super(playerId, app);
 		
-		super.init("res/actors/archer/");
+		//decide which one
+		super.init("res/actors/link/");
 		
 		this.playerId = playerId;
 		this.name = name;
@@ -34,11 +35,6 @@ public class Player extends Actor {
 
 	public AbstractClasses getRole() {
 		return role;
-	}
-
-	public void setRole(AbstractClasses role) {
-		setPlayer(role);	//Add the players statistics.
-		this.role = role;
 	}
 
 	public String getName() {
