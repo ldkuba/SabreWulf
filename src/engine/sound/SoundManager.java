@@ -101,7 +101,6 @@ public class SoundManager {
 		} else {
 			System.err.println("Cannot play sound source: No source specified");
 		}
-
 	}
 
 	public void pauseSoundSource(String name) {
@@ -166,7 +165,7 @@ public class SoundManager {
 				}
 				soundMgr.setListener(new SoundListener());
 			} catch (Exception e) {
-				e.getMessage();
+				System.out.println("cannot set up sound because : " + e.getMessage());
 			}
 		} else {
 			System.err.println("Cannot set up the sound");
@@ -186,5 +185,4 @@ public class SoundManager {
 	public boolean getIsMuted(){
 		return this.isMuted;
 	}
-
 }

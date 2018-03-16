@@ -64,6 +64,7 @@ public class Application {
 	protected StateManager stateManager;
 	protected InputManager inputManager;
 	protected AssetManager assetManager;
+	protected SoundManager soundManager;
 	protected GUI gui;
 	protected Timer timer;
 
@@ -72,8 +73,6 @@ public class Application {
 	public static Vec2 s_Viewport;
 	protected boolean isFullScreen;
 	private Callback debugProc;
-	
-	protected SoundManager soundManager;
 
 	private boolean running = true;
 
@@ -250,6 +249,7 @@ public class Application {
 	}
 
 	public SoundManager getSoundManager() {
+		System.err.println("get sound manager");
 		return soundManager;
 	}
 

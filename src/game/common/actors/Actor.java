@@ -50,7 +50,6 @@ public class Actor
 	public Actor(int netId, Application app)
 	{
 		this.app = app;
-		
 		entity = new Entity("Actor");
 		currentPath = new ArrayList<>();	
 		
@@ -71,6 +70,7 @@ public class Actor
 		entity.addComponent(collider);
 		
 		netSprite = new NetSpriteAnimationComponent(0, 7, 8);
+		
 		stopMovement();
 		entity.addComponent(netSprite);
 		
