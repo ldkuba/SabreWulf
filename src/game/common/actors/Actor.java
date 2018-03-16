@@ -46,14 +46,26 @@ public class Actor
 	
 	//-1 = stop, 0 = up, 1 = left, 2 = down, 3 = right
 	private int movingDir = -1;
-
+	
 	private final float MIN_DISTANCE = 0.2f;
 	private ArrayList<Vec3> currentPath;
 	
 	protected NetSpriteAnimationComponent netSprite;
-	protected SpriteAnimationComponent sprite;
-	
+	protected SpriteAnimationComponent sprite;	
 	protected Application app;
+	protected Inventory inventory;
+	private AbstractClasses role;
+	protected Entity entity;
+	protected ActorLogic logic;
+	
+	protected int team;
+	protected Vec3 base;
+	protected Vec3 position;
+	protected float energy;
+	protected float movementSpeed;
+	protected float attackRange = 2.0f;
+	protected float HEALTH_LIMIT;
+	protected float ENERGY_LIMIT;
 	
 	public Actor(int netId, Application app)
 	{
@@ -94,8 +106,6 @@ public class Actor
 			entity.addComponent(sprite);
 		}
 	}
-
-	protected Inventory inventory;
 
 	public void addItem(Item item) {
 		//Affect the actors stats.
@@ -207,8 +217,6 @@ public class Actor
 		inventory.clear();
 	}
 
-	protected Entity entity;
-
 	public Entity getEntity() {
 		return entity;
 	}
@@ -263,13 +271,9 @@ public class Actor
 	 * lobby) team 3 is composed of neutral npcs (shops, cart etc)
 	 */
 
-	protected int team;
-
 	public int getTeam() {
 		return team;
 	}
-
-	protected Vec3 base;
 
 	public Vec3 getBase() {
 		return base;
@@ -279,7 +283,6 @@ public class Actor
 		this.base = base;
 	}
 
-	protected Vec3 position;
 
 	public Vec3 getPosition() {
 		return position;
@@ -292,7 +295,6 @@ public class Actor
 	/**
 	 * This will be affected by damage
 	 */
-	protected float HEALTH_LIMIT;
 	
 	public void setHealthLimit(float health) {
 		HEALTH_LIMIT = health;
@@ -314,9 +316,7 @@ public class Actor
 
 	/**
 	 * This will be affected by casting spells
-	 */
-	protected float ENERGY_LIMIT;
-	
+	 */	
 	public float getEnergyLimit() {
 		return ENERGY_LIMIT;
 	}
@@ -325,8 +325,6 @@ public class Actor
 		ENERGY_LIMIT = lim;
 	}
 	
-	protected float energy;
-
 	public float getEnergy() {
 		return energy;
 	}
@@ -338,8 +336,6 @@ public class Actor
 	/**
 	 * This might be affected by items and root & snare spells
 	 */
-	protected float movementSpeed;
-
 	public void setMovementSpeed(float movementSpeed) {
 		this.movementSpeed = movementSpeed;
 	}
@@ -510,9 +506,6 @@ public class Actor
 	/**
 	 * This will remain permanent for now.
 	 */
-
-	protected float attackRange = 2.0f;
-
 	public float getAttackRange() {
 		return attackRange;
 	}
@@ -520,9 +513,6 @@ public class Actor
 	public void setAttackRange(float rng) {
 		attackRange = rng;
 	}
-
-
-	protected ActorLogic logic;
 
 	public ActorLogic getLogic() {
 		return logic;
@@ -535,9 +525,6 @@ public class Actor
 	/**
 	 * Only used once.
 	 */
-
-	private AbstractClasses role;
-
 	public void setRole(AbstractClasses role) {
 		//setPlayer(role);	-> Breaks the movement
 
