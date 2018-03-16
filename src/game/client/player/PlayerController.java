@@ -27,7 +27,7 @@ public class PlayerController {
 	private Main main;
 	private GameState gamestate;
 	private Scene scene;
-	ArrayList<Entity> selectedEntities;
+	private ArrayList<Entity> selectedEntities;
 	
 	public PlayerController(Main main, GameState gs, Scene scene) {
 		gamestate = gs;
@@ -118,6 +118,8 @@ public class PlayerController {
 			if(!main.getSoundManager().getIsMuted()){
 				main.getSoundManager().getSoundSource("background/game").setGain(0.5f);				
 			}
+			
+			
 		} else if (button == GLFW.GLFW_MOUSE_BUTTON_1 && action == GLFW.GLFW_PRESS){
 			if (!main.getSoundManager().getIsMuted()){
 				main.getSoundManager().invokeSound("attack/s2", false, true);
