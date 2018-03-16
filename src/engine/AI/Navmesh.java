@@ -27,7 +27,6 @@ public class Navmesh {
 		Triangle A = null;
 		Triangle B = null;
 		Edge edgeA;
-		Edge edgeB;
 		boolean[] boollist = new boolean[9]; 
 		Vec2 midA = null;
 		Vec2 midB = null;
@@ -67,16 +66,11 @@ public class Navmesh {
 					weightVec = new Vec2(midB.getX() - midA.getX(), midB.getY() - midA.getY());
 					weight = weightVec.getLength();
 					edgeA = new Edge(A, B, midA, midB, weight);
-					edgeB = new Edge(B, A, midA, midB, weight);
 					if(A != B){
 						if(!edges.contains(edgeA)){
 							edges.add(edgeA);							
 						}
-						if(!edges.contains(edgeB)){
-							edges.add(edgeB);							
-						}
-						A.addEdge(edgeA);
-						B.addEdge(edgeB);						
+						A.addEdge(edgeA);					
 					}
 				}
 			}
