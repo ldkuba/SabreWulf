@@ -21,7 +21,6 @@ public class ParseTriangles {
 		FileReader input = null;
 		String[] array1 = null;
 		try {
-			//TODO: Figure out best way to generalise file path.
 			input = new FileReader(filename);
 		} catch (FileNotFoundException e) {
 			System.out.println("Error file not found.");
@@ -50,11 +49,13 @@ public class ParseTriangles {
 		Vec2 x = new Vec2();
 		Vec2 y = new Vec2();
 		Vec2 z = new Vec2();
+		int j = 0;
 		float[] floats = new float[6];
-		for(int i = 0; i < floats.length; i++){
-			if(i != 2 || i != 5 || i != 8){
+		for(int i = 0; i < strings.length; i++){
+			if(i != 2 && i != 5 && i != 8){
 				//add verticies to array except z coodinates because we have no height.
-				floats[i] = Float.parseFloat(strings[i]);							
+				floats[j++] = Float.parseFloat(strings[i]);
+				
 			}
 		}
 		x.setX(floats[0]);

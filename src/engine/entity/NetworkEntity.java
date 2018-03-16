@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import engine.entity.component.NetDataComponent;
 import engine.entity.component.NetIdentityComponent;
+import engine.entity.component.NetSpriteAnimationComponent;
 import engine.entity.component.NetTransformComponent;
 
 public class NetworkEntity implements Serializable
@@ -13,10 +14,11 @@ public class NetworkEntity implements Serializable
 	private NetIdentityComponent netIdentity;
 	private NetTransformComponent netTransform;
 	private NetDataComponent netData;
+	private NetSpriteAnimationComponent netAnimation;
 	//add any net components later
 	
 	public NetworkEntity()
-	{		
+	{
 	}
 	
 	public int getPacketId()
@@ -52,5 +54,13 @@ public class NetworkEntity implements Serializable
 	public void setNetData(NetDataComponent netData)
 	{
 		this.netData = netData;
+	}
+	public NetSpriteAnimationComponent getNetAnimation()
+	{
+		return netAnimation;
+	}
+	public void setNetAnimation(NetSpriteAnimationComponent netAnimation)
+	{
+		this.netAnimation = netAnimation;
 	}
 }

@@ -41,6 +41,6 @@ void main()
 		int tid = int(texSlot + 0.5);
 		outputColor = texture2D(texture[tid], UVs);
 	}
-	
-  	
+
+
 }

@@ -13,8 +13,21 @@ import java.nio.channels.SeekableByteChannel;
 
 import static org.lwjgl.BufferUtils.*;
 
-public class MyBufferUtils {
-
+public class SoundUtils {
+	
+	private static final String[] Sounds = {"countEnd", "count", "background/game", "background/lobby", "lockIn", "background/menu", "quit", "click", 
+			"movement/forest", "movement/grass", "movement/footstep", "attack/a1", "attack/a2", "attack/s1", "attack/s2", "attack/s3", "attack/s4",
+			"attack/m1", "attack/m2", "attack/scratch", "item/i1", "item/i2"};
+	
+	public static  boolean doesSoundFileExist(String soundName){
+		for (int i = 0; i < Sounds.length; i++){
+			if (Sounds[i].equals(soundName)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static ByteBuffer ioResourceToByteBuffer(String resource, int bufferSize) {
 		ByteBuffer buffer = null;
 		Path path = Paths.get(resource);
@@ -28,7 +41,7 @@ public class MyBufferUtils {
 			}
 		} else {
 			try {
-				InputStream source = MyBufferUtils.class.getResourceAsStream(resource);
+				InputStream source = SoundUtils.class.getResourceAsStream(resource);
 				ReadableByteChannel rbc = Channels.newChannel(source);
 				buffer = createByteBuffer(bufferSize);
 

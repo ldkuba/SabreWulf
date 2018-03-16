@@ -53,6 +53,6 @@ public class ShaderUniformLayout
 			}
 		}
 		
-		return -1;
+		return -2;
 	}
 }
