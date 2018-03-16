@@ -13,37 +13,71 @@ public class Pathfinding {
 		path = new ArrayList<Triangle>();
 	}
 
+	public Triangle lookupTriangle(Triangle triangle)
+	{
+		for(Triangle t : triangles)
+		{
+			if(triangle.equals(t))
+			{
+				return t;
+			}
+		}
+		
+		return null;
+	}
+	
 	public ArrayList<Triangle> AStar(Triangle start, Triangle goal) {
 		path.clear();
 		System.out.println("Finding new path...");
 		Triangle current = start;
 		Triangle last;
 		Edge edge;
-		Triangle temp = current;
 		Comparator<Triangle> hcomp = new DistanceComparator();
+		ArrayList<Triangle> visitedList = new ArrayList<>();		
 		PriorityQueue<Triangle> toSearch = new PriorityQueue<Triangle>(triangles.size(), hcomp);
 		toSearch.add(start);
-		while (!toSearch.isEmpty()) {
+		
+		start.setG(0.0f);
+		start.setH(goal);
+		start.setF(start.getHeuristic());
+		
+		while (!toSearch.isEmpty()) {			
+			
+			current = toSearch.poll();
+			
 			if ((current.getMidpoint().getX() == goal.getMidpoint().getX())
 					&& (current.getMidpoint().getY() == goal.getMidpoint().getY())) {
 				reconstructList(current);
 				break;
 			}
+			
+			visitedList.add(current);			
 
-			for (int i = 0; (i < current.getEdges().size()); i++) {
+			for (int i = 0; i < current.getEdges().size(); i++) {				
 				edge = current.getEdges().get(i);
-				temp = edge.getGoal();
-				temp.setH(goal);
-				temp.setG(current.getG() + edge.getWeight());
-				temp.setF(temp.getG() + temp.getHeuristic());
-
-				if (!toSearch.contains(temp) && (temp != start)) {
+				Triangle temp = lookupTriangle(edge.getGoal());
+				
+				if(visitedList.contains(temp)) {
+					continue;
+				}
+				
+				if (!toSearch.contains(temp)) {
 					toSearch.add(temp);
 				}
+				
+				float tempG = current.getG() + edge.getWeight();
+				
+				if(tempG >= temp.getG())
+				{
+					continue;
+				}
+				
+				temp.setLast(current);
+				temp.setG(tempG);
+				temp.setH(goal);
+				temp.setF(temp.getG() + temp.getHeuristic());
 			}
-			last = current;
-			current = toSearch.poll();
-			current.setLast(last);
+			
 			System.out.println("Checking Next.");
 		}
 		return path;

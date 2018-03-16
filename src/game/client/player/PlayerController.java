@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.lwjgl.glfw.GLFW;
 
 import engine.entity.Entity;
+import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.SpriteComponent;
 import engine.input.InputManager;
 import engine.maths.Vec3;
@@ -45,12 +46,26 @@ public class PlayerController {
 					{
 						e.getSprite().setOverlayColor(new Vec4(1.0f, 0.0f, 0.0f, 0.4f));
 					}
+					
+					if(e.hasComponent(SpriteAnimationComponent.class))
+					{
+						SpriteAnimationComponent spriteAnim = (SpriteAnimationComponent) e.getComponent(SpriteAnimationComponent.class);
+						spriteAnim.setOverlayColor(new Vec4(1.0f, 0.0f, 0.0f, 0.3f));
+					}
+					
 				}else
 				{
 					if(e.hasComponent(SpriteComponent.class))
 					{
 						e.getSprite().setOverlayColor(new Vec4(0.0f, 0.0f, 0.0f, 0.0f));
 					}
+					
+					if(e.hasComponent(SpriteAnimationComponent.class))
+					{
+						SpriteAnimationComponent spriteAnim = (SpriteAnimationComponent) e.getComponent(SpriteAnimationComponent.class);
+						spriteAnim.setOverlayColor(new Vec4(0.0f, 0.0f, 0.0f, 0.0f));
+					}
+					
 				}
 			}
 		}

@@ -22,8 +22,8 @@ public class Triangle {
 		this.z = z;
 		edges = new ArrayList<>();
 		last = this;
-		g = 0;
-		h = 9999;
+		g = Float.MAX_VALUE;
+		h = 0;
 		f = g + h;
 		midpoint = this.getMidpoint();
 	}
@@ -89,9 +89,7 @@ public class Triangle {
 	}
 
 	public void setH(Triangle B) {
-		Triangle A = this;
-		Vec2 v = new Vec2(B.getMidpoint().getX() - A.getMidpoint().getX(),
-				  B.getMidpoint().getY() - A.getMidpoint().getY());
+		Vec2 v = new Vec2(B.getMidpoint().getX() - midpoint.getX(), B.getMidpoint().getY() - midpoint.getY());
 		h = v.getLength();
 	}
 

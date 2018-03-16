@@ -67,7 +67,7 @@ public class Actor
 		netData.addData("Team", team);
 		entity.addComponent(netData);
 		
-		ColliderComponent collider = new ColliderComponent(2.5f, false);
+		ColliderComponent collider = new ColliderComponent(1.5f, false);
 		entity.addComponent(collider);
 		
 		netSprite = new NetSpriteAnimationComponent(0, 7, 8);
@@ -179,12 +179,12 @@ public class Actor
 			startPos = ((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).getPosition();
 		}
 		
-		ArrayList<Vec3> path = new ArrayList<>();//navmesh.findPath(startPos, target);
-		path.add(target);
+		ArrayList<Vec3> path = navmesh.findPath(startPos, target);
 
 		if(path != null)
 		{
-			this.currentPath = path;
+			path.add(target);
+			this.currentPath = path;		
 		}
 	}
 

@@ -67,6 +67,11 @@ public class SpriteAnimationComponent extends AbstractComponent
 		m_Sprite.setUVs(m_TextureAtlas.getElementUVs(m_CurrentFrame));
 	}
 	
+	public void setOverlayColor(Vec4 overlayColor)
+	{
+		m_Sprite.setOverlayColor(overlayColor);
+	}
+	
 	public void changeAnimationFrames(int firstIndex, int lastIndex)
 	{
 		m_StartFrame = firstIndex;
