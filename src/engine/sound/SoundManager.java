@@ -101,7 +101,6 @@ public class SoundManager {
 		} else {
 			System.err.println("Cannot play sound source: No source specified");
 		}
-
 	}
 
 	public void pauseSoundSource(String name) {
@@ -131,7 +130,6 @@ public class SoundManager {
 	}
 
 	public void invokeSound(String soundName, boolean loop, boolean autoPlay) {
-		System.err.println("invoke " + soundName);
 		if (soundName != null && SoundUtils.doesSoundFileExist(soundName)) {
 			setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
 			setupSounds(this, "res/sounds/" + soundName + ".ogg", soundName, loop, autoPlay);
@@ -187,9 +185,4 @@ public class SoundManager {
 	public boolean getIsMuted(){
 		return this.isMuted;
 	}
-	
-	public int test(){
-		return 5;
-	}
-
 }
