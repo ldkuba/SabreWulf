@@ -249,7 +249,6 @@ public class Application {
 	}
 
 	public SoundManager getSoundManager() {
-		System.err.println("get sound manager");
 		return soundManager;
 	}
 

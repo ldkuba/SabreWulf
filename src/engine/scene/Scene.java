@@ -320,6 +320,8 @@ public class Scene
 		SpriteComponent sprite = entity.getSprite();
 		TransformComponent transform = entity.getTransform();
 		float view = Application.s_Viewport.getLength();
+		float winX = Application.s_WindowSize.getX(); 
+		float winY= Application.s_WindowSize.getY(); 
 		if(sprite != null && transform != null) {
 			float entWidth = sprite.getWidth();
 			float entHeight = sprite.getHeight();
@@ -327,10 +329,11 @@ public class Scene
 			Vec2 p2 = new Vec2(p1.getX()+entWidth, p1.getY());
 			Vec2 p3 = new Vec2(p1.getX(), p1.getY()+entHeight);
 			Vec2 p4 = new Vec2(p1.getX()+(entWidth), p1.getY()+(entHeight));
-			float xMinSpan = cam.getX() - (view*0.67f);
 			float xMaxSpan = cam.getX() + (view*1.34f);
-			float yMinSpan = cam.getY() - (view*0.5625f);
-			float yMaxSpan = cam.getY() + (view);
+			float xMinSpan = cam.getX() - (view*1.34f);
+			float yMaxSpan = cam.getY() + (view*(winX/winY));
+			float yMinSpan = cam.getY() - (view*(winX/winY));
+			
 			if (p4.getX() < xMaxSpan && p4.getX() > xMinSpan && p4.getY() < yMaxSpan && p4.getY() > yMinSpan){
 				return true;
 			} else if (p3.getX() < xMaxSpan && p3.getX() > xMinSpan && p3.getY() < yMaxSpan && p3.getY() > yMinSpan){
