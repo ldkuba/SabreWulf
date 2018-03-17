@@ -367,6 +367,9 @@ public class Scene
 				{
 					NetTransformComponent transform = (NetTransformComponent) e.getComponent(NetTransformComponent.class);
 					position = transform.getPosition();
+				}else
+				{
+					continue;
 				}
 			
 				ColliderComponent collider = (ColliderComponent) e.getComponent(ColliderComponent.class);
