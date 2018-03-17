@@ -6,7 +6,7 @@ import engine.entity.component.AbstractComponent;
 
 import static org.lwjgl.openal.AL10.*;
 
-public class SoundSource extends AbstractComponent {
+public class SoundSource {
 
 	private final int sourceId;
 

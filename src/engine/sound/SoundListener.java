@@ -33,4 +33,11 @@ public class SoundListener extends AbstractComponent {
         data[5] = up.getZ();
         alListenerfv(AL_ORIENTATION, data);
     }
+
+	@Override
+	public void update()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

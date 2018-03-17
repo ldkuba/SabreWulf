@@ -33,6 +33,7 @@ public class Respawn {
 		}
 	}
 
+<<<<<<< HEAD
 	public void respawn(Actor myActor) {
 			timer = new Timer(200); // 10 sec respawn cooldown
 			
@@ -42,6 +43,11 @@ public class Respawn {
 	
 	public void respawn(NPC mob) {
 		timer = new Timer(200); // 10 sec respawn cooldown
+=======
+	private void respawn(Player myActor) {
+			// do a cooldown timer
+			// myActor.setPosition(spawnCoord);
+>>>>>>> refs/remotes/origin/master
 		
 		mob.setPosition(mob.getStartPosition());
 		mob.setHealth(mob.getHealthLimit());

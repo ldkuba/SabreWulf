@@ -1,4 +1,4 @@
-package game.common.classes.classes;
+ackage game.common.classes.classes;
 
 import game.common.classes.AbstractClasses;
 

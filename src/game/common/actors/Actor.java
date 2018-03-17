@@ -9,8 +9,6 @@ import java.util.LinkedList;
 import engine.AI.Navmesh;
 import engine.application.Application;
 import engine.entity.Entity;
-import engine.entity.component.NetDataComponent;
-import game.common.classes.AbstractClasses;
 import engine.entity.component.ColliderComponent;
 import engine.entity.component.NetDataComponent;
 import engine.entity.component.NetIdentityComponent;
@@ -21,7 +19,7 @@ import engine.entity.component.TransformComponent;
 import engine.gui.components.ActorStatus;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
-import game.common.classes.AbstractClasses;
+import game.common.classes.AbstractClass;
 import game.common.inventory.Inventory;
 import game.common.inventory.Item;
 import game.common.items.attributes.Attribute;
@@ -31,7 +29,6 @@ import game.common.items.attributes.main.Health;
 import game.common.items.attributes.main.MovementSpeed;
 import game.common.items.attributes.main.Resistance;
 import game.common.logic.ActorLogic;
-import game.common.logic.actions.Respawn;
 
 public class Actor
 {
@@ -49,23 +46,31 @@ public class Actor
 	private final float MIN_DISTANCE = 0.2f;
 	private ArrayList<Vec3> currentPath;
 	
+	protected int team;
+	protected Inventory inventory;
+	protected Entity entity;
+	
+	protected float HEALTH_LIMIT;
+	protected float health;
+	protected float healthRegen;
+	
+	protected float ENERGY_LIMIT;
+	protected float energy;
+	protected float energyRegen;
+	
+	protected float movementSpeed;
+	
+	protected float resistance;
+	protected float damage;
+	protected float attackRange;
+	
 	protected NetSpriteAnimationComponent netSprite;
 	protected SpriteAnimationComponent sprite;	
-	protected Application app;
-	protected Inventory inventory;
-	private AbstractClasses role;
-	protected Entity entity;
+	protected Application app; 
 	protected ActorLogic logic;
 	protected ActorStatus status;
 	
-	protected int team;
-	protected Vec3 base;
-	protected Vec3 position;
-	protected float energy;
-	protected float movementSpeed;
-	protected float attackRange = 2.0f;
-	protected float HEALTH_LIMIT;
-	protected float ENERGY_LIMIT;
+	private AbstractClass role;
 	
 	public Actor(int netId, Application app)
 	{
@@ -84,6 +89,8 @@ public class Actor
 		netData.addData("MovementSpeed", movementSpeed);
 		netData.addData("Resistance", resistance);
 		netData.addData("Team", team);
+		netData.addData("HealthRegen", healthRegen);
+		netData.addData("EnergyRegen", energyRegen);
 		entity.addComponent(netData);
 		
 		ColliderComponent collider = new ColliderComponent(1.5f, false);
@@ -169,7 +176,6 @@ public class Actor
 				setResistance(newResis);
 			}
 		}
-		
 	}
 	
 	public void addAttribute(Attribute attribute)  {
@@ -271,32 +277,10 @@ public class Actor
 	 * lobby) team 2 is composed of the other three players (last three in
 	 * lobby) team 3 is composed of neutral npcs (shops, cart etc)
 	 */
-
 	public int getTeam() {
 		return team;
 	}
 
-	public Vec3 getBase() {
-		return base;
-	}
-
-	public void setBase(Vec3 base) {
-		this.base = base;
-	}
-
-
-	public Vec3 getPosition() {
-		return position;
-	}
-
-	public void setPosition(Vec3 position) {
-		this.position = position;
-	}
-
-	/**
-	 * This will be affected by damage
-	 */
-	
 	public void setHealthLimit(float health) {
 		HEALTH_LIMIT = health;
 	}
@@ -304,8 +288,6 @@ public class Actor
 	public float getHealthLimit() {
 		return HEALTH_LIMIT;
 	}
-	
-	protected float health;
 
 	public float getHealth() {
 		return health;
@@ -315,9 +297,6 @@ public class Actor
 		this.health = health;
 	}
 
-	/**
-	 * This will be affected by casting spells
-	 */	
 	public float getEnergyLimit() {
 		return ENERGY_LIMIT;
 	}
@@ -334,9 +313,6 @@ public class Actor
 		this.energy = energy;
 	}
 
-	/**
-	 * This might be affected by items and root & snare spells
-	 */
 	public void setMovementSpeed(float movementSpeed) {
 		this.movementSpeed = movementSpeed;
 	}
@@ -345,17 +321,48 @@ public class Actor
 		return movementSpeed;
 	}
 
-	/**
-	 * This will be affected by items
-	 */
-	protected float resistance;
-
 	public float getResistance() {
 		return resistance;
 	}
 
 	public void setResistance(float resistance) {
 		this.resistance = resistance;
+	}
+	
+	public float getDamage() {
+		return damage;
+	}
+
+	public void setDamage(float dmg) {
+		damage = dmg;
+	}
+	
+	public float getAttackRange() {
+		return attackRange;
+	}
+
+	public void setAttackRange(float rng) {
+		attackRange = rng;
+	}
+	
+	public float getHealthRegen()
+	{
+		return healthRegen;
+	}
+	
+	public void setHealthRegen(float healthRegen)
+	{
+		this.healthRegen = healthRegen;
+	}
+	
+	public float getEnergyRegen()
+	{
+		return energyRegen;
+	}
+	
+	public void setEnergyRegen(float energyRegen)
+	{
+		this.energyRegen = energyRegen;
 	}
 
 	public void update()
@@ -490,31 +497,6 @@ public class Actor
 			movingDir = 3;
 		}
 	}
-	
-	/**
-	 * This will be affected by items.
-	 */
-
-	protected float damage;
-
-	public float getDamage() {
-		return damage;
-	}
-
-	public void setDamage(float dmg) {
-		damage = dmg;
-	}
-
-	/**
-	 * This will remain permanent for now.
-	 */
-	public float getAttackRange() {
-		return attackRange;
-	}
-
-	public void setAttackRange(float rng) {
-		attackRange = rng;
-	}
 
 	public ActorLogic getLogic() {
 		return logic;
@@ -524,35 +506,11 @@ public class Actor
 		this.logic = logic;
 	}
 
-	/**
-	 * Only used once.
-	 */
-	public void setRole(AbstractClasses role) {
-		//setPlayer(role);	-> Breaks the movement
-
-		NetDataComponent data = (NetDataComponent) entity.getComponent(NetDataComponent.class);
-		this.role = role;
-		HEALTH_LIMIT = role.getHealth();
-		ENERGY_LIMIT = role.getEnergy();
-		data.getAllData("Health").put("Health", Float.parseFloat(data.getData("Health").toString()) + role.getHealth());
-		data.getAllData("Energy").put("Energy", Float.parseFloat(data.getData("Energy").toString()) + role.getEnergy());
-		data.getAllData("MovementSpeed").put("MovementSpeed", Float.parseFloat(data.getData("MovementSpeed").toString()) + role.getMoveSpeed());
-		data.getAllData("Resistance").put("Resistance", Float.parseFloat(data.getData("Resistance").toString()) + role.getResistance());
-	}
-
 	public void setTeam(int team) {
 		this.team = team;
-		switch(team) {
-			case 1:
-				//startingPos = team 1 start pos
-				break;
-			case 2:
-				// startingPos = team 2 start pos
-				break;
-		}
 	}
 
-	public void setPlayer(AbstractClasses role) {
+	public void setPlayer(AbstractClass role) {
 		health = role.getHealth();
 		resistance = role.getResistance();
 		movementSpeed = role.getMoveSpeed();

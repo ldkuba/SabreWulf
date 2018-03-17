@@ -63,4 +63,10 @@ public class SpriteComponent extends AbstractComponent
 	{
 		m_Sprite.setOverlayColor(overlayColor);
 	}
+
+	@Override
+	public void update()
+	{
+	}
 }
+

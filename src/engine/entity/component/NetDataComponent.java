@@ -22,4 +22,8 @@ public class NetDataComponent extends AbstractComponent implements Serializable{
         this.data.remove(name, information);
     }
 
+    @Override
+	public void update()
+	{
+	}
 }
