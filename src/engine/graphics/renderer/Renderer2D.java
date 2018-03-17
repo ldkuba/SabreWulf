@@ -63,7 +63,6 @@ public class Renderer2D extends Renderer
 		m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("modelMatrix"), 1);
 		m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("viewMatrix"), 1);
 		m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("projectionMatrix"), 1);
-		//m_Shader.getUniformLayout().addShaderUniform(new ShaderUniform("myMatrix"), 1);
 		m_Shader.locateUniforms();
 		
 		m_Shader.unbind();
@@ -130,6 +129,7 @@ public class Renderer2D extends Renderer
 		float width = renderable.getWidth();
 		float height = renderable.getHeight();
 		Vec4 color = renderable.getColor();
+		Vec4 overlayColor = renderable.getOverlayColor();
 		
 		Vec4 v1 = new Vec4(-width/2.0f, height/2.0f, 1.0f, 1.0f);
 		Vec4 v2 = new Vec4(-width/2.0f, -height/2.0f, 1.0f, 1.0f);
@@ -143,10 +143,10 @@ public class Renderer2D extends Renderer
 		
 		float[] vertices = new float[]
 		{ 
-				v1.getW(), v1.getX(), v1.getY(), renderable.getUVs()[0].getX(), renderable.getUVs()[0].getY(), textureSlot, color.getW(), color.getX(), color.getY(), color.getZ(),
-				v2.getW(), v2.getX(), v2.getY(), renderable.getUVs()[1].getX(), renderable.getUVs()[1].getY(), textureSlot, color.getW(), color.getX(), color.getY(), color.getZ(),
-				v3.getW(), v3.getX(), v3.getY(), renderable.getUVs()[2].getX(), renderable.getUVs()[2].getY(), textureSlot, color.getW(), color.getX(), color.getY(), color.getZ(),
-				v4.getW(), v4.getX(), v4.getY(), renderable.getUVs()[3].getX(), renderable.getUVs()[3].getY(), textureSlot, color.getW(), color.getX(), color.getY(), color.getZ() 
+			v1.getW(), v1.getX(), v1.getY(), renderable.getUVs()[0].getX(), renderable.getUVs()[0].getY(), textureSlot, color.getW(), color.getX(), color.getY(), color.getZ(), overlayColor.getW(), overlayColor.getX(), overlayColor.getY(), overlayColor.getZ(),
+			v2.getW(), v2.getX(), v2.getY(), renderable.getUVs()[1].getX(), renderable.getUVs()[1].getY(), textureSlot, color.getW(), color.getX(), color.getY(), color.getZ(), overlayColor.getW(), overlayColor.getX(), overlayColor.getY(), overlayColor.getZ(),
+			v3.getW(), v3.getX(), v3.getY(), renderable.getUVs()[2].getX(), renderable.getUVs()[2].getY(), textureSlot, color.getW(), color.getX(), color.getY(), color.getZ(), overlayColor.getW(), overlayColor.getX(), overlayColor.getY(), overlayColor.getZ(),
+			v4.getW(), v4.getX(), v4.getY(), renderable.getUVs()[3].getX(), renderable.getUVs()[3].getY(), textureSlot, color.getW(), color.getX(), color.getY(), color.getZ(), overlayColor.getW(), overlayColor.getX(), overlayColor.getY(), overlayColor.getZ()
 		};
 
 		m_IndexData.put(0 + 4 * m_SpriteCount);
@@ -166,7 +166,7 @@ public class Renderer2D extends Renderer
 	}
 
 	public void drawAll()
-	{				
+	{			
 		m_Shader.bind();
 		
 		m_VertexData.flip();
@@ -201,7 +201,5 @@ public class Renderer2D extends Renderer
 		m_IndexBuffer.unbind();
 		m_VertexBuffer.unbind();
 		m_VertexArray.unbind();
-		
-		m_Shader.unbind();
 	}
 }

@@ -7,6 +7,7 @@ import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.net.server.core.NetPlayer;
 import game.common.actors.Mob;
+import game.common.actors.NPC;
 import game.common.actors.Player;
 
 public class Attack {
@@ -36,9 +37,9 @@ public class Attack {
 		}
 	}
 	
-	public boolean attack(Vec3 mobCoord, Mob myNpc, Entity myEntity, Vec3 playerCoord, Player player) {
+	public boolean attack(Vec3 mobCoord, NPC mob, Entity myEntity, Vec3 playerCoord, Player player) {
 
-		if(inRange(mobCoord, playerCoord, myNpc.getAttackRange())) {
+		if(inRange(mobCoord, playerCoord, mob.getAttackRange())) {
 			
 			//Class NetDataComponent;
 			//AbstractComponent dmg = myEntity.getComponent(NetDataComponent);

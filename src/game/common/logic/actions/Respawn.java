@@ -6,6 +6,7 @@ import engine.maths.Vec2;
 import engine.maths.Vec3;
 import game.common.actors.Actor;
 import game.common.actors.Mob;
+import game.common.actors.NPC;
 import game.common.actors.Player;
 
 public class Respawn {
@@ -39,11 +40,11 @@ public class Respawn {
 			myActor.setHealth(myActor.getHealthLimit());
 	}
 	
-	public void respawn(Mob myNpc) {
+	public void respawn(NPC mob) {
 		timer = new Timer(200); // 10 sec respawn cooldown
 		
-		myNpc.setPosition(myNpc.getStartPosition());
-		myNpc.setHealth(myNpc.getHealthLimit());
+		mob.setPosition(mob.getStartPosition());
+		mob.setHealth(mob.getHealthLimit());
 	}
 }
 

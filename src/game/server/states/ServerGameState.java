@@ -13,8 +13,10 @@ import game.server.ingame.ServerMain;
 
 public class ServerGameState extends AbstractState
 {
+
+	private boolean dummy = false;
+
 	private ServerMain app;
-	private Scene scene;
 	
 	private Map map;
 	
@@ -25,8 +27,8 @@ public class ServerGameState extends AbstractState
 	
 	public ServerGameState(ServerMain app)
 	{
+		super(app);
 		this.app = app;
-		scene = new Scene(0, app);
 		map = new Map(scene, "res/textures/map");
 		playerManager = new PlayerManager(scene);
 	}
@@ -46,7 +48,7 @@ public class ServerGameState extends AbstractState
 	@Override
 	public void init()
 	{
-		scene.init();
+		super.init();
 
 		//Add players
 		for(int i = 0; i < app.getNetworkManager().getNetPlayers().size(); i++)
@@ -54,8 +56,9 @@ public class ServerGameState extends AbstractState
 			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app);
 			// here we would set up more stuff related to the player like class, items, starting position, etc.
 			NetTransformComponent netTransform = (NetTransformComponent) player.getEntity().getComponent(NetTransformComponent.class);
-			netTransform.setPosition(new Vec3(-10.0f, 0.0f, 0.0f));
+			netTransform.setPosition(new Vec3(15.0f, -10.0f, 0.0f));
 
+			/*
 			int characterSelection = app.getNetworkManager().getNetPlayers().get(i).getChar();
 			//characterSelection = 1;
 			System.out.println("Character Selected: " +characterSelection);
@@ -82,34 +85,20 @@ public class ServerGameState extends AbstractState
 			else {
 				player.setTeam(2);
 			}
+			*/
 			playerManager.addPlayer(player);
 		}
-		//Add Dummy Player
-		Player dummyPlayer = new Player(1, "dummy",app);
-		dummyPlayer.setRole(new Wizard());
-		playerManager.addPlayer(dummyPlayer);
-	}
 
-	@Override
-	public void render()
-	{
-		
 	}
 
 	@Override
 	public void update()
 	{
-		if (System.currentTimeMillis() - second >= 1000.0f) {
-			second += 1000.0f;
-			System.out.println("FPS: " + frame);
-			frame = 0;
-		}
-		frame++;
+		super.update();
 		
 		System.out.println("ALIVE");
 		
 		playerManager.update();
-		scene.update();
 	}
 	
 	public PlayerManager getPlayerManager()
@@ -128,4 +117,3 @@ public class ServerGameState extends AbstractState
 		
 	}
 }
-

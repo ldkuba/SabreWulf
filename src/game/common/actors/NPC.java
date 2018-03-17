@@ -11,10 +11,23 @@ public class NPC {
 	protected Entity entity;
 	protected Vec3 startPos;
 	protected float movementSpeed;
+	protected float healthLimit;
+	protected float health;
+	protected float damage;
+	protected float attackRange;
+
 	
 	public NPC () {
 		entity = new Entity("NPC");
 		currentPath = new ArrayList<>();
+	}
+
+	public NPC(float health, float attackRange) {
+		entity = new Entity("NPC");
+		currentPath = new ArrayList<>();
+		healthLimit = health;
+		this.health = health;
+		this.attackRange = attackRange;
 	}
 	
 	
@@ -24,6 +37,34 @@ public class NPC {
 	
 	public float getMovementSpeed() {
 		return movementSpeed;
+	}
+
+	public float getHealthLimit() {
+		return healthLimit;
+	}
+
+	public void setHealth(float health) {
+		this.health = health;
+	}
+
+	public float getHealth() {
+		return health;
+	}
+
+	public void setDamage(float dmg) {
+		this.damage = dmg;
+	}
+
+	public float getDamage() {
+		return damage;
+	}
+
+	public void setAttackRange(float rng) {
+		attackRange = rng;
+	}
+
+	public float getAttackRange() {
+		return attackRange;
 	}
 	
 	public Entity getEntity() {
@@ -36,6 +77,14 @@ public class NPC {
 	
 	public void setStartPosition(Vec3 position) {
 		this.startPos = position;
+	}
+
+	public Vec3 getPosition() {
+		return entity.getTransform().getPosition();
+	}
+
+	public void setPosition(Vec3 pos) {
+		entity.getTransform().setPosition(pos);
 	}
 	
 	public void update() {

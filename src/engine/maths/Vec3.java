@@ -5,21 +5,21 @@ import java.io.Serializable;
 public class Vec3 implements Serializable
 {
 	private float x,y,z;
-	
+
 	public Vec3()
 	{
 		this.x = 0.0f;
 		this.y = 0.0f;
 		this.z = 0.0f;
 	}
-	
+
 	public Vec3(float x, float y, float z)
 	{
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
-	
+
 	public Vec3(Vec3 other)
 	{
 		this.x = other.getX();
@@ -55,44 +55,62 @@ public class Vec3 implements Serializable
 	public void setZ(float z)
 	{
 		this.z = z;
-	}	
-	
+	}
+
 	public float getLength()
 	{
 		return (float) Math.sqrt((double)(x*x + y*y + z*z));
 	}
-	
+
 	public void scale(float scale)
 	{
 		x *= scale;
 		y *= scale;
 		z *= scale;
 	}
-	
+
 	public void add(Vec3 other)
 	{
 		this.x += other.getX();
 		this.y += other.getY();
 		this.z += other.getZ();
 	}
-	
+
 	public static Vec3 add(Vec3 v1, Vec3 v2)
 	{
 		return new Vec3(v1.getX() + v2.getX(), v1.getY() + v2.getY(), v1.getZ() + v2.getZ());
 	}
-	
+
 	public static float dotProduct(Vec3 v1, Vec3 v2)
 	{
 		return (v1.getX()*v2.getX()) + (v1.getY()*v2.getY()) + (v1.getZ()*v2.getZ());
 	}
-	
+
 	public static Vec3 crossProduct(Vec3 v1, Vec3 v2)
 	{
 		return new Vec3(v1.getY()*v2.getZ() - v1.getZ()*v2.getY(),
-						v1.getZ()*v2.getX() - v1.getX()*v2.getZ(),
-						v1.getX()*v2.getY() - v1.getY()*v2.getX());
+				v1.getZ()*v2.getX() - v1.getX()*v2.getZ(),
+				v1.getX()*v2.getY() - v1.getY()*v2.getX());
 	}
-	
+
+	public float[] elements()
+	{
+		float[] elements = new float[3];
+		elements[0] = this.x;
+		elements[1] = this.y;
+		elements[2] = this.z;
+		return elements;
+	}
+
+	public float[] elementsFlipped()
+	{
+		float[] elements = new float[3];
+		elements[2] = this.x;
+		elements[1] = this.y;
+		elements[0] = this.z;
+		return elements;
+	}
+
 	public static Vec3 normalize(Vec3 vec)
 	{
 		float scale = vec.getLength();
@@ -105,38 +123,9 @@ public class Vec3 implements Serializable
 		}
 	}
 
-	public static boolean inRadius(Vec3 desLoc, Vec3 playerPos) {
-
-		Vec3 addOne = new Vec3(1.0f, 1.0f, 0.0f);
-		Vec3 minusOne = new Vec3(-1.0f, -1.0f, 0.0f);
-
-
-		if (playerPos.getX() <= desLoc.getX() + addOne.getX() && playerPos.getX() >= desLoc.getX() - addOne.getX()) {
-			if (playerPos.getY() <= desLoc.getY() + addOne.getY() && playerPos.getY() >= desLoc.getY() - addOne.getY()) {
-				return true;
-			}
-			return false;
-		}
-		return false;
-	}
-	
-	public float[] elements()
+	public static float distance(Vec3 v1, Vec3 v2)
 	{
-		float[] elements = new float[3];
-		elements[0] = this.x;
-		elements[1] = this.y;
-		elements[2] = this.z;
-		return elements;
+		return (float) Math.sqrt((v1.getX() - v2.getX())*(v1.getX() - v2.getX()) + (v1.getY() - v2.getY())*(v1.getY() - v2.getY()));
 	}
-	
-	public float[] elementsFlipped()
-	{
-		float[] elements = new float[3];
-		elements[2] = this.x;
-		elements[1] = this.y;
-		elements[0] = this.z;
-		return elements;
-	}
-
-
 }
+

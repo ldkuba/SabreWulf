@@ -1,3 +1,4 @@
+
 package game.common.actors;
 
 import java.io.Serializable;

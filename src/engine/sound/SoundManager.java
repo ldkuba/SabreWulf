@@ -4,10 +4,8 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL11;
@@ -27,7 +25,6 @@ public class SoundManager {
 
 	private final List<SoundBuffer> soundBufferList;
 	private final Map<String, SoundSource> soundSourceMap;
-	private final String[] Sounds = {"countEnd", "count", "background/game", "background/lobby", "lockIn", "background/menu", "quit", "click"};
 	
 	public SoundManager() {
 		soundBufferList = new ArrayList<>();
@@ -104,7 +101,6 @@ public class SoundManager {
 		} else {
 			System.err.println("Cannot play sound source: No source specified");
 		}
-
 	}
 
 	public void pauseSoundSource(String name) {
@@ -133,10 +129,10 @@ public class SoundManager {
 		}
 	}
 
-	public void invokeSound(String soundName, boolean loop) {
-		if (soundName != null && doesSoundFileExist(soundName)) {
+	public void invokeSound(String soundName, boolean loop, boolean autoPlay) {
+		if (soundName != null && SoundUtils.doesSoundFileExist(soundName)) {
 			setAttenuationModel(AL11.AL_EXPONENT_DISTANCE);
-			setupSounds(this, "res/sounds/" + soundName + ".ogg", soundName, loop);
+			setupSounds(this, "res/sounds/" + soundName + ".ogg", soundName, loop, autoPlay);
 		} else {
 			System.err.println("Sound file does not exist");
 		}
@@ -155,7 +151,7 @@ public class SoundManager {
 		alcCloseDevice(device);
 	}
 
-	public void setupSounds(SoundManager soundMgr, String path, String name, boolean loop) {
+	public void setupSounds(SoundManager soundMgr, String path, String name, boolean loop, boolean autoPlay) {
 		if (soundMgr != null && path != null && name != null) {
 			SoundBuffer buffer;
 			try {
@@ -164,33 +160,29 @@ public class SoundManager {
 				SoundSource source = new SoundSource(loop, false); //normally true
 				source.setBuffer(buffer.getBufferId());
 				soundMgr.addSoundSource(name, source);
-				if(!isMuted){
+				if(!isMuted && autoPlay){
 					source.play();
 				}
 				soundMgr.setListener(new SoundListener());
 			} catch (Exception e) {
-				e.getMessage();
+				System.out.println("cannot set up sound because : " + e.getMessage());
 			}
 		} else {
 			System.err.println("Cannot set up the sound");
 		}
 	}
 	
-	public boolean doesSoundFileExist(String soundName){
-		for (int i = 0; i < Sounds.length; i++){
-			if (Sounds[i].equals(soundName)){
-				return true;
-			}
-		}
-		return false;
-	}
 
 	public void muteSounds() {
 		this.isMuted = true;
 	}
 	
+	public void unmuteSounds()
+	{
+		this.isMuted = false;
+	}
+	
 	public boolean getIsMuted(){
 		return this.isMuted;
 	}
-
 }

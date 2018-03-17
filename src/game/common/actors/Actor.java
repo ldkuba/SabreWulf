@@ -7,38 +7,104 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import engine.AI.Navmesh;
-
+import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.NetDataComponent;
 import engine.maths.Vec2;
 import game.common.classes.AbstractClasses;
+import engine.entity.component.ColliderComponent;
+import engine.entity.component.NetDataComponent;
+import engine.entity.component.NetIdentityComponent;
+import engine.entity.component.NetSpriteAnimationComponent;
 import engine.entity.component.NetTransformComponent;
+import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.TransformComponent;
+import engine.maths.MathUtil;
+import engine.maths.Vec2;
 import engine.maths.Vec3;
-
+import game.common.classes.AbstractClasses;
 import game.common.inventory.Inventory;
 import game.common.inventory.Item;
 import game.common.items.attributes.Attribute;
-import game.common.items.attributes.main.*;
+import game.common.items.attributes.main.Damage;
+import game.common.items.attributes.main.Energy;
+import game.common.items.attributes.main.Health;
+import game.common.items.attributes.main.MovementSpeed;
+import game.common.items.attributes.main.Resistance;
 import game.common.logic.ActorLogic;
-
-
 
 public class Actor
 {
-
 	private boolean debug = true;
 
+	private final int MOVE_ANIMATION_LENGTH = 7;
+	private final int MOVE_ANIMATION_RIGHT = 0;
+	private final int MOVE_ANIMATION_UP = 8;
+	private final int MOVE_ANIMATION_LEFT = 16;
+	private final int MOVE_ANIMATION_DOWN = 24;
+	
+	//-1 = stop, 0 = up, 1 = left, 2 = down, 3 = right
+	private int movingDir = -1;
+	
 	private final float MIN_DISTANCE = 0.2f;
 	private ArrayList<Vec3> currentPath;
 	
-	public Actor()
-	{
-		entity = new Entity("Actor");
-		currentPath = new ArrayList<>();
-	}
-
+	protected NetSpriteAnimationComponent netSprite;
+	protected SpriteAnimationComponent sprite;	
+	protected Application app;
 	protected Inventory inventory;
+	private AbstractClasses role;
+	protected Entity entity;
+	protected ActorLogic logic;
+	
+	protected int team;
+	protected Vec3 base;
+	protected Vec3 position;
+	protected float energy;
+	protected float movementSpeed;
+	protected float attackRange = 2.0f;
+	protected float HEALTH_LIMIT;
+	protected float ENERGY_LIMIT;
+	
+	public Actor(int netId, Application app)
+	{
+		this.app = app;
+		entity = new Entity("Actor");
+		currentPath = new ArrayList<>();	
+		
+		entity.addComponent(new NetIdentityComponent(netId, app.getNetworkManager()));
+		entity.addComponent(new NetTransformComponent());
+		NetTransformComponent transform = (NetTransformComponent) entity.getComponent(NetTransformComponent.class);
+		transform.setPosition(new Vec3(0.0f, 0.0f, 0.0f));
+		
+		NetDataComponent netData = new NetDataComponent();
+		netData.addData("Health", health);
+		netData.addData("Energy", energy);
+		netData.addData("MovementSpeed", movementSpeed);
+		netData.addData("Resistance", resistance);
+		netData.addData("Team", team);
+		entity.addComponent(netData);
+		
+		ColliderComponent collider = new ColliderComponent(1.5f, false);
+		entity.addComponent(collider);
+		
+		netSprite = new NetSpriteAnimationComponent(0, 0, 2);
+		
+		stopMovement();
+		entity.addComponent(netSprite);
+		
+		entity.addTag("Targetable");
+		
+		movementSpeed = 0.05f; //base for each actor
+	}
+	
+	public void init(String basePath)
+	{		
+		if (!app.isHeadless()) {
+			sprite = new SpriteAnimationComponent(app.getAssetManager().getTexture(basePath + "textures/sprite.png"), 4, 0, 0, 5.0f, 5.0f, 2);
+			entity.addComponent(sprite);
+		}
+	}
 
 	public void addItem(Item item) {
 		//Affect the actors stats.
@@ -150,8 +216,6 @@ public class Actor
 		inventory.clear();
 	}
 
-	protected Entity entity;
-
 	public Entity getEntity() {
 		return entity;
 	}
@@ -168,12 +232,12 @@ public class Actor
 			startPos = ((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).getPosition();
 		}
 		
-		ArrayList<Vec3> path = new ArrayList<>();//navmesh.findPath(startPos, target);
-		path.add(target);
+		ArrayList<Vec3> path = navmesh.findPath(startPos, target);
 
 		if(path != null)
 		{
-			this.currentPath = path;
+			path.add(target);
+			this.currentPath = path;		
 		}
 	}
 
@@ -206,13 +270,9 @@ public class Actor
 	 * lobby) team 3 is composed of neutral npcs (shops, cart etc)
 	 */
 
-	protected int team;
-
 	public int getTeam() {
 		return team;
 	}
-
-	protected Vec3 base;
 
 	public Vec3 getBase() {
 		return base;
@@ -222,7 +282,6 @@ public class Actor
 		this.base = base;
 	}
 
-	protected Vec3 position;
 
 	public Vec3 getPosition() {
 		return position;
@@ -235,7 +294,6 @@ public class Actor
 	/**
 	 * This will be affected by damage
 	 */
-	protected float HEALTH_LIMIT;
 	
 	public void setHealthLimit(float health) {
 		HEALTH_LIMIT = health;
@@ -257,9 +315,7 @@ public class Actor
 
 	/**
 	 * This will be affected by casting spells
-	 */
-	protected float ENERGY_LIMIT;
-	
+	 */	
 	public float getEnergyLimit() {
 		return ENERGY_LIMIT;
 	}
@@ -268,8 +324,6 @@ public class Actor
 		ENERGY_LIMIT = lim;
 	}
 	
-	protected float energy;
-
 	public float getEnergy() {
 		return energy;
 	}
@@ -281,8 +335,6 @@ public class Actor
 	/**
 	 * This might be affected by items and root & snare spells
 	 */
-	protected float movementSpeed;
-
 	public void setMovementSpeed(float movementSpeed) {
 		this.movementSpeed = movementSpeed;
 	}
@@ -323,6 +375,11 @@ public class Actor
 					entity.getTransform().setPosition(currentPath.get(0));
 					
 					currentPath.remove(0);	
+					
+					if(currentPath.isEmpty())
+					{
+						stopMovement();
+					}	
 				}else
 				{
 					moveDir = Vec3.normalize(moveDir);
@@ -346,10 +403,31 @@ public class Actor
 					((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).setPosition(currentPath.get(0));
 					
 					currentPath.remove(0);
+					
+					if(currentPath.isEmpty())
+					{
+						stopMovement();
+					}
 				}else
 				{
 					moveDir = Vec3.normalize(moveDir);
 					moveDir.scale(movementSpeed);
+					
+					int direction = MathUtil.dirTo4Dir(moveDir);
+					
+					if(direction == 0)
+					{
+						moveUp();
+					}else if(direction == 1)
+					{
+						moveLeft();
+					}else if(direction == 2)
+					{
+						moveDown();
+					}else if(direction == 3)
+					{
+						moveRight();
+					}
 					
 					((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).move(moveDir);
 				}
@@ -358,11 +436,52 @@ public class Actor
 		
 		currentPos.scale(-1.0f);
 
-		NetTransformComponent playerTrans = (NetTransformComponent) entity.getComponent(NetTransformComponent.class);
-		System.out.println("Player Position: " + playerTrans.getPosition().getX());
-
-		//System.out.println("Player Position: " + currentPosition.getX() + "," + currentPosition.getY());
 		System.out.println("Current Pos: " + currentPos.getX() + ", " + currentPos.getY());
+	}
+	
+	public void stopMovement()
+	{
+		if(movingDir != -1)
+		{
+			netSprite.stopAnimation();
+			movingDir = -1;
+		}
+	}
+	
+	public void moveUp()
+	{
+		if(movingDir != 0)
+		{
+			netSprite.changeAnimationFrames(MOVE_ANIMATION_UP, MOVE_ANIMATION_UP + MOVE_ANIMATION_LENGTH);
+			movingDir = 0;
+		}
+	}
+	
+	public void moveLeft()
+	{
+		if(movingDir != 1)
+		{
+			netSprite.changeAnimationFrames(MOVE_ANIMATION_LEFT, MOVE_ANIMATION_LEFT + MOVE_ANIMATION_LENGTH);
+			movingDir = 1;
+		}
+	}
+	
+	public void moveDown()
+	{
+		if(movingDir != 2)
+		{
+			netSprite.changeAnimationFrames(MOVE_ANIMATION_DOWN, MOVE_ANIMATION_DOWN + MOVE_ANIMATION_LENGTH);
+			movingDir = 2;
+		}
+	}
+	
+	public void moveRight()
+	{
+		if(movingDir != 3)
+		{
+			netSprite.changeAnimationFrames(MOVE_ANIMATION_RIGHT, MOVE_ANIMATION_RIGHT + MOVE_ANIMATION_LENGTH);
+			movingDir = 3;
+		}
 	}
 	
 	/**
@@ -382,9 +501,6 @@ public class Actor
 	/**
 	 * This will remain permanent for now.
 	 */
-
-	protected float attackRange = 2.0f;
-
 	public float getAttackRange() {
 		return attackRange;
 	}
@@ -392,9 +508,6 @@ public class Actor
 	public void setAttackRange(float rng) {
 		attackRange = rng;
 	}
-
-
-	protected ActorLogic logic;
 
 	public ActorLogic getLogic() {
 		return logic;
@@ -407,8 +520,30 @@ public class Actor
 	/**
 	 * Only used once.
 	 */
+	public void setRole(AbstractClasses role) {
+		//setPlayer(role);	-> Breaks the movement
 
-	private AbstractClasses role;
+		NetDataComponent data = (NetDataComponent) entity.getComponent(NetDataComponent.class);
+		this.role = role;
+		HEALTH_LIMIT = role.getHealth();
+		ENERGY_LIMIT = role.getEnergy();
+		data.getAllData("Health").put("Health", Float.parseFloat(data.getData("Health").toString()) + role.getHealth());
+		data.getAllData("Energy").put("Energy", Float.parseFloat(data.getData("Energy").toString()) + role.getEnergy());
+		data.getAllData("MovementSpeed").put("MovementSpeed", Float.parseFloat(data.getData("MovementSpeed").toString()) + role.getMoveSpeed());
+		data.getAllData("Resistance").put("Resistance", Float.parseFloat(data.getData("Resistance").toString()) + role.getResistance());
+	}
+
+	public void setTeam(int team) {
+		this.team = team;
+		switch(team) {
+			case 1:
+				//startingPos = team 1 start pos
+				break;
+			case 2:
+				// startingPos = team 2 start pos
+				break;
+		}
+	}
 
 	public void setPlayer(AbstractClasses role) {
 		health = role.getHealth();
@@ -439,8 +574,8 @@ public class Actor
 		} else {
 			if(debug) { System.out.println("WARNING: Entity does not have role stats assgined"); }
 		}
-
 	}
+
 
 }
 

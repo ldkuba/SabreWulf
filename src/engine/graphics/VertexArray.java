@@ -21,6 +21,11 @@ public class VertexArray
 		m_VertexBuffer = buffer;
 	}
 	
+	public VertexBuffer getVertexBuffer()
+	{
+		return m_VertexBuffer;
+	}
+	
 	public void bind()
 	{
 		GL30.glBindVertexArray(m_ID);

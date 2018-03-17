@@ -1,132 +1,129 @@
 package game.client.player;
 
+import java.util.ArrayList;
+
+import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
 import engine.net.common_net.networking_messages.AttackPlayerMessage;
-import game.common.actors.Player;
+import engine.net.common_net.networking_messages.CoordinateMessage;
 import game.common.player.PlayerManager;
 import org.lwjgl.glfw.GLFW;
 
+import engine.entity.Entity;
+import engine.entity.component.SpriteAnimationComponent;
+import engine.entity.component.SpriteComponent;
 import engine.input.InputManager;
-import engine.maths.Vec2;
 import engine.maths.Vec3;
+import engine.maths.Vec4;
 import engine.net.common_net.networking_messages.DesiredLocationMessage;
 import engine.scene.Scene;
 import game.client.Main;
 import game.client.states.GameState;
 
-import static engine.maths.Vec3.inRadius;
-
 //For handling actual instruction sets to be passed to transformation and interaction components of the players
 public class PlayerController {
-
-	private boolean debug = true;
 
 	private InputManager inputManager;
 	private Main main;
 	private GameState gamestate;
 	private Scene scene;
-	private PlayerManager playerManager;
+	private ArrayList<Entity> selectedEntities;
 	
-	public PlayerController(Main main, GameState gs, Scene scene, PlayerManager pm) {
+	public PlayerController(Main main, GameState gs, Scene scene) {
 		gamestate = gs;
 		this.main = main;
 		inputManager = main.getInputManager();
 		this.scene = scene;
-		playerManager = pm;
+		//this.main.getSoundManager().invokeSound("movement/footstep", true, false);
 	}
 	
 	public void update()
 	{
 		//input
-				
+		//Hover selection
+		selectedEntities = scene.pickEntities((float)inputManager.getMouseX(), (float)inputManager.getMouseY());
+		
+		for(Entity e : scene.getEntities())
+		{
+			if(e.hasTag("Targetable"))
+			{
+				if(selectedEntities.contains(e))
+				{
+
+					if(e.hasComponent(SpriteComponent.class))
+					{
+						e.getSprite().setOverlayColor(new Vec4(1.0f, 0.0f, 0.0f, 0.4f));
+					}
+					
+					if(e.hasComponent(SpriteAnimationComponent.class))
+					{
+						SpriteAnimationComponent spriteAnim = (SpriteAnimationComponent) e.getComponent(SpriteAnimationComponent.class);
+						spriteAnim.setOverlayColor(new Vec4(1.0f, 0.0f, 0.0f, 0.3f));
+					}
+					
+				}else
+				{
+					if(e.hasComponent(SpriteComponent.class))
+					{
+						e.getSprite().setOverlayColor(new Vec4(0.0f, 0.0f, 0.0f, 0.0f));
+					}
+					
+					if(e.hasComponent(SpriteAnimationComponent.class))
+					{
+						SpriteAnimationComponent spriteAnim = (SpriteAnimationComponent) e.getComponent(SpriteAnimationComponent.class);
+						spriteAnim.setOverlayColor(new Vec4(0.0f, 0.0f, 0.0f, 0.0f));
+					}
+					
+				}
+			}
+		}
+		
+		System.out.println("Selected: " + selectedEntities.size());
 	}
 	
 	public void onKeyPress(int key, int action)
 	{
 		
 	}
-
+	
 	public void mouseAction(int button, int action)
 	{
+
+		boolean clickedEntity = false;
+
 		if(button == GLFW.GLFW_MOUSE_BUTTON_2 && action == GLFW.GLFW_PRESS)
 		{
 			DesiredLocationMessage msg = new DesiredLocationMessage();
 			Vec3 worldPos = scene.getCamera().getWorldCoordinates((float)main.getInputManager().getMouseX(), (float)main.getInputManager().getMouseY());
+			//msg.setPos(worldPos);
 
-			NetTransformComponent playerTrans = (NetTransformComponent) playerManager.getPlayer(0).getEntity().getComponent(NetTransformComponent.class);
-
-			if (debug) {
-
-				System.out.println("Player x: " + playerTrans.getPosition().getX() + " :: " + "Player y: " + playerTrans.getPosition().getY());
-				//System.out.println("Dummy x: " + dummyTrans.getPosition().getX() + " :: " + "Dummy y: " + dummyTrans.getPosition().getY());
-				System.out.println("Desired Location: " + worldPos.getX() + " : " + worldPos.getY());
-
+			for(Entity e : scene.getEntities())
+			{
+				if(e.hasTag("Targetable"))
+				{
+					if(selectedEntities.contains(e))
+					{
+						NetTransformComponent entityTransform = (NetTransformComponent) e.getComponent(NetTransformComponent.class);
+						CoordinateMessage entityMessage = new CoordinateMessage(entityTransform.getPosition());
+						main.getClient().sendTCP(entityMessage);
+						clickedEntity = true;
+					}
+				}
 			}
 
-			Player myPlayerTest = playerManager.getPlayer(0);
+			if(clickedEntity == false) {
+				main.getClient().sendTCP(msg);
+			}
 
-			NetTransformComponent dummyTrans = null;
-			int attackedPlayerID = -1;
-
-			//Player located in worldPos
-			for(int i = 0; i < playerManager.getPlayers().size(); i++) {
-				dummyTrans = (NetTransformComponent) playerManager.getPlayer(i).getEntity().getComponent(NetTransformComponent.class);
-
-				if(inRadius(worldPos, dummyTrans.getPosition())) {
-
-					if (debug) {
-						System.out.println("\n------Click Action-----");
-						System.out.println("Clicked Player");
-						System.out.println(i);
-						System.out.println("------End of Click Action--------");
-					}
-
-					if(dummyTrans != null) {
-						//In range to attack.
-						if(playerManager.getPlayer(0).getLogic().inRange(playerTrans.getPosition(), dummyTrans.getPosition(), myPlayerTest.getAttackRange())) {
-							if (debug) {
-								System.out.println("------Attack Action-----");
-								System.out.println("Player attack ID: " + attackedPlayerID);
-								//System.out.println("Dealt: " + myPlayerTest.getDamage());
-								System.out.println("------End of Attack Action----");
-							}
-							//Prepare attack message
-							AttackPlayerMessage attmsg = new AttackPlayerMessage();
-					/*
-					Server handles the damage.
-					 */
-							//attmsg.setDamage(5);
-							if(attackedPlayerID != -1) {
-								attmsg.setPlayerID(attackedPlayerID);
-							}
-							main.getClient().sendTCP(attmsg);
-						} else {
-							msg.setPos(worldPos);
-							main.getClient().sendTCP(msg);
-						}
-					}
-					//No entity in the position.
-					else {
-
-						msg.setPos(worldPos);
-
-						main.getClient().sendTCP(msg);
-					}
-
-					attackedPlayerID = i;
-					break;
-				} else {
-					msg.setPos(worldPos);
-
-					main.getClient().sendTCP(msg);
-					//Look for items.
-					/*for (int i = 0; i < itemsManager.getIngameItems().size(); i++) {
-
-					}*/
-				}
-				dummyTrans = null;
+			if(!main.getSoundManager().getIsMuted()){
+				main.getSoundManager().getSoundSource("background/game").setGain(0.5f);				
+			}
+			
+			
+		} else if (button == GLFW.GLFW_MOUSE_BUTTON_1 && action == GLFW.GLFW_PRESS){
+			if (!main.getSoundManager().getIsMuted()){
+				main.getSoundManager().invokeSound("attack/s2", false, true);
 			}
 		}
 	}
-
 }
