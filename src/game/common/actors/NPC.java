@@ -3,6 +3,7 @@ package game.common.actors;
 import java.util.ArrayList;
 
 import engine.entity.Entity;
+import engine.entity.component.SpriteAnimationComponent;
 import engine.maths.Vec3;
 
 public class NPC {
@@ -29,7 +30,6 @@ public class NPC {
 		this.health = health;
 		this.attackRange = attackRange;
 	}
-	
 	
 	public void setMovementSpeed(float movementSpeed) {
 		this.movementSpeed = movementSpeed;

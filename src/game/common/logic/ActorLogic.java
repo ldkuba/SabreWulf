@@ -41,9 +41,11 @@ public class ActorLogic {
 
 
 	public void respawn(Actor actor) {
-		if (!respawn.isAlive(myActor)) {
-			respawn.respawn(myActor);
-		}
+		respawn.respawn(myActor);
+	}
+	
+	public boolean isAlive(Actor actor) {
+		return respawn.isAlive(actor); 
 	}
 	
 	public float movement() {
@@ -57,11 +59,6 @@ public class ActorLogic {
 		float newHealth = myActor.getHealth() - recvDamage;
 		//Display damage.s
 		myActor.setHealth(newHealth);
-		
-		if(!alive()) {
-			//Give.
-			respawn();
-		}
 		
 	}
 	*/

@@ -30,6 +30,7 @@ import game.common.items.attributes.main.Health;
 import game.common.items.attributes.main.MovementSpeed;
 import game.common.items.attributes.main.Resistance;
 import game.common.logic.ActorLogic;
+import game.common.logic.actions.Respawn;
 
 public class Actor
 {
@@ -435,6 +436,11 @@ public class Actor
 		currentPos.scale(-1.0f);
 
 		System.out.println("Current Pos: " + currentPos.getX() + ", " + currentPos.getY());
+		
+		// Respawns player if health is <= 0
+		if (!logic.isAlive(this)) {
+			logic.respawn(this);
+		}
 	}
 	
 	public void stopMovement()

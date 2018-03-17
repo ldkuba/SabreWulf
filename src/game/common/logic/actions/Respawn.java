@@ -16,7 +16,7 @@ public class Respawn {
 
 	Timer timer;
 	
-	public boolean isAlive(Player myActor) {
+	public boolean isAlive(Actor myActor) {
 		if (myActor.getHealth() <= 0) {
 			return false;
 		} else {
