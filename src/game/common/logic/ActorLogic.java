@@ -41,9 +41,9 @@ public class ActorLogic {
 
 
 	public void respawn(Actor actor) {
-		/*if (!respawn.alive(myActor)) {
+		if (!respawn.isAlive(myActor)) {
 			respawn.respawn(myActor);
-		}*/
+		}
 	}
 	
 	public float movement() {

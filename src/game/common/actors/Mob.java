@@ -12,7 +12,6 @@ import engine.entity.component.NetTransformComponent;
 import engine.entity.component.SpriteComponent;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
-import game.common.logic.ActorLogic;
 import game.common.logic.MobLogic;
 
 public class Mob extends NPC {
@@ -20,9 +19,7 @@ public class Mob extends NPC {
 	private String name;
 	private int mobId;
 	private MobLogic logic;
-	private float HEALTH_LIMIT;
 	private float health;
-	private float ENERGY_LIMIT;
 	private float energy;
 	private float resistance;
 	private float attackRange;
@@ -88,62 +85,8 @@ public class Mob extends NPC {
 		}
 	}
 	*/
-	public void setHealthLimit(float health) {
-		HEALTH_LIMIT = health;
-	}
-	
-	public float getHealthLimit() {
-		return HEALTH_LIMIT;
-	}
 	
 
-	public float getHealth() {
-		return health;
-	}
-
-	public void setHealth(float health) {
-		this.health = health;
-	}
-
-	/**
-	 * This will be affected by casting spells
-	 */
-	
-	public float getEnergyLimit() {
-		return ENERGY_LIMIT;
-	}
-	
-	public void setEnergyLimit(float lim) {
-		ENERGY_LIMIT = lim;
-	}
-
-	public float getEnergy() {
-		return energy;
-	}
-
-	public void setEnergy(float energy) {
-		this.energy = energy;
-	}
-
-	/**
-	 * This will be affected by items
-	 */
-
-	public float getResistance() {
-		return resistance;
-	}
-
-	public void setResistance(float resistance) {
-		this.resistance = resistance;
-	}
-	
-	public float getAttackRange() {
-		return attackRange;
-	}
-
-	public void setAttackRange(float rng) {
-		attackRange = rng;
-	}
 	
 	
 	public void update() {
