@@ -1,8 +1,8 @@
 package game.common.classes.classes;
 
-import game.common.classes.AbstractClasses;
+import game.common.classes.AbstractClass;
 
-public class Wizard extends AbstractClasses {
+public class GhostClass extends AbstractClass {
 	
 	//Base stats
 		private static float health = 90;
@@ -12,11 +12,11 @@ public class Wizard extends AbstractClasses {
 		private static float energy = 160;
 				
 		//Regeneration
-		private float energyReg = 0;
-		private float healthReg = 0;
+		private float energyReg = 0.2f;
+		private float healthReg = 0.4f;
 		
 	
-	public Wizard() {
+	public GhostClass() {
 		super(health, moveSpeed, damage, resistance, energy);
 	}
 }

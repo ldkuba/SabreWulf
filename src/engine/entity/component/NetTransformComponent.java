@@ -74,5 +74,10 @@ public class NetTransformComponent extends AbstractComponent implements Serializ
 		
 		//inverse order
 		return translationMat.mult(rotationMat).mult(scaleMat);
+	}
+
+	@Override
+	public void update()
+	{
 	}	
 }
