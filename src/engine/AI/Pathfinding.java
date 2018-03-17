@@ -26,12 +26,25 @@ public class Pathfinding {
 		return null;
 	}
 	
+	private void resetTriangles()
+	{
+		for(Triangle t : triangles)
+		{
+			t.setG(Float.MAX_VALUE);
+			t.setF(Float.MAX_VALUE);
+			t.setLast(t);
+		}
+	}
+	
 	public ArrayList<Triangle> AStar(Triangle start, Triangle goal) {
+		
+		resetTriangles();
+		
 		path.clear();
 		System.out.println("Finding new path...");
 		Triangle current = start;
-		Triangle last;
-		Edge edge;
+		Triangle last = null;
+		
 		Comparator<Triangle> hcomp = new DistanceComparator();
 		ArrayList<Triangle> visitedList = new ArrayList<>();		
 		PriorityQueue<Triangle> toSearch = new PriorityQueue<Triangle>(triangles.size(), hcomp);
@@ -54,7 +67,7 @@ public class Pathfinding {
 			visitedList.add(current);			
 
 			for (int i = 0; i < current.getEdges().size(); i++) {				
-				edge = current.getEdges().get(i);
+				Edge edge = current.getEdges().get(i);
 				Triangle temp = lookupTriangle(edge.getGoal());
 				
 				if(visitedList.contains(temp)) {
