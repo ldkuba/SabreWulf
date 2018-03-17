@@ -16,22 +16,18 @@ public class ActorStatus {
 	private Actor player;
 	private ProgressBar health;
 	private ProgressBar energy;
-	private TransformComponent transform;
 	
-	private float playerX;
-	private float playerY;
 	private float paddingHealth = 4.0f;
 	private float paddingEnergy = 2.0f;
 	
 	public ActorStatus(Actor actor, Application app) {
 		this.player = actor;
 		this.gui = app.getGui();
-		this.transform = player.getEntity().getTransform();
-		this.playerX = transform.getPosition().getX();
-		this.playerY = transform.getPosition().getY();
-		health = new ProgressBar(playerX, playerY+paddingHealth, 12.25f, 2.0f, app.getAssetManager().getTexture("res/textures/gui/bars/health_bar_background.png"),app.getAssetManager().getTexture("res/textures/gui/bars/health_bar.png"),app.getAssetManager().getFont("fontSprite.png"), this.gui);
-		energy = new ProgressBar(playerX, playerY+paddingEnergy, 12.25f, 2.0f, app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar_background.png"),app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar.png"),app.getAssetManager().getFont("fontSprite.png"), this.gui);		
 		scene = Main.gameState.getScene();
+		Vec3 a = scene.getCamera().getScreenCoordinates(0.0f, 0.0f);
+		health = new ProgressBar(a.getX(), a.getY()+paddingHealth, 12.25f, 2.0f, app.getAssetManager().getTexture("res/textures/gui/bars/health_bar_background.png"),app.getAssetManager().getTexture("res/textures/gui/bars/health_bar.png"),app.getAssetManager().getFont("fontSprite.png"), this.gui);
+		energy = new ProgressBar(a.getX(), a.getY(), 12.25f, 2.0f, app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar_background.png"),app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar.png"),app.getAssetManager().getFont("fontSprite.png"), this.gui);		
+
 	}
 	
 	public void update(){

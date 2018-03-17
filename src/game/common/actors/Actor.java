@@ -18,6 +18,7 @@ import engine.entity.component.NetSpriteAnimationComponent;
 import engine.entity.component.NetTransformComponent;
 import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.TransformComponent;
+import engine.gui.components.ActorStatus;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
 import game.common.classes.AbstractClasses;
@@ -55,6 +56,7 @@ public class Actor
 	private AbstractClasses role;
 	protected Entity entity;
 	protected ActorLogic logic;
+	protected ActorStatus status;
 	
 	protected int team;
 	protected Vec3 base;
@@ -102,6 +104,7 @@ public class Actor
 		if (!app.isHeadless()) {
 			sprite = new SpriteAnimationComponent(app.getAssetManager().getTexture(basePath + "textures/sprite.png"), 4, 0, 0, 5.0f, 5.0f, 2);
 			entity.addComponent(sprite);
+			status = new ActorStatus(this, app);
 		}
 	}
 
@@ -438,9 +441,9 @@ public class Actor
 		System.out.println("Current Pos: " + currentPos.getX() + ", " + currentPos.getY());
 		
 		// Respawns player if health is <= 0
-		if (!logic.isAlive(this)) {
+		/*if (!logic.isAlive(this)) {
 			logic.respawn(this);
-		}
+		}*/
 	}
 	
 	public void stopMovement()
@@ -580,7 +583,9 @@ public class Actor
 		}
 	}
 
-
+	public ActorStatus getStatus(){
+		return status;
+	}
 }
 
 

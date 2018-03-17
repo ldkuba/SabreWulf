@@ -12,6 +12,7 @@ import org.lwjgl.glfw.GLFW;
 import engine.entity.Entity;
 import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.SpriteComponent;
+import engine.gui.components.ActorStatus;
 import engine.input.InputManager;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
@@ -77,7 +78,6 @@ public class PlayerController {
 				}
 			}
 		}
-		
 		System.out.println("Selected: " + selectedEntities.size());
 	}
 	
@@ -95,7 +95,7 @@ public class PlayerController {
 		{
 			DesiredLocationMessage msg = new DesiredLocationMessage();
 			Vec3 worldPos = scene.getCamera().getWorldCoordinates((float)main.getInputManager().getMouseX(), (float)main.getInputManager().getMouseY());
-			//msg.setPos(worldPos);
+			msg.setPos(worldPos);
 
 			for(Entity e : scene.getEntities())
 			{
