@@ -17,7 +17,7 @@ import engine.entity.component.TransformComponent;
 import engine.maths.MathUtil;
 import engine.maths.Vec2;
 import engine.maths.Vec3;
-import game.common.classes.AbstractClasses;
+import game.common.classes.AbstractClass;
 import game.common.inventory.Inventory;
 import game.common.inventory.Item;
 import game.common.items.attributes.Attribute;
@@ -41,6 +41,22 @@ public class Actor
 	
 	private final float MIN_DISTANCE = 0.2f;
 	private ArrayList<Vec3> currentPath;
+	
+	protected int team;
+	protected Inventory inventory;
+	protected Entity entity;
+	
+	protected float HEALTH_LIMIT;
+	protected float health;
+	
+	protected float ENERGY_LIMIT;
+	protected float energy;
+
+	protected float movementSpeed;
+	
+	protected float resistance;
+	protected float damage;
+	protected float attackRange;
 	
 	protected NetSpriteAnimationComponent netSprite;
 	protected SpriteAnimationComponent sprite;
@@ -86,8 +102,6 @@ public class Actor
 			entity.addComponent(sprite);
 		}
 	}
-
-	protected Inventory inventory;
 
 	public void addItem(Item item) {
 		//Affect the actors stats.
@@ -150,7 +164,6 @@ public class Actor
 				setResistance(newResis);
 			}
 		}
-		
 	}
 
 	public Inventory getInventory() {
@@ -160,8 +173,6 @@ public class Actor
 	public void cleanInventory() {
 		inventory.clear();
 	}
-
-	protected Entity entity;
 
 	public Entity getEntity() {
 		return entity;
@@ -193,38 +204,11 @@ public class Actor
 	 * lobby) team 2 is composed of the other three players (last three in
 	 * lobby) team 3 is composed of neutral npcs (shops, cart etc)
 	 */
-
-	protected int team;
-
+	
 	public int getTeam() {
 		return team;
 	}
 
-	protected Vec2 base;
-
-	public Vec2 getBase() {
-		return base;
-	}
-
-	public void setBase(Vec2 base) {
-		this.base = base;
-	}
-
-	protected Vec2 position;
-
-	public Vec2 getPosition() {
-		return position;
-	}
-
-	public void setPosition(Vec2 position) {
-		this.position = position;
-	}
-
-	/**
-	 * This will be affected by damage
-	 */
-	protected float HEALTH_LIMIT;
-	
 	public void setHealthLimit(float health) {
 		HEALTH_LIMIT = health;
 	}
@@ -232,8 +216,6 @@ public class Actor
 	public float getHealthLimit() {
 		return HEALTH_LIMIT;
 	}
-	
-	protected float health;
 
 	public float getHealth() {
 		return health;
@@ -243,11 +225,6 @@ public class Actor
 		this.health = health;
 	}
 
-	/**
-	 * This will be affected by casting spells
-	 */
-	protected float ENERGY_LIMIT;
-	
 	public float getEnergyLimit() {
 		return ENERGY_LIMIT;
 	}
@@ -256,8 +233,6 @@ public class Actor
 		ENERGY_LIMIT = lim;
 	}
 	
-	protected float energy;
-
 	public float getEnergy() {
 		return energy;
 	}
@@ -265,11 +240,6 @@ public class Actor
 	public void setEnergy(float energy) {
 		this.energy = energy;
 	}
-
-	/**
-	 * This might be affected by items and root & snare spells
-	 */
-	protected float movementSpeed;
 
 	public void setMovementSpeed(float movementSpeed) {
 		this.movementSpeed = movementSpeed;
@@ -279,17 +249,28 @@ public class Actor
 		return movementSpeed;
 	}
 
-	/**
-	 * This will be affected by items
-	 */
-	protected float resistance;
-
 	public float getResistance() {
 		return resistance;
 	}
 
 	public void setResistance(float resistance) {
 		this.resistance = resistance;
+	}
+	
+	public float getDamage() {
+		return damage;
+	}
+
+	public void setDamage(float dmg) {
+		damage = dmg;
+	}
+	
+	public float getAttackRange() {
+		return attackRange;
+	}
+
+	public void setAttackRange(float rng) {
+		attackRange = rng;
 	}
 
 	public void update()
@@ -419,55 +400,4 @@ public class Actor
 			movingDir = 3;
 		}
 	}
-	
-	/**
-<<<<<<< HEAD
-	 * This will be affected by items.
-	 */
-
-	protected float damage;
-
-	public float getDamage() {
-		return damage;
-	}
-
-	public void setDamage(float dmg) {
-		damage = dmg;
-	}
-
-	/**
-	 * This will remain permanent for now.
-	 */
-
-	protected float attackRange;
-
-	public float getAttackRange() {
-		return attackRange;
-	}
-
-	public void setAttackRange(float rng) {
-		attackRange = rng;
-	}
-
-	protected ActorLogic logic;
-
-	public ActorLogic getLogic() {
-		return logic;
-	}
-	
-	/**
-	 * Only used once.
-	 */
-
-	private AbstractClasses role;
-
-	public void setPlayer(AbstractClasses role) {
-		health = role.getHealth();
-		resistance = role.getResistance();
-		movementSpeed = role.getMoveSpeed();
-		energy = role.getEnergy();
-		damage = role.getDamage();
-		this.role = role;
-	}
-
 }

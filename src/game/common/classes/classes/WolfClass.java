@@ -1,8 +1,8 @@
 package game.common.classes.classes;
 
-import game.common.classes.AbstractClasses;
+import game.common.classes.AbstractClass;
 
-public class Orc extends AbstractClasses {
+public class WolfClass extends AbstractClass {
 	
 	//Base stats
 	private static float health = 90;
@@ -12,11 +12,11 @@ public class Orc extends AbstractClasses {
 	private static float energy = 80;
 				
 	//Regeneration
-	private float energyReg = 0;
-	private float healthReg = 0;
+	private float energyReg = 0.2f;
+	private float healthReg = 0.4f;
 		
 	
-	public Orc() {
+	public WolfClass() {
 		super(health, moveSpeed, damage, resistance, energy);
 	}
 }

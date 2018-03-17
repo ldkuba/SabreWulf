@@ -6,7 +6,9 @@ import java.util.Comparator;
 
 import engine.application.Application;
 import engine.entity.Entity;
+import engine.entity.component.AbstractComponent;
 import engine.entity.component.ColliderComponent;
+import engine.entity.component.CustomComponent;
 import engine.entity.component.MeshComponent;
 import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetSpriteAnimationComponent;
@@ -167,6 +169,15 @@ public class Scene
 			{
 				NetIdentityComponent netIdentity = (NetIdentityComponent) e.getComponent(NetIdentityComponent.class);
 				app.getNetworkManager().updateEntityInNetworkManager(e, netIdentity.getNetworkId());
+			}
+			
+			//Update custom components
+			for(AbstractComponent c : e.getComponents())
+			{
+				if(c instanceof CustomComponent)
+				{
+					c.update();
+				}
 			}
 		}
 

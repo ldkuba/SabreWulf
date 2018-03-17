@@ -72,5 +72,9 @@ public class TransformComponent extends AbstractComponent
 		//inverse order
 		return translationMat.mult(rotationMat).mult(scaleMat);
 	}
-	
+
+	@Override
+	public void update()
+	{
+	}
 }

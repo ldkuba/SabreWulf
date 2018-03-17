@@ -25,7 +25,7 @@ public class Respawn {
 
 	private void respawn(Player myActor) {
 			// do a cooldown timer
-			myActor.setPosition(spawnCoord);
+			// myActor.setPosition(spawnCoord);
 		
 		// some way to set the player health to max
 	}

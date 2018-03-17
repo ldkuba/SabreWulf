@@ -87,4 +87,9 @@ public class TextComponent extends AbstractComponent
 		transform.setRotationAngles(tmpRot);
 		transform.setScale(tmpScale);
 	}
+
+	@Override
+	public void update()
+	{		
+	}
 }
