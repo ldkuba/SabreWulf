@@ -25,6 +25,9 @@ public class NetIdentityComponent extends AbstractComponent implements Serializa
 	{
 		return this.networkId;
 	}
-	
-	
+
+	@Override
+	public void update()
+	{
+	}	
 }

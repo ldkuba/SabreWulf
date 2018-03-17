@@ -25,4 +25,9 @@ public class MeshComponent extends AbstractComponent
 			m_Meshes[i].draw(renderer, modelMatrix);
 		}
 	}
+
+	@Override
+	public void update()
+	{
+	}
 }

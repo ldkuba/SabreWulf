@@ -10,7 +10,6 @@ import engine.AI.Navmesh;
 import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.NetDataComponent;
-import game.common.classes.AbstractClasses;
 import engine.entity.component.ColliderComponent;
 import engine.entity.component.NetDataComponent;
 import engine.entity.component.NetIdentityComponent;
@@ -21,7 +20,7 @@ import engine.entity.component.TransformComponent;
 import engine.gui.components.ActorStatus;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
-import game.common.classes.AbstractClasses;
+import game.common.classes.AbstractClass;
 import game.common.inventory.Inventory;
 import game.common.inventory.Item;
 import game.common.items.attributes.Attribute;
@@ -49,23 +48,32 @@ public class Actor
 	private final float MIN_DISTANCE = 0.2f;
 	private ArrayList<Vec3> currentPath;
 	
-	protected NetSpriteAnimationComponent netSprite;
-	protected SpriteAnimationComponent sprite;	
-	protected Application app;
+	protected int team;
 	protected Inventory inventory;
-	private AbstractClasses role;
 	protected Entity entity;
+	
+	protected float HEALTH_LIMIT;
+	protected float health;
+	
+	protected float ENERGY_LIMIT;
+	protected float energy;
+
+	protected float movementSpeed;
+	
+	protected float resistance;
+	protected float damage;
+	protected float attackRange = 2.0f;;
+
+	private AbstractClass role;
 	protected ActorLogic logic;
 	protected ActorStatus status;
 	
-	protected int team;
 	protected Vec3 base;
 	protected Vec3 position;
-	protected float energy;
-	protected float movementSpeed;
-	protected float attackRange = 2.0f;
-	protected float HEALTH_LIMIT;
-	protected float ENERGY_LIMIT;
+	
+	protected NetSpriteAnimationComponent netSprite;
+	protected SpriteAnimationComponent sprite;
+	protected Application app;
 	
 	public Actor(int netId, Application app)
 	{
@@ -169,7 +177,6 @@ public class Actor
 				setResistance(newResis);
 			}
 		}
-		
 	}
 	
 	public void addAttribute(Attribute attribute)  {
@@ -296,7 +303,7 @@ public class Actor
 	/**
 	 * This will be affected by damage
 	 */
-	
+
 	public void setHealthLimit(float health) {
 		HEALTH_LIMIT = health;
 	}
@@ -304,8 +311,6 @@ public class Actor
 	public float getHealthLimit() {
 		return HEALTH_LIMIT;
 	}
-	
-	protected float health;
 
 	public float getHealth() {
 		return health;
@@ -334,6 +339,7 @@ public class Actor
 		this.energy = energy;
 	}
 
+
 	/**
 	 * This might be affected by items and root & snare spells
 	 */
@@ -345,17 +351,28 @@ public class Actor
 		return movementSpeed;
 	}
 
-	/**
-	 * This will be affected by items
-	 */
-	protected float resistance;
-
 	public float getResistance() {
 		return resistance;
 	}
 
 	public void setResistance(float resistance) {
 		this.resistance = resistance;
+	}
+	
+	public float getDamage() {
+		return damage;
+	}
+
+	public void setDamage(float dmg) {
+		damage = dmg;
+	}
+	
+	public float getAttackRange() {
+		return attackRange;
+	}
+
+	public void setAttackRange(float rng) {
+		attackRange = rng;
 	}
 
 	public void update()
@@ -490,31 +507,6 @@ public class Actor
 			movingDir = 3;
 		}
 	}
-	
-	/**
-	 * This will be affected by items.
-	 */
-
-	protected float damage;
-
-	public float getDamage() {
-		return damage;
-	}
-
-	public void setDamage(float dmg) {
-		damage = dmg;
-	}
-
-	/**
-	 * This will remain permanent for now.
-	 */
-	public float getAttackRange() {
-		return attackRange;
-	}
-
-	public void setAttackRange(float rng) {
-		attackRange = rng;
-	}
 
 	public ActorLogic getLogic() {
 		return logic;
@@ -527,7 +519,7 @@ public class Actor
 	/**
 	 * Only used once.
 	 */
-	public void setRole(AbstractClasses role) {
+	public void setRole(AbstractClass role) {
 		//setPlayer(role);	-> Breaks the movement
 
 		NetDataComponent data = (NetDataComponent) entity.getComponent(NetDataComponent.class);
@@ -552,7 +544,7 @@ public class Actor
 		}
 	}
 
-	public void setPlayer(AbstractClasses role) {
+	public void setPlayer(AbstractClass role) {
 		health = role.getHealth();
 		resistance = role.getResistance();
 		movementSpeed = role.getMoveSpeed();

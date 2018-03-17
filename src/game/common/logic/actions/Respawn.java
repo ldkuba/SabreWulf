@@ -41,8 +41,7 @@ public class Respawn {
 	}
 	
 	public void respawn(NPC mob) {
-		timer = new Timer(200); // 10 sec respawn cooldown
-		
+		timer = new Timer(200); // 10 sec respawn cooldown	
 		mob.setPosition(mob.getStartPosition());
 		mob.setHealth(mob.getHealthLimit());
 	}

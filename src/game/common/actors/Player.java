@@ -1,7 +1,19 @@
 package game.common.actors;
 
 import engine.application.Application;
+<<<<<<< HEAD
 import game.common.classes.AbstractClasses;
+=======
+import engine.entity.Entity;
+import engine.entity.component.NetDataComponent;
+import engine.entity.component.NetIdentityComponent;
+import engine.entity.component.NetSpriteAnimationComponent;
+import engine.entity.component.NetTransformComponent;
+import engine.entity.component.SpriteComponent;
+import engine.maths.Vec3;
+import engine.maths.Vec4;
+import game.common.classes.AbstractClass;
+>>>>>>> master
 
 /**
  * Player as the engine sees it.
@@ -10,7 +22,7 @@ import game.common.classes.AbstractClasses;
 public class Player extends Actor {
 
 	private String name;
-	private AbstractClasses role;
+	private AbstractClass role;
 	private int playerId;
 
 	public Player(int playerId, String name, Application app) {
@@ -23,7 +35,7 @@ public class Player extends Actor {
 		this.name = name;
 	}
 
-	public AbstractClasses getRole() {
+	public AbstractClass getRole() {
 		return role;
 	}
 

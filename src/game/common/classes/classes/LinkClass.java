@@ -1,8 +1,8 @@
 package game.common.classes.classes;
 
-import game.common.classes.AbstractClasses;
+import game.common.classes.AbstractClass;
 
-public class Elf extends AbstractClasses {
+public class LinkClass extends AbstractClass {
 	
 	//Base stats
 		private static float health = 140;
@@ -12,10 +12,10 @@ public class Elf extends AbstractClasses {
 		private static float energy = 100;
 		
 		//Regeneration
-		private float energyReg = 0;
-		private float healthReg = 0;
+		private float energyReg = 0.2f;
+		private float healthReg = 0.4f;
 	
-	public Elf() {
+	public LinkClass() {
 		super(health, moveSpeed, damage, resistance, energy);
 	}
 }
