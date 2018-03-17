@@ -1,9 +1,5 @@
 package game.client.states;
 
-import game.common.classes.classes.Elf;
-import game.common.classes.classes.Knight;
-import game.common.classes.classes.Wizard;
-
 import engine.gui.components.ProgressBar;
 import org.lwjgl.glfw.GLFW;
 

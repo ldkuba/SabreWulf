@@ -1,9 +1,7 @@
 package game.common.actors;
 
 import engine.application.Application;
-<<<<<<< HEAD
-import game.common.classes.AbstractClasses;
-=======
+
 import engine.entity.Entity;
 import engine.entity.component.NetDataComponent;
 import engine.entity.component.NetIdentityComponent;
@@ -13,7 +11,6 @@ import engine.entity.component.SpriteComponent;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
 import game.common.classes.AbstractClass;
->>>>>>> master
 
 /**
  * Player as the engine sees it.

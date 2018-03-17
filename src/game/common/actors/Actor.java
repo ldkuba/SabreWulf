@@ -66,7 +66,7 @@ public class Actor
 
 	private AbstractClass role;
 	protected ActorLogic logic;
-	protected ActorStatus status;
+	//protected ActorStatus status;
 	
 	protected Vec3 base;
 	protected Vec3 position;
@@ -112,7 +112,7 @@ public class Actor
 		if (!app.isHeadless()) {
 			sprite = new SpriteAnimationComponent(app.getAssetManager().getTexture(basePath + "textures/sprite.png"), 4, 0, 0, 5.0f, 5.0f, 2);
 			entity.addComponent(sprite);
-			status = new ActorStatus(this, app);
+			//status = new ActorStatus(this, app);
 		}
 	}
 
