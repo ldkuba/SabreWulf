@@ -2,15 +2,15 @@ package game.client.states;
 
 import org.lwjgl.glfw.GLFW;
 
-import engine.application.Application;
-import engine.graphics.texture.Texture;
+import game.client.Main;
+
+import engine.maths.Vec3;
+import engine.maths.MathUtil;
+import engine.state.AbstractState;
 import engine.gui.components.Button;
 import engine.gui.components.Sprite;
-import engine.maths.MathUtil;
-import engine.maths.Vec3;
-import engine.net.common_net.networking_messages.LobbyConnectionRequestMessage;
-import engine.state.AbstractState;
-import game.client.Main;
+import engine.application.Application;
+import engine.graphics.texture.Texture;
 
 public class EndState extends AbstractState {
 	private Main app;
@@ -43,13 +43,13 @@ public class EndState extends AbstractState {
 	public void init() {
 		//to change
 		super.init();
-		Texture endBackgroundTexture = app.getAssetManager().getTexture("res/textures/mainmenu_background.png");
+		Texture endBackgroundTexture = app.getAssetManager().getTexture("res/textures/gui/backgrounds/end_background.png");
 		endBackground = new Sprite(0, 0, 100.0f, 100.0f, endBackgroundTexture);
 		app.getGui().add(endBackground);
 		
-		Texture replayButtonReleasedTexture = app.getAssetManager().getTexture("res/textures/replay_button_released.png");
+		Texture replayButtonReleasedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/replay_button_released.png");
 		//change
-		Texture replayButtonPressedTexture = app.getAssetManager().getTexture("res/textures/play_button_pressed.png");
+		Texture replayButtonPressedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/replay_button_pressed.png");
 		replayButton = new Button(45.0f, 90.0f, 10.0f, 6.0f, replayButtonPressedTexture, replayButtonReleasedTexture) {
 
 			@Override
@@ -63,8 +63,8 @@ public class EndState extends AbstractState {
 		app.getGui().add(replayButton);
 		
 		//exit button
-		Texture exitButtonReleasedTexture = app.getAssetManager().getTexture("res/textures/exit_button_released.png");
-		Texture exitButtonPressedTexture = app.getAssetManager().getTexture("res/textures/exit_button_pressed.png");
+		Texture exitButtonReleasedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/exit_button_released.png");
+		Texture exitButtonPressedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/exit_button_pressed.png");
 		exitButton = new Button(95.0f, 93.0f, 4.0f, 6.0f, exitButtonPressedTexture, exitButtonReleasedTexture) {
 			@Override
 			public void onClick() {

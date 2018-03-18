@@ -1,5 +1,9 @@
 package engine.sound;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -22,10 +26,10 @@ public class SoundManager {
 	private long context;
 	private boolean isMuted;
 	private SoundListener listener;
-
+	private OutputStream os = new ByteArrayOutputStream(); // for junit testing
 	private final List<SoundBuffer> soundBufferList;
 	private final Map<String, SoundSource> soundSourceMap;
-	
+
 	public SoundManager() {
 		soundBufferList = new ArrayList<>();
 		soundSourceMap = new HashMap<>();
@@ -52,19 +56,35 @@ public class SoundManager {
 	}
 
 	public void addSoundSource(String name, SoundSource soundSource) {
+		PrintStream ps = new PrintStream(os);
+		System.setOut(ps);
 		if (name != null && soundSource != null) {
-			soundSourceMap.put(name, soundSource);
+			if (!soundSourceMap.containsValue(soundSource)) {
+				soundSourceMap.put(name, soundSource);
+			} else {
+				System.out.print("Trying to re-add a sound source");
+			}
 		} else {
 			System.err.println("Cannot add sound source");
 		}
+		PrintStream originalOut = System.out;
+		System.setOut(originalOut);
+	}
+
+	public OutputStream getOS() {
+		return os;
 	}
 
 	public void deleteSoundSource(String name) {
-		if (name != null) {
+		//PrintStream ps = new PrintStream(os);
+		//System.setOut(ps);
+		if (name != null && soundSourceMap.containsKey(name)) {
 			soundSourceMap.remove(name);
 		} else {
-			System.err.println("No sound source to delete");
+			System.out.print("No sound source to delete");
 		}
+		//PrintStream originalOut = System.out;
+		//System.setOut(originalOut);
 	}
 
 	public SoundListener getListener() {
@@ -72,7 +92,7 @@ public class SoundManager {
 	}
 
 	public SoundSource getSoundSource(String name) {
-		if (name != null) {
+		if (name != null && soundSourceMap.containsKey(name)) {
 			return soundSourceMap.get(name);
 		}
 		return null;
@@ -89,7 +109,7 @@ public class SoundManager {
 	public void setAttenuationModel(int model) {
 		alDistanceModel(model);
 	}
-	
+
 	public void playSoundSource(String name) {
 		if (name != null) {
 			SoundSource soundSource = this.soundSourceMap.get(name);
@@ -157,10 +177,11 @@ public class SoundManager {
 			try {
 				buffer = new SoundBuffer(path);
 				soundMgr.addSoundBuffer(buffer);
-				SoundSource source = new SoundSource(loop, false); //normally true
+				SoundSource source = new SoundSource(loop, false); // normally
+																	// true
 				source.setBuffer(buffer.getBufferId());
 				soundMgr.addSoundSource(name, source);
-				if(!isMuted && autoPlay){
+				if (!isMuted && autoPlay) {
 					source.play();
 				}
 				soundMgr.setListener(new SoundListener());
@@ -171,18 +192,16 @@ public class SoundManager {
 			System.err.println("Cannot set up the sound");
 		}
 	}
-	
 
 	public void muteSounds() {
 		this.isMuted = true;
 	}
-	
-	public void unmuteSounds()
-	{
+
+	public void unmuteSounds() {
 		this.isMuted = false;
 	}
-	
-	public boolean getIsMuted(){
+
+	public boolean getIsMuted() {
 		return this.isMuted;
 	}
 }
