@@ -122,6 +122,11 @@ public class Vec3 implements Serializable
 			return new Vec3(vec.getX()/scale, vec.getY()/scale, vec.getZ()/scale);
 		}
 	}
+	
+	public static Vec3 subtract(Vec3 v1, Vec3 v2)
+	{
+		return new Vec3(v1.getX() - v2.getX(), v1.getY() - v2.getY(), v1.getZ() - v2.getZ());
+	}
 
 	public static float distance(Vec3 v1, Vec3 v2)
 	{

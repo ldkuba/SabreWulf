@@ -33,11 +33,11 @@ public class Actor
 	
 	private boolean debug = true;
 
-	private final int MOVE_ANIMATION_LENGTH = 7;
-	private final int MOVE_ANIMATION_RIGHT = 0;
-	private final int MOVE_ANIMATION_UP = 8;
-	private final int MOVE_ANIMATION_LEFT = 16;
-	private final int MOVE_ANIMATION_DOWN = 24;
+	private final int MOVE_ANIMATION_LENGTH = 3-1;
+	private final int MOVE_ANIMATION_RIGHT = 4;
+	private final int MOVE_ANIMATION_UP = 10;
+	private final int MOVE_ANIMATION_LEFT = 7;
+	private final int MOVE_ANIMATION_DOWN = 13;
 	
 	//-1 = stop, 0 = up, 1 = left, 2 = down, 3 = right
 	private int movingDir = -1;
@@ -87,10 +87,14 @@ public class Actor
 		transform.setPosition(new Vec3(0.0f, 0.0f, 0.0f));
 		
 		netData = new NetDataComponent();
+		netData.addData("MaxHealth", HEALTH_LIMIT);
 		netData.addData("Health", health);
+		netData.addData("MaxEnergy", ENERGY_LIMIT);
 		netData.addData("Energy", energy);
 		netData.addData("MovementSpeed", movementSpeed);
 		netData.addData("Resistance", resistance);
+		netData.addData("Damage", damage);
+		netData.addData("AttackRange", attackRange);
 		netData.addData("Team", team);
 		netData.addData("HealthRegen", healthRegen);
 		netData.addData("EnergyRegen", energyRegen);
@@ -352,103 +356,122 @@ public class Actor
 
 	private void updateNetData()
 	{
-		netData.addData("Health", health);
-		netData.addData("Energy", energy);
-		netData.addData("MovementSpeed", movementSpeed);
-		netData.addData("Resistance", resistance);
-		netData.addData("Team", team);
-		netData.addData("HealthRegen", healthRegen);
-		netData.addData("EnergyRegen", energyRegen);
+		if(app.isHeadless())
+		{
+			netData.addData("MaxHealth", HEALTH_LIMIT);
+			netData.addData("Health", health);
+			netData.addData("MaxEnergy", ENERGY_LIMIT);
+			netData.addData("Energy", energy);
+			netData.addData("MovementSpeed", movementSpeed);
+			netData.addData("Resistance", resistance);
+			netData.addData("Damage", damage);
+			netData.addData("AttackRange", attackRange);
+			netData.addData("Team", team);
+			netData.addData("HealthRegen", healthRegen);
+			netData.addData("EnergyRegen", energyRegen);
+		}else
+		{
+			HEALTH_LIMIT = (float) netData.getData("MaxHealth");
+			health = (float) netData.getData("Health");
+			ENERGY_LIMIT = (float) netData.getData("MaxEnergy");
+			energy = (float) netData.getData("Energy");
+			movementSpeed = (float) netData.getData("MovementSpeed");
+			resistance = (float) netData.getData("Resistance");
+			damage = (float) netData.getData("Damage");
+			attackRange = (float) netData.getData("AttackRange");
+			team = (int) netData.getData("Team");
+			healthRegen = (float) netData.getData("HealthRegen");
+			energyRegen = (float) netData.getData("EnergyRegen");
+		}
 	}
 	
 	public void update()
 	{
 		updateNetData();
 		
-		Vec3 currentPos = new Vec3();
-		
-		if(entity.hasComponent(TransformComponent.class))
+		if(!app.isHeadless())
 		{
-			if(!currentPath.isEmpty())
+			status.update();
+		}else
+		{
+			Vec3 currentPos = new Vec3();
+			
+			if(entity.hasComponent(TransformComponent.class))
 			{
-				currentPos = new Vec3(entity.getTransform().getPosition());
-				
-				currentPos.scale(-1.0f);
-				
-				Vec3 moveDir = Vec3.add(currentPath.get(0), currentPos);
-				
-				if(moveDir.getLength() < MIN_DISTANCE)
+				if(!currentPath.isEmpty())
 				{
-					entity.getTransform().setPosition(currentPath.get(0));
+					currentPos = new Vec3(entity.getTransform().getPosition());
 					
-					currentPath.remove(0);	
+					currentPos.scale(-1.0f);
 					
-					if(currentPath.isEmpty())
+					Vec3 moveDir = Vec3.add(currentPath.get(0), currentPos);
+					
+					if(moveDir.getLength() < MIN_DISTANCE)
 					{
-						stopMovement();
-					}	
-				}else
+						entity.getTransform().setPosition(currentPath.get(0));
+						
+						currentPath.remove(0);	
+						
+						if(currentPath.isEmpty())
+						{
+							stopMovement();
+						}	
+					}else
+					{
+						moveDir = Vec3.normalize(moveDir);
+						moveDir.scale(movementSpeed);
+					
+						entity.getTransform().move(moveDir);
+					}
+				}
+			}else if(entity.hasComponent(NetTransformComponent.class))
+			{
+				if(!currentPath.isEmpty())
 				{
-					moveDir = Vec3.normalize(moveDir);
-					moveDir.scale(movementSpeed);
-				
-					entity.getTransform().move(moveDir);
+					currentPos = new Vec3(((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).getPosition());
+					
+					currentPos.scale(-1.0f);
+					
+					Vec3 moveDir = Vec3.add(currentPath.get(0), currentPos);
+					
+					if(moveDir.getLength() < MIN_DISTANCE)
+					{
+						((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).setPosition(currentPath.get(0));
+						
+						currentPath.remove(0);
+						
+						if(currentPath.isEmpty())
+						{
+							stopMovement();
+						}
+					}else
+					{
+						moveDir = Vec3.normalize(moveDir);
+						moveDir.scale(movementSpeed);
+						
+						int direction = MathUtil.dirTo4Dir(moveDir);
+						
+						if(direction == 0)
+						{
+							moveUp();
+						}else if(direction == 1)
+						{
+							moveLeft();
+						}else if(direction == 2)
+						{
+							moveDown();
+						}else if(direction == 3)
+						{
+							moveRight();
+						}
+						
+						((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).move(moveDir);
+					}
 				}
 			}
-		}else if(entity.hasComponent(NetTransformComponent.class))
-		{
-			if(!currentPath.isEmpty())
-			{
-				currentPos = new Vec3(((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).getPosition());
-				
-				currentPos.scale(-1.0f);
-				
-				Vec3 moveDir = Vec3.add(currentPath.get(0), currentPos);
-				
-				if(moveDir.getLength() < MIN_DISTANCE)
-				{
-					((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).setPosition(currentPath.get(0));
-					
-					currentPath.remove(0);
-					
-					if(currentPath.isEmpty())
-					{
-						stopMovement();
-					}
-				}else
-				{
-					moveDir = Vec3.normalize(moveDir);
-					moveDir.scale(movementSpeed);
-					
-					int direction = MathUtil.dirTo4Dir(moveDir);
-					
-					if(direction == 0)
-					{
-						moveUp();
-					}else if(direction == 1)
-					{
-						moveLeft();
-					}else if(direction == 2)
-					{
-						moveDown();
-					}else if(direction == 3)
-					{
-						moveRight();
-					}
-					
-					((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).move(moveDir);
-				}
-			}
-		}
-		
-		currentPos.scale(-1.0f);
-
-		System.out.println("Current Pos: " + currentPos.getX() + ", " + currentPos.getY());
-		
-		// Respawns player if health is <= 0
-		/*if (!logic.isAlive(this)) {
-			logic.respawn(this);
-		}*/
+			
+			currentPos.scale(-1.0f);
+		}		
 	}
 	
 	public void stopMovement()

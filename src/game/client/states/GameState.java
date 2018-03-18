@@ -206,6 +206,8 @@ public class GameState extends AbstractState {
 		
 		//scene.getCamera().setDirection(new Vec3(dirX, dirY, 5.0f));
 		
+		actorManager.update();
+		
 		playerController.update();
 	}
 
