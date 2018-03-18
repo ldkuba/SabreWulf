@@ -7,9 +7,10 @@ import engine.maths.Vec3;
 import engine.scene.Scene;
 import game.common.actors.Actor;
 import engine.application.Application;
+import engine.entity.component.CustomComponent;
 import engine.entity.component.TransformComponent;
 
-public class ActorStatus {
+public class ActorStatus extends CustomComponent {
 
 	private GUI gui;
 	private Scene scene;
@@ -24,9 +25,10 @@ public class ActorStatus {
 		this.player = actor;
 		this.gui = app.getGui();
 		scene = Main.gameState.getScene();
-		Vec3 a = scene.getCamera().getScreenCoordinates(0.0f, 0.0f);
-		health = new ProgressBar(a.getX(), a.getY()+paddingHealth, 12.25f, 2.0f, app.getAssetManager().getTexture("res/textures/gui/bars/health_bar_background.png"),app.getAssetManager().getTexture("res/textures/gui/bars/health_bar.png"),app.getAssetManager().getFont("fontSprite.png"), this.gui);
-		energy = new ProgressBar(a.getX(), a.getY(), 12.25f, 2.0f, app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar_background.png"),app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar.png"),app.getAssetManager().getFont("fontSprite.png"), this.gui);		
+		Vec2 temp = new Vec2(0.0f,0.0f); //set this to player starting position (currently a null pointer ex)
+		Vec2 screen = scene.getCamera().getScreenCoordinates(temp);
+		health = new ProgressBar(screen.getX(), screen.getY()+paddingHealth, 12.25f, 2.0f, app.getAssetManager().getTexture("res/textures/gui/bars/health_bar_background.png"),app.getAssetManager().getTexture("res/textures/gui/bars/health_bar.png"),app.getAssetManager().getFont("fontSprite.png"), this.gui);
+		energy = new ProgressBar(screen.getX(), screen.getY(), 12.25f, 2.0f, app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar_background.png"),app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar.png"),app.getAssetManager().getFont("fontSprite.png"), this.gui);		
 
 	}
 	
@@ -46,7 +48,8 @@ public class ActorStatus {
 		TransformComponent transform = player.getEntity().getTransform();
 		float playerX = transform.getPosition().getX();
 		float playerY = transform.getPosition().getY();
-		Vec3 screenPos = scene.getCamera().getScreenCoordinates(playerX, playerY);
+		Vec2 arr = new Vec2(playerX, playerY);
+		Vec2 screenPos = scene.getCamera().getScreenCoordinates(arr);
 		Vec2 result = new Vec2(screenPos.getX(), screenPos.getY());
 		return result;
 	}

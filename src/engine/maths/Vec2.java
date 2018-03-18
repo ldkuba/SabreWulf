@@ -44,9 +44,13 @@ public class Vec2 implements Serializable {
 		this.x += other.getX();
 		this.y += other.getY();
 	}
-
+	
 	public static Vec2 add(Vec2 v1, Vec2 v2) {
 		return new Vec2(v1.getX() + v2.getX(), v1.getY() + v2.getY());
+	}
+	
+	public static Vec2 subtract(Vec2 v1, Vec2 v2) {
+		return new Vec2(v1.getX() - v2.getX(), v1.getY() - v2.getY());
 	}
 
 	public static float dotProduct(Vec2 v1, Vec2 v2) {
