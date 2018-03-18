@@ -19,6 +19,8 @@ public class ProgressBar {
 	private float progress;
 	private float maxProgres;
 	private float maxBarWidth;
+	private float x;
+	private float y;
 
 	private Sprite background;
 	private Sprite progressBar;
@@ -26,14 +28,16 @@ public class ProgressBar {
 
 	public ProgressBar(float x, float y, float width, float height, Texture bgTexture, Texture barTexture, Font font, GUI gui) {
 		this.gui = gui;
+		this.x = x;
+		this.y = y;
 		maxProgres = 88.4f;
 		progress = maxProgres;
 
-		background = new Sprite(x, y, width, height, bgTexture);
-		gui.add(background);
+		background = new Sprite(this.x, this.y, width, height, bgTexture);
+		this.gui.add(background);
 
-		progressBar = new Sprite(x, y, width, height, barTexture);
-		gui.add(progressBar);
+		progressBar = new Sprite(this.x, this.y, width, height, barTexture);
+		this.gui.add(progressBar);
 	}
 
 	private void resize(float barWidth)
@@ -81,5 +85,13 @@ public class ProgressBar {
 		progress = progress;
 		float barWidth = (progress/maxProgres) * maxBarWidth;
 		resize(barWidth);
+	}
+	
+	public void setPosition(float newX, float newY){
+		//move the position of the bar
+		this.background.x = newX;
+		this.background.y = newY;
+		this.progressBar.x = newX;
+		this.progressBar.y = newY;
 	}
 }

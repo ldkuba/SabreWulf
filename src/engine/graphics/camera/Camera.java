@@ -84,4 +84,23 @@ public class Camera {
 
 		return result;
 	}
+	
+	public Vec2 getScreenCoordinates(Vec3 worldPos){
+		
+//		substract m_Position from worldPos
+		
+		Vec2 windowSize = Application.s_WindowSize;
+		float scaleX = Application.s_Viewport.getX() / windowSize.getX();
+		float scaleY = Application.s_Viewport.getY() / windowSize.getY();
+		float newX = worldX * scaleX;
+		float newY = worldY * scaleY;
+
+		Vec2 pos = new Vec2();
+		
+		pos.setX((newX + Application.s_Viewport.getX()*2.0f));
+		pos.setY(newY + Application.s_Viewport.getY()*2.0f);
+		
+		pos.scale(2.0f);
+		return pos;
+	}
 }

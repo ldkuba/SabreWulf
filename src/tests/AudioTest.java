@@ -1,9 +1,7 @@
 package tests;
 
 import static org.junit.Assert.*;
-
 import java.io.IOException;
-
 import org.junit.Test;
 
 import engine.sound.SoundBuffer;

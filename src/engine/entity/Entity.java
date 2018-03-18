@@ -3,6 +3,7 @@ package engine.entity;
 import java.util.ArrayList;
 
 import engine.entity.component.AbstractComponent;
+import engine.entity.component.NetTransformComponent;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TransformComponent;
 
@@ -32,7 +33,11 @@ public class Entity {
 		
 		tags = new ArrayList<>();
 	}
-	
+
+	public String getName() {
+		return name;
+	}
+
 	public void addTag(String tag)
 	{
 		if(!tags.contains(tag))
@@ -101,6 +106,11 @@ public class Entity {
 	public SpriteComponent getSprite()
 	{
 		return (SpriteComponent) getComponent(SpriteComponent.class);
+	}
+	
+	public NetTransformComponent getNetTransform()
+	{
+		return (NetTransformComponent) getComponent(NetTransformComponent.class);
 	}
 	
 	public Entity clone()

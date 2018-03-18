@@ -1,16 +1,28 @@
 package game.server.ingame;
 
+import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import engine.entity.Entity;
+import engine.entity.component.NetTransformComponent;
+import engine.maths.Vec3;
 import engine.net.common_net.MessageListener;
 import engine.net.common_net.networking_messages.AbstractMessage;
+import engine.net.common_net.networking_messages.CoordinateMessage;
 import engine.net.common_net.networking_messages.DesiredLocationMessage;
+import engine.net.common_net.networking_messages.ExecuteActionMessage;
 import engine.net.common_net.networking_messages.PeerCountMessage;
+import engine.net.server.core.GameInstance;
 import engine.net.server.core.NetPlayer;
+import game.common.actors.Actor;
+import game.common.actors.Player;
+import game.common.logic.actions.AttackAction;
 
 public class ServerMessageListener implements MessageListener
 {
+	private boolean debug = true;
+
 	private class MessageEvent
 	{
 		public AbstractMessage msg;
@@ -22,7 +34,7 @@ public class ServerMessageListener implements MessageListener
 			this.player = player;
 		}
 	};
-	
+		
 	private ServerMain app;
 	private BlockingQueue<MessageEvent> abstractMessageInbound;
 
@@ -78,9 +90,50 @@ public class ServerMessageListener implements MessageListener
 		{
 			DesiredLocationMessage dlm = (DesiredLocationMessage) msg;
 			
-			ServerMain.gameState.getPlayerManager().getPlayer(player.getPlayerId()).calculatePath(dlm.getPos(), ServerMain.gameState.getMap().getNavmesh());
+			ArrayList<Entity> clickedEntities = ServerMain.gameState.getScene().pickEntities(dlm.getPos());
+			
+			Entity target = null;
+			
+			for(Entity e : clickedEntities)
+			{
+				if(e.hasTag("Targetable"))
+				{
+					Actor targetActor = ServerMain.gameState.getActorManager().getActor(e);
+					Actor sourceActor = ServerMain.gameState.getActorManager().getActor(player.getPlayerId());
+					
+					if(targetActor != null)
+					{
+						if(targetActor.getTeam() != sourceActor.getTeam())
+						{
+							target = e;
+							
+							AttackAction attackAction = new AttackAction(targetActor.getActorId(), sourceActor.getActorId());
+							if(attackAction.verify(ServerMain.gameState.getActorManager()))
+							{
+								ExecuteActionMessage eam = new ExecuteActionMessage();
+								eam.setAction(attackAction);
+								app.getNetworkManager().broadcast(eam);
+								
+								attackAction.executeServer(ServerMain.gameState.getActorManager());
+								
+							}else
+							{
+								e = null;
+							}
+							
+							break;
+						}
+					}	
+				}
+			}
+			
+			if(target == null)
+			{
+				ServerMain.gameState.getActorManager().getActor(player.getPlayerId()).calculatePath(dlm.getPos(), ServerMain.gameState.getMap().getNavmesh());
+			}
 			
 			System.out.println("Recieved path message in game");
+			
 		}
 	}
 
