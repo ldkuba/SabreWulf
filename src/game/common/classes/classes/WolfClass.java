@@ -10,6 +10,7 @@ public class WolfClass extends AbstractClass {
 	private static float damage = 100;
 	private static float resistance = 110;
 	private static float energy = 80;
+	private static float attackRange = 2.0f;
 				
 	//Regeneration
 	private float energyReg = 0.2f;
@@ -17,6 +18,7 @@ public class WolfClass extends AbstractClass {
 		
 	
 	public WolfClass() {
-		super(health, moveSpeed, damage, resistance, energy);
+		super(health, moveSpeed, damage, resistance, energy, attackRange);
+		resourcePath = "res/actors/wolf/";
 	}
 }

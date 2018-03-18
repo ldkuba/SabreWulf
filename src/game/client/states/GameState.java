@@ -1,6 +1,8 @@
 package game.client.states;
 
-import engine.gui.components.ProgressBar;
+import game.common.classes.classes.GhostClass;
+import game.common.classes.classes.LinkClass;
+import game.common.classes.classes.WolfClass;
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
@@ -97,20 +99,19 @@ public class GameState extends AbstractState {
 			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app);
 			// here we would set up more stuff related to the player like class,
 			// items, starting position, etc.
-			/*
+
 			int characterSelection = app.getNetworkManager().getNetPlayers().get(i).getChar();
-			characterSelection = 1;
 			System.out.println("Character Selected: " +characterSelection);
 			switch (characterSelection) {
+				case 0:
+					player.setRole(new LinkClass());
+					player.setStatistics();
+					break;
 				case 1:
-					player.setRole(new Wizard());
-					//player.setPlayer(player.getRole());
+					player.setRole(new GhostClass());
 					break;
 				case 2:
-					player.setRole(new Knight());
-					break;
-				case 3:
-					player.setRole(new Elf());
+					player.setRole(new WolfClass());
 					break;
 			}
 
@@ -122,7 +123,7 @@ public class GameState extends AbstractState {
 			else {
 				player.setTeam(2);
 			}
-			*/
+
 			actorManager.addActor(player);
 		}
 
@@ -216,9 +217,11 @@ public class GameState extends AbstractState {
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_S)) {
 			dirY += 0.04f;
 		}
-
-		// scene.getCamera().setDirection(new Vec3(dirX, dirY, 5.0f));
-
+		
+		//scene.getCamera().setDirection(new Vec3(dirX, dirY, 5.0f));
+		
+		actorManager.update();
+		
 		playerController.update();
 	}
 

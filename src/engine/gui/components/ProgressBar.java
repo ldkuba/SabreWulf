@@ -19,6 +19,7 @@ public class ProgressBar {
 	private float progress;
 	private float maxProgres;
 	private float maxBarWidth;
+	private float height;
 	private float x;
 	private float y;
 
@@ -30,13 +31,15 @@ public class ProgressBar {
 		this.gui = gui;
 		this.x = x;
 		this.y = y;
+		maxBarWidth = width;
 		maxProgres = 88.4f;
 		progress = maxProgres;
+		this.height = height;
 
-		background = new Sprite(this.x, this.y, width, height, bgTexture);
+		background = new Sprite(this.x, this.y, maxBarWidth, height, bgTexture);
 		this.gui.add(background);
 
-		progressBar = new Sprite(this.x, this.y, width, height, barTexture);
+		progressBar = new Sprite(this.x, this.y, maxBarWidth, height, barTexture);
 		this.gui.add(progressBar);
 	}
 
@@ -82,16 +85,23 @@ public class ProgressBar {
 
 	public void setBar(float progress)
 	{
-		progress = progress;
+		this.progress = progress;
 		float barWidth = (progress/maxProgres) * maxBarWidth;
 		resize(barWidth);
 	}
 	
+	// ONLY FOR THE ACTOR STAUS DO NOT TOUCH UNDER ANY CIRCUMSTANCES IF YOU GONNA DO PROPER GUI. THIS IS FUCKING RETARDED
 	public void setPosition(float newX, float newY){
 		//move the position of the bar
-		this.background.x = newX;
-		this.background.y = newY;
-		this.progressBar.x = newX;
-		this.progressBar.y = newY;
+		this.background.setX(newX);
+		this.background.setY(newY);
+		this.progressBar.setX(newX);
+		this.progressBar.setY(newY);
+		
+		background.setWidth(maxBarWidth / Application.s_Viewport.getX());
+		background.setHeight(height / Application.s_Viewport.getY());
+		background.resize();
+
+		progressBar.setHeight(height / Application.s_Viewport.getY());
 	}
 }

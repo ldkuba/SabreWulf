@@ -21,16 +21,14 @@ public class Player extends Actor {
 
 	public Player(int playerId, String name, Application app) {
 		super(playerId, app);
-
-		// decide which one
-		super.init("res/actors/link/");
 		this.name = name;
 	}
-
-	public AbstractClass getRole() {
-		return role;
+	
+	public void init(String basePath)
+	{
+		// decide which one
 	}
-
+	
 	public String getName() {
 		return name;
 	}
