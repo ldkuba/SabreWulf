@@ -12,17 +12,18 @@ public class AbstractClass {
 	protected float energy = 0;
 	protected float attackRange = 0;
 	
+	//Animations
+	protected int moveAnimationLength = 0;
+	protected int moveAnimationLeft = 0;
+	protected int moveAnimationRight = 0;
+	protected int moveAnimationUp = 0;
+	protected int moveAnimationDown = 0;
+	
 	//Regeneration
 	protected float energyReg = 0;
 	protected float healthReg = 0;
 
-	public AbstractClass(float health, float mvSpeed, float damage, float resistance, float energy, float attackRange) {
-		this.health = health;
-		this.moveSpeed = mvSpeed;
-		this.damage = damage;
-		this.resistance = resistance;
-		this.energy = energy;
-		this.attackRange = attackRange;
+	public AbstractClass() {
 	}
 
 	//----------Get base Stats--------
@@ -51,6 +52,41 @@ public class AbstractClass {
 		return attackRange;
 	}
 	
+	public int getMoveAnimationLength()
+	{
+		return moveAnimationLength;
+	}
+
+	public int getMoveAnimationLeft()
+	{
+		return moveAnimationLeft;
+	}
+
+	public int getMoveAnimationRight()
+	{
+		return moveAnimationRight;
+	}
+
+	public int getMoveAnimationUp()
+	{
+		return moveAnimationUp;
+	}
+
+	public int getMoveAnimationDown()
+	{
+		return moveAnimationDown;
+	}
+
+	public float getEnergyReg()
+	{
+		return energyReg;
+	}
+
+	public float getHealthReg()
+	{
+		return healthReg;
+	}
+
 	public String getResourcePath()
 	{
 		return this.resourcePath;

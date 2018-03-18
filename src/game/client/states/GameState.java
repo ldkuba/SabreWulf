@@ -106,13 +106,12 @@ public class GameState extends AbstractState {
 			switch (characterSelection) {
 				case 0:
 					player.setRole(new LinkClass());
-					player.setStatistics();
 					break;
 				case 1:
-					player.setRole(new GhostClass());
+					player.setRole(new WolfClass());
 					break;
 				case 2:
-					player.setRole(new WolfClass());
+					player.setRole(new GhostClass());
 					break;
 			}
 

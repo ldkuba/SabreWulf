@@ -24,11 +24,6 @@ public class Player extends Actor {
 		this.name = name;
 	}
 	
-	public void init(String basePath)
-	{
-		// decide which one
-	}
-	
 	public String getName() {
 		return name;
 	}

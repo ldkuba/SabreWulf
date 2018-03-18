@@ -33,11 +33,11 @@ public class Actor
 	
 	private boolean debug = true;
 
-	private int MOVE_ANIMATION_LENGTH = 3-1;
-	private int MOVE_ANIMATION_RIGHT = 4;
-	private int MOVE_ANIMATION_UP = 10;
-	private int MOVE_ANIMATION_LEFT = 7;
-	private int MOVE_ANIMATION_DOWN = 13;
+	private int MOVE_ANIMATION_LENGTH;
+	private int MOVE_ANIMATION_RIGHT;
+	private int MOVE_ANIMATION_UP;
+	private int MOVE_ANIMATION_LEFT;
+	private int MOVE_ANIMATION_DOWN;
 	
 	//-1 = stop, 0 = up, 1 = left, 2 = down, 3 = right
 	private int movingDir = -1;
@@ -103,7 +103,7 @@ public class Actor
 		ColliderComponent collider = new ColliderComponent(1.5f, false);
 		entity.addComponent(collider);
 		
-		netSprite = new NetSpriteAnimationComponent(0, 0, MOVE_ANIMATION_LENGTH);
+		netSprite = new NetSpriteAnimationComponent(0, 0, 2); //2 is speed
 		
 		stopMovement();
 		entity.addComponent(netSprite);
@@ -114,7 +114,7 @@ public class Actor
 	}
 	
 	public void init(String basePath)
-	{		
+	{				
 		if (!app.isHeadless()) {
 			sprite = new SpriteAnimationComponent(app.getAssetManager().getTexture(basePath + "textures/sprite.png"), 4, 0, 0, 5.0f, 5.0f, 2);
 			entity.addComponent(sprite);
@@ -537,7 +537,7 @@ public class Actor
 
 		if(!app.isHeadless())
 		{
-			init(role.getResourcePath());
+			this.init(role.getResourcePath());
 		}
 		
 		setStatistics();
@@ -559,7 +559,15 @@ public class Actor
 		energy = ENERGY_LIMIT;
 		damage = role.getDamage();
 		attackRange = role.getAttackRange();
-
+		
+		MOVE_ANIMATION_LENGTH = role.getMoveAnimationLength();
+		MOVE_ANIMATION_LEFT = role.getMoveAnimationLeft();
+		MOVE_ANIMATION_RIGHT = role.getMoveAnimationRight();
+		MOVE_ANIMATION_UP = role.getMoveAnimationUp();
+		MOVE_ANIMATION_DOWN = role.getMoveAnimationDown();
+		
+		healthRegen = role.getHealthReg();
+		energyRegen = role.getEnergyReg();
 	}
 
 	public ActorStatus getStatus(){
