@@ -10,6 +10,7 @@ public class GhostClass extends AbstractClass {
 		private static float damage = 140;
 		private static float resistance = 55;
 		private static float energy = 160;
+		private static float attackRange = 2.0f;
 				
 		//Regeneration
 		private float energyReg = 0.2f;
@@ -17,6 +18,7 @@ public class GhostClass extends AbstractClass {
 		
 	
 	public GhostClass() {
-		super(health, moveSpeed, damage, resistance, energy);
+		super(health, moveSpeed, damage, resistance, energy, attackRange);
+		resourcePath = "res/actors/ghost/";
 	}
 }

@@ -66,18 +66,19 @@ public class ServerGameState extends AbstractState
 			switch (characterSelection) {
 				case 0:
 					player.setRole(new LinkClass());
-					System.out.println("WIZARD");
-					player.setStatistics();
+					System.out.println("LINK");
 					break;
 				case 1:
 					player.setRole(new GhostClass());
-					System.out.println("KNIGHT");
+					System.out.println("GHOST");
 					break;
 				case 2:
 					player.setRole(new WolfClass());
-					System.out.println("ELF");
+					System.out.println("WOLF");
 					break;
 			}
+			
+			
 
 			if (i >= 0 && i < 3) {
 				player.setTeam(1);
