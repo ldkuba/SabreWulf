@@ -12,6 +12,7 @@ import engine.scene.Scene;
 public class Map {
 
 	private Entity[] background;
+	private Entity[] terrain;
 	private final float TILE_WIDTH = 12.0f;
 	private final float TILE_HEIGHT = 12.0f;
 	private final int MAP_SIZE = 16;
@@ -23,6 +24,7 @@ public class Map {
 	public Map(Scene scene, String basePath) {
 		this.scene = scene;
 		background = new Entity[MAP_SIZE * MAP_SIZE];
+		terrain = new Entity[MAP_SIZE * MAP_SIZE];
 		this.basePath = basePath;
 		navmesh = new Navmesh(basePath + "/navmesh.txt");
 	}
@@ -36,16 +38,26 @@ public class Map {
 		for (int i = 0; i < background.length; i++) {
 			Entity newEntity = new Entity("mapBackground" + i, true);
 			SpriteComponent comp1 = new SpriteComponent(white,
-					assetManager.getTexture(basePath + "/map (" + (i + 1) + ").png"), TILE_WIDTH, TILE_HEIGHT);
+					assetManager.getTexture(basePath + "/terrain (" + (i + 1) + ").png"), TILE_WIDTH, TILE_HEIGHT);
 			newEntity.addComponent(comp1);
 			newEntity.addComponent(new TransformComponent());
 			newEntity.getTransform()
 					.setPosition(new Vec3(0 + TILE_WIDTH * (i % MAP_SIZE), 0 - TILE_HEIGHT * (i / MAP_SIZE), 1.0f));
 			background[i] = newEntity;
+			
+			Entity newEntityTerrain = new Entity("mapTerrain" + i, true);
+			SpriteComponent sprite = new SpriteComponent(white,
+					assetManager.getTexture(basePath + "/entities (" + (i + 1) + ").png"), TILE_WIDTH, TILE_HEIGHT);
+			newEntityTerrain.addComponent(sprite);
+			newEntityTerrain.addComponent(new TransformComponent());
+			newEntityTerrain.getTransform()
+					.setPosition(new Vec3(0 + TILE_WIDTH * (i % MAP_SIZE), 0 - TILE_HEIGHT * (i / MAP_SIZE), -0.3f));
+			terrain[i] = newEntityTerrain;
 		}
 
 		for (int i = 0; i < background.length; i++) {
 			scene.addEntity(background[i]);
+			scene.addEntity(terrain[i]);
 		}
 	}
 	
