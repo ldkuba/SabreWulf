@@ -85,12 +85,12 @@ public class MenuState extends AbstractState {
 			public void onClick(boolean toggled) {
 				if(toggled && !app.getSoundManager().getIsMuted()) {
 					app.getSoundManager().invokeSound("click", false, true);
-					app.getSoundManager().stopSoundSource("background/lobby");
+					app.getSoundManager().stopSoundSource("background/menu");
 					app.getSoundManager().muteSounds();
 				} else {
 					app.getSoundManager().invokeSound("click", false, true);
 					app.getSoundManager().unmuteSounds();
-					app.getSoundManager().playSoundSource("background/lobby");
+					app.getSoundManager().playSoundSource("background/menu");
 				}
 			}
 		};
