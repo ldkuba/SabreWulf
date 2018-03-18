@@ -1,32 +1,17 @@
 package game.client.states;
 
-import game.common.classes.classes.Elf;
-import game.common.classes.classes.Knight;
-import game.common.classes.classes.Wizard;
-
-import engine.gui.components.ProgressBar;
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.ColliderComponent;
-import engine.entity.component.MeshComponent;
-import engine.entity.component.NetSpriteAnimationComponent;
-import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.SpriteComponent;
-import engine.entity.component.TextComponent;
 import engine.entity.component.TransformComponent;
-import engine.graphics.VertexArray;
-import engine.graphics.VertexBuffer;
-import engine.graphics.renderer.Renderable3D;
-import engine.gui.components.Label;
+import engine.gui.components.ProgressBar;
 import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
-import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
-import engine.net.common_net.networking_messages.DesiredLocationMessage;
-import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.client.Main;
 import game.client.player.PlayerController;
