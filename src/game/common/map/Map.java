@@ -27,6 +27,7 @@ public class Map {
 		terrain = new Entity[MAP_SIZE * MAP_SIZE];
 		this.basePath = basePath;
 		navmesh = new Navmesh(basePath + "/navmesh.txt");
+
 	}
 
 	//only run on the client

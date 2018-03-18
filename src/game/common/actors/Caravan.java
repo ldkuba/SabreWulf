@@ -6,9 +6,9 @@ import engine.entity.Entity;
 import engine.maths.Vec3;
 import game.common.inventory.Item;
 import game.common.items.attributes.Attribute;
-import game.common.player.PlayerManager;
 import game.object.Outpost;
 
+/*
 public class Caravan extends NPC {
 	
 	private ArrayList<Outpost> outposts;
@@ -73,4 +73,4 @@ public class Caravan extends NPC {
 			}
 		}
 	
-}
+}*/

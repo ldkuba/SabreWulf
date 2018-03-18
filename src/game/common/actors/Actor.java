@@ -7,13 +7,7 @@ import java.util.LinkedList;
 import engine.AI.Navmesh;
 import engine.application.Application;
 import engine.entity.Entity;
-import engine.entity.component.ColliderComponent;
-import engine.entity.component.NetDataComponent;
-import engine.entity.component.NetIdentityComponent;
-import engine.entity.component.NetSpriteAnimationComponent;
-import engine.entity.component.NetTransformComponent;
-import engine.entity.component.SpriteAnimationComponent;
-import engine.entity.component.TransformComponent;
+import engine.entity.component.*;
 import engine.gui.components.ActorStatus;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
@@ -151,6 +145,7 @@ public class Actor
 				setResistance(newResis);
 			}
 		}
+		updateNetData();
 		
 	}
 
@@ -183,6 +178,7 @@ public class Actor
 				setResistance(newResis);
 			}
 		}
+		updateNetData();
 	}
 	
 	public void addAttribute(Attribute attribute)  {
@@ -202,6 +198,7 @@ public class Actor
 			float newResis = getResistance() + attribute.getValue();
 			setResistance(newResis);
 		}
+		updateNetData();
 	}
 	
 	public void remAttribute(Attribute attribute) {
@@ -221,6 +218,7 @@ public class Actor
 			float newResis = getResistance() - attribute.getValue();
 			setResistance(newResis);
 		}
+		updateNetData();
 	}
 
 	public Inventory getInventory() {
@@ -523,35 +521,36 @@ public class Actor
 		this.team = team;
 	}
 
-	public void setPlayer(AbstractClass role) {
-		health = role.getHealth();
-		resistance = role.getResistance();
-		movementSpeed = role.getMoveSpeed();
-		energy = role.getEnergy();
-		damage = role.getDamage();
-		attackRange = 2.0f;
+	public void setRole(AbstractClass role) {
 		this.role = role;
 
 		//update player statistics.
-		if(entity.hasComponent(NetDataComponent.class)) {
-			NetDataComponent netData = (NetDataComponent) entity.getComponent(NetDataComponent.class);
+		updateNetData();
+		if(debug) { System.out.println("Entity role stats assigned"); }
 
-			//Update Health.
-			netData.getAllData("Health").put("Health", (Float.parseFloat(netData.getAllData("Health").get("Health").toString()) + health));
-			//Update Energy
-			netData.getAllData("Energy").put("Energy", (Float.parseFloat(netData.getAllData("Energy").get("Energy").toString()) + energy));
-			//Update Resistance
-			netData.getAllData("Resistance").put("Resistance", (Float.parseFloat(netData.getAllData("Resistance").get("Resistance").toString()) + resistance));
-			//Update Damage
-			//netData.getAllData("Damage").put("Damage", (Float.parseFloat(netData.getAllData("Damage").get("Damage").toString()) + damage));
-			//Update Movement Speed
-			netData.getAllData("MovementSpeed").put("MovementSpeed", (Float.parseFloat(netData.getAllData("MovementSpeed").get("MovementSpeed").toString()) + movementSpeed));
-
-			if(debug) { System.out.println("Entity role stats assigned"); }
-
-		} else {
+		 else {
 			if(debug) { System.out.println("WARNING: Entity does not have role stats assgined"); }
 		}
+	}
+
+	public void setStatistics() {
+		HEALTH_LIMIT = role.getHealth();
+		//resistance = role.getResistance();
+		//movementSpeed = role.getMoveSpeed();
+		ENERGY_LIMIT = role.getEnergy();
+		setHealth(HEALTH_LIMIT);
+		setEnergy(ENERGY_LIMIT);
+		setResistance(role.getResistance());
+		//setMovementSpeed(role.getMoveSpeed());
+		setDamage(role.getDamage());
+		attackRange = 2.0f;
+		/*
+		updateNetData();
+		if(debug) { System.out.println("Entity role stats assigned"); }
+
+		else {
+			if(debug) { System.out.println("WARNING: Entity does not have role stats assgined"); }
+		}*/
 	}
 
 	public ActorStatus getStatus(){
