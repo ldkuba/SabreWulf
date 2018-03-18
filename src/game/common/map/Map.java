@@ -27,6 +27,7 @@ public class Map {
 		terrain = new Entity[MAP_SIZE * MAP_SIZE];
 		this.basePath = basePath;
 		navmesh = new Navmesh(basePath + "/navmesh.txt");
+
 	}
 
 	//only run on the client
@@ -38,7 +39,7 @@ public class Map {
 		for (int i = 0; i < background.length; i++) {
 			Entity newEntity = new Entity("mapBackground" + i, true);
 			SpriteComponent comp1 = new SpriteComponent(white,
-					assetManager.getTexture(basePath + "/terrain (" + (i + 1) + ").png"), TILE_WIDTH, TILE_HEIGHT);
+					assetManager.getTexture(basePath + "/terrain/terrain (" + (i + 1) + ").png"), TILE_WIDTH, TILE_HEIGHT);
 			newEntity.addComponent(comp1);
 			newEntity.addComponent(new TransformComponent());
 			newEntity.getTransform()
@@ -47,7 +48,7 @@ public class Map {
 			
 			Entity newEntityTerrain = new Entity("mapTerrain" + i, true);
 			SpriteComponent sprite = new SpriteComponent(white,
-					assetManager.getTexture(basePath + "/entities (" + (i + 1) + ").png"), TILE_WIDTH, TILE_HEIGHT);
+					assetManager.getTexture(basePath + "/entities/entities (" + (i + 1) + ").png"), TILE_WIDTH, TILE_HEIGHT);
 			newEntityTerrain.addComponent(sprite);
 			newEntityTerrain.addComponent(new TransformComponent());
 			newEntityTerrain.getTransform()

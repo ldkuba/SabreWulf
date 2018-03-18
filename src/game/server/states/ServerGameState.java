@@ -4,6 +4,9 @@ import engine.entity.component.NetTransformComponent;
 import engine.maths.Vec3;
 import engine.state.AbstractState;
 import game.common.actors.Player;
+import game.common.classes.classes.GhostClass;
+import game.common.classes.classes.LinkClass;
+import game.common.classes.classes.WolfClass;
 import game.common.map.Map;
 import game.common.player.ActorManager;
 import game.server.ingame.ServerMain;
@@ -56,21 +59,22 @@ public class ServerGameState extends AbstractState
 			NetTransformComponent netTransform = (NetTransformComponent) player.getEntity().getComponent(NetTransformComponent.class);
 			netTransform.setPosition(new Vec3(15.0f, -10.0f, 0.0f));
 
-			/*
+
 			int characterSelection = app.getNetworkManager().getNetPlayers().get(i).getChar();
 			//characterSelection = 1;
 			System.out.println("Character Selected: " +characterSelection);
 			switch (characterSelection) {
-				case 1:
-					player.setRole(new Wizard());
+				case 0:
+					player.setRole(new LinkClass());
 					System.out.println("WIZARD");
+					player.setStatistics();
 					break;
-				case 2:
-					player.setRole(new Knight());
+				case 1:
+					player.setRole(new GhostClass());
 					System.out.println("KNIGHT");
 					break;
-				case 3:
-					player.setRole(new Elf());
+				case 2:
+					player.setRole(new WolfClass());
 					System.out.println("ELF");
 					break;
 			}
@@ -83,7 +87,7 @@ public class ServerGameState extends AbstractState
 			else {
 				player.setTeam(2);
 			}
-			*/
+
 			actorManager.addActor(player);
 		}
 
