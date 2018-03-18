@@ -3,6 +3,7 @@ package game.common.items;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import engine.maths.Vec3;
 import game.common.inventory.Item;
 import game.common.items.attributes.Attribute;
 import game.common.items.attributes.main.*;
@@ -16,12 +17,14 @@ import game.common.items.attributes.main.*;
 public class ItemsManager {
 
 	private ArrayList<Item> items = new ArrayList<Item>();
+	private ArrayList<Item> ingameItems = new ArrayList<Item>();
 	
 	public ItemsManager() {
 		
 	}
 	
 	public void addItem(String name, float damage, float energy, float health, float moveSpeed, float resistance) {
+		Vec3 pos = new Vec3(0.0f,0.0f,0.0f);
 		
 		LinkedList<Attribute> attributes = new LinkedList<Attribute>();
 		
@@ -47,7 +50,7 @@ public class ItemsManager {
 			attributes.add(atResistance);
 		}
 		
-		Item item = new Item(name,attributes);
+		Item item = new Item(name,attributes,pos);
 		items.add(item);
 	}
 	
@@ -62,6 +65,14 @@ public class ItemsManager {
 			}
 		}
 		return null;	//Always check before getting an item out for the game.
+	}
+
+	public void addToingameItems(Item item) {
+		ingameItems.add(item);
+	}
+
+	public ArrayList<Item> getIngameItems() {
+		return ingameItems;
 	}
 	
 	private boolean notZero(float n) {

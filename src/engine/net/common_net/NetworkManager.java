@@ -118,6 +118,15 @@ public class NetworkManager {
     	return null;
     }
     
+    //sending on the server in-game
+    public void broadcast(AbstractMessage msg)
+    {
+    	for(NetPlayer player : players)
+    	{
+    		player.addMsg(msg);
+    	}
+    }
+    
     //updates local snapshot if on client or sends snapshot is on server
     public void synchronize(Scene scene)
     {

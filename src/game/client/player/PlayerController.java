@@ -17,11 +17,12 @@ import game.client.states.GameState;
 
 //For handling actual instruction sets to be passed to transformation and interaction components of the players
 public class PlayerController {
-	
+
 	private InputManager inputManager;
 	private Main main;
 	private GameState gamestate;
 	private Scene scene;
+	private ArrayList<Entity> selectedEntities;
 	
 	public PlayerController(Main main, GameState gs, Scene scene) {
 		gamestate = gs;
@@ -35,7 +36,7 @@ public class PlayerController {
 	{
 		//input
 		//Hover selection
-		ArrayList<Entity> selectedEntities = scene.pickEntities((float)inputManager.getMouseX(), (float)inputManager.getMouseY());
+		selectedEntities = scene.pickEntities((float)inputManager.getMouseX(), (float)inputManager.getMouseY());
 		
 		for(Entity e : scene.getEntities())
 		{
@@ -43,6 +44,7 @@ public class PlayerController {
 			{
 				if(selectedEntities.contains(e))
 				{
+
 					if(e.hasComponent(SpriteComponent.class))
 					{
 						e.getSprite().setOverlayColor(new Vec4(1.0f, 0.0f, 0.0f, 0.4f));
@@ -70,7 +72,6 @@ public class PlayerController {
 				}
 			}
 		}
-		
 		System.out.println("Selected: " + selectedEntities.size());
 	}
 	
@@ -81,16 +82,21 @@ public class PlayerController {
 	
 	public void mouseAction(int button, int action)
 	{
+
+		boolean clickedEntity = false;
+
 		if(button == GLFW.GLFW_MOUSE_BUTTON_2 && action == GLFW.GLFW_PRESS)
 		{
 			DesiredLocationMessage msg = new DesiredLocationMessage();
 			Vec3 worldPos = scene.getCamera().getWorldCoordinates((float)main.getInputManager().getMouseX(), (float)main.getInputManager().getMouseY());
 			msg.setPos(worldPos);
-			
 			main.getClient().sendTCP(msg);
+			
 			if(!main.getSoundManager().getIsMuted()){
 				main.getSoundManager().getSoundSource("background/game").setGain(0.5f);				
 			}
+			
+			
 		} else if (button == GLFW.GLFW_MOUSE_BUTTON_1 && action == GLFW.GLFW_PRESS){
 			if (!main.getSoundManager().getIsMuted()){
 				main.getSoundManager().invokeSound("attack/s2", false, true);

@@ -1,42 +1,40 @@
 package game.client.states;
 
-
-import engine.gui.components.ProgressBar;
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.ColliderComponent;
-import engine.entity.component.MeshComponent;
-import engine.entity.component.NetSpriteAnimationComponent;
-import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.SpriteComponent;
-import engine.entity.component.TextComponent;
 import engine.entity.component.TransformComponent;
-import engine.graphics.VertexArray;
-import engine.graphics.VertexBuffer;
-import engine.graphics.renderer.Renderable3D;
-import engine.gui.components.Label;
+import engine.gui.components.ProgressBar;
 import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
-import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
-import engine.net.common_net.networking_messages.DesiredLocationMessage;
-import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.client.Main;
 import game.client.player.PlayerController;
 import game.common.actors.Player;
 import game.common.map.Map;
-import game.common.player.PlayerManager;
-
+import game.common.player.ActorManager;
 public class GameState extends AbstractState {
+
+
+
+	/**
+	 * Dummy Player creator
+	 */
+
+	private boolean dummy = false;
+	private Player dummyPlayer;
+
+	/*--------------------------*/
 
 	private Main app;
 	private PlayerController playerController;
 
-	private PlayerManager playerManager;
+	private ActorManager actorManager;
 	private ProgressBar heathBar;
 	private ProgressBar energyBar;
 
@@ -55,7 +53,7 @@ public class GameState extends AbstractState {
 		
 		this.app = app;
 		
-		playerManager = new PlayerManager(scene);
+		actorManager = new ActorManager(scene);
 		playerController = new PlayerController(app, this, scene);
 		map = new Map(scene, "res/textures/map");
 
@@ -99,10 +97,35 @@ public class GameState extends AbstractState {
 			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app);
 			// here we would set up more stuff related to the player like class,
 			// items, starting position, etc.
+			/*
+			int characterSelection = app.getNetworkManager().getNetPlayers().get(i).getChar();
+			characterSelection = 1;
+			System.out.println("Character Selected: " +characterSelection);
+			switch (characterSelection) {
+				case 1:
+					player.setRole(new Wizard());
+					//player.setPlayer(player.getRole());
+					break;
+				case 2:
+					player.setRole(new Knight());
+					break;
+				case 3:
+					player.setRole(new Elf());
+					break;
+			}
 
-			playerManager.addPlayer(player);
+			if (i >= 0 && i < 3) {
+				player.setTeam(1);
+
+			}
+
+			else {
+				player.setTeam(2);
+			}
+			*/
+			actorManager.addActor(player);
 		}
-		
+
 		map.init(app.getAssetManager());
 
 		// set up background sound
@@ -186,8 +209,8 @@ public class GameState extends AbstractState {
 		playerController.update();
 	}
 
-	public PlayerManager getPlayerManager() {
-		return this.playerManager;
+	public ActorManager getActorManager() {
+		return this.actorManager;
 	}
 	
 	public Map getMap()
@@ -200,3 +223,4 @@ public class GameState extends AbstractState {
 
 	}
 }
+

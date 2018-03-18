@@ -1,4 +1,18 @@
 package game.common.actors;
 
-public class NPC {
+import engine.application.Application;
+
+public class NPC extends Actor{
+	
+	
+	
+	public NPC(Application app, int networkId) {
+		super(networkId, app);
+		
+	}
+	
+	public void update() {
+		
+	}
+	 
 }

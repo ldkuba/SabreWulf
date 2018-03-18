@@ -69,3 +69,4 @@ public class SpriteComponent extends AbstractComponent
 	{
 	}
 }
+

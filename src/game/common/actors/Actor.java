@@ -14,8 +14,8 @@ import engine.entity.component.NetSpriteAnimationComponent;
 import engine.entity.component.NetTransformComponent;
 import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.TransformComponent;
+import engine.gui.components.ActorStatus;
 import engine.maths.MathUtil;
-import engine.maths.Vec2;
 import engine.maths.Vec3;
 import game.common.classes.AbstractClass;
 import game.common.inventory.Inventory;
@@ -26,15 +26,18 @@ import game.common.items.attributes.main.Energy;
 import game.common.items.attributes.main.Health;
 import game.common.items.attributes.main.MovementSpeed;
 import game.common.items.attributes.main.Resistance;
-import game.common.logic.ActorLogic;
 
 public class Actor
 {
-	private final int MOVE_ANIMATION_LENGTH = 3-1;
-	private final int MOVE_ANIMATION_RIGHT = 4;
-	private final int MOVE_ANIMATION_UP = 10;
-	private final int MOVE_ANIMATION_LEFT = 7;
-	private final int MOVE_ANIMATION_DOWN = 13;
+	private int id;
+	
+	private boolean debug = true;
+
+	private final int MOVE_ANIMATION_LENGTH = 7;
+	private final int MOVE_ANIMATION_RIGHT = 0;
+	private final int MOVE_ANIMATION_UP = 8;
+	private final int MOVE_ANIMATION_LEFT = 16;
+	private final int MOVE_ANIMATION_DOWN = 24;
 	
 	//-1 = stop, 0 = up, 1 = left, 2 = down, 3 = right
 	private int movingDir = -1;
@@ -46,12 +49,16 @@ public class Actor
 	protected Inventory inventory;
 	protected Entity entity;
 	
+	protected NetDataComponent netData;
+	
 	protected float HEALTH_LIMIT;
 	protected float health;
+	protected float healthRegen;
 	
 	protected float ENERGY_LIMIT;
 	protected float energy;
-
+	protected float energyRegen;
+	
 	protected float movementSpeed;
 	
 	protected float resistance;
@@ -59,9 +66,12 @@ public class Actor
 	protected float attackRange;
 	
 	protected NetSpriteAnimationComponent netSprite;
-	protected SpriteAnimationComponent sprite;
+	protected SpriteAnimationComponent sprite;	
+	protected Application app; 
 	
-	protected Application app;
+	protected ActorStatus status;
+	
+	protected AbstractClass role;
 	
 	public Actor(int netId, Application app)
 	{
@@ -69,17 +79,21 @@ public class Actor
 		entity = new Entity("Actor");
 		currentPath = new ArrayList<>();	
 		
+		this.id = netId;
+		
 		entity.addComponent(new NetIdentityComponent(netId, app.getNetworkManager()));
 		entity.addComponent(new NetTransformComponent());
 		NetTransformComponent transform = (NetTransformComponent) entity.getComponent(NetTransformComponent.class);
 		transform.setPosition(new Vec3(0.0f, 0.0f, 0.0f));
 		
-		NetDataComponent netData = new NetDataComponent();
+		netData = new NetDataComponent();
 		netData.addData("Health", health);
 		netData.addData("Energy", energy);
 		netData.addData("MovementSpeed", movementSpeed);
 		netData.addData("Resistance", resistance);
 		netData.addData("Team", team);
+		netData.addData("HealthRegen", healthRegen);
+		netData.addData("EnergyRegen", energyRegen);
 		entity.addComponent(netData);
 		
 		ColliderComponent collider = new ColliderComponent(1.5f, false);
@@ -100,6 +114,7 @@ public class Actor
 		if (!app.isHeadless()) {
 			sprite = new SpriteAnimationComponent(app.getAssetManager().getTexture(basePath + "textures/sprite.png"), 4, 0, 0, 5.0f, 5.0f, 2);
 			entity.addComponent(sprite);
+			status = new ActorStatus(this, app);
 		}
 	}
 
@@ -165,6 +180,44 @@ public class Actor
 			}
 		}
 	}
+	
+	public void addAttribute(Attribute attribute)  {
+		if (attribute instanceof Damage) {
+			float newDamage = getDamage() + attribute.getValue();
+			setDamage(newDamage);
+		} else if (attribute instanceof Energy) {
+			float newEnergy = getEnergyLimit() + attribute.getValue();
+			setEnergy(newEnergy);
+		} else if (attribute instanceof Health) {
+			float newHealth = getHealthLimit() + attribute.getValue();
+			setHealth(newHealth);
+		} else if (attribute instanceof MovementSpeed) {
+			float newMoveSpeed = getMovementSpeed() + attribute.getValue();
+			setMovementSpeed(newMoveSpeed);
+		} else if (attribute instanceof Resistance) {
+			float newResis = getResistance() + attribute.getValue();
+			setResistance(newResis);
+		}
+	}
+	
+	public void remAttribute(Attribute attribute) {
+		if (attribute instanceof Damage) {
+			float newDamage = getDamage() - attribute.getValue();
+			setDamage(newDamage);
+		} else if (attribute instanceof Energy) {
+			float newEnergy = getEnergyLimit() - attribute.getValue();
+			setEnergy(newEnergy);
+		} else if (attribute instanceof Health) {
+			float newHealth = getHealthLimit() - attribute.getValue();
+			setHealth(newHealth);
+		} else if (attribute instanceof MovementSpeed) {
+			float newMoveSpeed = getMovementSpeed() - attribute.getValue();
+			setMovementSpeed(newMoveSpeed);
+		} else if (attribute instanceof Resistance) {
+			float newResis = getResistance() - attribute.getValue();
+			setResistance(newResis);
+		}
+	}
 
 	public Inventory getInventory() {
 		return inventory;
@@ -176,6 +229,11 @@ public class Actor
 
 	public Entity getEntity() {
 		return entity;
+	}
+	
+	public int getActorId()
+	{
+		return this.id;
 	}
 	
 	public void calculatePath(Vec3 target, Navmesh navmesh)
@@ -204,7 +262,6 @@ public class Actor
 	 * lobby) team 2 is composed of the other three players (last three in
 	 * lobby) team 3 is composed of neutral npcs (shops, cart etc)
 	 */
-	
 	public int getTeam() {
 		return team;
 	}
@@ -272,9 +329,42 @@ public class Actor
 	public void setAttackRange(float rng) {
 		attackRange = rng;
 	}
+	
+	public float getHealthRegen()
+	{
+		return healthRegen;
+	}
+	
+	public void setHealthRegen(float healthRegen)
+	{
+		this.healthRegen = healthRegen;
+	}
+	
+	public float getEnergyRegen()
+	{
+		return energyRegen;
+	}
+	
+	public void setEnergyRegen(float energyRegen)
+	{
+		this.energyRegen = energyRegen;
+	}
 
+	private void updateNetData()
+	{
+		netData.addData("Health", health);
+		netData.addData("Energy", energy);
+		netData.addData("MovementSpeed", movementSpeed);
+		netData.addData("Resistance", resistance);
+		netData.addData("Team", team);
+		netData.addData("HealthRegen", healthRegen);
+		netData.addData("EnergyRegen", energyRegen);
+	}
+	
 	public void update()
 	{
+		updateNetData();
+		
 		Vec3 currentPos = new Vec3();
 		
 		if(entity.hasComponent(TransformComponent.class))
@@ -352,8 +442,13 @@ public class Actor
 		}
 		
 		currentPos.scale(-1.0f);
-		
+
 		System.out.println("Current Pos: " + currentPos.getX() + ", " + currentPos.getY());
+		
+		// Respawns player if health is <= 0
+		/*if (!logic.isAlive(this)) {
+			logic.respawn(this);
+		}*/
 	}
 	
 	public void stopMovement()
@@ -400,4 +495,45 @@ public class Actor
 			movingDir = 3;
 		}
 	}
+
+	public void setTeam(int team) {
+		this.team = team;
+	}
+
+	public void setPlayer(AbstractClass role) {
+		health = role.getHealth();
+		resistance = role.getResistance();
+		movementSpeed = role.getMoveSpeed();
+		energy = role.getEnergy();
+		damage = role.getDamage();
+		attackRange = 2.0f;
+		this.role = role;
+
+		//update player statistics.
+		if(entity.hasComponent(NetDataComponent.class)) {
+			NetDataComponent netData = (NetDataComponent) entity.getComponent(NetDataComponent.class);
+
+			//Update Health.
+			netData.getAllData("Health").put("Health", (Float.parseFloat(netData.getAllData("Health").get("Health").toString()) + health));
+			//Update Energy
+			netData.getAllData("Energy").put("Energy", (Float.parseFloat(netData.getAllData("Energy").get("Energy").toString()) + energy));
+			//Update Resistance
+			netData.getAllData("Resistance").put("Resistance", (Float.parseFloat(netData.getAllData("Resistance").get("Resistance").toString()) + resistance));
+			//Update Damage
+			//netData.getAllData("Damage").put("Damage", (Float.parseFloat(netData.getAllData("Damage").get("Damage").toString()) + damage));
+			//Update Movement Speed
+			netData.getAllData("MovementSpeed").put("MovementSpeed", (Float.parseFloat(netData.getAllData("MovementSpeed").get("MovementSpeed").toString()) + movementSpeed));
+
+			if(debug) { System.out.println("Entity role stats assigned"); }
+
+		} else {
+			if(debug) { System.out.println("WARNING: Entity does not have role stats assgined"); }
+		}
+	}
+
+	public ActorStatus getStatus(){
+		return status;
+	}
 }
+
+
