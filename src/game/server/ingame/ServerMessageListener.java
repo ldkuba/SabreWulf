@@ -1,18 +1,26 @@
 package game.server.ingame;
 
+import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import engine.entity.Entity;
 import engine.entity.component.NetTransformComponent;
 import engine.maths.Vec3;
 import engine.net.common_net.MessageListener;
-import engine.net.common_net.networking_messages.*;
+import engine.net.common_net.networking_messages.AbstractMessage;
+import engine.net.common_net.networking_messages.CoordinateMessage;
+import engine.net.common_net.networking_messages.DesiredLocationMessage;
+import engine.net.common_net.networking_messages.ExecuteActionMessage;
+import engine.net.common_net.networking_messages.PeerCountMessage;
+import engine.net.server.core.GameInstance;
 import engine.net.server.core.NetPlayer;
+import game.common.actors.Actor;
 import game.common.actors.Player;
+import game.common.logic.actions.AttackAction;
 
 public class ServerMessageListener implements MessageListener
 {
-
 	private boolean debug = true;
 
 	private class MessageEvent
@@ -26,7 +34,7 @@ public class ServerMessageListener implements MessageListener
 			this.player = player;
 		}
 	};
-	
+		
 	private ServerMain app;
 	private BlockingQueue<MessageEvent> abstractMessageInbound;
 
@@ -82,45 +90,51 @@ public class ServerMessageListener implements MessageListener
 		{
 			DesiredLocationMessage dlm = (DesiredLocationMessage) msg;
 			
-			ServerMain.gameState.getPlayerManager().getPlayer(player.getPlayerId()).calculatePath(dlm.getPos(), ServerMain.gameState.getMap().getNavmesh());
+			ArrayList<Entity> clickedEntities = ServerMain.gameState.getScene().pickEntities(dlm.getPos());
 			
-			System.out.println("Recieved path message in game");
-		} else if(msg instanceof CoordinateMessage) {
-
-			System.out.println("Received Coordinate MEssage");
-
-			CoordinateMessage entityPos = (CoordinateMessage) msg;
-
-			Vec3 coordinates = entityPos.getCoordinates();
-			float damageToGive;
-
-			Player attacker = ServerMain.gameState.getPlayerManager().getPlayer(player.getPlayerId());
-			//Check if entity is a player
-			boolean clickedPlayer = false;
-			for(int i = 0; i < ServerMain.gameState.getPlayerManager().getPlayers().size(); i++) {
-				Player currentPlayer = ServerMain.gameState.getPlayerManager().getPlayer(i);
-
-				NetTransformComponent currTransform = (NetTransformComponent) currentPlayer.getEntity().getComponent(NetTransformComponent.class);
-
-				//Check in range
-				if ( Vec3.distance(currTransform.getPosition(),coordinates) <=1.0f && Vec3.distance(currTransform.getPosition(),coordinates) >= -1.0f){
-
-					//Make sure you do not attack yourself.
-					if(currentPlayer.equals(attacker)) {
-						System.out.println("Not myself!");
-					}else {
-						currentPlayer.lostHealth(attacker.getDamage());
-						clickedPlayer = true;
-					}
+			Entity target = null;
+			
+			for(Entity e : clickedEntities)
+			{
+				if(e.hasTag("Targetable"))
+				{
+					Actor targetActor = ServerMain.gameState.getActorManager().getActor(e);
+					Actor sourceActor = ServerMain.gameState.getActorManager().getActor(player.getPlayerId());
+					
+					if(targetActor != null)
+					{
+						if(targetActor.getTeam() != sourceActor.getTeam())
+						{
+							target = e;
+							
+							AttackAction attackAction = new AttackAction(targetActor.getActorId(), sourceActor.getActorId());
+							if(attackAction.verify(ServerMain.gameState.getActorManager()))
+							{
+								ExecuteActionMessage eam = new ExecuteActionMessage();
+								eam.setAction(attackAction);
+								app.getNetworkManager().broadcast(eam);
+								
+								attackAction.executeServer(ServerMain.gameState.getActorManager());
+								
+							}else
+							{
+								e = null;
+							}
+							
+							break;
+						}
+					}	
 				}
 			}
-
-			if(!clickedPlayer) {
-				//More Search
+			
+			if(target == null)
+			{
+				ServerMain.gameState.getActorManager().getActor(player.getPlayerId()).calculatePath(dlm.getPos(), ServerMain.gameState.getMap().getNavmesh());
 			}
-
+			
+			System.out.println("Recieved path message in game");
+			
 		}
-
 	}
 
 	@Override

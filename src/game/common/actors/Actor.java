@@ -1,9 +1,7 @@
 package game.common.actors;
 
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 import engine.AI.Navmesh;
@@ -28,10 +26,11 @@ import game.common.items.attributes.main.Energy;
 import game.common.items.attributes.main.Health;
 import game.common.items.attributes.main.MovementSpeed;
 import game.common.items.attributes.main.Resistance;
-import game.common.logic.ActorLogic;
 
 public class Actor
 {
+	private int id;
+	
 	private boolean debug = true;
 
 	private final int MOVE_ANIMATION_LENGTH = 7;
@@ -50,6 +49,8 @@ public class Actor
 	protected Inventory inventory;
 	protected Entity entity;
 	
+	protected NetDataComponent netData;
+	
 	protected float HEALTH_LIMIT;
 	protected float health;
 	protected float healthRegen;
@@ -67,10 +68,10 @@ public class Actor
 	protected NetSpriteAnimationComponent netSprite;
 	protected SpriteAnimationComponent sprite;	
 	protected Application app; 
-	protected ActorLogic logic;
+	
 	protected ActorStatus status;
 	
-	private AbstractClass role;
+	protected AbstractClass role;
 	
 	public Actor(int netId, Application app)
 	{
@@ -78,12 +79,14 @@ public class Actor
 		entity = new Entity("Actor");
 		currentPath = new ArrayList<>();	
 		
+		this.id = netId;
+		
 		entity.addComponent(new NetIdentityComponent(netId, app.getNetworkManager()));
 		entity.addComponent(new NetTransformComponent());
 		NetTransformComponent transform = (NetTransformComponent) entity.getComponent(NetTransformComponent.class);
 		transform.setPosition(new Vec3(0.0f, 0.0f, 0.0f));
 		
-		NetDataComponent netData = new NetDataComponent();
+		netData = new NetDataComponent();
 		netData.addData("Health", health);
 		netData.addData("Energy", energy);
 		netData.addData("MovementSpeed", movementSpeed);
@@ -228,6 +231,11 @@ public class Actor
 		return entity;
 	}
 	
+	public int getActorId()
+	{
+		return this.id;
+	}
+	
 	public void calculatePath(Vec3 target, Navmesh navmesh)
 	{
 		Vec3 startPos = new Vec3();
@@ -248,29 +256,6 @@ public class Actor
 			this.currentPath = path;		
 		}
 	}
-
-	public void lostHealth(float damage) {
-		if (debug ) { System.out.println("About to lose health"); }
-		if(entity.hasComponent(NetDataComponent.class)) {
-			NetDataComponent playerData = (NetDataComponent) entity.getComponent(NetDataComponent.class);
-			HashMap<String, Serializable> health = playerData.getAllData("Health");
-
-			if (debug) {
-				System.out.println("LOSING HEALTH");
-				System.out.println("Health:" + health.get("Health"));
-				System.out.println("Damage Received: " + damage);
-			}
-
-			//Update Health.
-			health.put("Health",Float.parseFloat(playerData.getData("Health").toString()) - damage);
-			if( Float.parseFloat(playerData.getData("Health").toString()) <= 0 ){
-				if (debug) { System.out.println("I Died..."); }
-				logic.respawn(this);
-			}
-			System.out.println("New Health: " + health.get("Health"));
-		}
-	}
-
 
 	/**
 	 * team can be 1, 2, 3 team 1 is composed of three players (first three inTc
@@ -365,8 +350,21 @@ public class Actor
 		this.energyRegen = energyRegen;
 	}
 
+	private void updateNetData()
+	{
+		netData.addData("Health", health);
+		netData.addData("Energy", energy);
+		netData.addData("MovementSpeed", movementSpeed);
+		netData.addData("Resistance", resistance);
+		netData.addData("Team", team);
+		netData.addData("HealthRegen", healthRegen);
+		netData.addData("EnergyRegen", energyRegen);
+	}
+	
 	public void update()
 	{
+		updateNetData();
+		
 		Vec3 currentPos = new Vec3();
 		
 		if(entity.hasComponent(TransformComponent.class))
@@ -496,14 +494,6 @@ public class Actor
 			netSprite.changeAnimationFrames(MOVE_ANIMATION_RIGHT, MOVE_ANIMATION_RIGHT + MOVE_ANIMATION_LENGTH);
 			movingDir = 3;
 		}
-	}
-
-	public ActorLogic getLogic() {
-		return logic;
-	}
-
-	public void setLogic(ActorLogic logic) {
-		this.logic = logic;
 	}
 
 	public void setTeam(int team) {

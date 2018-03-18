@@ -17,8 +17,7 @@ import game.client.Main;
 import game.client.player.PlayerController;
 import game.common.actors.Player;
 import game.common.map.Map;
-import game.common.player.PlayerManager;
-
+import game.common.player.ActorManager;
 public class GameState extends AbstractState {
 
 
@@ -35,7 +34,7 @@ public class GameState extends AbstractState {
 	private Main app;
 	private PlayerController playerController;
 
-	private PlayerManager playerManager;
+	private ActorManager actorManager;
 	private ProgressBar heathBar;
 	private ProgressBar energyBar;
 
@@ -54,7 +53,7 @@ public class GameState extends AbstractState {
 		
 		this.app = app;
 		
-		playerManager = new PlayerManager(scene);
+		actorManager = new ActorManager(scene);
 		playerController = new PlayerController(app, this, scene);
 		map = new Map(scene, "res/textures/map");
 
@@ -124,7 +123,7 @@ public class GameState extends AbstractState {
 				player.setTeam(2);
 			}
 			*/
-			playerManager.addPlayer(player);
+			actorManager.addActor(player);
 		}
 
 		map.init(app.getAssetManager());
@@ -210,8 +209,8 @@ public class GameState extends AbstractState {
 		playerController.update();
 	}
 
-	public PlayerManager getPlayerManager() {
-		return this.playerManager;
+	public ActorManager getActorManager() {
+		return this.actorManager;
 	}
 	
 	public Map getMap()

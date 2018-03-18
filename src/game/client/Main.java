@@ -8,7 +8,6 @@ import game.client.states.GameState;
 import game.client.states.LobbyState;
 import game.client.states.MenuState;
 import game.common.config;
-import game.common.player.PlayerManager;
 
 public class Main extends Application {
 
@@ -18,7 +17,6 @@ public class Main extends Application {
 	public static LobbyState lobbyState;
 	public static GameState gameState;
 	public static EndState endState;
-	private PlayerManager playerManager;
 
 	public Main() {
 		super(config.screenWidth, config.screenHeight, 1, config.windowName, config.clientFullScreen, false); // window width, window

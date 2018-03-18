@@ -2,12 +2,10 @@ package game.server.states;
 
 import engine.entity.component.NetTransformComponent;
 import engine.maths.Vec3;
-import engine.scene.Scene;
 import engine.state.AbstractState;
 import game.common.actors.Player;
-import game.common.classes.classes.*;
 import game.common.map.Map;
-import game.common.player.PlayerManager;
+import game.common.player.ActorManager;
 import game.server.ingame.ServerMain;
 
 
@@ -20,7 +18,7 @@ public class ServerGameState extends AbstractState
 	
 	private Map map;
 	
-	private PlayerManager playerManager;
+	private ActorManager actorManager;
 	
 	private int frame = 0;
 	private float second = System.currentTimeMillis();
@@ -30,7 +28,7 @@ public class ServerGameState extends AbstractState
 		super(app);
 		this.app = app;
 		map = new Map(scene, "res/textures/map");
-		playerManager = new PlayerManager(scene);
+		actorManager = new ActorManager(scene);
 	}
 		
 	@Override
@@ -86,7 +84,7 @@ public class ServerGameState extends AbstractState
 				player.setTeam(2);
 			}
 			*/
-			playerManager.addPlayer(player);
+			actorManager.addActor(player);
 		}
 
 	}
@@ -98,12 +96,12 @@ public class ServerGameState extends AbstractState
 		
 		System.out.println("ALIVE");
 		
-		playerManager.update();
+		actorManager.update();
 	}
 	
-	public PlayerManager getPlayerManager()
+	public ActorManager getActorManager()
 	{
-		return this.playerManager;
+		return this.actorManager;
 	}
 	
 	public Map getMap()

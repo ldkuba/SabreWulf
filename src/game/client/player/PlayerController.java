@@ -2,17 +2,11 @@ package game.client.player;
 
 import java.util.ArrayList;
 
-import engine.entity.component.NetIdentityComponent;
-import engine.entity.component.NetTransformComponent;
-import engine.net.common_net.networking_messages.AttackPlayerMessage;
-import engine.net.common_net.networking_messages.CoordinateMessage;
-import game.common.player.PlayerManager;
 import org.lwjgl.glfw.GLFW;
 
 import engine.entity.Entity;
 import engine.entity.component.SpriteAnimationComponent;
 import engine.entity.component.SpriteComponent;
-import engine.gui.components.ActorStatus;
 import engine.input.InputManager;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
@@ -96,25 +90,8 @@ public class PlayerController {
 			DesiredLocationMessage msg = new DesiredLocationMessage();
 			Vec3 worldPos = scene.getCamera().getWorldCoordinates((float)main.getInputManager().getMouseX(), (float)main.getInputManager().getMouseY());
 			msg.setPos(worldPos);
-
-			for(Entity e : scene.getEntities())
-			{
-				if(e.hasTag("Targetable"))
-				{
-					if(selectedEntities.contains(e))
-					{
-						NetTransformComponent entityTransform = (NetTransformComponent) e.getComponent(NetTransformComponent.class);
-						CoordinateMessage entityMessage = new CoordinateMessage(entityTransform.getPosition());
-						main.getClient().sendTCP(entityMessage);
-						clickedEntity = true;
-					}
-				}
-			}
-
-			if(clickedEntity == false) {
-				main.getClient().sendTCP(msg);
-			}
-
+			main.getClient().sendTCP(msg);
+			
 			if(!main.getSoundManager().getIsMuted()){
 				main.getSoundManager().getSoundSource("background/game").setGain(0.5f);				
 			}

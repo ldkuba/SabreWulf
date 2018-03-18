@@ -383,4 +383,39 @@ public class Scene
 		
 		return result;
 	}
+	
+	//2D version
+	public ArrayList<Entity> pickEntities(Vec3 worldPos)
+	{		
+		ArrayList<Entity> result = new ArrayList<>();
+		
+		for(Entity e : m_Entities)
+		{
+			if(e.hasComponent(ColliderComponent.class))
+			{
+				Vec3 position = null;
+				if(e.hasComponent(TransformComponent.class))
+				{
+					TransformComponent transform = e.getTransform();
+					position = transform.getPosition();
+				}else if(e.hasComponent(NetTransformComponent.class))
+				{
+					NetTransformComponent transform = (NetTransformComponent) e.getComponent(NetTransformComponent.class);
+					position = transform.getPosition();
+				}else
+				{
+					continue;
+				}
+			
+				ColliderComponent collider = (ColliderComponent) e.getComponent(ColliderComponent.class);
+				
+				if(collider.isInBounds(worldPos, position))
+				{
+					result.add(e);
+				}
+			}
+		}
+		
+		return result;
+	}
 }
