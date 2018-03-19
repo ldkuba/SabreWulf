@@ -103,5 +103,7 @@ public class ProgressBar {
 		background.resize();
 
 		progressBar.setHeight(height / Application.s_Viewport.getY());
+		progressBar.setHeight(height / Application.s_Viewport.getY());
+		progressBar.resize();
 	}
 }

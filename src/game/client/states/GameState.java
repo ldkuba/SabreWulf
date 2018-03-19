@@ -151,7 +151,7 @@ public class GameState extends AbstractState {
 
 		energyBar = new ProgressBar(43.6f, 96.4f, 12.25f, 2.5f,
 				app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar_background.png"),
-				app.getAssetManager().getTexture("res/textures/gui/bars/ENERGY_bar.png"),
+				app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar.png"),
 				app.getAssetManager().getFont("fontSprite.png"), app.getGui());
 
 		// Entity entity3D = new Entity("3D test");
