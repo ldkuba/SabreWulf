@@ -44,6 +44,7 @@ public class Actor
 	
 	private final float MIN_DISTANCE = 0.2f;
 	private ArrayList<Vec3> currentPath;
+	private Vec3 startPosition;
 	
 	protected int team;
 	protected Inventory inventory;
@@ -402,9 +403,7 @@ public class Actor
 	public void update()
 	{
 		updateNetData();
-	
-		netData = (NetDataComponent) entity.getComponent(NetDataComponent.class);
-		System.out.println("HEALTH: " + netData.getData("Health"));
+
 		
 		if(!app.isHeadless())
 		{
@@ -443,6 +442,14 @@ public class Actor
 				}
 			}else if(entity.hasComponent(NetTransformComponent.class))
 			{
+
+				//Respawn
+				if(health <= 0) {
+					startPosition = new Vec3(10.0f,-10.0f,0.0f);
+					entity.getNetTransform().setPosition(startPosition);
+					health = HEALTH_LIMIT;
+				}
+
 				if(!currentPath.isEmpty())
 				{
 					currentPos = new Vec3(((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).getPosition());
@@ -538,6 +545,14 @@ public class Actor
 
 	public void setTeam(int team) {
 		this.team = team;
+	}
+
+	public void setStartPosition(Vec3 pos) {
+		startPosition = pos;
+	}
+
+	public Vec3 getStartPosition() {
+		return startPosition;
 	}
 
 	public void setRole(AbstractClass role) {

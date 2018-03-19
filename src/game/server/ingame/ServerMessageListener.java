@@ -103,7 +103,7 @@ public class ServerMessageListener implements MessageListener
 					
 					if(targetActor != null)
 					{
-						if(targetActor.getTeam() != sourceActor.getTeam())
+						if(targetActor.getTeam() == sourceActor.getTeam())
 						{
 							target = e;
 							
