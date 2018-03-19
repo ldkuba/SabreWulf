@@ -17,42 +17,47 @@ public class ActorStatus extends CustomComponent {
 	private Actor actor;
 	private ProgressBar health;
 	private ProgressBar energy;
-	
+
 	private float paddingHealth = 80.0f;
 	private float paddingEnergy = 40.0f;
-	
+
 	public ActorStatus(Actor actor, Application app) {
 		this.actor = actor;
 		this.gui = app.getGui();
 		scene = Main.gameState.getScene();
-		Vec3 temp = new Vec3(0.0f, 0.0f, 0.0f); //set this to player starting position (currently a null pointer ex)
+		Vec3 temp = new Vec3(0.0f, 0.0f, 0.0f); // set this to player starting position
 		Vec2 screen = scene.getCamera().getScreenCoordinates(temp);
-		health = new ProgressBar(screen.getX(), screen.getY()+paddingHealth, 200.0f, 20.0f, app.getAssetManager().getTexture("res/textures/gui/bars/health_bar_background.png"),app.getAssetManager().getTexture("res/textures/gui/bars/health_bar.png"),app.getAssetManager().getFont("fontSprite.png"), this.gui);
-		energy = new ProgressBar(screen.getX(), screen.getY(), 200.0f, 20.0f, app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar_background.png"),app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar.png"),app.getAssetManager().getFont("fontSprite.png"), this.gui);		
+		health = new ProgressBar(screen.getX(), screen.getY() + paddingHealth, 200.0f, 20.0f,
+				app.getAssetManager().getTexture("res/textures/gui/bars/health_bar_background.png"),
+				app.getAssetManager().getTexture("res/textures/gui/bars/health_bar.png"),
+				app.getAssetManager().getFont("fontSprite.png"), this.gui);
+		energy = new ProgressBar(screen.getX(), screen.getY(), 200.0f, 20.0f,
+				app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar_background.png"),
+				app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar.png"),
+				app.getAssetManager().getFont("fontSprite.png"), this.gui);
 
 	}
-	
-	public void update(){
+
+	public void update() {
 		Vec2 newPos = calculatePos();
-		//energy bar
+		// energy bar
 		float newEnergy = actor.getEnergy();
-		energy.setPosition(newPos.getX(), newPos.getY()+paddingHealth/Application.s_Viewport.getX());
+		energy.setPosition(newPos.getX(), newPos.getY() + paddingEnergy / Application.s_Viewport.getX());
 		energy.setBar(newEnergy);
-		//health bar
+		// health bar
 		float newHealth = actor.getHealth();
-		health.setPosition(newPos.getX(), newPos.getY()+paddingEnergy/Application.s_Viewport.getX());
+		health.setPosition(newPos.getX(), newPos.getY() + paddingHealth / Application.s_Viewport.getX());
 		health.setBar(newHealth);
 	}
-	
+
 	private Vec2 calculatePos() {
 		NetTransformComponent transform = actor.getEntity().getNetTransform();
-		if(transform != null)
-		{
+		if (transform != null) {
 			Vec2 screenPos = scene.getCamera().getScreenCoordinates(Vec3.add(transform.getPosition(), new Vec3(-2.0f, 3.25f, 0.0f)));
 			Vec2 result = new Vec2(screenPos.getX(), screenPos.getY());
 			return result;
 		}
-		
+
 		return new Vec2(0.0f, 0.0f);
 	}
 }

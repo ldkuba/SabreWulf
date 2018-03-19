@@ -99,7 +99,7 @@ public class PlayerController {
 			
 		} else if (button == GLFW.GLFW_MOUSE_BUTTON_1 && action == GLFW.GLFW_PRESS){
 			if (!main.getSoundManager().getIsMuted()){
-				main.getSoundManager().invokeSound("attack/s2", false, true);
+				main.getSoundManager().invokeSound("attack/spells/s2", false, true);
 			}
 		}
 	}

@@ -8,6 +8,7 @@ import engine.gui.components.Button;
 import engine.gui.components.Label;
 import engine.gui.components.SelectList;
 import engine.gui.components.Sprite;
+import engine.gui.components.ToggleButton;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
@@ -25,6 +26,7 @@ public class LobbyState extends AbstractState
 	private SelectList characterChoice;
 	private Button lockInButton;
 	private Button quitButton;
+	private ToggleButton muteButton;
 	private ArrayList<Texture> characterAvatars;
 	private ArrayList<Sprite> playerAvatars;
 	
@@ -154,6 +156,36 @@ public class LobbyState extends AbstractState
 				app.getGui().add(label);
 			}	
 		}
+		
+		String muteReleasedPath;
+		String mutePressedPath;
+		if(app.getSoundManager().getIsMuted()){
+			muteReleasedPath = "res/textures/gui/buttons/mute_button_pressed.png";
+			mutePressedPath = "res/textures/gui/buttons/mute_button_released.png";
+		} else {
+			muteReleasedPath = "res/textures/gui/buttons/mute_button_released.png";
+			mutePressedPath = "res/textures/gui/buttons/mute_button_pressed.png";
+		}
+		
+		Texture muteButtonReleasedTexture = app.getAssetManager()
+				.getTexture(muteReleasedPath);
+		Texture muteButtonPressedTexture = app.getAssetManager()
+				.getTexture(mutePressedPath);
+		muteButton = new ToggleButton(95.0f, 93.0f, 4.0f, 6.0f, muteButtonPressedTexture, muteButtonReleasedTexture) {
+			@Override
+			public void onClick(boolean toggled) {
+				if(toggled && !app.getSoundManager().getIsMuted()) {
+					app.getSoundManager().invokeSound("click", false, true);
+					app.getSoundManager().stopSoundSource("background/lobby");
+					app.getSoundManager().muteSounds();
+				} else {
+					app.getSoundManager().invokeSound("click", false, true);
+					app.getSoundManager().unmuteSounds();
+					app.getSoundManager().playSoundSource("background/lobby");
+				}
+			}
+		};
+		app.getGui().add(muteButton);
 		
 		float aspectRatio = Application.s_WindowSize.getX()/Application.s_WindowSize.getY();
 		scene.getCamera().setProjectionMatrix(MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.1f, 100.0f));
