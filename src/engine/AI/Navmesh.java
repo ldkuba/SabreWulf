@@ -162,10 +162,47 @@ public class Navmesh {
 		}
 
 		path.add(end);
-
+		smoothPath(path);
 		return path;
 	}
+	
+	public ArrayList<Vec3> smoothPath(ArrayList<Vec3> path){
+		Vec3 A = new Vec3();
+		Vec3 B = new Vec3(); 
+		Vec3 C = new Vec3();
+		boolean valid = false;
+		ArrayList<Vec3> smoothedPath = new ArrayList<Vec3>();
+		smoothedPath.add(path.get(0));
+		path.remove(0);
+		while(path.size() > 1){
+			A = path.get(0);
+			B = path.get(1);
+			C = averagePoint(A, B);
+			for(Triangle t : triangles){
+				if(pointInTriangle(C, t)){
+					valid = true;
+				}
+			}
+			if(valid){
+				smoothedPath.add(C);
+				path.remove(0);
+				path.remove(1);
+			} else {
+				smoothedPath.add(A);
+				path.remove(0);
+			}
+		}
+		smoothedPath.add(path.get(0));
+		return smoothedPath;
+	}
 
+	private Vec3 averagePoint(Vec3 A, Vec3 B) {
+		Vec3 C = new Vec3();
+		C.setX((A.getX() + B.getX())/2);
+		C.setY((A.getY() + B.getY())/2);
+		C.setZ(0.0f);
+		return C;
+	}
 
 	public boolean equals(Vec2 A, Vec2 B){
 		return (A.getX() == B.getX()) && (A.getY() == B.getY());
