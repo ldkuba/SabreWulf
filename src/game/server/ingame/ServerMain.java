@@ -4,17 +4,12 @@ import java.util.ArrayList;
 
 import engine.application.Application;
 import engine.net.server.core.NetPlayer;
-import game.common.actors.Player;
-import game.common.player.PlayerManager;
-import game.server.ingame.ServerConnectionListener;
-import game.server.ingame.ServerMessageListener;
+import game.common.player.ActorManager;
 import game.server.states.ServerGameState;
 
 public class ServerMain extends Application {
 	
 	public static ServerGameState gameState;
-
-	protected PlayerManager playerManager;
 
 	//private PlayerManager playerManager;
 	

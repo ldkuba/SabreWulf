@@ -42,7 +42,10 @@ public class MenuState extends AbstractState {
 	public void init() {
 		super.init();
 		
-		app.getSoundManager().invokeSound("background/menu", true, true);
+		if(!app.getSoundManager().getIsMuted()){
+			app.getSoundManager().invokeSound("background/menu", true, true);
+			app.getSoundManager().getSoundSource("background/menu").setGain(0.8f);
+		}
 		Texture menuBackgroundTexture = app.getAssetManager().getTexture("res/textures/gui/backgrounds/mainmenu_background.png");
 		menuBackground = new Sprite(0, 0, 100.0f, 100.0f, menuBackgroundTexture);
 		app.getGui().add(menuBackground);
@@ -59,25 +62,35 @@ public class MenuState extends AbstractState {
 				LobbyConnectionRequestMessage cnm = new LobbyConnectionRequestMessage();
 				cnm.setName(playerNameField.getText());
 				app.getClient().sendTCP(cnm);
-				app.getSoundManager().stopSoundSource("background/menu");
+				if(!app.getSoundManager().getIsMuted()){
+					app.getSoundManager().stopSoundSource("background/menu");
+				}
 			}
 		};
 		app.getGui().add(playButton);
 
+		String muteReleasedPath;
+		String mutePressedPath;
+		if(app.getSoundManager().getIsMuted()){
+			muteReleasedPath = "res/textures/gui/buttons/mute_button_pressed.png";
+			mutePressedPath = "res/textures/gui/buttons/mute_button_released.png";
+		} else {
+			muteReleasedPath = "res/textures/gui/buttons/mute_button_released.png";
+			mutePressedPath = "res/textures/gui/buttons/mute_button_pressed.png";
+		}
+		
 		Texture muteButtonReleasedTexture = app.getAssetManager()
-				.getTexture("res/textures/gui/buttons/mute_button_released.png");
+				.getTexture(muteReleasedPath);
 		Texture muteButtonPressedTexture = app.getAssetManager()
-				.getTexture("res/textures/gui/buttons/mute_button_pressed.png");
+				.getTexture(mutePressedPath);
 		muteButton = new ToggleButton(85.0f, 93.0f, 4.0f, 6.0f, muteButtonPressedTexture, muteButtonReleasedTexture) {
 			@Override
 			public void onClick(boolean toggled) {
-				if(toggled)
-				{
+				if(toggled && !app.getSoundManager().getIsMuted()) {
 					app.getSoundManager().invokeSound("click", false, true);
 					app.getSoundManager().stopSoundSource("background/menu");
 					app.getSoundManager().muteSounds();
-				}else
-				{
+				} else {
 					app.getSoundManager().invokeSound("click", false, true);
 					app.getSoundManager().unmuteSounds();
 					app.getSoundManager().playSoundSource("background/menu");
@@ -85,7 +98,7 @@ public class MenuState extends AbstractState {
 			}
 		};
 		app.getGui().add(muteButton);
-
+	
 		Texture settingButtonReleasedTexture = app.getAssetManager()
 				.getTexture("res/textures/gui/buttons/settings_button_released.png");
 		Texture settingButtonPressedTexture = app.getAssetManager()

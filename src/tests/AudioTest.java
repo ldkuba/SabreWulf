@@ -1,7 +1,7 @@
 package tests;
 
 import static org.junit.Assert.*;
-
+import java.io.IOException;
 import org.junit.Test;
 
 import engine.sound.SoundBuffer;
@@ -30,6 +30,12 @@ public class AudioTest {
 		actual = buffer.getBufferId();
 		expected = 2;
 		assertEquals(expected, actual);
+		
+		path = basePath + "attack/scratch.ogg";
+		buffer = new SoundBuffer(path);
+		actual = buffer.getBufferId();
+		expected = 3;
+		assertEquals(expected, actual);
 
 		buffer.cleanup();
 		soundManager.clean();
@@ -46,18 +52,40 @@ public class AudioTest {
 		boolean playing = source.isPlaying(); // should not be playing initially
 		assertEquals(false, playing);
 
-		source.play(); // start playing
+		source.play(); // start
 		playing = source.isPlaying();
 		assertEquals(true, playing);
-
-		source.pause(); // pause
-		playing = source.isPlaying();
-		assertEquals(false, playing);
-
+		
 		source.stop(); // stop
 		playing = source.isPlaying();
 		assertEquals(false, playing);
-		source.cleanup(); // clean up just to be nice
+		
+		source.play(); // play again
+		playing = source.isPlaying();
+		assertEquals(true, playing);
+		
+		source.play(); // try play even though its playing
+		playing = source.isPlaying();
+		assertEquals(true, playing);
+		
+		source.pause(); // pause
+		playing = source.isPlaying();
+		assertEquals(false, playing);
+		
+		//then stop
+		source.stop(); 
+		playing = source.isPlaying();
+		assertEquals(false, playing);
+		
+		source.stop(); //try to stop again
+		playing = source.isPlaying();
+		assertEquals(false, playing);
+		
+		source.pause(); //try and pause even though its stopped
+		playing = source.isPlaying();
+		assertEquals(false, playing);
+		
+		source.cleanup(); 
 		soundManager.clean();
 	}
 
@@ -71,7 +99,7 @@ public class AudioTest {
 	}
 
 	@Test
-	public void managerTest() {
+	public void managerTest() throws IOException {
 		String path = basePath + "count.ogg";
 		buffer = new SoundBuffer(path);
 		source = new SoundSource(false, false);
@@ -85,6 +113,21 @@ public class AudioTest {
 		soundManager.deleteSoundSource("background/lobby");
 		check = soundManager.getSoundSource("background/lobby");
 		assertNull(check); // its been deleted
+		
+		//re-add that same sound - should not be blocked
+		soundManager.addSoundSource("background/lobby", source);
+		check = soundManager.getSoundSource("background/lobby");
+		assertNotNull(check);
+		
+		check = soundManager.getSoundSource("hiiiiiii");
+		assertNull(check);
+		
+		//try and add the same source again
+		/*soundManager.addSoundSource("background/lobby", source);
+		check = soundManager.getSoundSource("background/lobby");
+		assertEquals("Trying to re-add a sound source", soundManager.getOS().toString());
+		
+		soundManager.getOS().close();	*/
 		soundManager.clean();
 	}
 }

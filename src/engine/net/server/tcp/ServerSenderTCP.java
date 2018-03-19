@@ -2,6 +2,7 @@ package engine.net.server.tcp;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.SocketException;
 
 import engine.application.Timer;
 import engine.net.common_net.networking_messages.AbstractMessage;
@@ -28,14 +29,20 @@ public class ServerSenderTCP extends Thread{
         while(!player.getSocket().isClosed()){
             try {
                 AbstractMessage msg = player.takeMessage();
-                if(msg instanceof QuitMessage){
+                if (msg instanceof QuitMessage) {
                     player.getSocket().close();
                     gameServer.removePlayer(player);
                     oos.close();
-                }
-                else {
+                } else {
                     oos.writeObject(msg);
                     oos.reset();
+                }
+            } catch (SocketException se){
+                try {
+                    player.getSocket().close();
+                    gameServer.removePlayer(player);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
