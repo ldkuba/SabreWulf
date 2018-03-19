@@ -41,8 +41,7 @@ public class GameState extends AbstractState {
 
 	private Map map;
 	private Sprite spellBar;
-	private Button abilityButton1;
-	
+
 	private float dirX = 0.0f;
 	private float dirY = 0.0f;
 
@@ -51,9 +50,9 @@ public class GameState extends AbstractState {
 
 	public GameState(Main app) {
 		super(app);
-		
+
 		this.app = app;
-		
+
 		actorManager = new ActorManager(scene);
 		playerController = new PlayerController(app, this, scene);
 		map = new Map(scene, "res/textures/map");
@@ -70,9 +69,8 @@ public class GameState extends AbstractState {
 					MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 1.0f, 100.0f));
 			app.setViewport(zoom * aspectRatio, zoom);
 		}
-		
-		if(key == GLFW.GLFW_KEY_D && action == GLFW.GLFW_PRESS)
-		{
+
+		if (key == GLFW.GLFW_KEY_D && action == GLFW.GLFW_PRESS) {
 			System.out.println("D FOR DEBUG");
 		}
 
@@ -125,35 +123,48 @@ public class GameState extends AbstractState {
 		map.init(app.getAssetManager());
 
 		// set up background sound
-		if(!app.getSoundManager().getIsMuted()){
+		if (!app.getSoundManager().getIsMuted()) {
 			app.getSoundManager().invokeSound("background/game", true, true);
 		}
 
-//		ProgressBar healthBar = new ProgressBar(20.0f,20.0f, 20.0f, 20.0f, app.getAssetManager().getTexture("res/textures/bars/potion.png"), app.getAssetManager().getTexture("res/textures/bars/progress.png"), app.getAssetManager().getFont("fontSprite.png"), app.getGui());
-//		healthBar.setMaxProgress(240.0f);
-//		healthBar.setBar(120.0f);
+		// ProgressBar healthBar = new ProgressBar(20.0f,20.0f, 20.0f, 20.0f,
+		// app.getAssetManager().getTexture("res/textures/bars/potion.png"),
+		// app.getAssetManager().getTexture("res/textures/bars/progress.png"),
+		// app.getAssetManager().getFont("fontSprite.png"), app.getGui());
+		// healthBar.setMaxProgress(240.0f);
+		// healthBar.setBar(120.0f);
 
 		spellBar = new Sprite(25.0f, 85.0f, 50.0f, 15.0f,
 				app.getAssetManager().getTexture("res/textures/gui/placeholders/spellbar.png"));
 		app.getGui().add(spellBar);
 
-		heathBar = new ProgressBar(43.6f, 93.4f, 12.25f, 2.5f, app.getAssetManager().getTexture("res/textures/gui/bars/health_bar_background.png"),app.getAssetManager().getTexture("res/textures/gui/bars/health_bar.png"),app.getAssetManager().getFont("fontSprite.png"),app.getGui());
+		heathBar = new ProgressBar(43.6f, 93.4f, 12.25f, 2.5f,
+				app.getAssetManager().getTexture("res/textures/gui/bars/health_bar_background.png"),
+				app.getAssetManager().getTexture("res/textures/gui/bars/health_bar.png"),
+				app.getAssetManager().getFont("fontSprite.png"), app.getGui());
 
-		energyBar = new ProgressBar(43.6f, 96.4f, 12.25f, 2.5f, app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar_background.png"),app.getAssetManager().getTexture("res/textures/gui/bars/ENERGY_bar.png"),app.getAssetManager().getFont("fontSprite.png"),app.getGui());
+		energyBar = new ProgressBar(43.6f, 96.4f, 12.25f, 2.5f,
+				app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar_background.png"),
+				app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar.png"),
+				app.getAssetManager().getFont("fontSprite.png"), app.getGui());
 
-//		Entity entity3D = new Entity("3D test");
-//		entity3D.addComponent(new TransformComponent());
-//		entity3D.addComponent(new MeshComponent(app.getAssetManager().getModel("res/models/testModel.obj", "res/shaders/simpleshader3D.txt", null, false)));
-//		scene.addEntity(entity3D);
-		
+		// Entity entity3D = new Entity("3D test");
+		// entity3D.addComponent(new TransformComponent());
+		// entity3D.addComponent(new
+		// MeshComponent(app.getAssetManager().getModel("res/models/testModel.obj",
+		// "res/shaders/simpleshader3D.txt", null, false)));
+		// scene.addEntity(entity3D);
+
 		Entity entityCollider = new Entity("ColliderTest");
 		entityCollider.addComponent(new TransformComponent());
-		entityCollider.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture("res/textures/characters/placeholder.png"), 3.0f, 3.0f));
+		entityCollider.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f),
+				app.getAssetManager().getTexture("res/textures/characters/placeholder.png"), 3.0f, 3.0f));
 		entityCollider.addComponent(new ColliderComponent(1.6f, false));
 		entityCollider.addTag("Targetable");
 		scene.addEntity(entityCollider);
-		
-		scene.getCamera().setProjectionMatrix(MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 1.0f, 100.0f));
+
+		scene.getCamera().setProjectionMatrix(
+				MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 1.0f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
 	}
 
@@ -183,19 +194,19 @@ public class GameState extends AbstractState {
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
 			scene.getCamera().move(new Vec3(0.0f, -cameraSpeed, 0.0f));
 		}
-		
+
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_A)) {
 			dirX -= 0.04f;
 		}
-		
+
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_F)) {
 			dirX += 0.04f;
 		}
-		
+
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_W)) {
 			dirY -= 0.04f;
 		}
-		
+
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_S)) {
 			dirY += 0.04f;
 		}
@@ -212,9 +223,8 @@ public class GameState extends AbstractState {
 	public ActorManager getActorManager() {
 		return this.actorManager;
 	}
-	
-	public Map getMap()
-	{
+
+	public Map getMap() {
 		return this.map;
 	}
 
