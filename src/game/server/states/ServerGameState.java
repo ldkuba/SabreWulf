@@ -69,11 +69,11 @@ public class ServerGameState extends AbstractState
 					System.out.println("LINK");
 					break;
 				case 1:
-					player.setRole(new GhostClass());
+					player.setRole(new WolfClass());
 					System.out.println("GHOST");
 					break;
 				case 2:
-					player.setRole(new WolfClass());
+					player.setRole(new GhostClass());
 					System.out.println("WOLF");
 					break;
 			}

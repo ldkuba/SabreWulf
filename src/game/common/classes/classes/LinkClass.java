@@ -4,20 +4,23 @@ import game.common.classes.AbstractClass;
 
 public class LinkClass extends AbstractClass {
 	
-	//Base stats
-	private static float health = 140;
-	private static float moveSpeed = 80;
-	private static float damage = 60;
-	private static float resistance = 55;
-	private static float energy = 100;
-	private static float attackRange = 2.0f;
-	
-	//Regeneration
-	private float energyReg = 0.2f;
-	private float healthReg = 0.4f;
-	
 	public LinkClass() {
-		super(health, moveSpeed, damage, resistance, energy, attackRange);
+		health = 140;
+		moveSpeed = 0.08f;
+		damage = 60;
+		resistance = 55;
+		energy = 100;
+		attackRange = 2.0f;
+		
+		moveAnimationLength = 2;
+		moveAnimationLeft = 7;
+		moveAnimationRight = 4;
+		moveAnimationUp = 10;
+		moveAnimationDown = 13;
+		
+		energyReg = 0.2f;
+		healthReg = 0.4f;
+		
 		resourcePath = "res/actors/link/";
 	}
 }
