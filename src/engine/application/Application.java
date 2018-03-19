@@ -151,7 +151,7 @@ public class Application {
 		// Enable v-sync
 		glfwSwapInterval(vsyncInterval);
 		// Enable Antialiasing
-		GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 4);
+		GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 2);
 		// Make the window visible
 		glfwShowWindow(window);
 
