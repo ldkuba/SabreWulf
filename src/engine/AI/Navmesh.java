@@ -162,7 +162,7 @@ public class Navmesh {
 		}
 
 		path.add(end);
-		smoothPath(path);
+		//smoothPath(path);
 		return path;
 	}
 	
