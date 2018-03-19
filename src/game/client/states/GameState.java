@@ -25,13 +25,13 @@ import game.common.player.ActorManager;
 public class GameState extends AbstractState {
 
 	private final int SCROLL_MARGIN = 10;
-	private final float SCROLL_SPEED = 0.02f;
+	private final float SCROLL_SPEED = 0.00f;
 	
 	private Main app;
 	private PlayerController playerController;
 
 	private ActorManager actorManager;
-	private ProgressBar heathBar;
+	private ProgressBar healthBar;
 	private ProgressBar energyBar;
 
 	private Map map;
@@ -88,7 +88,16 @@ public class GameState extends AbstractState {
 
 		// Add players
 		for (int i = 0; i < app.getNetworkManager().getNetPlayers().size(); i++) {
-			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app);
+			
+			Player player = null;
+			
+			if(app.getNetworkManager().getNetPlayers().get(i).getName().equals(Main.clientName))
+			{
+				player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app, true);
+			}else
+			{
+				player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app, false);
+			}
 			// here we would set up more stuff related to the player like class,
 			// items, starting position, etc.
 
@@ -133,7 +142,7 @@ public class GameState extends AbstractState {
 				app.getAssetManager().getTexture("res/textures/gui/placeholders/spellbar.png"));
 		app.getGui().add(spellBar);
 
-		heathBar = new ProgressBar(43.6f, 93.4f, 12.25f, 2.5f,
+		healthBar = new ProgressBar(43.6f, 93.4f, 12.25f, 2.5f,
 				app.getAssetManager().getTexture("res/textures/gui/bars/health_bar_background.png"),
 				app.getAssetManager().getTexture("res/textures/gui/bars/health_bar.png"),
 				app.getAssetManager().getFont("fontSprite.png"), app.getGui());
@@ -226,6 +235,12 @@ public class GameState extends AbstractState {
 		{
 			scene.getCamera().move(new Vec3(0.0f, -SCROLL_SPEED * Application.s_Viewport.getX(), 0.0f));
 		}
+		
+		//STATS UPDATE:
+		healthBar.setBar(actorManager.getLocalPlayer().getHealth());
+		healthBar.setMaxProgress(actorManager.getLocalPlayer().getHealthLimit());
+		energyBar.setBar(actorManager.getLocalPlayer().getEnergy());
+		energyBar.setMaxProgress(actorManager.getLocalPlayer().getEnergyLimit());
 		
 		actorManager.update();
 		playerController.update();

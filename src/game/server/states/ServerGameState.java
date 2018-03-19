@@ -3,6 +3,7 @@ package game.server.states;
 import engine.entity.component.NetTransformComponent;
 import engine.maths.Vec3;
 import engine.state.AbstractState;
+import game.client.Main;
 import game.common.actors.Player;
 import game.common.classes.classes.GhostClass;
 import game.common.classes.classes.LinkClass;
@@ -54,7 +55,7 @@ public class ServerGameState extends AbstractState
 		//Add players
 		for(int i = 0; i < app.getNetworkManager().getNetPlayers().size(); i++)
 		{
-			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app);
+			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app, false);
 			// here we would set up more stuff related to the player like class, items, starting position, etc.
 			NetTransformComponent netTransform = (NetTransformComponent) player.getEntity().getComponent(NetTransformComponent.class);
 			netTransform.setPosition(new Vec3(15.0f, -10.0f, 0.0f));

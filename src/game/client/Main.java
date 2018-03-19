@@ -12,6 +12,8 @@ import game.common.config;
 public class Main extends Application {
 
 	private Client client;
+	
+	public static String clientName;
 
 	public static MenuState menuState;
 	public static LobbyState lobbyState;

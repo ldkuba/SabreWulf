@@ -7,6 +7,8 @@ import java.util.PriorityQueue;
 public class Pathfinding {
 	private ArrayList<Triangle> triangles;
 	private ArrayList<Triangle> path;
+	
+	private boolean shouldQuit = false;
 
 	public Pathfinding(ArrayList<Triangle> triangles) {
 		this.triangles = triangles;
@@ -28,13 +30,23 @@ public class Pathfinding {
 			t.setG(Float.MAX_VALUE);
 			t.setF(Float.MAX_VALUE);
 			t.setLast(t);
+			
+			if(shouldQuit)
+			{
+				return;
+			}
 		}
 	}
 
+	public void MAKEITSTOP()
+	{
+		shouldQuit = true;
+	}
+	
 	public ArrayList<Triangle> AStar(Triangle start, Triangle goal) {
 
 		resetTriangles();
-
+		
 		path.clear();
 		System.out.println("Finding new path...");
 		Triangle current = start;
@@ -50,6 +62,11 @@ public class Pathfinding {
 
 		while (!toSearch.isEmpty()) {
 
+			if(shouldQuit)
+			{
+				return null;
+			}
+			
 			current = toSearch.poll();
 
 			if ((current.getMidpoint().getX() == goal.getMidpoint().getX())

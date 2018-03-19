@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import engine.AI.Navmesh;
+import engine.AI.PathThread;
 import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.ColliderComponent;
@@ -30,6 +31,8 @@ import game.common.items.attributes.main.Resistance;
 public class Actor
 {
 	private int id;
+	
+	private PathThread pathThread;
 	
 	private boolean debug = true;
 
@@ -256,13 +259,19 @@ public class Actor
 			startPos = ((NetTransformComponent) entity.getComponent(NetTransformComponent.class)).getPosition();
 		}
 		
-		ArrayList<Vec3> path = navmesh.findPath(startPos, target);
-
-		if(path != null)
+		if(pathThread != null)
 		{
-			path.add(target);
-			this.currentPath = path;		
+			//kill it!
+			pathThread.MAKEITSTOP();
 		}
+		
+		pathThread = new PathThread(this, navmesh, startPos, target);
+		pathThread.start();
+	}
+	
+	public void callbackPath(ArrayList<Vec3> path)
+	{
+		currentPath = path;
 	}
 	
 	public void clearPath()
