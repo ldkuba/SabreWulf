@@ -31,6 +31,7 @@ public class GameServer
 	}
 
 	synchronized public void removePlayer(NetPlayer player){
+		games.get(player.getCurrentGame()).removePlayer(player);
 		players.remove(player);
 	}
 
