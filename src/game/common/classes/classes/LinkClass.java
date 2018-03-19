@@ -10,7 +10,7 @@ public class LinkClass extends AbstractClass {
 		damage = 60;
 		resistance = 55;
 		energy = 100;
-		attackRange = 2.0f;
+		attackRange = 6.0f;
 		
 		moveAnimationLength = 2;
 		moveAnimationLeft = 7;

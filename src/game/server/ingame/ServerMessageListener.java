@@ -118,7 +118,7 @@ public class ServerMessageListener implements MessageListener
 								
 							}else
 							{
-								e = null;
+								target = null;
 							}
 							
 							break;

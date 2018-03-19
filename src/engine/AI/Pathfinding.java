@@ -13,84 +13,77 @@ public class Pathfinding {
 		path = new ArrayList<Triangle>();
 	}
 
-	public Triangle lookupTriangle(Triangle triangle)
-	{
-		for(Triangle t : triangles)
-		{
-			if(triangle.equals(t))
-			{
+	public Triangle lookupTriangle(Triangle triangle) {
+		for (Triangle t : triangles) {
+			if (triangle.equals(t)) {
 				return t;
 			}
 		}
-		
+
 		return null;
 	}
-	
-	private void resetTriangles()
-	{
-		for(Triangle t : triangles)
-		{
+
+	private void resetTriangles() {
+		for (Triangle t : triangles) {
 			t.setG(Float.MAX_VALUE);
 			t.setF(Float.MAX_VALUE);
 			t.setLast(t);
 		}
 	}
-	
+
 	public ArrayList<Triangle> AStar(Triangle start, Triangle goal) {
-		
+
 		resetTriangles();
-		
+
 		path.clear();
 		System.out.println("Finding new path...");
 		Triangle current = start;
-		Triangle last = null;
-		
+
 		Comparator<Triangle> hcomp = new DistanceComparator();
-		ArrayList<Triangle> visitedList = new ArrayList<>();		
+		ArrayList<Triangle> visitedList = new ArrayList<>();
 		PriorityQueue<Triangle> toSearch = new PriorityQueue<Triangle>(triangles.size(), hcomp);
 		toSearch.add(start);
-		
+
 		start.setG(0.0f);
 		start.setH(goal);
 		start.setF(start.getHeuristic());
-		
-		while (!toSearch.isEmpty()) {			
-			
+
+		while (!toSearch.isEmpty()) {
+
 			current = toSearch.poll();
-			
+
 			if ((current.getMidpoint().getX() == goal.getMidpoint().getX())
 					&& (current.getMidpoint().getY() == goal.getMidpoint().getY())) {
 				reconstructList(current);
 				break;
 			}
-			
-			visitedList.add(current);			
 
-			for (int i = 0; i < current.getEdges().size(); i++) {				
+			visitedList.add(current);
+
+			for (int i = 0; i < current.getEdges().size(); i++) {
 				Edge edge = current.getEdges().get(i);
 				Triangle temp = lookupTriangle(edge.getGoal());
-				
-				if(visitedList.contains(temp)) {
+
+				if (visitedList.contains(temp)) {
 					continue;
 				}
-				
+
 				if (!toSearch.contains(temp)) {
 					toSearch.add(temp);
 				}
-				
+
 				float tempG = current.getG() + edge.getWeight();
-				
-				if(tempG >= temp.getG())
-				{
+
+				if (tempG >= temp.getG()) {
 					continue;
 				}
-				
+
 				temp.setLast(current);
 				temp.setG(tempG);
 				temp.setH(goal);
 				temp.setF(temp.getG() + temp.getHeuristic());
 			}
-			
+
 			System.out.println("Checking Next.");
 		}
 		return path;
@@ -102,7 +95,7 @@ public class Pathfinding {
 		ArrayList<Triangle> tempPath = new ArrayList<Triangle>();
 		tempPath.add(goal);
 		while (next != null) {
-			if(tempPath.contains(next)){
+			if (tempPath.contains(next)) {
 				break;
 			}
 			tempPath.add(next);

@@ -31,9 +31,9 @@ public class AttackAction extends Action{
 	}
 
 	@Override
-	public void executeClient()
+	public void executeClient(ActorManager actorManager)
 	{
-		
+		actorManager.getActor(targetId).update();
 	}
 
 	@Override
