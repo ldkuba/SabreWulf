@@ -402,9 +402,6 @@ public class Actor
 	public void update()
 	{
 		updateNetData();
-	
-		netData = (NetDataComponent) entity.getComponent(NetDataComponent.class);
-		System.out.println("HEALTH: " + netData.getData("Health"));
 		
 		if(!app.isHeadless())
 		{
