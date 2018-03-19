@@ -24,14 +24,9 @@ import game.common.map.Map;
 import game.common.player.ActorManager;
 public class GameState extends AbstractState {
 
-	/**
-	 * Dummy Player creator
-	 */
-	private boolean dummy = false;
-	private Player dummyPlayer;
-
-	/*--------------------------*/
-
+	private final int SCROLL_MARGIN = 10;
+	private final float SCROLL_SPEED = 0.02f;
+	
 	private Main app;
 	private PlayerController playerController;
 
@@ -176,7 +171,7 @@ public class GameState extends AbstractState {
 	@Override
 	public void update() {
 		super.update();
-
+		
 		float cameraSpeed = 0.3f;
 
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
@@ -211,12 +206,28 @@ public class GameState extends AbstractState {
 			dirY += 0.04f;
 		}
 		
-		//scene.getCamera().setDirection(new Vec3(dirX, dirY, 5.0f));
+		//Mouse Scroll
+		if(app.getInputManager().getMouseX() < SCROLL_MARGIN)
+		{
+			scene.getCamera().move(new Vec3(-SCROLL_SPEED * Application.s_Viewport.getX(), 0.0f, 0.0f));
+		}
+		
+		if(app.getInputManager().getMouseX() > Application.s_WindowSize.getX() - SCROLL_MARGIN)
+		{
+			scene.getCamera().move(new Vec3(SCROLL_SPEED * Application.s_Viewport.getX(), 0.0f, 0.0f));
+		}
+		
+		if(app.getInputManager().getMouseY() < SCROLL_MARGIN)
+		{
+			scene.getCamera().move(new Vec3(0.0f, SCROLL_SPEED * Application.s_Viewport.getY(), 0.0f));
+		}
+		
+		if(app.getInputManager().getMouseY() > Application.s_WindowSize.getY() - SCROLL_MARGIN)
+		{
+			scene.getCamera().move(new Vec3(0.0f, -SCROLL_SPEED * Application.s_Viewport.getX(), 0.0f));
+		}
 		
 		actorManager.update();
-		
-		
-		
 		playerController.update();
 	}
 
