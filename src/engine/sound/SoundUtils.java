@@ -15,7 +15,7 @@ import static org.lwjgl.BufferUtils.*;
 
 public class SoundUtils {
 	
-	private static final String[] Sounds = {"countEnd", "count", "background/game", "background/lobby", "lockIn", "background/menu", "quit", "click", 
+	private static final String[] Sounds = {"countEnd", "count", "background/game", "background/lobby", "lockIn", "background/menu", "background/end", "quit", "click", 
 			"movement/forest", "movement/grass", "movement/footstep", "attack/a1", "attack/a2", "attack/spells/s1", "attack/spells/s2", "attack/spells/s3", "attack/spells/s4",
 			"attack/m1", "attack/m2", "attack/scratch", "item/i1", "item/i2"};
 	
