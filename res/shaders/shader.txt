@@ -44,12 +44,12 @@ void main()
 	{
 		int tid = int(texSlot + 0.5);
 		outputColor = texture2D(texture[tid], UVs);
-		
+
 		if(outputColor.w > 0)
 		{
 			outputColor = outputColor + theOverlayColor;
 		}
 	}
-	
-  	
+
+
 }
