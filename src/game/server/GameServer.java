@@ -111,7 +111,7 @@ public class GameServer
 
 	synchronized public GameInstance getFreeGameInstance(){
 		for(int i=0; i<games.size(); i++){
-			if(!games.get(i).isFull()){
+			if(!games.get(i).isFull() && games.get(i).isAvailable()){
 				return games.get(i);
 			}
 		}
