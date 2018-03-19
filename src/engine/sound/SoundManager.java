@@ -26,7 +26,7 @@ public class SoundManager {
 	private long context;
 	private boolean isMuted;
 	private SoundListener listener;
-	private OutputStream os = new ByteArrayOutputStream(); // for junit testing
+	//private OutputStream os = new ByteArrayOutputStream(); // for junit testing
 	private final List<SoundBuffer> soundBufferList;
 	private final Map<String, SoundSource> soundSourceMap;
 
@@ -56,8 +56,8 @@ public class SoundManager {
 	}
 
 	public void addSoundSource(String name, SoundSource soundSource) {
-		PrintStream ps = new PrintStream(os);
-		System.setOut(ps);
+		//PrintStream ps = new PrintStream(os);
+		//System.setOut(ps);
 		if (name != null && soundSource != null) {
 			if (!soundSourceMap.containsValue(soundSource)) {
 				soundSourceMap.put(name, soundSource);
@@ -67,13 +67,13 @@ public class SoundManager {
 		} else {
 			System.err.println("Cannot add sound source");
 		}
-		PrintStream originalOut = System.out;
-		System.setOut(originalOut);
+		//PrintStream originalOut = System.out;
+		//System.setOut(originalOut);
 	}
 
-	public OutputStream getOS() {
-		return os;
-	}
+	//public OutputStream getOS() {
+	//	return os;
+	//}
 
 	public void deleteSoundSource(String name) {
 		//PrintStream ps = new PrintStream(os);

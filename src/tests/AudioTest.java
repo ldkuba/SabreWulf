@@ -123,11 +123,11 @@ public class AudioTest {
 		assertNull(check);
 		
 		//try and add the same source again
-		soundManager.addSoundSource("background/lobby", source);
+		/*soundManager.addSoundSource("background/lobby", source);
 		check = soundManager.getSoundSource("background/lobby");
 		assertEquals("Trying to re-add a sound source", soundManager.getOS().toString());
 		
-		soundManager.getOS().close();	
+		soundManager.getOS().close();	*/
 		soundManager.clean();
 	}
 }
