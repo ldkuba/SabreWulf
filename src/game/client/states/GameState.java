@@ -1,8 +1,5 @@
 package game.client.states;
 
-import game.common.classes.classes.GhostClass;
-import game.common.classes.classes.LinkClass;
-import game.common.classes.classes.WolfClass;
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
@@ -10,6 +7,7 @@ import engine.entity.Entity;
 import engine.entity.component.ColliderComponent;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TransformComponent;
+import engine.gui.components.Button;
 import engine.gui.components.ProgressBar;
 import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
@@ -19,16 +17,16 @@ import engine.state.AbstractState;
 import game.client.Main;
 import game.client.player.PlayerController;
 import game.common.actors.Player;
+import game.common.classes.classes.GhostClass;
+import game.common.classes.classes.LinkClass;
+import game.common.classes.classes.WolfClass;
 import game.common.map.Map;
 import game.common.player.ActorManager;
 public class GameState extends AbstractState {
 
-
-
 	/**
 	 * Dummy Player creator
 	 */
-
 	private boolean dummy = false;
 	private Player dummyPlayer;
 
@@ -42,8 +40,8 @@ public class GameState extends AbstractState {
 	private ProgressBar energyBar;
 
 	private Map map;
-
 	private Sprite spellBar;
+	private Button abilityButton1;
 	
 	private float dirX = 0.0f;
 	private float dirY = 0.0f;
@@ -102,7 +100,7 @@ public class GameState extends AbstractState {
 			// items, starting position, etc.
 
 			int characterSelection = app.getNetworkManager().getNetPlayers().get(i).getChar();
-			System.out.println("Character Selected: " +characterSelection);
+			System.out.println("Character Selected: " + characterSelection);
 			switch (characterSelection) {
 				case 0:
 					player.setRole(new LinkClass());
@@ -117,10 +115,7 @@ public class GameState extends AbstractState {
 
 			if (i >= 0 && i < 3) {
 				player.setTeam(1);
-
-			}
-
-			else {
+			} else {
 				player.setTeam(2);
 			}
 
@@ -208,6 +203,8 @@ public class GameState extends AbstractState {
 		//scene.getCamera().setDirection(new Vec3(dirX, dirY, 5.0f));
 		
 		actorManager.update();
+		
+		
 		
 		playerController.update();
 	}

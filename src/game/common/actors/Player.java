@@ -18,7 +18,8 @@ import game.common.classes.AbstractClass;
 public class Player extends Actor {
 
 	private String name;
-
+	private boolean isLocal;
+	
 	public Player(int playerId, String name, Application app) {
 		super(playerId, app);
 		this.name = name;

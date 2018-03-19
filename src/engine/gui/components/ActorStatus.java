@@ -36,12 +36,12 @@ public class ActorStatus extends CustomComponent {
 		Vec2 newPos = calculatePos();
 		//energy bar
 		float newEnergy = actor.getEnergy();
-		energy.setPosition(newPos.getX(), newPos.getY()+paddingHealth/Application.s_Viewport.getX());
-		energy.setBar(newEnergy);
+		float maxEnergy = actor.getEnergyLimit();
+		energy.setPosition(newPos.getX(), newPos.getY()+paddingHealth/Application.s_Viewport.getX(), newEnergy, maxEnergy);
 		//health bar
 		float newHealth = actor.getHealth();
-		health.setPosition(newPos.getX(), newPos.getY()+paddingEnergy/Application.s_Viewport.getX());
-		health.setBar(newHealth);
+		float maxHealth = actor.getHealthLimit();
+		health.setPosition(newPos.getX(), newPos.getY()+paddingEnergy/Application.s_Viewport.getX(), newHealth, maxHealth);
 	}
 	
 	private Vec2 calculatePos() {

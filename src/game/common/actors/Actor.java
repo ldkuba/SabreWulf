@@ -364,7 +364,12 @@ public class Actor
 	}
 
 	private void updateNetData()
-	{
+	{		
+		netData = (NetDataComponent) entity.getComponent(NetDataComponent.class);
+		
+		if(netData == null)
+			return;
+		
 		if(app.isHeadless())
 		{
 			netData.addData("MaxHealth", HEALTH_LIMIT);
@@ -397,6 +402,9 @@ public class Actor
 	public void update()
 	{
 		updateNetData();
+	
+		netData = (NetDataComponent) entity.getComponent(NetDataComponent.class);
+		System.out.println("HEALTH: " + netData.getData("Health"));
 		
 		if(!app.isHeadless())
 		{
