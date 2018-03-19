@@ -48,7 +48,7 @@ public class ActorStatus extends CustomComponent {
 		NetTransformComponent transform = actor.getEntity().getNetTransform();
 		if(transform != null)
 		{
-			Vec2 screenPos = scene.getCamera().getScreenCoordinates(Vec3.add(transform.getPosition(), new Vec3(5.0f, 6.5f, 0.0f)));
+			Vec2 screenPos = scene.getCamera().getScreenCoordinates(Vec3.add(transform.getPosition(), new Vec3(-2.0f, 3.25f, 0.0f)));
 			Vec2 result = new Vec2(screenPos.getX(), screenPos.getY());
 			return result;
 		}

@@ -49,6 +49,8 @@ public class NetSpriteAnimationComponent extends AbstractComponent implements Se
 		m_StartFrame = firstIndex;
 		m_EndFrame = lastIndex;
 		m_CurrentFrame = firstIndex;
+		
+		
 	}
 
 	public void stopAnimation()

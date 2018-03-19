@@ -7,7 +7,13 @@ import java.util.LinkedList;
 import engine.AI.Navmesh;
 import engine.application.Application;
 import engine.entity.Entity;
-import engine.entity.component.*;
+import engine.entity.component.ColliderComponent;
+import engine.entity.component.NetDataComponent;
+import engine.entity.component.NetIdentityComponent;
+import engine.entity.component.NetSpriteAnimationComponent;
+import engine.entity.component.NetTransformComponent;
+import engine.entity.component.SpriteAnimationComponent;
+import engine.entity.component.TransformComponent;
 import engine.gui.components.ActorStatus;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
@@ -27,11 +33,11 @@ public class Actor
 	
 	private boolean debug = true;
 
-	private final int MOVE_ANIMATION_LENGTH = 3-1;
-	private final int MOVE_ANIMATION_RIGHT = 4;
-	private final int MOVE_ANIMATION_UP = 10;
-	private final int MOVE_ANIMATION_LEFT = 7;
-	private final int MOVE_ANIMATION_DOWN = 13;
+	private int MOVE_ANIMATION_LENGTH;
+	private int MOVE_ANIMATION_RIGHT;
+	private int MOVE_ANIMATION_UP;
+	private int MOVE_ANIMATION_LEFT;
+	private int MOVE_ANIMATION_DOWN;
 	
 	//-1 = stop, 0 = up, 1 = left, 2 = down, 3 = right
 	private int movingDir = -1;
@@ -97,7 +103,7 @@ public class Actor
 		ColliderComponent collider = new ColliderComponent(1.5f, false);
 		entity.addComponent(collider);
 		
-		netSprite = new NetSpriteAnimationComponent(0, 0, 2);
+		netSprite = new NetSpriteAnimationComponent(0, 0, 2); //2 is speed
 		
 		stopMovement();
 		entity.addComponent(netSprite);
@@ -108,7 +114,7 @@ public class Actor
 	}
 	
 	public void init(String basePath)
-	{		
+	{				
 		if (!app.isHeadless()) {
 			sprite = new SpriteAnimationComponent(app.getAssetManager().getTexture(basePath + "textures/sprite.png"), 4, 0, 0, 5.0f, 5.0f, 2);
 			entity.addComponent(sprite);
@@ -257,6 +263,11 @@ public class Actor
 			path.add(target);
 			this.currentPath = path;		
 		}
+	}
+	
+	public void clearPath()
+	{
+		currentPath = new ArrayList<>();
 	}
 
 	/**
@@ -524,6 +535,12 @@ public class Actor
 	public void setRole(AbstractClass role) {
 		this.role = role;
 
+		if(!app.isHeadless())
+		{
+			this.init(role.getResourcePath());
+		}
+		
+		setStatistics();
 		//update player statistics.
 		updateNetData();
 		if(debug) { System.out.println("Entity role stats assigned"); }
@@ -535,22 +552,22 @@ public class Actor
 
 	public void setStatistics() {
 		HEALTH_LIMIT = role.getHealth();
-		//resistance = role.getResistance();
-		//movementSpeed = role.getMoveSpeed();
+		resistance = role.getResistance();
+		movementSpeed = role.getMoveSpeed();
 		ENERGY_LIMIT = role.getEnergy();
-		setHealth(HEALTH_LIMIT);
-		setEnergy(ENERGY_LIMIT);
-		setResistance(role.getResistance());
-		//setMovementSpeed(role.getMoveSpeed());
-		setDamage(role.getDamage());
-		attackRange = 2.0f;
-		/*
-		updateNetData();
-		if(debug) { System.out.println("Entity role stats assigned"); }
-
-		else {
-			if(debug) { System.out.println("WARNING: Entity does not have role stats assgined"); }
-		}*/
+		health = HEALTH_LIMIT;
+		energy = ENERGY_LIMIT;
+		damage = role.getDamage();
+		attackRange = role.getAttackRange();
+		
+		MOVE_ANIMATION_LENGTH = role.getMoveAnimationLength();
+		MOVE_ANIMATION_LEFT = role.getMoveAnimationLeft();
+		MOVE_ANIMATION_RIGHT = role.getMoveAnimationRight();
+		MOVE_ANIMATION_UP = role.getMoveAnimationUp();
+		MOVE_ANIMATION_DOWN = role.getMoveAnimationDown();
+		
+		healthRegen = role.getHealthReg();
+		energyRegen = role.getEnergyReg();
 	}
 
 	public ActorStatus getStatus(){
