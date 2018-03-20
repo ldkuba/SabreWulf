@@ -6,9 +6,11 @@ import engine.entity.component.NetTransformComponent;
 import engine.gui.GUI;
 import engine.maths.Vec2;
 import engine.maths.Vec3;
+import engine.maths.Vec4;
 import engine.scene.Scene;
 import game.client.Main;
 import game.common.actors.Actor;
+import game.common.actors.Player;
 
 public class ActorStatus extends CustomComponent {
 
@@ -17,9 +19,11 @@ public class ActorStatus extends CustomComponent {
 	private Actor actor;
 	private ProgressBar health;
 	private ProgressBar energy;
+	private Label playerName;
 
 	private float paddingHealth = 80.0f;
 	private float paddingEnergy = 40.0f;
+	private float paddingName = 0.0f;
 
 	public ActorStatus(Actor actor, Application app) {
 		this.actor = actor;
@@ -35,6 +39,16 @@ public class ActorStatus extends CustomComponent {
 				app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar_background.png"),
 				app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar.png"),
 				app.getAssetManager().getFont("fontSprite.png"), this.gui);
+		
+		playerName = new Label(screen.getX(), screen.getY() + paddingName, app.getAssetManager().getFont("fontSprite.png"), 4.0f, 0.6f, new Vec4(1.0f, 1.0f, 1.0f, 1.0f));
+		
+		if(actor instanceof Player)
+		{
+			Player player = (Player) actor;
+			playerName.setText(player.getName());
+		}
+			
+		gui.add(playerName);
 
 	}
 
@@ -48,6 +62,9 @@ public class ActorStatus extends CustomComponent {
 		float newHealth = actor.getHealth();
 		float maxHealth = actor.getHealthLimit();
 		health.setPosition(newPos.getX(), newPos.getY()+paddingEnergy/Application.s_Viewport.getX(), newHealth, maxHealth);
+		
+		//name Label
+		playerName.setPosition(newPos.getX(), newPos.getY()+paddingName/Application.s_Viewport.getX());
 	}
 
 	private Vec2 calculatePos() {

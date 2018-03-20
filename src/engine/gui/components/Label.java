@@ -5,6 +5,7 @@ import engine.entity.Entity;
 import engine.entity.component.TextComponent;
 import engine.entity.component.TransformComponent;
 import engine.font.Font;
+import engine.maths.Vec3;
 import engine.maths.Vec4;
 
 public class Label extends GuiComponent
@@ -60,5 +61,11 @@ public class Label extends GuiComponent
 	{
 		textComponent.setSpread(spread);
 		this.width = spread * size * textComponent.getText().length();
+	}
+	
+	//ONLY FOR ACTOR STATUS
+	public void setPosition(float newX, float newY)
+	{
+		this.entity.getTransform().setPosition(new Vec3(newX, newY, -1.0f));
 	}
 }
