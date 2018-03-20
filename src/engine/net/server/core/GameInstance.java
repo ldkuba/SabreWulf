@@ -10,6 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class GameInstance {
 
 	private int gameId;
+	private boolean isAvailable;
     private ArrayList<NetPlayer> playersInLobby;
     private GameInstanceManager GIManager;
     private BlockingQueue<AbstractMethodError> messages = new LinkedBlockingQueue<>(150);
@@ -19,7 +20,7 @@ public class GameInstance {
         this.GIManager = new GameInstanceManager(this, server);
         this.GIManager.setName("GameInstanceManager " + server.getGames().size());
         this.GIManager.start();
-        
+        this.isAvailable = true;
         this.gameId = gameId;
     }
 
@@ -67,7 +68,13 @@ public class GameInstance {
             return false;
         }
     }
-    
+    public void setUnavailable(){
+        this.isAvailable = false;
+    }
+
+    public boolean isAvailable(){
+        return isAvailable;
+    }
     public int getGameId()
     {
     	return this.gameId;

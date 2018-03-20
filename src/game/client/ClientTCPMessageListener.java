@@ -3,14 +3,7 @@ import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import engine.net.common_net.MessageListener;
-import engine.net.common_net.networking_messages.AbstractMessage;
-import engine.net.common_net.networking_messages.BattleBeginMessage;
-import engine.net.common_net.networking_messages.EntityUpdateMessage;
-import engine.net.common_net.networking_messages.ExecuteActionMessage;
-import engine.net.common_net.networking_messages.LobbyConnectionResponseMessage;
-import engine.net.common_net.networking_messages.LobbyUpdateMessage;
-import engine.net.common_net.networking_messages.PeerCountMessage;
-import engine.net.common_net.networking_messages.TimerEventMessage;
+import engine.net.common_net.networking_messages.*;
 import engine.net.server.core.NetPlayer;
 import game.common.config;
 
@@ -126,6 +119,8 @@ public class ClientTCPMessageListener implements MessageListener
 		{
 			ExecuteActionMessage eam = (ExecuteActionMessage) msg;
 			eam.getAction().executeClient(Main.gameState.getActorManager());
+		}else if(msg instanceof ChatMessage){
+			// Do sth with msg.getMsg, msg.getPlayer
 		}
 	}
 

@@ -8,11 +8,7 @@ import engine.entity.Entity;
 import engine.entity.component.NetTransformComponent;
 import engine.maths.Vec3;
 import engine.net.common_net.MessageListener;
-import engine.net.common_net.networking_messages.AbstractMessage;
-import engine.net.common_net.networking_messages.CoordinateMessage;
-import engine.net.common_net.networking_messages.DesiredLocationMessage;
-import engine.net.common_net.networking_messages.ExecuteActionMessage;
-import engine.net.common_net.networking_messages.PeerCountMessage;
+import engine.net.common_net.networking_messages.*;
 import engine.net.server.core.GameInstance;
 import engine.net.server.core.NetPlayer;
 import game.common.actors.Actor;
@@ -132,8 +128,11 @@ public class ServerMessageListener implements MessageListener
 				ServerMain.gameState.getActorManager().getActor(player.getPlayerId()).calculatePath(dlm.getPos(), ServerMain.gameState.getMap().getNavmesh());
 			}
 			
-			System.out.println("Recieved path message in game");
+			System.out.println("Received path message in game");
 			
+		}else if(msg instanceof ChatMessage){
+			broadcastMessage(msg, app.getNetworkManager().getNetPlayers());
+
 		}
 	}
 
@@ -141,5 +140,11 @@ public class ServerMessageListener implements MessageListener
 	public void addMessage(AbstractMessage message, NetPlayer player)
 	{
 		abstractMessageInbound.add(new MessageEvent(message, player));
+	}
+
+	public void broadcastMessage(AbstractMessage msg, ArrayList<NetPlayer> players){
+		for(int i=0; i<players.size(); i++){
+			abstractMessageInbound.add(new MessageEvent(msg, players.get(i)));
+		}
 	}
 }

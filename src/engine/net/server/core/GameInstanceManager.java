@@ -38,6 +38,7 @@ public class GameInstanceManager extends Thread {
                 running=false;
             }
             if (instance.isReady() && !countdownTrigger) {
+                instance.setUnavailable();
                 countdownTrigger = true;
                 Timer time = new Timer(config.lobbyCountdown, this);
                 time.start();
