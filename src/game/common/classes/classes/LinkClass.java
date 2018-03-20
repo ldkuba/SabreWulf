@@ -1,8 +1,11 @@
 package game.common.classes.classes;
 
-import game.common.abilities.basic.BaseAttack;
+import game.common.abilities.basic.LinkBaseAttack;
 import game.common.abilities.spells.SpecialAbility;
 import game.common.classes.AbstractClass;
+import game.common.logic.actions.Action;
+
+import java.util.ArrayList;
 
 public class LinkClass extends AbstractClass {
 	
@@ -23,22 +26,11 @@ public class LinkClass extends AbstractClass {
 		energyReg = 0.2f;
 		healthReg = 0.4f;
 
-		
+		baseAttack = new LinkBaseAttack(0,0);
 
-		/**
-		 * Special Ability One:
-		 * 		'Fire Arrow'
-		 * Duration: 4 seconds
-		 * Decrease Movement by 10%
-		 *
-		 * Energy cost = 15.0f.
-		 */
+		abilities = new ArrayList<Action>();
 
-		SpecialAbility fireArrow = new SpecialAbility("Fire Arrow",0.5f,3.0f);
-		fireArrow.setDuration(0.6f);
-		fireArrow.setMovement(0.9f);
-		fireArrow.setEnergyCost(15.0f);
-		specialAbilities.add(fireArrow);
+		//Define abilities here.
 
 		resourcePath = "res/actors/link/";
 	}
