@@ -1,94 +1,162 @@
 package game.common.classes;
 
+/**
+ * This class is used to set up all the basic methods and stats each actor class
+ * has. It is extended by all of the actor types.
+ * 
+ * @author bhavi
+ *
+ */
 public class AbstractClass {
 
 	protected String resourcePath = "";
-	
-	//Base stats
+
+	// Base stats
 	protected float health = 0;
 	protected float moveSpeed = 0;
 	protected float damage = 0;
 	protected float resistance = 0;
 	protected float energy = 0;
 	protected float attackRange = 0;
-	
-	//Animations
+
+	// Animations
 	protected int moveAnimationLength = 0;
 	protected int moveAnimationLeft = 0;
 	protected int moveAnimationRight = 0;
 	protected int moveAnimationUp = 0;
 	protected int moveAnimationDown = 0;
-	
-	//Regeneration
+
+	// Regeneration
 	protected float energyReg = 0;
 	protected float healthReg = 0;
 
 	public AbstractClass() {
 	}
 
-	//----------Get base Stats--------
+	// ----------Get base Stats--------
+	/**
+	 * Get health
+	 * 
+	 * @return
+	 */
 	public float getHealth() {
 		return health;
 	}
-	
-	public float getMoveSpeed(){
+
+	/**
+	 * Get movement speed
+	 * 
+	 * @return
+	 */
+	public float getMoveSpeed() {
 		return moveSpeed;
 	}
 
+	/**
+	 * Get energy
+	 * 
+	 * @return
+	 */
 	public float getEnergy() {
 		return energy;
 	}
 
+	/**
+	 * Get damage
+	 * 
+	 * @return
+	 */
 	public float getDamage() {
 		return damage;
 	}
-	
+
+	/**
+	 * Get resistance
+	 * 
+	 * @return
+	 */
 	public float getResistance() {
 		return resistance;
 	}
-	
-	public float getAttackRange()
-	{
+
+	/**
+	 * Get attack range
+	 * 
+	 * @return
+	 */
+	public float getAttackRange() {
 		return attackRange;
 	}
-	
-	public int getMoveAnimationLength()
-	{
+
+	/**
+	 * Get the animation length for movement
+	 * 
+	 * @return
+	 */
+	public int getMoveAnimationLength() {
 		return moveAnimationLength;
 	}
 
-	public int getMoveAnimationLeft()
-	{
+	/**
+	 * Move animation left
+	 * 
+	 * @return
+	 */
+	public int getMoveAnimationLeft() {
 		return moveAnimationLeft;
 	}
 
-	public int getMoveAnimationRight()
-	{
+	/**
+	 * Move animation right
+	 * 
+	 * @return
+	 */
+	public int getMoveAnimationRight() {
 		return moveAnimationRight;
 	}
 
-	public int getMoveAnimationUp()
-	{
+	/**
+	 * Move animation up
+	 * 
+	 * @return
+	 */
+	public int getMoveAnimationUp() {
 		return moveAnimationUp;
 	}
 
-	public int getMoveAnimationDown()
-	{
+	/**
+	 * Move animation down
+	 * 
+	 * @return
+	 */
+	public int getMoveAnimationDown() {
 		return moveAnimationDown;
 	}
 
-	public float getEnergyReg()
-	{
+	/**
+	 * Get the energy regeneration
+	 * 
+	 * @return
+	 */
+	public float getEnergyReg() {
 		return energyReg;
 	}
 
-	public float getHealthReg()
-	{
+	/**
+	 * Get the health regeneration
+	 * 
+	 * @return
+	 */
+	public float getHealthReg() {
 		return healthReg;
 	}
 
-	public String getResourcePath()
-	{
+	/**
+	 * Get the resource path
+	 * 
+	 * @return
+	 */
+	public String getResourcePath() {
 		return this.resourcePath;
 	}
 }
