@@ -1,6 +1,14 @@
 package engine.entity.component;
 
-public abstract class AbstractComponent
-{
+/**
+ * This is a fully abstract class that is extended by all components
+ * 
+ * @author bhavi
+ *
+ */
+public abstract class AbstractComponent {
+	/**
+	 * Makes sure all components have an update method
+	 */
 	public abstract void update();
 }

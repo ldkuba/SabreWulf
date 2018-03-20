@@ -9,17 +9,25 @@ import game.client.states.LobbyState;
 import game.client.states.MenuState;
 import game.common.config;
 
+/**
+ * The main method used to run the game
+ * @author bhavi
+ *
+ */
 public class Main extends Application {
 
-	private Client client;
-	
 	public static String clientName;
 
 	public static MenuState menuState;
 	public static LobbyState lobbyState;
 	public static GameState gameState;
 	public static EndState endState;
+	
+	private Client client;
 
+	/**
+	 * Create a new main. this is used to initialise the game states and register the newly connected client
+	 */
 	public Main() {
 		super(config.screenWidth, config.screenHeight, 1, config.windowName, config.clientFullScreen, false); // window width, window
 		menuState = new MenuState(this);
@@ -40,10 +48,17 @@ public class Main extends Application {
 		stateManager.setCurrentState(menuState);
 	}
 
+	/**
+	 * Get the client that is running the application 
+	 * @return
+	 */
 	public Client getClient() {
 		return this.client;
 	}
 
+	/**
+	 * Cleanup by stopping the network
+	 */
 	@Override
 	public void cleanup()
 	{
@@ -53,6 +68,10 @@ public class Main extends Application {
 		client.stop();
 	}
 
+	/**
+	 * Run main
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Main game = new Main();
 		game.run();

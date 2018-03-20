@@ -41,8 +41,10 @@ public class GameState extends AbstractState {
 	private float dirY = 0.0f;
 
 	private float zoom = 10.0f;
-	float aspectRatio = Application.s_WindowSize.getX() / Application.s_WindowSize.getY();
+	private float aspectRatio = Application.s_WindowSize.getX() / Application.s_WindowSize.getY();
 
+	private String attackAudio;
+	
 	public GameState(Main app) {
 		super(app);
 
@@ -85,7 +87,6 @@ public class GameState extends AbstractState {
 	@Override
 	public void init() {
 		super.init();
-
 		// Add players
 		for (int i = 0; i < app.getNetworkManager().getNetPlayers().size(); i++) {
 			
@@ -106,12 +107,15 @@ public class GameState extends AbstractState {
 			switch (characterSelection) {
 				case 0:
 					player.setRole(new LinkClass());
+					attackAudio = "attack/a2";
 					break;
 				case 1:
 					player.setRole(new WolfClass());
+					attackAudio = "attack/scratch";
 					break;
 				case 2:
 					player.setRole(new GhostClass());
+					attackAudio = "attack/m2";
 					break;
 			}
 
@@ -253,7 +257,11 @@ public class GameState extends AbstractState {
 	public Map getMap() {
 		return this.map;
 	}
-
+	
+	public String getAttackSoundPath(){
+		return this.attackAudio;
+	}
+	
 	@Override
 	public void deactivate() {
 

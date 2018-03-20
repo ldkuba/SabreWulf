@@ -4,22 +4,31 @@ import java.util.ArrayList;
 
 import engine.application.Application;
 
-/*
- * Game State Manager
+/**
+ * Manage the states that are registered to the game
+ * @author bhavi
+ *
  */
 public class StateManager {
 
 	private Application app;
 	private ArrayList<AbstractState> registered;
 	private AbstractState activeState;
-
+	
+	/**
+	 * Create a new state manager
+	 * @param app
+	 */
 	public StateManager(Application app) {
 		this.app = app;
 		registered = new ArrayList<AbstractState>();
 	}
 
+	/**
+	 * Register a new state if it doesn't already exist
+	 * @param newState
+	 */
 	public void addState(AbstractState newState) {
-		// register new state if it doesn't already exist
 		if (!isRegistered(newState)) {
 			registered.add(newState);
 		} else {
@@ -27,8 +36,12 @@ public class StateManager {
 		}
 	}
 
+	/**
+	 * Check to see whether a given state is already registered
+	 * @param state
+	 * @return
+	 */
 	public boolean isRegistered(AbstractState state) {
-		// checks to see if given state is registered
 		if (registered.contains(state)) {
 			return true;
 		} else {
@@ -36,19 +49,25 @@ public class StateManager {
 		}
 	}
 
+	/**
+	 * Update the active state
+	 */
 	public void updateState() {
-		//update active state 
 		activeState.update();
 	}
 
+	/**
+	 * Render the active state
+	 */
 	public void renderState() {
-		//render active state
 		activeState.render();
 	}
 
-	
+	/**
+	 * Set the current state - used to switch between states
+	 * @param state
+	 */
 	public void setCurrentState(AbstractState state) {
-		// switch to a specified game state if it exists
 		if (isRegistered(state)) {
 			if (activeState != null) {
 				if(!app.isHeadless()) {

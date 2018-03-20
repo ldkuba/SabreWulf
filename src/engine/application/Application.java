@@ -33,30 +33,48 @@ import engine.net.server.core.NetPlayer;
 import engine.sound.SoundManager;
 import engine.state.StateManager;
 
-/*
- * Initialise and terminate the application window
-*/
+/**
+ * Initialises and terminate the application window. It also sets up the various
+ * managers. This class is extended by Main.java.
+ * 
+ * @author bhavi
+ *
+ */
 
 public class Application {
+
+	public static Vec2 s_WindowSize;
+	public static Vec2 s_Viewport;
+
 	protected NetworkManager netManager;
-	protected boolean networkType;
-	protected boolean isHeadless;
-	protected long window;
 	protected StateManager stateManager;
 	protected InputManager inputManager;
 	protected AssetManager assetManager;
 	protected SoundManager soundManager;
 	protected GUI gui;
 	protected Timer timer;
-
 	protected GLFWWindowSizeCallback windowSizeCallback;
-	public static Vec2 s_WindowSize;
-	public static Vec2 s_Viewport;
+
+	protected boolean networkType;
+	protected boolean isHeadless;
+	protected long window;
 	protected boolean isFullScreen;
+
 	private Callback debugProc;
 
 	private boolean running = true;
 
+	/**
+	 * Create a new application window and initialise all of the respective
+	 * managers and the timer - without net players
+	 * 
+	 * @param width
+	 * @param height
+	 * @param vsyncInterval
+	 * @param name
+	 * @param fullscreen
+	 * @param headless
+	 */
 	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless) {
 		networkType = false;
 		isHeadless = headless;
@@ -77,7 +95,20 @@ public class Application {
 		stateManager = new StateManager(this);
 	}
 
-	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless, ArrayList<NetPlayer> netPlayers) {
+	/**
+	 * Create a new application window and initialise all of the respective
+	 * managers and the timer - with net players
+	 * 
+	 * @param width
+	 * @param height
+	 * @param vsyncInterval
+	 * @param name
+	 * @param fullscreen
+	 * @param headless
+	 * @param netPlayers
+	 */
+	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless,
+			ArrayList<NetPlayer> netPlayers) {
 		networkType = true;
 		isHeadless = headless;
 		if (!headless) {
@@ -98,6 +129,15 @@ public class Application {
 
 	}
 
+	/**
+	 * Initialise the window
+	 * 
+	 * @param width
+	 * @param height
+	 * @param vsyncInterval
+	 * @param name
+	 * @param fullscreen
+	 */
 	public void initialise(int width, int height, int vsyncInterval, String name, boolean fullscreen) {
 		// Initialise GLFW
 		if (!glfwInit()) {
@@ -107,21 +147,16 @@ public class Application {
 		isFullScreen = fullscreen;
 
 		Configuration.DEBUG.set(true);
-		
+
 		GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
 		if (!isFullScreen) {
 
-
 			glfwWindowHint(GLFW_RESIZABLE, GLFW.GLFW_TRUE);
 			// Create the window
-			window = glfwCreateWindow(width, height, name, NULL, NULL); // width,
-																		// height,
-																		// window
-																		// name
+			window = glfwCreateWindow(width, height, name, NULL, NULL);
 			setResolution(width, height);
 		} else {
-
 
 			glfwWindowHint(GLFW_RESIZABLE, GLFW.GLFW_FALSE);
 			window = glfwCreateWindow(vidmode.width(), vidmode.height(), name, GLFW.glfwGetPrimaryMonitor(), NULL);
@@ -130,12 +165,10 @@ public class Application {
 
 		// before context creation
 		glfwWindowHint(GLFW.GLFW_OPENGL_DEBUG_CONTEXT, GLFW.GLFW_TRUE);
-		
+
 		if (window == NULL) {
 			throw new RuntimeException("Failed to create window");
 		}
-
-
 
 		// Get the thread stack and push a new frame
 		try (MemoryStack stack = stackPush()) {
@@ -156,24 +189,26 @@ public class Application {
 		glfwShowWindow(window);
 
 		GL.createCapabilities();
-		
-		debugProc = GLUtil.setupDebugMessageCallback(); // may return null if the debug mode is not available
-		
-		if(debugProc == null)
-		{
+
+		debugProc = GLUtil.setupDebugMessageCallback(); // may return null if
+														// the debug mode is not
+														// available
+
+		if (debugProc == null) {
 			System.out.println("NULL DEBUG PROCESSOR");
 		}
-		
+
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 	}
 
+	/**
+	 * Run the application
+	 */
 	public void run() {
 		if (!isHeadless) {
 			// Run the rendering loop until the user presses esc or quits
 			while (!glfwWindowShouldClose(window)) {
-
-
 
 				netManager.handleMessagesAndConnections();
 				stateManager.updateState();
@@ -210,62 +245,124 @@ public class Application {
 		cleanup();
 	}
 
-	public StateManager getStateManager() {
-		return stateManager;
+	/**
+	 * Return whether the application is headless or not
+	 * 
+	 * @return
+	 */
+	public boolean isHeadless() {
+		return isHeadless;
 	}
 
+	/**
+	 * Get the position of the cursor
+	 * 
+	 * @param windowID
+	 */
+	public static void getCursorPos(long windowID) {
+		DoubleBuffer xBuffer = BufferUtils.createDoubleBuffer(1);
+		DoubleBuffer yBuffer = BufferUtils.createDoubleBuffer(1);
+		glfwGetCursorPos(windowID, xBuffer, yBuffer);
+		double x = xBuffer.get(0);
+		double y = yBuffer.get(0);
+
+		System.out.print(x + " : ");
+		System.out.println(y);
+
+	}
+
+	/**
+	 * Get the game window that is being used
+	 * 
+	 * @return
+	 */
 	public long getWindow() {
 		// Needed in order to have the same window over all states
 		return window;
 	}
 
+	/**
+	 * Get the state manager
+	 * 
+	 * @return
+	 */
+	public StateManager getStateManager() {
+		return stateManager;
+	}
+
+	/**
+	 * Get the input manager
+	 * 
+	 * @return
+	 */
 	public InputManager getInputManager() {
 		return inputManager;
 	}
 
+	/**
+	 * Get the asset manager
+	 * 
+	 * @return
+	 */
 	public AssetManager getAssetManager() {
 		return assetManager;
 	}
 
+	/**
+	 * Get the sound manager
+	 * 
+	 * @return
+	 */
 	public SoundManager getSoundManager() {
 		return soundManager;
 	}
 
+	/**
+	 * Get the gui
+	 * 
+	 * @return
+	 */
 	public GUI getGui() {
 		return gui;
 	}
 
-	public void exit() {
-		if (!isHeadless) {
-			glfwSetWindowShouldClose(window, true);
-		} else {
-			running = false;
-		}
+	/**
+	 * Get the network manager
+	 * 
+	 * @return
+	 */
+	public NetworkManager getNetworkManager() {
+		return netManager;
 	}
 
-	public void cleanup() {
-		if (!isHeadless) {
-			
-			if ( debugProc != null )
-			    debugProc.free();
-			
-			glfwFreeCallbacks(window);
-			glfwDestroyWindow(window);
-			// Terminate GLFW
-			glfwTerminate();
-			soundManager.clean();
-		}
-	}
-
+	/**
+	 * SEt the resolution of the screen
+	 * 
+	 * @param width
+	 * @param height
+	 */
 	public void setResolution(int width, int height) {
 		s_WindowSize = new Vec2(width, height);
 	}
 
+	/**
+	 * Set the games viewport
+	 * 
+	 * @param right
+	 * @param top
+	 */
 	public void setViewport(float right, float top) {
 		s_Viewport = new Vec2(right, top);
 		gui.resize();
 	}
 
+	/**
+	 * Resize the components of the game to fit with the new window size
+	 * 
+	 * @param window
+	 * @param width
+	 * @param height
+	 */
 	public void resize(long window, int width, int height) {
 		if (!isFullScreen) {
 			glfwSetWindowSizeCallback(window, windowSizeCallback = new GLFWWindowSizeCallback() {
@@ -277,23 +374,31 @@ public class Application {
 		}
 	}
 
-	public NetworkManager getNetworkManager() {
-		return netManager;
+	/**
+	 * Quit the application
+	 */
+	public void exit() {
+		if (!isHeadless) {
+			glfwSetWindowShouldClose(window, true);
+		} else {
+			running = false;
+		}
 	}
 
-	public boolean isHeadless() {
-		return isHeadless;
-	}
+	/**
+	 * Cleanup by terminating GLFW and the window
+	 */
+	public void cleanup() {
+		if (!isHeadless) {
 
-	public static void getCursorPos(long windowID) {
-		DoubleBuffer xBuffer = BufferUtils.createDoubleBuffer(1);
-		DoubleBuffer yBuffer = BufferUtils.createDoubleBuffer(1);
-		glfwGetCursorPos(windowID, xBuffer, yBuffer);
-		double x = xBuffer.get(0);
-		double y = yBuffer.get(0);
+			if (debugProc != null)
+				debugProc.free();
 
-		System.out.print(x + " : " );
-		System.out.println(y);
-
+			glfwFreeCallbacks(window);
+			glfwDestroyWindow(window);
+			// Terminate GLFW
+			glfwTerminate();
+			soundManager.clean();
+		}
 	}
 }
