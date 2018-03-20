@@ -1,18 +1,60 @@
 package game.common.abilities.basic;
 
+import engine.maths.Vec3;
 import game.common.abilities.AbstractAbility;
+import game.common.logic.actions.Action;
+import game.common.player.ActorManager;
 
-public class LinkBaseAttack extends AbstractAbility{
+public class LinkBaseAttack extends Action {
 
-	//Image displaying the ability
-	//Seconds
-	
-	public LinkBaseAttack(String name, float cooldown, float damage) {
-		super(name, cooldown, damage);
+	private int targetId;
+
+	public LinkBaseAttack(int targetId, int sourceId)
+	{
+		super(sourceId);
+		this.targetId = targetId;
 	}
-	
+
+	public boolean inRange(Vec3 playerCoord, Vec3 enemyCoord, float playerRange) {
+
+		float rangeX = playerCoord.getX() - enemyCoord.getX();
+		float rangeY = playerCoord.getY() - enemyCoord.getY();
+
+		//Make values positive.
+		rangeX = Math.abs(rangeX);
+		rangeY = Math.abs(rangeY);
+
+		if( rangeX <= playerRange && rangeY <= playerRange) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 	@Override
-	public float dealDamage() {
-		return getDamage();
-	}	
+	public void executeClient(ActorManager actorManager)
+	{
+		actorManager.getActor(targetId).update();
+	}
+
+	@Override
+	public void executeServer(ActorManager actorManager)
+	{
+		float health = actorManager.getActor(targetId).getHealth() - 10.0f;
+		actorManager.getActor(targetId).setHealth(health);
+	}
+
+	@Override
+	public boolean verify(ActorManager actorManager)
+	{
+		Vec3 sourcePos = actorManager.getActor(sourceId).getEntity().getNetTransform().getPosition();
+		Vec3 targetPos = actorManager.getActor(targetId).getEntity().getNetTransform().getPosition();
+
+		float range = actorManager.getActor(sourceId).getAttackRange();
+
+		return inRange(sourcePos, targetPos, range);
+	}
+
+
 }

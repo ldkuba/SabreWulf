@@ -1,6 +1,15 @@
 package game.common.classes.classes;
 
+import game.common.abilities.basic.GhostBaseAttack;
+import game.common.abilities.spells.SpecialAbility;
 import game.common.classes.AbstractClass;
+import game.common.logic.actions.Action;
+
+import java.util.ArrayList;
+
+/**
+ * Creates the Ghost role with its own values.
+ */
 
 public class GhostClass extends AbstractClass {
 	
@@ -20,7 +29,14 @@ public class GhostClass extends AbstractClass {
 		
 		energyReg = 0.2f;
 		healthReg = 0.4f;
-		
+
+		baseAttack = new GhostBaseAttack(0,0);
+
+		abilities = new ArrayList<Action>();
+
+		//Define abilities here
+
 		resourcePath = "res/actors/ghost/";
 	}
+
 }
