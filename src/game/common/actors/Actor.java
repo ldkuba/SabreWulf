@@ -585,6 +585,18 @@ public class Actor
 		}
 	}
 
+	public AbstractClass getRole() {
+		return role;
+	}
+
+	public Action getBaseAttack() {
+		return baseAttack;
+	}
+
+	public ArrayList<Action> getAbilities() {
+		return abilities;
+	}
+
 	public void setStatistics() {
 		HEALTH_LIMIT = role.getHealth();
 		resistance = role.getResistance();

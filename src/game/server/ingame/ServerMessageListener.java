@@ -11,8 +11,15 @@ import engine.net.common_net.MessageListener;
 import engine.net.common_net.networking_messages.*;
 import engine.net.server.core.GameInstance;
 import engine.net.server.core.NetPlayer;
+import game.common.abilities.basic.GhostBaseAttack;
+import game.common.abilities.basic.LinkBaseAttack;
+import game.common.abilities.basic.WolfBaseAttack;
 import game.common.actors.Actor;
 import game.common.actors.Player;
+import game.common.classes.classes.GhostClass;
+import game.common.classes.classes.LinkClass;
+import game.common.classes.classes.WolfClass;
+import game.common.logic.actions.Action;
 import game.common.logic.actions.AttackAction;
 
 public class ServerMessageListener implements MessageListener
@@ -102,19 +109,31 @@ public class ServerMessageListener implements MessageListener
 						if(targetActor.getTeam() != sourceActor.getTeam())
 						{
 							target = e;
-							
-							AttackAction attackAction = new AttackAction(targetActor.getActorId(), sourceActor.getActorId());
-							if(attackAction.verify(ServerMain.gameState.getActorManager()))
-							{
-								ExecuteActionMessage eam = new ExecuteActionMessage();
-								eam.setAction(attackAction);
-								app.getNetworkManager().broadcast(eam);
-								
-								attackAction.executeServer(ServerMain.gameState.getActorManager());
-								
-							}else
-							{
-								target = null;
+
+							Action attackAction = null;
+
+							if(sourceActor.getRole() instanceof LinkClass) {
+								attackAction = new LinkBaseAttack(targetActor.getActorId(), sourceActor.getActorId());
+							} else if(sourceActor.getRole() instanceof WolfClass) {
+								attackAction = new WolfBaseAttack(targetActor.getActorId(), sourceActor.getActorId());
+							} else if(sourceActor.getRole() instanceof GhostClass) {
+								attackAction = new GhostBaseAttack(targetActor.getActorId(), sourceActor.getActorId());
+							}
+							if(attackAction == null) {
+								System.out.println("Actor does not have basic attack");
+							}
+
+							if(sourceActor.getBaseAttack().getCooldown() == 0) {
+								if (attackAction.verify(ServerMain.gameState.getActorManager())) {
+									ExecuteActionMessage eam = new ExecuteActionMessage();
+									eam.setAction(attackAction);
+									app.getNetworkManager().broadcast(eam);
+
+									attackAction.executeServer(ServerMain.gameState.getActorManager());
+
+								} else {
+									target = null;
+								}
 							}
 							
 							break;

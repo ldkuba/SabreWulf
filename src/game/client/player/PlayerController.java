@@ -2,6 +2,7 @@ package game.client.player;
 
 import java.util.ArrayList;
 
+import engine.net.common_net.networking_messages.RequestAbilityMessage;
 import org.lwjgl.glfw.GLFW;
 
 import engine.entity.Entity;
@@ -77,9 +78,20 @@ public class PlayerController {
 	
 	public void onKeyPress(int key, int action)
 	{
-		
+
+		if(key == GLFW.GLFW_KEY_Q && action == GLFW.GLFW_PRESS) {
+
+			Vec3 worldPos = scene.getCamera().getWorldCoordinates((float)main.getInputManager().getMouseX(), (float)main.getInputManager().getMouseY());
+
+			RequestAbilityMessage reqMsg = new RequestAbilityMessage();
+			reqMsg.setAbility(gamestate.getActorManager().getLocalPlayer().getRole().getAbilities().get(0));
+			reqMsg.setTargetLocation(worldPos);
+
+			main.getClient().sendTCP(reqMsg);
+
+		}
 	}
-	
+
 	public void mouseAction(int button, int action)
 	{
 
@@ -95,8 +107,7 @@ public class PlayerController {
 			if(!main.getSoundManager().getIsMuted()){
 				main.getSoundManager().getSoundSource("background/game").setGain(0.5f);				
 			}
-			
-			
+
 		} else if (button == GLFW.GLFW_MOUSE_BUTTON_1 && action == GLFW.GLFW_PRESS){
 			if (!main.getSoundManager().getIsMuted()){
 				main.getSoundManager().invokeSound(gamestate.getAttackSoundPath(), false, true);
