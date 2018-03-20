@@ -131,6 +131,7 @@ public class ServerMessageListener implements MessageListener
 			System.out.println("Received path message in game");
 			
 		}else if(msg instanceof ChatMessage){
+			broadcastMessage(msg, app.getNetworkManager().getNetPlayers());
 
 		}
 	}
@@ -139,5 +140,11 @@ public class ServerMessageListener implements MessageListener
 	public void addMessage(AbstractMessage message, NetPlayer player)
 	{
 		abstractMessageInbound.add(new MessageEvent(message, player));
+	}
+
+	public void broadcastMessage(AbstractMessage msg, ArrayList<NetPlayer> players){
+		for(int i=0; i<players.size(); i++){
+			abstractMessageInbound.add(new MessageEvent(msg, players.get(i)));
+		}
 	}
 }
