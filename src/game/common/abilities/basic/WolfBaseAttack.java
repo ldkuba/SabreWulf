@@ -28,7 +28,6 @@ public class WolfBaseAttack extends Action {
         } else {
             return false;
         }
-
     }
 
     @Override
