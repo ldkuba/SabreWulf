@@ -1,5 +1,11 @@
 package game.common.classes;
 
+import game.common.abilities.basic.BaseAttack;
+import game.common.abilities.spells.SpecialAbility;
+import game.common.logic.actions.Action;
+
+import java.util.ArrayList;
+
 /**
  * This class is used to set up all the basic methods and stats each actor class
  * has. It is extended by all of the actor types.
@@ -29,6 +35,10 @@ public class AbstractClass {
 	// Regeneration
 	protected float energyReg = 0;
 	protected float healthReg = 0;
+
+	//Abilities
+	protected Action baseAttack;
+	protected ArrayList<Action> abilities;
 
 	public AbstractClass() {
 	}
@@ -159,4 +169,18 @@ public class AbstractClass {
 	public String getResourcePath() {
 		return this.resourcePath;
 	}
+
+	/**
+	 * Get the special abilities
+	 *
+	 * @return
+	 */
+	public ArrayList<Action> getAbilities() {
+		return abilities;
+	}
+
+	public Action getBaseAttack() {
+		return baseAttack;
+	}
+
 }

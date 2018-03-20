@@ -8,6 +8,9 @@ import game.common.player.ActorManager;
 public abstract class Action implements Serializable
 {
 	protected int sourceId;
+
+	protected float cooldown;
+	protected float cost;
 	
 	public Action(int sourceId)
 	{

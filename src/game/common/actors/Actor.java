@@ -27,6 +27,7 @@ import game.common.items.attributes.main.Energy;
 import game.common.items.attributes.main.Health;
 import game.common.items.attributes.main.MovementSpeed;
 import game.common.items.attributes.main.Resistance;
+import game.common.logic.actions.Action;
 
 public class Actor
 {
@@ -76,6 +77,9 @@ public class Actor
 	protected ActorStatus status;
 	
 	protected AbstractClass role;
+
+	private Action baseAttack;
+	private ArrayList<Action> abilities;
 	
 	public Actor(int netId, Application app)
 	{
@@ -113,8 +117,7 @@ public class Actor
 		entity.addComponent(netSprite);
 		
 		entity.addTag("Targetable");
-		
-		movementSpeed = 0.05f; //base for each actor
+
 	}
 	
 	public void init(String basePath)
@@ -600,6 +603,9 @@ public class Actor
 		
 		healthRegen = role.getHealthReg();
 		energyRegen = role.getEnergyReg();
+
+		baseAttack = role.getBaseAttack();
+		abilities = role.getAbilities();
 	}
 
 	public ActorStatus getStatus(){
