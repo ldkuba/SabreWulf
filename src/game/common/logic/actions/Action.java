@@ -22,9 +22,17 @@ public abstract class Action implements Serializable
 	public abstract void executeClient(ActorManager actorManager);
 	public abstract void executeServer(ActorManager actorManager);
 	public abstract boolean verify(ActorManager actorManager);
-	
+
 	public int getSourceId()
 	{
 		return sourceId;
+	}
+
+	public float getCooldown() {
+		return cooldown;
+	}
+
+	public float getCost() {
+		return cost;
 	}
 }

@@ -31,6 +31,7 @@ public class LinkClass extends AbstractClass {
 		abilities = new ArrayList<Action>();
 
 		//Define abilities here.
+		//Action increaseDamage = new Action(0);
 
 		resourcePath = "res/actors/link/";
 	}

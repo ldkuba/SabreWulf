@@ -12,6 +12,8 @@ public class WolfBaseAttack extends Action {
     {
         super(sourceId);
         this.targetId = targetId;
+        this.cooldown = 1.0f;
+        this.cost = 0f;
     }
 
     public boolean inRange(Vec3 playerCoord, Vec3 enemyCoord, float playerRange) {
