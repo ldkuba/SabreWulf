@@ -117,8 +117,8 @@ public class Pathfinding {
 			}
 			tempPath.add(next);
 			next = next.getLast();
-			System.out.println("Triangle F value: " + next.getF());
-			System.out.println("Next Triangle");
+			//System.out.println("Triangle F value: " + next.getF());
+			//System.out.println("Next Triangle");
 		}
 		System.out.println("Reversing Path.");
 		for (int i = 0; i < tempPath.size(); i++) {
