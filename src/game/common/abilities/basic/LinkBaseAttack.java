@@ -2,12 +2,12 @@ package game.common.abilities.basic;
 
 import game.common.abilities.AbstractAbility;
 
-public class BaseAttack extends AbstractAbility{
+public class LinkBaseAttack extends AbstractAbility{
 
 	//Image displaying the ability
 	//Seconds
 	
-	public BaseAttack(String name, float cooldown, float damage) {
+	public LinkBaseAttack(String name, float cooldown, float damage) {
 		super(name, cooldown, damage);
 	}
 	
