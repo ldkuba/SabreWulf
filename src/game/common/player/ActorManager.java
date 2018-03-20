@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import engine.entity.Entity;
 import engine.scene.Scene;
 import game.common.actors.Actor;
+import game.common.actors.Player;
 
 public class ActorManager
 {
@@ -60,5 +61,22 @@ public class ActorManager
 			actor.update();
 		}
 	}
-
+	
+	public Actor getLocalPlayer()
+	{
+		for(Actor actor : actors)
+		{
+			if(actor instanceof Player)
+			{
+				Player player = (Player) actor;
+				
+				if(player.isLocal())
+				{
+					return actor;
+				}
+			}
+		}
+		
+		return null;
+	}
 }

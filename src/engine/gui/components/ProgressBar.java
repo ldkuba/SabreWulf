@@ -78,6 +78,12 @@ public class ProgressBar {
 
 	//delta in value
 	public void changeBar(float delta) {
+		
+		if(progress + delta < 0 || progress + delta > maxProgres)
+		{
+			return;
+		}
+		
 		progress += delta;
 		float barWidth = (progress/maxProgres) * maxBarWidth;
 		resize(barWidth);
@@ -85,6 +91,11 @@ public class ProgressBar {
 
 	public void setBar(float progress)
 	{
+		if(progress < 0 || progress > maxProgres)
+		{
+			return;
+		}
+		
 		this.progress = progress;
 		float barWidth = (progress/maxProgres) * maxBarWidth;
 		resize(barWidth);
@@ -92,6 +103,7 @@ public class ProgressBar {
 	
 	// ONLY FOR THE ACTOR STAUS DO NOT TOUCH UNDER ANY CIRCUMSTANCES IF YOU GONNA DO PROPER GUI. THIS IS FUCKING RETARDED
 	public void setPosition(float newX, float newY, float progress, float maxProgress){
+		
 		this.progress = progress;
 		this.maxProgres = maxProgress;
 		

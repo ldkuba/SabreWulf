@@ -20,9 +20,10 @@ public class Player extends Actor {
 	private String name;
 	private boolean isLocal;
 	
-	public Player(int playerId, String name, Application app) {
+	public Player(int playerId, String name, Application app, boolean isLocal) {
 		super(playerId, app);
 		this.name = name;
+		this.isLocal = isLocal;
 	}
 	
 	public String getName() {
@@ -33,6 +34,11 @@ public class Player extends Actor {
 		this.name = name;
 	}
 
+	public boolean isLocal()
+	{
+		return this.isLocal;
+	}
+	
 	@Override
 	public void update() {
 		super.update();

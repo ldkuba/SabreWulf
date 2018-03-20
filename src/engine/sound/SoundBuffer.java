@@ -12,12 +12,23 @@ import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.stb.STBVorbis.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+/**
+ * Create a sound buffer for any given sound. The buffer is used to store audio
+ * data.
+ * 
+ * @author bhavi
+ *
+ */
 public class SoundBuffer {
 
 	private final int bufferId;
 	private ShortBuffer pcm = null;
 	private ByteBuffer vorbis = null;
 
+	/**
+	 * Create a sound buffer for the a given sound file
+	 * @param file
+	 */
 	public SoundBuffer(String file) {
 		this.bufferId = alGenBuffers();
 		STBVorbisInfo info = STBVorbisInfo.malloc();
@@ -26,15 +37,29 @@ public class SoundBuffer {
 
 	}
 
+	/**
+	 * Get the buffer id for the buffer that stores the data for an audio file
+	 * @return
+	 */
 	public int getBufferId() {
 		return bufferId;
 	}
 
+	/**
+	 * Clean all buffers up by deleting them and freeing used memory
+	 */
 	public void cleanup() {
 		alDeleteBuffers(this.bufferId);
 		MemoryUtil.memFree(pcm);
 	}
 
+	/**
+	 * Read the .ogg file in and return it in the form of a buffer
+	 * @param resource
+	 * @param bufferSize
+	 * @param info
+	 * @return
+	 */
 	private ShortBuffer readVorbis(String resource, int bufferSize, STBVorbisInfo info) {
 		ShortBuffer temp = null;
 		MemoryStack stack = MemoryStack.stackPush();
