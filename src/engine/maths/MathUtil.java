@@ -1,11 +1,9 @@
 package engine.maths;
 
-public class MathUtil
-{
-	private static final double DEG2RAD = Math.PI/180.0f;
-	
-	public static Mat4 orthoProjMat(float bottom, float top, float left, float right, float near, float far)
-	{
+public class MathUtil {
+	private static final double DEG2RAD = Math.PI / 180.0f;
+
+	public static Mat4 orthoProjMat(float bottom, float top, float left, float right, float near, float far) {
 		// initialises ortho to all 0.0f
 		Mat4 ortho = new Mat4();
 
@@ -23,8 +21,7 @@ public class MathUtil
 		return ortho;
 	}
 
-	public static Mat4 perspProjMat(float aspectRatio, float fov, float near, float far)
-	{
+	public static Mat4 perspProjMat(float aspectRatio, float fov, float near, float far) {
 		Mat4 persp = new Mat4();
 
 		float top = (float) (Math.tan(fov * 0.5 * Math.PI / 180.0f) * near);
@@ -39,52 +36,50 @@ public class MathUtil
 		persp.setElement(10, -(far + near) / (far - near));
 		persp.setElement(11, -(2.0f * far * near) / (far - near));
 		persp.setElement(14, -1.0f);
-		
+
 		return persp;
 
 	}
 
-	public static Mat4 simpleViewMat(Vec3 eye, Vec3 dir, Vec3 worldUp)
-	{
+	public static Mat4 simpleViewMat(Vec3 eye, Vec3 dir, Vec3 worldUp) {
 		Mat4 view = Mat4.identity();
 
 		Vec3 forward = Vec3.normalize(dir);
-		
+
 		forward.scale(-1.0f);
-		
+
 		Vec3 right = Vec3.crossProduct(Vec3.normalize(worldUp), forward);
 		Vec3 up = Vec3.crossProduct(forward, right);
 
 		Vec3 position = new Vec3(-eye.getX(), -eye.getY(), -eye.getZ());
-		
+
 		view.setElement(0, right.getX());
 		view.setElement(1, right.getY());
 		view.setElement(2, right.getZ());
 		view.setElement(3, Vec3.dotProduct(position, right));
-		
+
 		view.setElement(4, up.getX());
 		view.setElement(5, up.getY());
 		view.setElement(6, up.getZ());
 		view.setElement(7, Vec3.dotProduct(position, up));
-		
+
 		view.setElement(8, forward.getX());
 		view.setElement(9, forward.getY());
 		view.setElement(10, forward.getZ());
 		view.setElement(11, Vec3.dotProduct(position, forward));
-		
+
 		view.setElement(15, 1.0f);
-//
-//		view.setElement(3, position.getX() * -1.0f);
-//		view.setElement(7, position.getY() * -1.0f);
-//		view.setElement(11, position.getZ() * -1.0f);
+		//
+		// view.setElement(3, position.getX() * -1.0f);
+		// view.setElement(7, position.getY() * -1.0f);
+		// view.setElement(11, position.getZ() * -1.0f);
 
 		return view;
 	}
 
 	// Pitch should be in the range of [-90 ... 90] degrees and yaw
 	// should be in the range of [0 ... 360] degrees.
-	public static Mat4 fpsMat(Vec3 eye, float pitch, float yaw)
-	{
+	public static Mat4 fpsMat(Vec3 eye, float pitch, float yaw) {
 		// If the pitch and yaw angles are in degrees,
 		// they need to be converted to radians. Here
 		// I assume the values are already converted to radians.
@@ -121,68 +116,64 @@ public class MathUtil
 		return view;
 	}
 
-	public static Mat4 lookAtMat(Vec3 eye, Vec3 location, Vec3 up)
-	{
+	public static Mat4 lookAtMat(Vec3 eye, Vec3 location, Vec3 up) {
 		Mat4 lookAt = new Mat4();
 
 		/*
 		 * TODO
 		 */
-		
+
 		return lookAt;
 	}
-	
-	public static Mat4 createRotationMatrix(Vec3 angles)
-	{
+
+	public static Mat4 createRotationMatrix(Vec3 angles) {
 		Mat4 result = Mat4.identity();
-		
+
 		Mat4 rotationX = Mat4.identity();
 		Mat4 rotationY = Mat4.identity();
 		Mat4 rotationZ = Mat4.identity();
-		
-		rotationX.setElement(5, (float) Math.cos(angles.getX()*DEG2RAD));
-		rotationX.setElement(6, (float) -Math.sin(angles.getX()*DEG2RAD));
-		rotationX.setElement(9, (float) Math.sin(angles.getX()*DEG2RAD));
-		rotationX.setElement(10, (float) Math.cos(angles.getX()*DEG2RAD));
-		
-		rotationY.setElement(0, (float) Math.cos(angles.getY()*DEG2RAD));
-		rotationY.setElement(2, (float) Math.sin(angles.getY()*DEG2RAD));
-		rotationY.setElement(8, (float) -Math.sin(angles.getY()*DEG2RAD));
-		rotationY.setElement(10, (float) Math.cos(angles.getX()*DEG2RAD));
-		
-		rotationZ.setElement(0, (float) Math.cos(angles.getZ()*DEG2RAD));
-		rotationZ.setElement(1, (float) -Math.sin(angles.getZ()*DEG2RAD));
-		rotationZ.setElement(4, (float) Math.sin(angles.getZ()*DEG2RAD));
-		rotationZ.setElement(5, (float) Math.cos(angles.getZ()*DEG2RAD));
-		
+
+		rotationX.setElement(5, (float) Math.cos(angles.getX() * DEG2RAD));
+		rotationX.setElement(6, (float) -Math.sin(angles.getX() * DEG2RAD));
+		rotationX.setElement(9, (float) Math.sin(angles.getX() * DEG2RAD));
+		rotationX.setElement(10, (float) Math.cos(angles.getX() * DEG2RAD));
+
+		rotationY.setElement(0, (float) Math.cos(angles.getY() * DEG2RAD));
+		rotationY.setElement(2, (float) Math.sin(angles.getY() * DEG2RAD));
+		rotationY.setElement(8, (float) -Math.sin(angles.getY() * DEG2RAD));
+		rotationY.setElement(10, (float) Math.cos(angles.getX() * DEG2RAD));
+
+		rotationZ.setElement(0, (float) Math.cos(angles.getZ() * DEG2RAD));
+		rotationZ.setElement(1, (float) -Math.sin(angles.getZ() * DEG2RAD));
+		rotationZ.setElement(4, (float) Math.sin(angles.getZ() * DEG2RAD));
+		rotationZ.setElement(5, (float) Math.cos(angles.getZ() * DEG2RAD));
+
 		result = rotationZ.mult(rotationY).mult(rotationX);
-		
+
 		return result;
 	}
-	
-	public static Mat4 createTranslationMatrix(Vec3 position)
-	{
+
+	public static Mat4 createTranslationMatrix(Vec3 position) {
 		Mat4 result = Mat4.identity();
-		
+
 		result.setElement(3, position.getX());
 		result.setElement(7, position.getY());
 		result.setElement(11, position.getZ());
-		
+
 		return result;
 	}
-	
-	public static Mat4 createScaleMatrix(Vec3 scale)
-	{
+
+	public static Mat4 createScaleMatrix(Vec3 scale) {
 		Mat4 result = Mat4.identity();
-		
+
 		result.setElement(0, scale.getX());
 		result.setElement(5, scale.getY());
 		result.setElement(10, scale.getZ());
-		
+
 		return result;
 	}
-	
-	public static void transformToUpperTriangle (double[][] matrix, int[] index) {
+
+	public static void transformToUpperTriangle(double[][] matrix, int[] index) {
 		double[] c;
 		double c0, c1, pi0, pi1, pj;
 		int itmp, k;
@@ -197,7 +188,7 @@ public class MathUtil
 			c1 = 0;
 
 			for (int j = 0; j < matrix.length; ++j) {
-				c0 = Math.abs (matrix[i][j]);
+				c0 = Math.abs(matrix[i][j]);
 
 				if (c0 > c1) {
 					c1 = c0;
@@ -213,7 +204,7 @@ public class MathUtil
 			pi1 = 0;
 
 			for (int i = j; i < matrix.length; ++i) {
-				pi0 = Math.abs (matrix[index[i]][j]);
+				pi0 = Math.abs(matrix[index[i]][j]);
 				pi0 /= c[index[i]];
 
 				if (pi0 > pi1) {
@@ -236,8 +227,8 @@ public class MathUtil
 			}
 		}
 	}
-	
-	public static double matrixDeterminant (double[][] matrix) {
+
+	public static double matrixDeterminant(double[][] matrix) {
 		double temporary[][];
 		double result = 0;
 
@@ -264,12 +255,12 @@ public class MathUtil
 				}
 			}
 
-			result += matrix[0][i] * Math.pow (-1, (double) i) * matrixDeterminant (temporary);
+			result += matrix[0][i] * Math.pow(-1, (double) i) * matrixDeterminant(temporary);
 		}
 		return (result);
 	}
-	
-	public static double[][] invertMatrix (double[][] matrix) {
+
+	public static double[][] invertMatrix(double[][] matrix) {
 		double[][] auxiliaryMatrix, invertedMatrix;
 		int[] index;
 
@@ -281,7 +272,7 @@ public class MathUtil
 			auxiliaryMatrix[i][i] = 1;
 		}
 
-		transformToUpperTriangle (matrix, index);
+		transformToUpperTriangle(matrix, index);
 
 		for (int i = 0; i < (matrix.length - 1); ++i) {
 			for (int j = (i + 1); j < matrix.length; ++j) {
@@ -292,7 +283,8 @@ public class MathUtil
 		}
 
 		for (int i = 0; i < matrix.length; ++i) {
-			invertedMatrix[matrix.length - 1][i] = (auxiliaryMatrix[index[matrix.length - 1]][i] / matrix[index[matrix.length - 1]][matrix.length - 1]);
+			invertedMatrix[matrix.length - 1][i] = (auxiliaryMatrix[index[matrix.length - 1]][i]
+					/ matrix[index[matrix.length - 1]][matrix.length - 1]);
 
 			for (int j = (matrix.length - 2); j >= 0; --j) {
 				invertedMatrix[j][i] = auxiliaryMatrix[index[j]][i];
@@ -307,68 +299,61 @@ public class MathUtil
 
 		return (invertedMatrix);
 	}
-	
-	public static double[][] mat4ToDoubleArray(Mat4 matrix)
-	{
+
+	public static double[][] mat4ToDoubleArray(Mat4 matrix) {
 		double[][] result = new double[4][4];
 		float[] elements = matrix.getElements();
-		
-		for(int i = 0; i < 16; i++)
-		{
-			result[i%16][i/16] = (double) elements[i];
+
+		for (int i = 0; i < 16; i++) {
+			result[i % 16][i / 16] = (double) elements[i];
 		}
-		
+
 		return result;
 	}
-	
-	public static Mat4 doubleArrayToMat4(double[][] array)
-	{
+
+	public static Mat4 doubleArrayToMat4(double[][] array) {
 		Mat4 result = new Mat4();
-		
-		for(int i = 0; i < 16; i++)
-		{
-			result.setElement(i, (float) array[i%16][i/16]);
+
+		for (int i = 0; i < 16; i++) {
+			result.setElement(i, (float) array[i % 16][i / 16]);
 		}
-		
+
 		return result;
 	}
-	
-	public Vec4 changeToSystem(Vec4 vector, Mat4 source, Mat4 target)
-	{
+
+	public Vec4 changeToSystem(Vec4 vector, Mat4 source, Mat4 target) {
 		Vec4 intermediate = new Vec4();
-		
+
 		Mat4 inverse = doubleArrayToMat4(invertMatrix(mat4ToDoubleArray(source)));
-		
+
 		intermediate = vector.mult(inverse);
-		
+
 		Vec4 result = intermediate.mult(target);
-		
+
 		return result;
 	}
-	
-	//convertes a direction vector to a 4-way direction
-	// 0 - up, 1 - left, 2 - down, 3 - right
-	public static int dirTo4Dir(Vec3 direction)
-	{
-		if(Math.abs(direction.getX()) >= Math.abs(direction.getY()))
-		{
-			if(direction.getX() >= 0)
-			{
+
+	/**
+	 * Converts a direction vector to a 4-way direction 
+	 * 0 - up, 1 - left, 2 - down, 3 - right
+	 * 
+	 * @param direction
+	 * @return
+	 */
+	public static int dirTo4Dir(Vec3 direction) {
+		if (Math.abs(direction.getX()) >= Math.abs(direction.getY())) {
+			if (direction.getX() >= 0) {
 				return 3;
-			}else
-			{
+			} else {
 				return 1;
 			}
-		}else
-		{
-			if(direction.getY() >= 0)
-			{
+		} else {
+			if (direction.getY() >= 0) {
 				return 0;
-			}else
-			{
+			} else {
 				return 2;
 			}
 		}
 	}
-	
+
 }

@@ -9,11 +9,21 @@ import game.common.logic.actions.Action;
 import game.common.player.ActorManager;
 import game.server.ingame.ServerMain;
 
+/**
+ * Base attack class for the Link character
+ * @author SabreWulf
+ *
+ */
 public class LinkBaseAttack extends Action {
 
 	private int targetId;
 	private int arrowNetId;
 
+	/**
+	 * Set source of attack and target
+	 * @param targetId
+	 * @param sourceId
+	 */
 	public LinkBaseAttack(int targetId, int sourceId)
 	{
 		super(sourceId);
@@ -23,6 +33,13 @@ public class LinkBaseAttack extends Action {
 		this.cost = 0.0f;
 	}
 
+	/**
+	 * Checks if attack target is in range to attack before attacking
+	 * @param playerCoord
+	 * @param enemyCoord
+	 * @param playerRange
+	 * @return
+	 */
 	public boolean inRange(Vec3 playerCoord, Vec3 enemyCoord, float playerRange) {
 
 		float rangeX = playerCoord.getX() - enemyCoord.getX();
@@ -40,6 +57,9 @@ public class LinkBaseAttack extends Action {
 
 	}
 
+	/**
+	 * Execute attack in client's machine
+	 */
 	@Override
 	public void executeClient(ActorManager actorManager, Application app)
 	{
@@ -47,6 +67,9 @@ public class LinkBaseAttack extends Action {
 		actorManager.getActor(sourceId).getBaseAttack().setCooldown();
 	}
 
+	/**
+	 * Execute attack in the server
+	 */
 	@Override
 	public void executeServer(ActorManager actorManager, Application app)
 	{
@@ -65,6 +88,9 @@ public class LinkBaseAttack extends Action {
 		ServerMain.gameState.getScene().instantiate(arrow, -1.0f);
 	}
 
+	/**
+	 * Verify if an attack action can occur.
+	 */
 	@Override
 	public boolean verify(ActorManager actorManager)
 	{

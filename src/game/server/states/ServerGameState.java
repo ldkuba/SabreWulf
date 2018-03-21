@@ -11,7 +11,11 @@ import game.common.map.Map;
 import game.common.player.ActorManager;
 import game.server.ingame.ServerMain;
 
-
+/**
+ * Game state class for the server
+ * @author User
+ *
+ */
 public class ServerGameState extends AbstractState
 {
 

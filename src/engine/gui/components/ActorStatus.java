@@ -19,7 +19,7 @@ import game.common.actors.Player;
  * @author SabreWulf
  *
  */
-public class ActorStatus extends CustomComponent {
+public class ActorStatus {
 
 	private GUI gui;
 	private Scene scene;
