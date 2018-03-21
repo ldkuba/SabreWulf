@@ -59,7 +59,7 @@ public class Actor {
 	protected Application app;
 	protected ActorStatus status;
 	protected AbstractClass role;
-	private Action baseAttack;
+	private Action baseAttack = null;
 	private PathThread pathThread;
 
 	private Vec3 startPosition;
@@ -495,6 +495,7 @@ public class Actor {
 	 * Set the actor damage
 	 * 
 	 * @param dmg
+	 *
 	 */
 	public void setDamage(float dmg) {
 		damage = dmg;
@@ -598,7 +599,9 @@ public class Actor {
 	public void update() {
 		updateNetData();
 
-		baseAttack.changeCooldown(app.getTimer().getElapsedTime() / 1000.0f);
+		if(baseAttack != null) {
+			baseAttack.changeCooldown(app.getTimer().getElapsedTime() / 1000.0f);
+		}
 
 		//update cooldown for abilities
         for(int i = 0; i < abilities.size(); i++) {
@@ -802,5 +805,9 @@ public class Actor {
 	 */
 	public ActorStatus getStatus() {
 		return status;
+	}
+
+	public ArrayList<Vec3> getCurrentPath() {
+		return currentPath;
 	}
 }

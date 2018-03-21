@@ -1,5 +1,8 @@
 package game.client.states;
 
+import game.common.actors.Actor;
+import game.common.actors.NPC;
+import game.common.classes.classes.CaravanClass;
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
@@ -51,6 +54,7 @@ public class GameState extends AbstractState {
 		this.app = app;
 
 		actorManager = new ActorManager(scene);
+		actorManager.setMap(map);
 		playerController = new PlayerController(app, this, scene);
 		map = new Map(scene, "res/textures/map");
 
@@ -126,7 +130,18 @@ public class GameState extends AbstractState {
 			}
 
 			actorManager.addActor(player);
+
 		}
+
+		//Add Caravan
+		NPC caravan = new NPC("Caravan", actorManager.getNextID(), app);
+		caravan.setRole(new CaravanClass());
+		caravan.setTeam(3);
+		caravan.getEntity().getNetTransform().setPosition(new Vec3(30.0f,-30.0f,0.0f));
+		caravan.getEntity().removeTag("Targetable");
+		caravan.getEntity().addTag("Untargetable");
+
+		actorManager.addActor(caravan);
 
 		map.init(app.getAssetManager());
 
