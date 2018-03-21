@@ -599,6 +599,11 @@ public class Actor {
 		updateNetData();
 
 		baseAttack.changeCooldown(app.getTimer().getElapsedTime() / 1000.0f);
+
+		//update cooldown for abilities
+        for(int i = 0; i < abilities.size(); i++) {
+            abilities.get(i).changeCooldown(app.getTimer().getElapsedTime() / 1000.0f);
+        }
 		
 		if(!app.isHeadless())
 		{
