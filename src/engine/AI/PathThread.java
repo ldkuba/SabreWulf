@@ -74,12 +74,8 @@ public class PathThread extends Thread
 			valid = false;
 		}
 		if(path.size() == 1){
-			smoothedPath.add(path.get(0));
 			path.remove(0);			
-		} else {
-			smoothedPath.add(target);
 		}
-		
 		return smoothedPath;
 	}
 
@@ -151,8 +147,9 @@ public class PathThread extends Thread
 		{
 			path.add(new Vec3(pathTrigs.get(i).getMidpoint().getX(), pathTrigs.get(i).getMidpoint().getY(), 0.0f));
 		}
-		path = smoothPath(path, navMesh.getTriangles());
 		
+		path = smoothPath(path, navMesh.getTriangles());
+		path.add(target);
 		actor.callbackPath(path);
 	}
 }

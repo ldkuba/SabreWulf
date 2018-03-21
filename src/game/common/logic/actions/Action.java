@@ -8,7 +8,7 @@ import game.common.player.ActorManager;
 /**
  * Abstract class where all actions will be made.
  *
- * @author Sabrewulf
+ * @author SabreWulf
  */
 
 public abstract class Action implements Serializable
@@ -17,6 +17,7 @@ public abstract class Action implements Serializable
 
 	protected float cooldown;
 	protected float cost;
+	protected float maxCooldown;	
 	
 	/**
 	 * Set source of attack
@@ -36,10 +37,19 @@ public abstract class Action implements Serializable
 	public abstract void executeServer(ActorManager actorManager);
 	public abstract boolean verify(ActorManager actorManager);
 
-	/**
-	 * Gets the ID of the player that initiated the attack
-	 * @return
-	 */
+	public void changeCooldown(float time)
+	{
+		cooldown -= time;
+		
+		if(cooldown < 0) 
+			cooldown = 0;
+	}
+	
+	public void setCooldown()
+	{
+		cooldown = maxCooldown;
+	}
+	
 	public int getSourceId()
 	{
 		return sourceId;

@@ -22,7 +22,8 @@ public class WolfBaseAttack extends Action {
     {
         super(sourceId);
         this.targetId = targetId;
-        this.cooldown = 1.0f;
+        this.cooldown = 0.0f;
+        this.maxCooldown = 1.0f;
         this.cost = 0f;
     }
 

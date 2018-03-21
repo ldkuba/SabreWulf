@@ -23,8 +23,9 @@ public class LinkBaseAttack extends Action {
 	{
 		super(sourceId);
 		this.targetId = targetId;
-		this.cooldown = 1.0f;
-		this.cost = 0f;
+		this.maxCooldown = 1.0f;
+		this.cooldown = 0.0f;
+		this.cost = 0.0f;
 	}
 
 	/**
@@ -58,6 +59,7 @@ public class LinkBaseAttack extends Action {
 	public void executeClient(ActorManager actorManager)
 	{
 		actorManager.getActor(targetId).update();
+		actorManager.getActor(sourceId).getBaseAttack().setCooldown();
 	}
 
 	/**
@@ -68,6 +70,7 @@ public class LinkBaseAttack extends Action {
 	{
 		float health = actorManager.getActor(targetId).getHealth() - 10.0f;
 		actorManager.getActor(targetId).setHealth(health);
+		actorManager.getActor(sourceId).getBaseAttack().setCooldown();
 	}
 
 	/**

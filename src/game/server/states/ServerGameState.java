@@ -3,7 +3,6 @@ package game.server.states;
 import engine.entity.component.NetTransformComponent;
 import engine.maths.Vec3;
 import engine.state.AbstractState;
-import game.client.Main;
 import game.common.actors.Player;
 import game.common.classes.classes.GhostClass;
 import game.common.classes.classes.LinkClass;
