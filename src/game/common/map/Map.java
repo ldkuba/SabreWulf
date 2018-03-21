@@ -12,7 +12,7 @@ import engine.scene.Scene;
 /**
  * Set up the game state map
  * 
- * @author bhavi
+ * @author SabreWulf
  *
  */
 public class Map {

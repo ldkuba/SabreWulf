@@ -7,6 +7,12 @@ import engine.scene.Scene;
 import game.common.actors.Actor;
 import game.common.actors.Player;
 
+/**
+ * Manages all actors in the game.
+ *
+ * @author Sabrewulf
+ */
+
 public class ActorManager
 {
 	private ArrayList<Actor> actors;
@@ -17,13 +23,25 @@ public class ActorManager
 		actors = new ArrayList<Actor>();
 		this.scene = scene;
 	}
-	
+
+	/**
+	 * Add actor into the manager.
+	 * Add the actor's entity into the scene.
+	 *
+	 * @param actor
+	 */
 	public void addActor(Actor actor)
 	{
 		actors.add(actor);
 		scene.addEntity(actor.getEntity());
 	}
-	
+
+	/**
+	 * Get actor by its ID.
+	 *
+	 * @param id
+	 * @return
+	 */
 	public Actor getActor(int id)
 	{
 		for(Actor actor : actors)
@@ -33,10 +51,15 @@ public class ActorManager
 				return actor;
 			}
 		}
-		
 		return null;
 	}
 
+	/**
+	 * Get actor by its entity
+	 *
+	 * @param e
+	 * @return
+	 */
 	public Actor getActor(Entity e)
 	{
 		for(Actor actor : actors)
@@ -49,11 +72,19 @@ public class ActorManager
 		
 		return null;
 	}
-	
+
+	/**
+	 * Get all actors in game
+	 *
+	 * @return
+	 */
 	public ArrayList<Actor> getActors() {
 		return actors;
 	}
-	
+
+	/**
+	 * Update all actors
+	 */
 	public void update()
 	{
 		for(Actor actor : actors)
@@ -61,7 +92,12 @@ public class ActorManager
 			actor.update();
 		}
 	}
-	
+
+	/**
+	 * Get local actor
+	 *
+	 * @return
+	 */
 	public Actor getLocalPlayer()
 	{
 		for(Actor actor : actors)

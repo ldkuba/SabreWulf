@@ -16,19 +16,36 @@ import game.common.items.attributes.main.*;
 
 public class ItemsManager {
 
+	/**
+	 * Array containing all the items that can be displayed in the game.
+	 */
 	private ArrayList<Item> items = new ArrayList<Item>();
+
+	/**
+	 * Array containing items that are currently displayed in the game.
+	 */
 	private ArrayList<Item> ingameItems = new ArrayList<Item>();
 	
 	public ItemsManager() {
 		
 	}
-	
+
+	/**
+	 * Creates an item, and adds the attributes that will affect the player
+	 *
+	 * @param name
+	 * @param damage
+	 * @param energy
+	 * @param health
+	 * @param moveSpeed
+	 * @param resistance
+	 */
 	public void addItem(String name, float damage, float energy, float health, float moveSpeed, float resistance) {
 		Vec3 pos = new Vec3(0.0f,0.0f,0.0f);
 		
 		LinkedList<Attribute> attributes = new LinkedList<Attribute>();
 		
-		//Improve efficieny when adding up attributes for the player.
+		//Add attributes to the item.
 		if(notZero(damage)) {
 			Damage atDamage = new Damage(damage);
 			attributes.add(atDamage);
@@ -49,15 +66,27 @@ public class ItemsManager {
 			Resistance atResistance = new Resistance(resistance);
 			attributes.add(atResistance);
 		}
-		
+
+		//Create item and add item to the item manager.
 		Item item = new Item(name,attributes,pos);
 		items.add(item);
 	}
-	
+
+	/**
+	 * Remove item from the item manager
+	 *
+	 * @param item
+	 */
 	public void removeItem(Item item) {
 		items.remove(item);
 	}
-	
+
+	/**
+	 * get the item from the item manager
+	 *
+	 * @param name
+	 * @return
+	 */
 	public Item getItem(String name) {
 		for(int i = 0; i < items.size(); i++) {
 			if (items.get(i).getName().equals(name)) {
@@ -67,14 +96,30 @@ public class ItemsManager {
 		return null;	//Always check before getting an item out for the game.
 	}
 
+	/**
+	 * Add item into the game
+	 *
+	 * @param item
+	 */
 	public void addToingameItems(Item item) {
 		ingameItems.add(item);
 	}
 
+	/**
+	 * Get item that is currently in the game
+	 *
+	 * @return
+	 */
 	public ArrayList<Item> getIngameItems() {
 		return ingameItems;
 	}
-	
+
+	/**
+	 * Check if attribute is not zero to add the attribute into the item.
+	 *
+	 * @param n
+	 * @return
+	 */
 	private boolean notZero(float n) {
 		if(n > 0.0f) {
 			return true;

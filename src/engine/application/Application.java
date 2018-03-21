@@ -37,7 +37,7 @@ import engine.state.StateManager;
  * Initialises and terminate the application window. It also sets up the various
  * managers. This class is extended by Main.java.
  * 
- * @author bhavi
+ * @author SabreWulf
  *
  */
 

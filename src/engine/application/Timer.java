@@ -6,7 +6,7 @@ public class Timer
 	private long initialTime;
 	
 	private long elapsedTime;
-	
+
 	private long timePerTick;
 	private long currentTime;
 	
@@ -19,24 +19,22 @@ public class Timer
 		
 		currentTime = startTime;
 	}
-	
+
 	public void waitForTick() throws InterruptedException
 	{
 		currentTime = System.currentTimeMillis();
-		long delta = currentTime - startTime;
-	
+		long delta = currentTime - startTime;	
 		elapsedTime = delta;
-		
 		if(delta >= timePerTick)
 		{
 			startTime = currentTime;
 			return;
 		}
-		
+
 		long timeToSleep = timePerTick - delta;
-		
+
 		startTime = currentTime;
-		
+
 		Thread.sleep(timeToSleep);
 	}
 	
@@ -49,9 +47,8 @@ public class Timer
 	{
 		return currentTime - initialTime;
 	}
-	
-	public long getElapsedTime()
-	{
+
+	public long getElapsedTime() {
 		return elapsedTime;
 	}
 }

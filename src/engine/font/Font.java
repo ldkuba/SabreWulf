@@ -6,7 +6,7 @@ import engine.maths.Vec2;
 
 /**
  * Set up fonts to display text on the GUI
- * @author bhavi
+ * @author SabreWulf
  *
  */
 public class Font {

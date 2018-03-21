@@ -5,6 +5,12 @@ import java.io.Serializable;
 import game.common.actors.Actor;
 import game.common.player.ActorManager;
 
+/**
+ * Abstract class where all actions will be made.
+ *
+ * @author Sabrewulf
+ */
+
 public abstract class Action implements Serializable
 {
 	protected int sourceId;
