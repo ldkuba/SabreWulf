@@ -8,6 +8,11 @@ import engine.net.server.core.*;
 import game.server.global.GlobalServerConnectionListener;
 import game.server.global.GlobalServerMessageListener;
 
+/**
+ * Class for the game server
+ * @author User
+ *
+ */
 public class GameServer
 {
 	private Server server;
@@ -21,20 +26,35 @@ public class GameServer
 
 	private CopyOnWriteArrayList<GameInstance> games;
 
+	/**
+	 * Gets the number of players currently on the server
+	 * @return
+	 */
 	public int getNoPlayers() {
 		return players.size();
 	}
 
+	/**
+	 * Adds a player to the server
+	 * @param player
+	 */
 	synchronized public void addPlayer(NetPlayer player){
 		player.setPlayerId(players.size());
 		players.add(player);
 	}
 
+	/** 
+	 * Removes a player from the server
+	 * @param player
+	 */
 	synchronized public void removePlayer(NetPlayer player){
 		games.get(player.getCurrentGame()).removePlayer(player);
 		players.remove(player);
 	}
 
+	/**
+	 * Constructs the game server
+	 */
 	public GameServer()
 	{
 		connectionListener = new GlobalServerConnectionListener(this);
@@ -97,6 +117,10 @@ public class GameServer
 		}
 	}
 
+	/**
+	 * Main method to start the game server
+	 * @param args
+	 */
 	public static void main(String[] args)
 	{
 		GameServer gameServerMain = new GameServer();

@@ -23,30 +23,58 @@ public class SpecialAbility extends AbstractAbility{
 
     private float duration;
 
+    /**
+     * Creates a special ability for the target player
+     * @param name
+     * @param cooldown
+     * @param extraDamage
+     */
     public SpecialAbility(String name, float cooldown, float extraDamage) {
         super(name,cooldown,extraDamage);
     }
 
+    /** 
+     * Sets the affected resistance of the target player
+     * @param res
+     */
     public void setResistance(float res) {
         affectResistance = res;
     }
 
+    /**
+     * Sets the affected movement of the target player
+     * @param move
+     */
     public void setMovement(float move) {
         affectMovementSpeed = move;
     }
 
+    /**
+     * Sets the affected energy of the target player
+     * @param energy
+     */
     public void setEnergy(float energy) {
         affectEnergy = energy;
     }
 
+    /**
+     * Sets the affected damage of the target player
+     */
     public void setDamage(float dmg) {
         affectDamage = dmg;
     }
 
+    /**
+     * Sets the duration of the ability
+     */
     public void setDuration(float dur) {
         duration = dur;
     }
 
+    /**
+     * Sets the energy cost to use the ability
+     * @param cost
+     */
     public void setEnergyCost(float cost) {
         energyCost = cost;
     }
@@ -56,6 +84,10 @@ public class SpecialAbility extends AbstractAbility{
         return damage + extraDamage;
     }
 
+    /**
+     * Returns an array of attributes that affects the target player
+     * @return
+     */
     public ArrayList<Attribute> affectAttributes() {
         ArrayList<Attribute> attributes = new ArrayList<Attribute>();
         if(affectResistance < 1.0f) {

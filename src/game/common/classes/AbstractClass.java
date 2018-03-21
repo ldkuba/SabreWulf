@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * This class is used to set up all the basic methods and stats each actor class
  * has. It is extended by all of the actor types.
  * 
- * @author bhavi
+ * @author SabreWulf
  *
  */
 public class AbstractClass {
