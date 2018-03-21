@@ -2,7 +2,7 @@ package game.common.logic.actions;
 
 import java.io.Serializable;
 
-import game.common.actors.Actor;
+import engine.application.Application;
 import game.common.player.ActorManager;
 
 /**
@@ -28,15 +28,15 @@ public abstract class Action implements Serializable
 		this.sourceId = sourceId;
 	}
 	
-	/**
-	 * Abstract methods for executing the attack on the client and server side
-	 * Verify method to verify that the attacker can attack its target
-	 * @param actorManager
-	 */
-	public abstract void executeClient(ActorManager actorManager);
-	public abstract void executeServer(ActorManager actorManager);
+	public abstract void executeClient(ActorManager actorManager, Application app);
+	public abstract void executeServer(ActorManager actorManager, Application app);
+
 	public abstract boolean verify(ActorManager actorManager);
 
+	/**
+	 * Changes the cooldown for the attack by a given value
+	 * @param time
+	 */
 	public void changeCooldown(float time)
 	{
 		cooldown -= time;
@@ -45,11 +45,18 @@ public abstract class Action implements Serializable
 			cooldown = 0;
 	}
 	
+	/**
+	 * Sets the cooldown for the attack
+	 */
 	public void setCooldown()
 	{
 		cooldown = maxCooldown;
 	}
 	
+	/**
+	 * Gets the ID of the attacker
+	 * @return
+	 */
 	public int getSourceId()
 	{
 		return sourceId;

@@ -130,7 +130,7 @@ public class ServerMessageListener implements MessageListener
 									eam.setAction(attackAction);
 									app.getNetworkManager().broadcast(eam);
 
-									attackAction.executeServer(ServerMain.gameState.getActorManager());
+									attackAction.executeServer(ServerMain.gameState.getActorManager(), app);
 
 								} else {
 									target = null;
@@ -186,7 +186,7 @@ public class ServerMessageListener implements MessageListener
                                     eam.setAbility(ability);
                                     app.getNetworkManager().broadcast(eam);
 
-                                    ability.executeServer(ServerMain.gameState.getActorManager());
+                                    ability.executeServer(ServerMain.gameState.getActorManager(), app);
 
                                 } else {
                                     target = null;

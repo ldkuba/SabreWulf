@@ -1,5 +1,6 @@
 package game.common.logic.actions;
 
+import engine.application.Application;
 import engine.maths.Vec3;
 import game.common.player.ActorManager;
 
@@ -54,7 +55,7 @@ public class AttackAction extends Action{
 	 * @param actorManager
 	 */
 	@Override
-	public void executeClient(ActorManager actorManager)
+	public void executeClient(ActorManager actorManager, Application app)
 	{
 		actorManager.getActor(targetId).update();
 	}
@@ -65,7 +66,7 @@ public class AttackAction extends Action{
 	 * @param actorManager
 	 */
 	@Override
-	public void executeServer(ActorManager actorManager)
+	public void executeServer(ActorManager actorManager, Application app)
 	{
 		float health = actorManager.getActor(targetId).getHealth() - 10.0f;
 		actorManager.getActor(targetId).setHealth(health);
