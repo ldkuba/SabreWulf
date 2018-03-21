@@ -16,6 +16,7 @@ public class Entity {
 
 	private int id;
 	private boolean shouldBeCulled;
+	private float lifetime;
 	private String name;
 	private ArrayList<AbstractComponent> components;
 	private ArrayList<String> tags;
@@ -130,5 +131,17 @@ public class Entity {
 	
 	public boolean shouldBeCulled(){
 		return shouldBeCulled;
+	}
+
+	public void setLifeTime(float time) {
+		lifetime = time;
+	}
+
+	public float getLifeTime() {
+		return lifetime;
+	}
+
+	public void changeLifeTime(float time) {
+		lifetime = time;
 	}
 }
