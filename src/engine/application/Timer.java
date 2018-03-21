@@ -5,6 +5,8 @@ public class Timer
 	private long startTime;
 	private long initialTime;
 	
+	private long elapsedTime;
+	
 	private long timePerTick;
 	private long currentTime;
 	
@@ -22,6 +24,8 @@ public class Timer
 	{
 		currentTime = System.currentTimeMillis();
 		long delta = currentTime - startTime;
+	
+		elapsedTime = delta;
 		
 		if(delta >= timePerTick)
 		{
@@ -44,5 +48,10 @@ public class Timer
 	public long getTime()
 	{
 		return currentTime - initialTime;
+	}
+	
+	public long getElapsedTime()
+	{
+		return elapsedTime;
 	}
 }

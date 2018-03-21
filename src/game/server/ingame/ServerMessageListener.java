@@ -119,6 +119,7 @@ public class ServerMessageListener implements MessageListener
 							} else if(sourceActor.getRole() instanceof GhostClass) {
 								attackAction = new GhostBaseAttack(targetActor.getActorId(), sourceActor.getActorId());
 							}
+							
 							if(attackAction == null) {
 								System.out.println("Actor does not have basic attack");
 							}

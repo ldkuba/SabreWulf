@@ -108,7 +108,7 @@ public class Application {
 	 * @param netPlayers
 	 */
 	public Application(int width, int height, int vsyncInterval, String name, boolean fullscreen, boolean headless,
-			ArrayList<NetPlayer> netPlayers) {
+			ArrayList<NetPlayer> netPlayers) {	
 		networkType = true;
 		isHeadless = headless;
 		if (!headless) {
@@ -308,6 +308,11 @@ public class Application {
 		return assetManager;
 	}
 
+	public Timer getTimer()
+	{
+		return timer;
+	}
+	
 	/**
 	 * Get the sound manager
 	 * 

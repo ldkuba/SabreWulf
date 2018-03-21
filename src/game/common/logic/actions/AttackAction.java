@@ -27,7 +27,6 @@ public class AttackAction extends Action{
 		} else {
 			return false;
 		}
-		
 	}
 
 	@Override

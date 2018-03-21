@@ -11,8 +11,7 @@ public abstract class Action implements Serializable
 
 	protected float cooldown;
 	protected float cost;
-	
-	
+	protected float maxCooldown;	
 	
 	public Action(int sourceId)
 	{
@@ -23,6 +22,19 @@ public abstract class Action implements Serializable
 	public abstract void executeServer(ActorManager actorManager);
 	public abstract boolean verify(ActorManager actorManager);
 
+	public void changeCooldown(float time)
+	{
+		cooldown -= time;
+		
+		if(cooldown < 0) 
+			cooldown = 0;
+	}
+	
+	public void setCooldown()
+	{
+		cooldown = maxCooldown;
+	}
+	
 	public int getSourceId()
 	{
 		return sourceId;

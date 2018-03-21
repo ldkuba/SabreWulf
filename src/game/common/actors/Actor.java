@@ -416,6 +416,7 @@ public class Actor
 	{
 		updateNetData();
 
+		baseAttack.changeCooldown(app.getTimer().getElapsedTime() / 1000.0f);
 		
 		if(!app.isHeadless())
 		{
