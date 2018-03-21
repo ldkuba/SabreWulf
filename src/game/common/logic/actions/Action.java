@@ -2,7 +2,7 @@ package game.common.logic.actions;
 
 import java.io.Serializable;
 
-import game.common.actors.Actor;
+import engine.application.Application;
 import game.common.player.ActorManager;
 
 /**
@@ -24,8 +24,8 @@ public abstract class Action implements Serializable
 		this.sourceId = sourceId;
 	}
 	
-	public abstract void executeClient(ActorManager actorManager);
-	public abstract void executeServer(ActorManager actorManager);
+	public abstract void executeClient(ActorManager actorManager, Application app);
+	public abstract void executeServer(ActorManager actorManager, Application app);
 	public abstract boolean verify(ActorManager actorManager);
 
 	public void changeCooldown(float time)

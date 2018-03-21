@@ -1,13 +1,18 @@
 package game.common.abilities.basic;
 
+import engine.application.Application;
+import engine.entity.Entity;
+import engine.entity.component.NetIdentityComponent;
+import engine.entity.component.NetTransformComponent;
 import engine.maths.Vec3;
-import game.common.abilities.AbstractAbility;
 import game.common.logic.actions.Action;
 import game.common.player.ActorManager;
+import game.server.ingame.ServerMain;
 
 public class LinkBaseAttack extends Action {
 
 	private int targetId;
+	private int arrowNetId;
 
 	public LinkBaseAttack(int targetId, int sourceId)
 	{
@@ -36,18 +41,28 @@ public class LinkBaseAttack extends Action {
 	}
 
 	@Override
-	public void executeClient(ActorManager actorManager)
+	public void executeClient(ActorManager actorManager, Application app)
 	{
 		actorManager.getActor(targetId).update();
 		actorManager.getActor(sourceId).getBaseAttack().setCooldown();
 	}
 
 	@Override
-	public void executeServer(ActorManager actorManager)
+	public void executeServer(ActorManager actorManager, Application app)
 	{
 		float health = actorManager.getActor(targetId).getHealth() - 10.0f;
 		actorManager.getActor(targetId).setHealth(health);
 		actorManager.getActor(sourceId).getBaseAttack().setCooldown();
+		
+		int netId = app.getNetworkManager().getFreeId();
+		
+		Entity arrow = new Entity("Arrow");
+		arrow.addComponent(new NetIdentityComponent(netId, app.getNetworkManager()));
+		arrow.addComponent(new NetTransformComponent());
+		arrow.getNetTransform().setPosition(actorManager.getActor(sourceId).getEntity().getNetTransform().getPosition());
+		
+		
+		ServerMain.gameState.getScene().instantiate(arrow, -1.0f);
 	}
 
 	@Override
