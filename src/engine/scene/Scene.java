@@ -33,7 +33,6 @@ public class Scene
 	private Renderer2D m_Renderer2D;
 	private Renderer3D m_Renderer3D; // Currently not used
 	private Camera m_Camera;
-
 	private Application app;
 
 	public Scene(int id, Application app)
@@ -322,6 +321,7 @@ public class Scene
 		float view = Application.s_Viewport.getLength();
 		float winX = Application.s_WindowSize.getX(); 
 		float winY= Application.s_WindowSize.getY(); 
+		float xScalar = 1.34f;
 		if(sprite != null && transform != null) {
 			float entWidth = sprite.getWidth();
 			float entHeight = sprite.getHeight();
@@ -329,8 +329,8 @@ public class Scene
 			Vec2 p2 = new Vec2(p1.getX()+entWidth, p1.getY());
 			Vec2 p3 = new Vec2(p1.getX(), p1.getY()+entHeight);
 			Vec2 p4 = new Vec2(p1.getX()+(entWidth), p1.getY()+(entHeight));
-			float xMaxSpan = cam.getX() + (view*1.34f);
-			float xMinSpan = cam.getX() - (view*1.34f);
+			float xMaxSpan = cam.getX() + (view*xScalar);
+			float xMinSpan = cam.getX() - (view*xScalar);
 			float yMaxSpan = cam.getY() + (view*(winX/winY));
 			float yMinSpan = cam.getY() - (view*(winX/winY));
 			

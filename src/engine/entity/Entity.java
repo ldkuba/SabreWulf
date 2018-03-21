@@ -7,13 +7,17 @@ import engine.entity.component.NetTransformComponent;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TransformComponent;
 
+/**
+ * 
+ * @author SabreWulf
+ *
+ */
 public class Entity {
 
 	private int id;
+	private boolean shouldBeCulled;
 	private String name;
 	private ArrayList<AbstractComponent> components;
-	private boolean shouldBeCulled;
-
 	private ArrayList<String> tags;
 	
 	public Entity(String name) {

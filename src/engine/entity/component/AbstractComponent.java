@@ -3,7 +3,7 @@ package engine.entity.component;
 /**
  * This is a fully abstract class that is extended by all components
  * 
- * @author bhavi
+ * @author SabreWulf
  *
  */
 public abstract class AbstractComponent {
