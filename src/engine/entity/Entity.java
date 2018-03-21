@@ -72,6 +72,12 @@ public class Entity {
 		}
 	}
 
+	public void removeTag(String tag) {
+		if(tags.contains(tag)) {
+			tags.remove(tag);
+		}
+	}
+
 	/**
 	 * Return true if the entity has a tag
 	 * 

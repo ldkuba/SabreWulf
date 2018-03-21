@@ -89,13 +89,17 @@ public class PlayerController {
 	 * @param action
 	 */
 	public void onKeyPress(int key, int action) {
+
+		//Key Q - Execute ability
 		if (key == GLFW.GLFW_KEY_Q && action == GLFW.GLFW_PRESS) {
 
 			int abilityOne = 0;
 
+			//Location clicked
 			Vec3 worldPos = scene.getCamera().getWorldCoordinates((float) main.getInputManager().getMouseX(),
 					(float) main.getInputManager().getMouseY());
 
+			//Prepare message to send
 			RequestAbilityMessage reqMsg = new RequestAbilityMessage();
 			if(gamestate.getActorManager().getLocalPlayer().getRole().getAbilities().size() != 0) {
 				reqMsg.setAbility(gamestate.getActorManager().getLocalPlayer().getRole().getAbilities().get(abilityOne));
