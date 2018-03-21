@@ -7,8 +7,7 @@ import engine.graphics.texture.Texture;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
 
-public class Material
-{
+public class Material {
 	private Texture m_Texture;
 
 	private Vec4 m_AmbientColor;
@@ -19,8 +18,7 @@ public class Material
 	
 	private boolean m_IsLit;
 	
-	public Material()
-	{
+	public Material() {
 		m_AmbientColor = new Vec4(1.0f, 1.0f, 1.0f, 1.0f);
 		m_DiffuseColor = new Vec4(0.7f, 0.7f, 0.7f, 1.0f);
 		m_SpecularColor = new Vec4(0.5f, 0.5f, 0.5f, 1.0f);
@@ -29,8 +27,7 @@ public class Material
 		m_IsLit = false;
 	}
 	
-	public Material(Vec4 ambient, Vec4 diffuse, Vec4 specular, float reflectance, boolean isLit)
-	{
+	public Material(Vec4 ambient, Vec4 diffuse, Vec4 specular, float reflectance, boolean isLit) {
 		m_AmbientColor = ambient;
 		m_DiffuseColor = diffuse;
 		m_SpecularColor = specular;
@@ -39,68 +36,55 @@ public class Material
 		m_IsLit = isLit;
 	}
 
-	public Texture getTexture()
-	{
+	public Texture getTexture() {
 		return m_Texture;
 	}
 
-	public void setTexture(Texture m_Texture)
-	{
+	public void setTexture(Texture m_Texture) {
 		this.m_Texture = m_Texture;
 	}
 
-	public Vec4 getAmbientColor()
-	{
+	public Vec4 getAmbientColor() {
 		return m_AmbientColor;
 	}
 
-	public void setAmbientColor(Vec4 m_AmbientColor)
-	{
+	public void setAmbientColor(Vec4 m_AmbientColor) {
 		this.m_AmbientColor = m_AmbientColor;
 	}
 
-	public Vec4 getDiffuseColor()
-	{
+	public Vec4 getDiffuseColor() {
 		return m_DiffuseColor;
 	}
 
-	public void setDiffuseColor(Vec4 m_DiffuseColor)
-	{
+	public void setDiffuseColor(Vec4 m_DiffuseColor) {
 		this.m_DiffuseColor = m_DiffuseColor;
 	}
 
-	public Vec4 getSpecularColor()
-	{
+	public Vec4 getSpecularColor() {
 		return m_SpecularColor;
 	}
 
-	public void setSpecularColor(Vec4 m_SpecularColor)
-	{
+	public void setSpecularColor(Vec4 m_SpecularColor) {
 		this.m_SpecularColor = m_SpecularColor;
 	}
 
-	public float getReflectance()
-	{
+	public float getReflectance() {
 		return m_Reflectance;
 	}
 
-	public void setReflectance(float m_Reflectance)
-	{
+	public void setReflectance(float m_Reflectance) {
 		this.m_Reflectance = m_Reflectance;
 	}	
 	
-	public boolean getIsLit()
-	{
+	public boolean getIsLit() {
 		return m_IsLit;
 	}
 	
-	public void setIsLit(boolean isLit)
-	{
+	public void setIsLit(boolean isLit) {
 		m_IsLit = isLit;
 	}
 	
-	public void setUniforms(ShaderProgram shader)
-	{
+	public void setUniforms(ShaderProgram shader) {
 		int ambientLoc = shader.getUniformLayout().getUniformLocation("material.ambient");
 		GL20.glUniform4fv(ambientLoc, m_AmbientColor.elementsFlipped());
 		
