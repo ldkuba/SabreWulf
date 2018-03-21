@@ -153,6 +153,52 @@ public class ServerMessageListener implements MessageListener
 		}else if(msg instanceof ChatMessage){
 			broadcastMessage(msg, app.getNetworkManager().getNetPlayers());
 
+		}else if(msg instanceof RequestAbilityMessage) {
+
+		    Action ability = ((RequestAbilityMessage) msg).getAbility();
+		    Vec3 desiredTarget = ((RequestAbilityMessage) msg).getTargetLocation();
+
+
+            ArrayList<Entity> clickedEntities = ServerMain.gameState.getScene().pickEntities(desiredTarget);
+
+            Entity target = null;
+
+            for(Entity e : clickedEntities)
+            {
+                if(e.hasTag("Targetable"))
+                {
+                    Actor targetActor = ServerMain.gameState.getActorManager().getActor(e);
+                    Actor sourceActor = ServerMain.gameState.getActorManager().getActor(player.getPlayerId());
+
+                    if(targetActor != null)
+                    {
+                        if(targetActor.getTeam() != sourceActor.getTeam())
+                        {
+                            target = e;
+
+                            if(ability == null) {
+                                System.out.println("Actor does not have basic attack");
+                            }
+
+                            if(ability.getCooldown() == 0) {
+                                if (ability.verify(ServerMain.gameState.getActorManager())) {
+                                    ExecuteAbilityMessage eam = new ExecuteAbilityMessage();
+                                    eam.setAbility(ability);
+                                    app.getNetworkManager().broadcast(eam);
+
+                                    ability.executeServer(ServerMain.gameState.getActorManager());
+
+                                } else {
+                                    target = null;
+                                }
+                            }
+
+                            break;
+                        }
+                    }
+                }
+            }
+
 		}
 	}
 

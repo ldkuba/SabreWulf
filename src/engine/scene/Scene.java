@@ -188,6 +188,14 @@ public class Scene {
 					c.update();
 				}
 			}
+
+			if(e.getLifeTime() != -1) {
+				e.changeLifeTime(app.getTimer().getElapsedTime());
+				if(e.getLifeTime() < 0) {
+					removeEntity(e);
+
+				}
+			}
 		}
 		sortEntitiesZ();
 		app.getNetworkManager().synchronize(this);
@@ -279,6 +287,7 @@ public class Scene {
 				model.draw(m_Renderer3D, transformation);
 			}
 		}
+
 		m_Renderer2D.drawAll();
 	}
 
@@ -403,5 +412,10 @@ public class Scene {
 			}
 		}
 		return result;
+	}
+
+	public void instantiate(Entity e, float time) {
+		e.setLifeTime(time);
+		addEntity(e);
 	}
 }

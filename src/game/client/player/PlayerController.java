@@ -91,13 +91,19 @@ public class PlayerController {
 	public void onKeyPress(int key, int action) {
 		if (key == GLFW.GLFW_KEY_Q && action == GLFW.GLFW_PRESS) {
 
+			int abilityOne = 0;
+
 			Vec3 worldPos = scene.getCamera().getWorldCoordinates((float) main.getInputManager().getMouseX(),
 					(float) main.getInputManager().getMouseY());
 
 			RequestAbilityMessage reqMsg = new RequestAbilityMessage();
-			reqMsg.setAbility(gamestate.getActorManager().getLocalPlayer().getRole().getAbilities().get(0));
-			reqMsg.setTargetLocation(worldPos);
-			main.getClient().sendTCP(reqMsg);
+			if(gamestate.getActorManager().getLocalPlayer().getRole().getAbilities().size() != 0) {
+				reqMsg.setAbility(gamestate.getActorManager().getLocalPlayer().getRole().getAbilities().get(abilityOne));
+				reqMsg.setTargetLocation(worldPos);
+				main.getClient().sendTCP(reqMsg);
+			} else {
+				System.out.println("No abilities assigned");
+			}
 		}
 	}
 

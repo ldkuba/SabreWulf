@@ -3,6 +3,7 @@ package engine.application;
 public class Timer
 {
 	private long startTime;
+
 	private long initialTime;
 	
 	private long elapsedTime;
@@ -51,4 +52,5 @@ public class Timer
 	public long getElapsedTime() {
 		return elapsedTime;
 	}
+
 }
