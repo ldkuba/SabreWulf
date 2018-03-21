@@ -178,6 +178,14 @@ public class Scene
 					c.update();
 				}
 			}
+
+			if(e.getLifeTime() != -1) {
+				e.changeLifeTime(app.getTimer().getElapsedTime());
+				if(e.getLifeTime() < 0) {
+					removeEntity(e);
+
+				}
+			}
 		}
 
 		sortEntitiesZ();
@@ -417,5 +425,10 @@ public class Scene
 		}
 		
 		return result;
+	}
+
+	public void instantiate(Entity e, float time) {
+		e.setLifeTime(time);
+		addEntity(e);
 	}
 }

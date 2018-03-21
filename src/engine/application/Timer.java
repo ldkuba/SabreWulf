@@ -5,8 +5,6 @@ public class Timer
 	private long startTime;
 	private long initialTime;
 
-	private long elapsedTime;
-
 	private long timePerTick;
 	private long currentTime;
 	
@@ -48,7 +46,4 @@ public class Timer
 		return currentTime - initialTime;
 	}
 
-	public long getElapsedTime() {
-		return elapsedTime;
-	}
 }

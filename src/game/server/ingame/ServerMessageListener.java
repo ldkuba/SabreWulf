@@ -152,6 +152,26 @@ public class ServerMessageListener implements MessageListener
 		}else if(msg instanceof ChatMessage){
 			broadcastMessage(msg, app.getNetworkManager().getNetPlayers());
 
+		}else if(msg instanceof RequestAbilityMessage) {
+			Vec3 target = ((RequestAbilityMessage) msg).getTargetLocation();
+			Action ability = ((RequestAbilityMessage) msg).getAbility();
+
+			Actor targetActor = ServerMain.gameState.getActorManager().getActor(e);
+			Actor sourceActor = ServerMain.gameState.getActorManager().getActor(player.getPlayerId());
+
+			if (ability.getCooldown() == 0) {
+				if (ability.verify(ServerMain.gameState.getActorManager())) {
+					ExecuteAbilityMessage eam = new ExecuteAbilityMessage();
+					eam.setAbility(ability);
+					app.getNetworkManager().broadcast(eam);
+
+					ability.executeServer(ServerMain.gameState.getActorManager());
+				} else {
+					target = null;
+				}
+			}
+
+
 		}
 	}
 
