@@ -97,6 +97,9 @@ public class ServerGameState extends AbstractState
 			actorManager.addActor(player);
 		}
 
+		/*--UPDATE YOUR CARAVAN SPRITE NAME--
+		* res/actors/caravan/textures/sprite.png
+		*
 		//Add Caravan
 		NPC caravan = new NPC("Caravan", actorManager.getNextID(), app);
 		caravan.setRole(new CaravanClass());
@@ -109,7 +112,7 @@ public class ServerGameState extends AbstractState
 		caravan.addDesiredLocation(new Vec3(30.0f,-90.0f,0.0f));
 
 		actorManager.addActor(caravan);
-
+		*/
 	}
 
 	@Override

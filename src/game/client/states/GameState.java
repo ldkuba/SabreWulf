@@ -133,6 +133,9 @@ public class GameState extends AbstractState {
 
 		}
 
+		/*--UPDATE YOUR CARAVAN SPRITE NAME--
+		* res/actors/caravan/textures/sprite.png
+		*
 		//Add Caravan
 		NPC caravan = new NPC("Caravan", actorManager.getNextID(), app);
 		caravan.setRole(new CaravanClass());
@@ -142,6 +145,7 @@ public class GameState extends AbstractState {
 		caravan.getEntity().addTag("Untargetable");
 
 		actorManager.addActor(caravan);
+		*/
 
 		map.init(app.getAssetManager());
 
