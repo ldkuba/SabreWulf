@@ -3,7 +3,9 @@ package game.server.states;
 import engine.entity.component.NetTransformComponent;
 import engine.maths.Vec3;
 import engine.state.AbstractState;
+import game.common.actors.NPC;
 import game.common.actors.Player;
+import game.common.classes.classes.CaravanClass;
 import game.common.classes.classes.GhostClass;
 import game.common.classes.classes.LinkClass;
 import game.common.classes.classes.WolfClass;
@@ -36,6 +38,7 @@ public class ServerGameState extends AbstractState
 		this.app = app;
 		map = new Map(scene, "res/textures/map");
 		actorManager = new ActorManager(scene);
+		actorManager.setMap(map);
 	}
 		
 	@Override
@@ -94,6 +97,22 @@ public class ServerGameState extends AbstractState
 			actorManager.addActor(player);
 		}
 
+		/*--UPDATE YOUR CARAVAN SPRITE NAME--
+		* res/actors/caravan/textures/sprite.png
+		*
+		//Add Caravan
+		NPC caravan = new NPC("Caravan", actorManager.getNextID(), app);
+		caravan.setRole(new CaravanClass());
+		caravan.setTeam(3);
+		caravan.getEntity().getNetTransform().setPosition(new Vec3(30.0f,-30.0f,0.0f));
+		caravan.getEntity().removeTag("Targetable");
+		caravan.getEntity().addTag("Untargetable");
+
+		//First destination
+		caravan.addDesiredLocation(new Vec3(30.0f,-90.0f,0.0f));
+
+		actorManager.addActor(caravan);
+		*/
 	}
 
 	@Override

@@ -118,10 +118,10 @@ public class ClientTCPMessageListener implements MessageListener
 		}else if(msg instanceof ExecuteActionMessage)
 		{
 			ExecuteActionMessage eam = (ExecuteActionMessage) msg;
-			eam.getAction().executeClient(Main.gameState.getActorManager());
+			eam.getAction().executeClient(Main.gameState.getActorManager(), app);
 		} else if(msg instanceof  ExecuteAbilityMessage) {
 			ExecuteAbilityMessage eam = (ExecuteAbilityMessage) msg;
-			eam.getAbility().executeClient(Main.gameState.getActorManager());
+			eam.getAbility().executeClient(Main.gameState.getActorManager(), app);
 		} else if(msg instanceof ChatMessage){
 			// Do sth with msg.getMsg, msg.getPlayer
 		}

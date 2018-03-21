@@ -63,6 +63,11 @@ public class StateManager {
 		activeState.render();
 	}
 
+	public ArrayList<AbstractState> getStates()
+	{
+		return registered;
+	}
+	
 	/**
 	 * Set the current state - used to switch between states
 	 * @param state

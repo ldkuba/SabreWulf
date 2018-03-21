@@ -1,5 +1,6 @@
 package game.common.abilities.basic;
 
+import engine.application.Application;
 import engine.maths.Vec3;
 import game.common.logic.actions.Action;
 import game.common.player.ActorManager;
@@ -54,7 +55,7 @@ public class WolfBaseAttack extends Action {
      * Execute attack in client's machine
      */
     @Override
-    public void executeClient(ActorManager actorManager)
+    public void executeClient(ActorManager actorManager, Application app)
     {
         actorManager.getActor(targetId).update();
     }
@@ -63,7 +64,7 @@ public class WolfBaseAttack extends Action {
      * Execute attack in the server
      */
     @Override
-    public void executeServer(ActorManager actorManager)
+    public void executeServer(ActorManager actorManager, Application app)
     {
         float health = actorManager.getActor(targetId).getHealth() - 10.0f;
         actorManager.getActor(targetId).setHealth(health);
