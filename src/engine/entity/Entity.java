@@ -8,6 +8,7 @@ import engine.entity.component.SpriteComponent;
 import engine.entity.component.TransformComponent;
 
 /**
+ * Generic class use to represent objects in the game
  * 
  * @author SabreWulf
  *
@@ -19,69 +20,119 @@ public class Entity {
 	private String name;
 	private ArrayList<AbstractComponent> components;
 	private ArrayList<String> tags;
-	
+
+	/**
+	 * Create a new entity with a given name that should not be culled
+	 * 
+	 * @param name
+	 */
 	public Entity(String name) {
 		this.shouldBeCulled = false;
 		this.id = -1;
 		this.name = name;
 		components = new ArrayList<AbstractComponent>();
-		
+
 		tags = new ArrayList<>();
 	}
-	
+
+	/**
+	 * Create a new entity with a given name that should be culled
+	 * 
+	 * @param name
+	 * @param culled
+	 */
 	public Entity(String name, boolean culled) {
 		this.shouldBeCulled = culled;
 		this.id = -1;
 		this.name = name;
 		components = new ArrayList<AbstractComponent>();
-		
+
 		tags = new ArrayList<>();
 	}
 
+	/**
+	 * Get the entity name
+	 * 
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
 
-	public void addTag(String tag)
-	{
-		if(!tags.contains(tag))
-		{
+	/**
+	 * Add a tag to the entity
+	 * 
+	 * @param tag
+	 */
+	public void addTag(String tag) {
+		if (!tags.contains(tag)) {
 			tags.add(tag);
-			
+
 		}
 	}
 
-	public boolean hasTag(String tag)
-	{
+	/**
+	 * Return true if the entity has a tag
+	 * 
+	 * @param tag
+	 * @return
+	 */
+	public boolean hasTag(String tag) {
 		return tags.contains(tag);
 	}
-	
+
+	/**
+	 * Add a component to the entity
+	 * 
+	 * @param comp
+	 */
 	public void addComponent(AbstractComponent comp) {
 		if (!hasComponent(comp.getClass())) {
 			components.add(comp);
 		}
 	}
 
+	/**
+	 * Remove a component from the entity
+	 * 
+	 * @param comp
+	 */
 	public void removeComponent(AbstractComponent comp) {
 		if (hasComponent(comp.getClass())) {
 			components.remove(comp);
 		}
 	}
 
+	/**
+	 * Get all the component that the entity has
+	 * 
+	 * @return
+	 */
 	public ArrayList<AbstractComponent> getComponents() {
 		return components;
 	}
 
+	/**
+	 * Get a particular component from the enity
+	 * 
+	 * @param componentType
+	 * @return
+	 */
 	public AbstractComponent getComponent(Class componentType) {
 		for (int i = 0; i < components.size(); i++) {
 			if (components.get(i).getClass().equals(componentType)) {
 				return components.get(i);
 			}
 		}
-		
 		return null;
 	}
 
+	/**
+	 * Check to see if an entity has a component already
+	 * 
+	 * @param componentType
+	 * @return
+	 */
 	public boolean hasComponent(Class componentType) {
 		for (int i = 0; i < components.size(); i++) {
 			if (components.get(i).getClass().equals(componentType)) {
@@ -90,45 +141,69 @@ public class Entity {
 		}
 		return false;
 	}
-	
-	public void setId(int id)
-	{
+
+	/**
+	 * Set the entities unique id
+	 * 
+	 * @param id
+	 */
+	public void setId(int id) {
 		this.id = id;
 	}
-	
-	public int getId()
-	{
+
+	/**
+	 * Get the entities id
+	 * 
+	 * @return
+	 */
+	public int getId() {
 		return id;
 	}
-	
-	//for simplicity because its used often	
-	public TransformComponent getTransform()
-	{
+
+	/**
+	 * Get the entities transform component
+	 * 
+	 * @return
+	 */
+	public TransformComponent getTransform() {
 		return (TransformComponent) getComponent(TransformComponent.class);
 	}
-	
-	public SpriteComponent getSprite()
-	{
+
+	/**
+	 * Get the entities sprite component
+	 * 
+	 * @return
+	 */
+	public SpriteComponent getSprite() {
 		return (SpriteComponent) getComponent(SpriteComponent.class);
 	}
-	
-	public NetTransformComponent getNetTransform()
-	{
+
+	/**
+	 * Get the entities network transform component
+	 * 
+	 * @return
+	 */
+	public NetTransformComponent getNetTransform() {
 		return (NetTransformComponent) getComponent(NetTransformComponent.class);
 	}
-	
-	public Entity clone()
-	{
+
+	/**
+	 * Create a clone of the entity
+	 */
+	public Entity clone() {
 		Entity result = new Entity(name);
-		for(AbstractComponent comp : components)
-		{
+		for (AbstractComponent comp : components) {
 			result.addComponent(comp);
 		}
-		
 		return result;
 	}
-	
-	public boolean shouldBeCulled(){
+
+	/**
+	 * Return true if the entity should be called
+	 * 
+	 * @return
+	 */
+	public boolean shouldBeCulled() {
 		return shouldBeCulled;
 	}
 }
