@@ -37,6 +37,10 @@ public abstract class Action implements Serializable
 	public abstract void executeServer(ActorManager actorManager);
 	public abstract boolean verify(ActorManager actorManager);
 
+	/**
+	 * Changes the cooldown for the attack by a given value
+	 * @param time
+	 */
 	public void changeCooldown(float time)
 	{
 		cooldown -= time;
@@ -45,11 +49,18 @@ public abstract class Action implements Serializable
 			cooldown = 0;
 	}
 	
+	/**
+	 * Sets the cooldown for the attack
+	 */
 	public void setCooldown()
 	{
 		cooldown = maxCooldown;
 	}
 	
+	/**
+	 * Gets the ID of the attacker
+	 * @return
+	 */
 	public int getSourceId()
 	{
 		return sourceId;
