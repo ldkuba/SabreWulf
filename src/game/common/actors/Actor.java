@@ -598,7 +598,10 @@ public class Actor {
 	public void update() {
 		updateNetData();
 
-		if (!app.isHeadless()) {
+		baseAttack.changeCooldown(app.getTimer().getElapsedTime() / 1000.0f);
+		
+		if(!app.isHeadless())
+		{
 			status.update();
 		} else {
 			Vec3 currentPos = new Vec3();
