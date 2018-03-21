@@ -8,14 +8,27 @@ import engine.font.Font;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
 
-public class Label extends GuiComponent
-{	
+/**
+ * Create and manage buttons on the GUI
+ * 
+ * @author SabreWulf
+ *
+ */
+public class Label extends GuiComponent {	
 	private float size;
 	private float spread;
 	private TextComponent textComponent;
 	
-	public Label(float x, float y, Font font, float size, float spread, Vec4 color)
-	{
+	/** 
+	 * Creates a new label at the given position, with the given dimensions and colour
+	 * @param x
+	 * @param y
+	 * @param font
+	 * @param size
+	 * @param spread
+	 * @param color
+	 */
+	public Label(float x, float y, Font font, float size, float spread, Vec4 color) {
 		this.x = x;
 		this.y = y;
 		this.width = size*spread;
@@ -33,39 +46,57 @@ public class Label extends GuiComponent
 		entity.addComponent(textComponent);
 	}
 	
+	/**
+	 * Resizes the label when the window size gets resized
+	 */
 	@Override
-	public void resize()
-	{
+	public void resize() {
 		setSize(size);
 	}
 	
-	public void setColor(Vec4 newColor)
-	{
+	/**
+	 * Sets the colour of the label
+	 * @param newColor
+	 */
+	public void setColor(Vec4 newColor) {
 		textComponent.setColor(newColor);
 	}
 	
-	public void setText(String text)
-	{
+	/**
+	 * Sets the text of the label
+	 * @param text
+	 */
+	public void setText(String text) {
 		textComponent.setText(text);
 		this.width = spread * size * text.length();
 	}
 	
-	public void setSize(float size)
-	{
+	/**
+	 * Sets the size of the label
+	 * @param size
+	 */
+	public void setSize(float size) {
 		float worldHeight = (height*Application.s_WindowSize.getY()/100.0f) * (Application.s_Viewport.getY()/(Application.s_WindowSize.getY()/2.0f));
 		textComponent.setSize(worldHeight);
 		this.width = spread * size * textComponent.getText().length();
 	}
 	
-	public void setSpread(float spread)
-	{
+	/**
+	 * Sets the spread of the label
+	 * @param spread
+	 */
+	public void setSpread(float spread) {
 		textComponent.setSpread(spread);
 		this.width = spread * size * textComponent.getText().length();
 	}
 	
-	//ONLY FOR ACTOR STATUS
-	public void setPosition(float newX, float newY)
-	{
+	/**
+	 * Sets the position of the label on the map
+	 * Used only for the labels indicating the statuses of the actors
+	 * @param newX
+	 * @param newY
+	 */
+	public void setPosition(float newX, float newY) {
 		this.entity.getTransform().setPosition(new Vec3(newX, newY, -1.0f));
 	}
 }

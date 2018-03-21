@@ -10,6 +10,11 @@ import engine.gui.GUI;
 import engine.maths.Vec2;
 import engine.maths.Vec4;
 
+/**
+ * Creates and manages the progress bars on the GUI
+ * @author User
+ *
+ */
 public class ProgressBar {
 
 	private GUI gui;
@@ -27,6 +32,17 @@ public class ProgressBar {
 	private Sprite progressBar;
 	private Label label;
 
+	/**
+	 * Creates a new progress bar at a given position, with the given dimensions and textures
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param bgTexture
+	 * @param barTexture
+	 * @param font
+	 * @param gui
+	 */
 	public ProgressBar(float x, float y, float width, float height, Texture bgTexture, Texture barTexture, Font font, GUI gui) {
 		this.gui = gui;
 		this.x = x;
@@ -43,8 +59,11 @@ public class ProgressBar {
 		this.gui.add(progressBar);
 	}
 
-	private void resize(float barWidth)
-	{
+	/**
+	 * Resizes the progress bar when the window size gets resized
+	 * @param barWidth
+	 */
+	private void resize(float barWidth) {
 		progressBar.setWidth(barWidth);
 
 		float progresRatio = progress/maxProgres;
@@ -61,6 +80,10 @@ public class ProgressBar {
 		progressBar.resize();
 	}
 
+	/**
+	 * Sets the maximum progress of the progress bar
+	 * @param maxProgress
+	 */
 	//Affects the bartexture of the progress.
 	public void setMaxProgress(float maxProgress) {
 		this.maxProgres = maxProgress;
@@ -68,14 +91,26 @@ public class ProgressBar {
 		resize(barWidth);
 	}
 
+	/**
+	 * Gets the current progress of the progress bar
+	 * @return
+	 */
 	public float getProgress() {
 		return progress;
 	}
 
+	/**
+	 * Gets the maximum progress of the progress bar
+	 * @return
+	 */
 	public float getMaxProgres() {
 		return maxProgres;
 	}
 
+	/**
+	 * Changes the progress and width of the progress bar by a given value
+	 * @param delta
+	 */
 	//delta in value
 	public void changeBar(float delta) {
 		
@@ -89,6 +124,10 @@ public class ProgressBar {
 		resize(barWidth);
 	}
 
+	/**
+	 * Sets the width of the progress bar based on the given progress
+	 * @param progress
+	 */
 	public void setBar(float progress)
 	{
 		if(progress < 0 || progress > maxProgres)
@@ -101,7 +140,15 @@ public class ProgressBar {
 		resize(barWidth);
 	}
 	
-	// ONLY FOR THE ACTOR STAUS DO NOT TOUCH UNDER ANY CIRCUMSTANCES IF YOU GONNA DO PROPER GUI. THIS IS FUCKING RETARDED
+	/**
+	 * Sets the position of the progress bar on the map
+	 * Used only for the progress bars indicating the statuses of the actors
+	 * @param newX
+	 * @param newY
+	 * @param progress
+	 * @param maxProgress
+	 */
+	
 	public void setPosition(float newX, float newY, float progress, float maxProgress){
 		
 		this.progress = progress;
