@@ -64,9 +64,9 @@ public class ClientTCPMessageListener implements MessageListener
 		}
 		else if(msg instanceof LobbyUpdateMessage){
 		    LobbyUpdateMessage lobbyUpd = (LobbyUpdateMessage) msg;
-		    	
+
 		    ArrayList<NetPlayer> updatedPlayers = new ArrayList<>();
-		    
+
 		    for(int i = 0; i < lobbyUpd.getPlayersInLobby().size(); i++)
 		    {
 		    	NetPlayer netPlayer = new NetPlayer(null);
@@ -75,12 +75,12 @@ public class ClientTCPMessageListener implements MessageListener
 		    	netPlayer.setName(lobbyUpd.getPlayersInLobby().get(i).getName());
 		    	netPlayer.setPlayerId(lobbyUpd.getPlayersInLobby().get(i).getNetPlayerId());
 		    	netPlayer.setReady(lobbyUpd.getPlayersInLobby().get(i).getReady());
-		    	
+
 		    	updatedPlayers.add(netPlayer);
 		    }
-		    
+
 		    app.getNetworkManager().setPlayers(updatedPlayers);
-		    
+
 		    for(int i=0; i<config.gameConnectionLimit; i++){
 		    	if(i<lobbyUpd.getPlayersInLobby().size()){
 		    		Main.lobbyState.updatePlayer(i, lobbyUpd.getPlayersInLobby().get(i).getCharacterSelection(), lobbyUpd.getPlayersInLobby().get(i).getName());
@@ -106,20 +106,23 @@ public class ClientTCPMessageListener implements MessageListener
 		else if(msg instanceof BattleBeginMessage){
 			if(!app.getSoundManager().getIsMuted()){
 				app.getSoundManager().stopSoundSource("background/lobby");
-			}			
+			}
 			//Create and setup player manager
-			
+
 			app.getStateManager().setCurrentState(Main.gameState);
 		}else if(msg instanceof EntityUpdateMessage)
 		{
 			EntityUpdateMessage eum = (EntityUpdateMessage) msg;
-			
+
 			app.getNetworkManager().updateEntityInNetworkManager(eum.getEntity());
 		}else if(msg instanceof ExecuteActionMessage)
 		{
 			ExecuteActionMessage eam = (ExecuteActionMessage) msg;
 			eam.getAction().executeClient(Main.gameState.getActorManager());
-		}else if(msg instanceof ChatMessage){
+		} else if(msg instanceof  ExecuteAbilityMessage) {
+			ExecuteAbilityMessage eam = (ExecuteAbilityMessage) msg;
+			eam.getAbility().executeClient(Main.gameState.getActorManager());
+		} else if(msg instanceof ChatMessage){
 			// Do sth with msg.getMsg, msg.getPlayer
 		}
 	}
