@@ -22,6 +22,7 @@ import game.client.player.PlayerController;
 import game.common.actors.Player;
 import game.common.classes.classes.GhostClass;
 import game.common.classes.classes.LinkClass;
+import game.common.classes.classes.SlimeClass;
 import game.common.classes.classes.WolfClass;
 import game.common.map.Map;
 import game.common.player.ActorManager;
@@ -146,7 +147,15 @@ public class GameState extends AbstractState {
 
 		actorManager.addActor(caravan);
 		*/
-
+		/*
+		//Add Slime
+		NPC slime = new NPC("Slime", actorManager.getNextID(), app);
+		slime.setRole(new SlimeClass());
+		slime.setTeam(3);
+		slime.getEntity().getNetTransform().setPosition(new Vec3(30.0f,-30.0f,0.0f));
+		
+		actorManager.addActor(slime);
+		*/
 		map.init(app.getAssetManager());
 
 		// set up background sound

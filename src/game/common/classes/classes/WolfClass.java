@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Creates Ghost role with all its values and abilities
  * Used by the Actor when role is chosen in lobby.
  *
- * @author Sabrewulf
+ * @author SabreWulf
  */
 
 public class WolfClass extends AbstractClass {

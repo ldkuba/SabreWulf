@@ -71,7 +71,7 @@ public class WolfBaseAttack extends Action {
     }
 
     /**
-     * Verify if an attack action can occur.
+     * Verify if an attack action can occur
      */
     @Override
     public boolean verify(ActorManager actorManager)
