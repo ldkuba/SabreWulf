@@ -104,12 +104,21 @@ public class ServerGameState extends AbstractState
 		NPC caravan = new NPC("Caravan", actorManager.getNextID(), app);
 		caravan.setRole(new CaravanClass());
 		caravan.setTeam(3);
-		caravan.getEntity().getNetTransform().setPosition(new Vec3(30.0f,-30.0f,0.0f));
+		caravan.getEntity().getNetTransform().setPosition(new Vec3(10.0f,-7.0f,0.0f));
 		caravan.getEntity().removeTag("Targetable");
 		caravan.getEntity().addTag("Untargetable");
 
 		//First destination
-		caravan.addDesiredLocation(new Vec3(30.0f,-90.0f,0.0f));
+		caravan.addDesiredLocation(new Vec3(15.0f,-16.0f,0.0f));
+		caravan.addDesiredLocation(new Vec3(21.5f,-26.5f,0.0f));
+		caravan.addDesiredLocation(new Vec3(39.0f,-44.5f,0.0f));
+		//caravan.addDesiredLocation(new Vec3(50.0f,-62.0f,0.0f));
+		caravan.addDesiredLocation(new Vec3(34.9f,-45.8f,0.0f));
+		caravan.addDesiredLocation(new Vec3(100.0f,-71.0f,0.0f));
+		caravan.addDesiredLocation(new Vec3(113.0f,-64.0f,0.0f));
+		caravan.addDesiredLocation(new Vec3(97.0f, -109.0f, 0.0f));
+		caravan.addDesiredLocation(new Vec3(96.0f,-125.5f,0.0f));
+		caravan.addDesiredLocation(new Vec3(164.0f,-176.0f,0.0f));
 
 		actorManager.addActor(caravan);
 		*/

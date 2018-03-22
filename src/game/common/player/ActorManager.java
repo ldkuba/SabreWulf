@@ -104,22 +104,31 @@ public class ActorManager
 					actor.update();
 				} else {
 					Vec3 position = actor.getEntity().getNetTransform().getPosition();
+					Vec3 target = ((NPC) actor).getTargetLocation();
 
 					//Check if there is a desired location.
-					if (((NPC) actor).getAllLocations().size() > 0 ) {
-						Vec3 target = ((NPC) actor).seeTargetLocation();
+					if (((NPC) actor).getDestinationBuffer().size() > 0 ) {
 
-						//Have I reached my desired location?
-						if (position.getX() == target.getX() && position.getY() == target.getY()) {
-							((NPC) actor).removeDesiredLocation();
-							actor.stopMovement();
-							System.out.println("Reached target");
+						if(target == null) {
+							target = ((NPC) actor).getDestinationBuffer().poll();
+							((NPC) actor).setTargetLocation(target);
+							actor.calculatePath(target, map.getNavmesh());
+							System.out.println("Path Created");
+							System.out.println("To X: " + target.getX());
+							System.out.println("To Y: " + target.getY());
 						}
 
-						//Acquire Path
-						if (actor.getCurrentPath().size() == 0 && ((NPC) actor).getAllLocations().size() > 0) {
-							actor.calculatePath(((NPC) actor).seeTargetLocation(), map.getNavmesh());
-							actor.getCurrentPath().add(new Vec3(0,0,0));
+						//Have I reached my desired location?
+
+					}
+					if(target != null) {
+						if (position.getX() == target.getX() && position.getY() == target.getY()) {
+							actor.stopMovement();
+							actor.clearPath();
+							((NPC) actor).setTargetLocation(null);
+							System.out.println("Reached target");
+							System.out.println("position x: " + position.getX());
+							System.out.println("position y: " + position.getY());
 						}
 					}
 					actor.update();

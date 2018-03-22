@@ -143,7 +143,7 @@ public class GameState extends AbstractState {
 		NPC caravan = new NPC("Caravan", actorManager.getNextID(), app);
 		caravan.setRole(new CaravanClass());
 		caravan.setTeam(3);
-		caravan.getEntity().getNetTransform().setPosition(new Vec3(30.0f,-30.0f,0.0f));
+		caravan.getEntity().getNetTransform().setPosition(new Vec3(14.0f,-12.0f,0.0f));
 		caravan.getEntity().removeTag("Targetable");
 		caravan.getEntity().addTag("Untargetable");
 
@@ -180,6 +180,7 @@ public class GameState extends AbstractState {
 
 		//Add ability images for specific roles
 		if (actorManager.getLocalPlayer().getRoleName().equals("Link")) {
+
 			abilityOne = new Sprite(abilityX,abilityY,abilityWidth,abilityHeight,
 					app.getAssetManager().getTexture("res/actors/link/abilities/frenzy_icon.png"));
 			app.getGui().add(abilityOne);
@@ -194,6 +195,7 @@ public class GameState extends AbstractState {
 					app.getAssetManager().getTexture("res/actors/link/abilities/rush_icon.png"));
 			app.getGui().add(abilityThree);
 			System.out.println("Added ability icon");
+
 		} else if (actorManager.getLocalPlayer().getRole().equals(new GhostClass())) {
 
 		} else if (actorManager.getLocalPlayer().getRole().equals(new WolfClass())) {

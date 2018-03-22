@@ -14,7 +14,8 @@ import java.util.Queue;
  */
 public class NPC extends Actor{
 
-	private Queue<Vec3> targetLocation;
+	private Queue<Vec3> destinationBuffer;
+	private Vec3 targetLocation;
 	private String name;
 
 	/**
@@ -26,7 +27,7 @@ public class NPC extends Actor{
 	 */
 	public NPC(String name,int networkId, Application app) {
 		super(networkId, app);
-		targetLocation = new LinkedList<>();
+		destinationBuffer = new LinkedList<>();
 		this.name = name;
 	}
 
@@ -45,15 +46,11 @@ public class NPC extends Actor{
 		super.update();
 	}
 
-	public Vec3 seeTargetLocation() {
-		return targetLocation.peek();
-	}
-
 	/**
 	 * Removes the head of the target list
 	 */
-	public void removeDesiredLocation() {
-		targetLocation.poll();
+	public Vec3 removeDesiredLocation() {
+		return destinationBuffer.poll();
 	}
 
 	/**
@@ -61,11 +58,18 @@ public class NPC extends Actor{
 	 * @param target
 	 */
 	public void addDesiredLocation(Vec3 target) {
-		targetLocation.add(target);
+		destinationBuffer.add(target);
 	}
 
-	public Queue<Vec3> getAllLocations() {
+	public Queue<Vec3> getDestinationBuffer() {
+		return destinationBuffer;
+	}
+
+	public void setTargetLocation(Vec3 targetLocation) {
+		this.targetLocation = targetLocation;
+	}
+
+	public Vec3 getTargetLocation() {
 		return targetLocation;
 	}
-	 
 }
