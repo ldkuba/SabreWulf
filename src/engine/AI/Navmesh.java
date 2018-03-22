@@ -3,8 +3,6 @@ package engine.AI;
 import java.util.ArrayList;
 
 import engine.maths.Vec2;
-import engine.maths.Vec3;
-
 
 public class Navmesh {
 
@@ -12,10 +10,9 @@ public class Navmesh {
 	private ArrayList<Triangle> triangles;
 	private Pathfinding pathfinding;
 	private ParseTriangles parsing;
-	
 	private PathThread pathThread;
 
-	public Navmesh(String filename){
+	public Navmesh(String filename) {
 		parsing = new ParseTriangles();
 		parsing.readFile(filename);
 		this.triangles = parsing.getTriangles();
@@ -24,8 +21,7 @@ public class Navmesh {
 		generateEdges();
 	}
 
-	public void generateEdges(){
-
+	public void generateEdges() {
 		Triangle A = null;
 		Triangle B = null;
 		Edge edgeA;
@@ -36,14 +32,10 @@ public class Navmesh {
 		float weight = 0;
 		int count;
 
-		for(int i = 0; i < triangles.size(); i++){
-
+		for (int i = 0; i < triangles.size(); i++) {
 			A = triangles.get(i);
-
-			for(int j = 0; j < triangles.size(); j++){
-
+			for (int j = 0; j < triangles.size(); j++) {
 				B = triangles.get(j);
-
 				boollist[0] = (equals(A.getX(), B.getX()));
 				boollist[1] = (equals(A.getX(), B.getY()));
 				boollist[2] = (equals(A.getX(), B.getZ()));
@@ -53,23 +45,20 @@ public class Navmesh {
 				boollist[6] = (equals(A.getZ(), B.getX()));
 				boollist[7] = (equals(A.getZ(), B.getY()));
 				boollist[8] = (equals(A.getZ(), B.getZ()));
-
 				count = 0;
-
-				for(int k = 0; k < boollist.length; k++){
-					if(boollist[k]){
+				for (int k = 0; k < boollist.length; k++) {
+					if (boollist[k]) {
 						count++;
 					}
 				}
-
-				if(count == 2){
+				if (count == 2) {
 					midA = A.getMidpoint();
 					midB = B.getMidpoint();
 					weightVec = new Vec2(midB.getX() - midA.getX(), midB.getY() - midA.getY());
 					weight = weightVec.getLength();
 					edgeA = new Edge(A, B, midA, midB, weight);
-					if(A != B){
-						if(!edges.contains(edgeA)){
+					if (A != B) {
+						if (!edges.contains(edgeA)) {
 							edges.add(edgeA);
 						}
 						A.addEdge(edgeA);
@@ -79,11 +68,11 @@ public class Navmesh {
 		}
 	}
 
-	public ArrayList<Edge> getEdges(){
+	public ArrayList<Edge> getEdges() {
 		return edges;
 	}
 
-	public ArrayList<Triangle> getTriangles(){
+	public ArrayList<Triangle> getTriangles() {
 		return triangles;
 	}
 
@@ -91,7 +80,7 @@ public class Navmesh {
 		return pathfinding;
 	}
 
-	public boolean equals(Vec2 A, Vec2 B){
+	public boolean equals(Vec2 A, Vec2 B) {
 		return (A.getX() == B.getX()) && (A.getY() == B.getY());
 	}
 }
