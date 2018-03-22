@@ -1,7 +1,11 @@
 package engine.application;
 
-public class Timer
-{
+/**
+ * Sets up a timer to be used by the engine
+ * @author User
+ *
+ */
+public class Timer {
 	private long startTime;
 
 	private long initialTime;
@@ -11,8 +15,11 @@ public class Timer
 	private long timePerTick;
 	private long currentTime;
 	
-	public Timer(float tickRate)
-	{
+	/**
+	 * Creates a new timer
+	 * @param tickRate
+	 */
+	public Timer(float tickRate) {
 		initialTime = System.currentTimeMillis();
 		
 		timePerTick = (long) ((1.0f/tickRate)*1000.0f);
@@ -21,13 +28,15 @@ public class Timer
 		currentTime = startTime;
 	}
 
-	public void waitForTick() throws InterruptedException
-	{
+	/**
+	 * Waits for the next tick on the timer
+	 * @throws InterruptedException
+	 */
+	public void waitForTick() throws InterruptedException {
 		currentTime = System.currentTimeMillis();
 		long delta = currentTime - startTime;	
 		elapsedTime = delta;
-		if(delta >= timePerTick)
-		{
+		if(delta >= timePerTick) {
 			startTime = currentTime;
 			return;
 		}
@@ -39,16 +48,26 @@ public class Timer
 		Thread.sleep(timeToSleep);
 	}
 	
-	public void setTickRate(float tickRate)
-	{
+	/**
+	 * Sets the tick rate of the timer
+	 * @param tickRate
+	 */
+	public void setTickRate(float tickRate) {
 		timePerTick = (long) ((1.0f/tickRate)*1000.0f);
 	}
 	
-	public long getTime()
-	{
+	/**
+	 * Gets the current time of the timer
+	 * @return 
+	 */
+	public long getTime() {
 		return currentTime - initialTime;
 	}
 
+	/**
+	 * Gets the elapsed time of the timer
+	 * @return
+	 */
 	public long getElapsedTime() {
 		return elapsedTime;
 	}
