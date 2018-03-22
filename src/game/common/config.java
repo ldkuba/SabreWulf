@@ -19,7 +19,7 @@ public class config {
 	 */
 	public static int lobbyCountdown = 3;
 	public static int globalConnectionsLimit = 100;
-	public static int gameConnectionLimit = 2;
+	public static int gameConnectionLimit = 1;
 	public static float framesPerTick = 4;
 
 	/**

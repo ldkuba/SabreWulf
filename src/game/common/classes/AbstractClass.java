@@ -1,6 +1,5 @@
 package game.common.classes;
 
-import game.common.abilities.spells.SpecialAbility;
 import game.common.logic.actions.Action;
 
 import java.util.ArrayList;

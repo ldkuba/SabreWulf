@@ -10,7 +10,7 @@ import game.server.global.GlobalServerMessageListener;
 
 /**
  * Class for the game server
- * @author User
+ * @author SabreWulf
  *
  */
 public class GameServer
@@ -72,16 +72,29 @@ public class GameServer
 		pcm.start();
 	}
 
+	/**
+	 * Creates an instance of the game, adds it to a thread-safe array and returns it
+	 * @return
+	 */
 	public GameInstance createGameInstance() {
 		GameInstance gi = new GameInstance(this, games.size());
 		games.add(gi);
 		return gi;
 	}
 
+	/**
+	 * Gets all game instances from the array of game instances
+	 * @return
+	 */
 	public CopyOnWriteArrayList<GameInstance> getGames() {
 		return games;
 	}
 
+	/**
+	 * 
+	 * @param message
+	 * @param player
+	 */
 	public void addMessage(AbstractMessage message, NetPlayer player){
 		if(player.getCurrentGame()==-1){
 			messageListener.receiveMessage(message,player);
@@ -91,6 +104,11 @@ public class GameServer
 		}
 	}
 
+	/**
+	 * 
+	 * @param player
+	 * @param status
+	 */
 	public void addConnectionEvent(NetPlayer player, boolean status){
 		if(player.getCurrentGame()==-1){
 			//maybe Concurrency issues
@@ -107,10 +125,20 @@ public class GameServer
 		}
 	}
 
+	/**
+	 * 
+	 * @param msg
+	 * @param destination
+	 */
 	public void sendTCP(AbstractMessage msg, NetPlayer destination){
 		destination.addMsg(msg);
 	}
 
+	/**
+	 * 
+	 * @param msg
+	 * @param destination
+	 */
 	public void broadcastTCP(AbstractMessage msg, ArrayList<NetPlayer> destination){
 		for(int i = 0; i<destination.size(); i++){
 			sendTCP(msg, destination.get(i));
@@ -126,6 +154,10 @@ public class GameServer
 		GameServer gameServerMain = new GameServer();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	synchronized public boolean isFreeGameInstance(){
 		if(games.size()<=10){
 			return true;
@@ -133,6 +165,10 @@ public class GameServer
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	synchronized public GameInstance getFreeGameInstance(){
 		for(int i=0; i<games.size(); i++){
 			if(!games.get(i).isFull() && games.get(i).isAvailable()){
@@ -142,6 +178,10 @@ public class GameServer
 		return null;
 	}
 
+	/**
+	 * Removes an instance of the game from the array of game instances
+	 * @param instance
+	 */
 	public void removeGameInstance(GameInstance instance){
 		games.remove(instance);
 	}

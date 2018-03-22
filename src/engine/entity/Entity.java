@@ -72,6 +72,11 @@ public class Entity {
 		}
 	}
 
+	/**
+	 * Remove the desired tag of the entity
+	 *
+	 * @param tag
+	 */
 	public void removeTag(String tag) {
 		if(tags.contains(tag)) {
 			tags.remove(tag);

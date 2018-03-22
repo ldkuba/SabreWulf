@@ -27,6 +27,7 @@ public class ActorStatus {
 	private ProgressBar health;
 	private ProgressBar energy;
 	private Label playerName;
+	private Application app;
 
 	private float paddingHealth = 80.0f;
 	private float paddingEnergy = 40.0f;
@@ -36,9 +37,10 @@ public class ActorStatus {
 	 * Create a health and energy bar for the given actor
 	 * 
 	 * @param actor
-	 * @param app
+	 * @param application
 	 */
-	public ActorStatus(Actor actor, Application app) {
+	public ActorStatus(Actor actor, Application application) {
+		this.app = application;
 		this.actor = actor;
 		this.gui = app.getGui();
 		scene = Main.gameState.getScene();

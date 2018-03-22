@@ -153,4 +153,8 @@ public class GUI implements MouseListener, KeyboardListener {
 			component.resize();
 		}
 	}
+
+	public ArrayList<GuiComponent> getComponents() {
+		return components;
+	}
 }
