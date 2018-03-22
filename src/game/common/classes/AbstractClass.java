@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class AbstractClass {
 
 	protected String resourcePath = "";
+	protected String name;
 
 	// Base stats
 	protected float health = 0;
@@ -182,4 +183,11 @@ public class AbstractClass {
 		return baseAttack;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

@@ -755,6 +755,23 @@ public class Actor {
 	}
 
 	/**
+	 * Set name to the role
+	 *
+	 * @param name
+	 */
+	public void setRoleName(String name) {
+		role.setName(name);
+	}
+
+	/**
+	 * Get role name
+	 * @return
+	 */
+	public String getRoleName() {
+		return role.getName();
+	}
+
+	/**
 	 * Get the actors base attack
 	 * 
 	 * @return

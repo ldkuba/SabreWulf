@@ -111,14 +111,17 @@ public class GameState extends AbstractState {
 			switch (characterSelection) {
 				case 0:
 					player.setRole(new LinkClass());
+					player.setRoleName("Link");
 					attackAudio = "attack/a2";
 					break;
 				case 1:
 					player.setRole(new WolfClass());
+					player.setRoleName("Wolf");
 					attackAudio = "attack/scratch";
 					break;
 				case 2:
 					player.setRole(new GhostClass());
+					player.setRoleName("Ghost");
 					attackAudio = "attack/m2";
 					break;
 			}
@@ -164,6 +167,38 @@ public class GameState extends AbstractState {
 		spellBar = new Sprite(25.0f, 85.0f, 50.0f, 15.0f,
 				app.getAssetManager().getTexture("res/textures/gui/placeholders/spellbar.png"));
 		app.getGui().add(spellBar);
+
+
+		Sprite abilityOne;
+		Sprite abilityTwo;
+		Sprite abilityThree;
+
+		float abilityX = 33.65f;
+		float abilityY = 92.2f;
+		float abilityWidth = 3.4f;
+		float abilityHeight = 7.5f;
+
+		//Add ability images for specific roles
+		if (actorManager.getLocalPlayer().getRoleName().equals("Link")) {
+			abilityOne = new Sprite(abilityX,abilityY,abilityWidth,abilityHeight,
+					app.getAssetManager().getTexture("res/actors/link/abilities/frenzy_icon.png"));
+			app.getGui().add(abilityOne);
+
+			abilityX += 3.15f;
+			abilityTwo = new Sprite(abilityX, abilityY,abilityWidth,abilityHeight,
+					app.getAssetManager().getTexture("res/actors/link/abilities/multiarrow.png"));
+			app.getGui().add(abilityTwo);
+
+			abilityX += 3.21f;
+			abilityThree = new Sprite(abilityX, abilityY, abilityWidth, abilityHeight,
+					app.getAssetManager().getTexture("res/actors/link/abilities/rush_icon.png"));
+			app.getGui().add(abilityThree);
+			System.out.println("Added ability icon");
+		} else if (actorManager.getLocalPlayer().getRole().equals(new GhostClass())) {
+
+		} else if (actorManager.getLocalPlayer().getRole().equals(new WolfClass())) {
+
+		}
 
 		healthBar = new ProgressBar(43.6f, 93.4f, 12.25f, 2.5f,
 				app.getAssetManager().getTexture("res/textures/gui/bars/health_bar_background.png"),
