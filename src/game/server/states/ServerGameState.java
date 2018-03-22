@@ -108,7 +108,7 @@ public class ServerGameState extends AbstractState
 		caravan.getEntity().removeTag("Targetable");
 		caravan.getEntity().addTag("Untargetable");
 
-		//First destination
+		//Destinations
 		caravan.addDesiredLocation(new Vec3(15.0f,-16.0f,0.0f));
 		caravan.addDesiredLocation(new Vec3(21.5f,-26.5f,0.0f));
 		caravan.addDesiredLocation(new Vec3(39.0f,-44.5f,0.0f));

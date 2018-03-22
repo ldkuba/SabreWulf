@@ -11,7 +11,7 @@ import game.common.config;
 
 /**
  * The main method used to run the game
- * @author bhavi
+ * @author SabreWulf
  *
  */
 public class Main extends Application {

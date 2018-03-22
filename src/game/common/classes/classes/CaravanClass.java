@@ -1,11 +1,16 @@
 package game.common.classes.classes;
 
-import game.common.abilities.basic.GhostBaseAttack;
 import game.common.classes.AbstractClass;
 import game.common.logic.actions.Action;
 
 import java.util.ArrayList;
 
+/**
+ * Creates a Caravan with all its values and abilities
+ * Used to create a Caravan NPC
+ *
+ * @author SabreWulf
+ */
 public class CaravanClass extends AbstractClass{
 
     public CaravanClass() {

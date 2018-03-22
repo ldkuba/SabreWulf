@@ -22,14 +22,16 @@ import game.client.player.PlayerController;
 import game.common.actors.Player;
 import game.common.classes.classes.GhostClass;
 import game.common.classes.classes.LinkClass;
+import game.common.classes.classes.SlimeClass;
 import game.common.classes.classes.WolfClass;
 import game.common.map.Map;
 import game.common.player.ActorManager;
+
 public class GameState extends AbstractState {
 
 	private final int SCROLL_MARGIN = 10;
 	private final float SCROLL_SPEED = 0.00f;
-	
+
 	private Main app;
 	private PlayerController playerController;
 
@@ -47,7 +49,7 @@ public class GameState extends AbstractState {
 	private float aspectRatio = Application.s_WindowSize.getX() / Application.s_WindowSize.getY();
 
 	private String attackAudio;
-	
+
 	public GameState(Main app) {
 		super(app);
 
@@ -93,14 +95,12 @@ public class GameState extends AbstractState {
 		super.init();
 		// Add players
 		for (int i = 0; i < app.getNetworkManager().getNetPlayers().size(); i++) {
-			
+
 			Player player = null;
-			
-			if(app.getNetworkManager().getNetPlayers().get(i).getName().equals(Main.clientName))
-			{
+
+			if (app.getNetworkManager().getNetPlayers().get(i).getName().equals(Main.clientName)) {
 				player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app, true);
-			}else
-			{
+			} else {
 				player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app, false);
 			}
 			// here we would set up more stuff related to the player like class,
@@ -109,6 +109,7 @@ public class GameState extends AbstractState {
 			int characterSelection = app.getNetworkManager().getNetPlayers().get(i).getChar();
 			System.out.println("Character Selected: " + characterSelection);
 			switch (characterSelection) {
+
 				case 0:
 					player.setRole(new LinkClass());
 					player.setRoleName("Link");
@@ -150,6 +151,32 @@ public class GameState extends AbstractState {
 		actorManager.addActor(caravan);
 		*/
 
+		/*
+		 * --UPDATE SLIME SPRITE NAME-- 
+		 * res/actors/slime/textures/sprite.png
+		 */
+		/*
+		 * //Add Slime 
+		 * NPC slime = new NPC("Slime", actorManager.getNextID(), app);
+		 * slime.setRole(new SlimeClass()); 
+		 * slime.setTeam(3);
+		 * slime.getEntity().getNetTransform().setPosition(new Vec3(30.0f,-30.0f,0.0f));
+		 * 
+		 * actorManager.addActor(slime);
+		 */
+		/*
+		 * --UPDATE GOBLIN SPRITE NAME--
+		 * res/actors/goblin/textures/sprite.png
+		 */
+		/*
+		 * //Add Goblin
+		 * NPC goblin = new NPC("Goblin", actorManager.getNextID(), app);
+		 * goblin.setRole(new GoblinClass());
+		 * goblin.setTeam(3);
+		 * goblin.getEntity().getTransform().setPosition(new Vec3(30.0f,-30.0f,0.0f));
+		 * 
+		 * actorManager.addActor(goblin);
+		 */
 		map.init(app.getAssetManager());
 
 		// set up background sound
@@ -240,7 +267,7 @@ public class GameState extends AbstractState {
 	@Override
 	public void update() {
 		super.update();
-		
+
 		float cameraSpeed = 0.3f;
 
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
@@ -274,34 +301,30 @@ public class GameState extends AbstractState {
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_S)) {
 			dirY += 0.04f;
 		}
-		
-		//Mouse Scroll
-		if(app.getInputManager().getMouseX() < SCROLL_MARGIN)
-		{
+
+		// Mouse Scroll
+		if (app.getInputManager().getMouseX() < SCROLL_MARGIN) {
 			scene.getCamera().move(new Vec3(-SCROLL_SPEED * Application.s_Viewport.getX(), 0.0f, 0.0f));
 		}
-		
-		if(app.getInputManager().getMouseX() > Application.s_WindowSize.getX() - SCROLL_MARGIN)
-		{
+
+		if (app.getInputManager().getMouseX() > Application.s_WindowSize.getX() - SCROLL_MARGIN) {
 			scene.getCamera().move(new Vec3(SCROLL_SPEED * Application.s_Viewport.getX(), 0.0f, 0.0f));
 		}
-		
-		if(app.getInputManager().getMouseY() < SCROLL_MARGIN)
-		{
+
+		if (app.getInputManager().getMouseY() < SCROLL_MARGIN) {
 			scene.getCamera().move(new Vec3(0.0f, SCROLL_SPEED * Application.s_Viewport.getY(), 0.0f));
 		}
-		
-		if(app.getInputManager().getMouseY() > Application.s_WindowSize.getY() - SCROLL_MARGIN)
-		{
+
+		if (app.getInputManager().getMouseY() > Application.s_WindowSize.getY() - SCROLL_MARGIN) {
 			scene.getCamera().move(new Vec3(0.0f, -SCROLL_SPEED * Application.s_Viewport.getX(), 0.0f));
 		}
-		
-		//STATS UPDATE:
+
+		// STATS UPDATE:
 		healthBar.setBar(actorManager.getLocalPlayer().getHealth());
 		healthBar.setMaxProgress(actorManager.getLocalPlayer().getHealthLimit());
 		energyBar.setBar(actorManager.getLocalPlayer().getEnergy());
 		energyBar.setMaxProgress(actorManager.getLocalPlayer().getEnergyLimit());
-		
+
 		actorManager.update();
 		playerController.update();
 	}
@@ -313,14 +336,13 @@ public class GameState extends AbstractState {
 	public Map getMap() {
 		return this.map;
 	}
-	
-	public String getAttackSoundPath(){
+
+	public String getAttackSoundPath() {
 		return this.attackAudio;
 	}
-	
+
 	@Override
 	public void deactivate() {
 
 	}
 }
-
