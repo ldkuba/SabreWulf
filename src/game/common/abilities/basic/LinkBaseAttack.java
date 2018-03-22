@@ -4,7 +4,10 @@ import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.NetIdentityComponent;
 import engine.entity.component.NetTransformComponent;
+import engine.entity.component.SpriteComponent;
 import engine.maths.Vec3;
+import engine.maths.Vec4;
+import game.common.customComponent.HomingComponent;
 import game.common.logic.actions.Action;
 import game.common.player.ActorManager;
 import game.server.ingame.ServerMain;
@@ -65,6 +68,12 @@ public class LinkBaseAttack extends Action {
 	{
 		actorManager.getActor(targetId).update();
 		actorManager.getActor(sourceId).getBaseAttack().setCooldown();
+		
+		Entity arrow = new Entity("Arrow");
+		arrow.addComponent(new NetIdentityComponent(arrowNetId, app.getNetworkManager()));
+		arrow.addComponent(new NetTransformComponent());
+		arrow.getNetTransform().setPosition(actorManager.getActor(sourceId).getEntity().getNetTransform().getPosition());
+		arrow.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture(""), 2.0f, 1.0f));
 	}
 
 	/**
@@ -83,9 +92,9 @@ public class LinkBaseAttack extends Action {
 		arrow.addComponent(new NetIdentityComponent(netId, app.getNetworkManager()));
 		arrow.addComponent(new NetTransformComponent());
 		arrow.getNetTransform().setPosition(actorManager.getActor(sourceId).getEntity().getNetTransform().getPosition());
+		arrow.addComponent(new HomingComponent(arrow, actorManager.getActor(targetId), 0.04f));
 		
-		
-		ServerMain.gameState.getScene().instantiate(arrow, -1.0f);
+		ServerMain.gameState.getScene().addEntity(arrow);
 	}
 
 	/**
