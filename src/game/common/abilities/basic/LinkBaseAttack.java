@@ -92,7 +92,7 @@ public class LinkBaseAttack extends Action {
 		arrow.addComponent(new NetIdentityComponent(netId, app.getNetworkManager()));
 		arrow.addComponent(new NetTransformComponent());
 		arrow.getNetTransform().setPosition(actorManager.getActor(sourceId).getEntity().getNetTransform().getPosition());
-		arrow.addComponent(new HomingComponent(arrow, actorManager.getActor(targetId), 0.04f));
+		arrow.addComponent(new HomingComponent(app, actorManager.getActor(targetId).getEntity(), actorManager.getActor(targetId),0.04f));
 		
 		ServerMain.gameState.getScene().addEntity(arrow);
 	}
