@@ -356,4 +356,14 @@ public class MathUtil {
 		}
 	}
 
+	public static float dirToAngle(Vec3 direction)
+	{
+		if(direction.getX() >= 0)
+		{
+			return (float) Math.acos(direction.getX()/direction.getLength());
+		}else
+		{
+			return (float) (2.0f * Math.PI - Math.acos(direction.getX() / direction.getLength()));
+		}
+	}
 }

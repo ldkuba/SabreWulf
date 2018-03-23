@@ -158,7 +158,6 @@ public class ServerMessageListener implements MessageListener
 		    Action ability = ((RequestAbilityMessage) msg).getAbility();
 		    Vec3 desiredTarget = ((RequestAbilityMessage) msg).getTargetLocation();
 
-
             ArrayList<Entity> clickedEntities = ServerMain.gameState.getScene().pickEntities(desiredTarget);
 
             Entity target = null;

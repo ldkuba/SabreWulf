@@ -7,6 +7,7 @@ import engine.entity.component.NetTransformComponent;
 import engine.entity.component.SpriteComponent;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
+import game.client.Main;
 import game.common.customComponent.HomingComponent;
 import game.common.logic.actions.Action;
 import game.common.player.ActorManager;
@@ -73,7 +74,9 @@ public class LinkBaseAttack extends Action {
 		arrow.addComponent(new NetIdentityComponent(arrowNetId, app.getNetworkManager()));
 		arrow.addComponent(new NetTransformComponent());
 		arrow.getNetTransform().setPosition(actorManager.getActor(sourceId).getEntity().getNetTransform().getPosition());
-		arrow.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture(""), 2.0f, 1.0f));
+		arrow.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture("res/actors/link/abilities/basicattack.png"), 2.0f, 1.0f));
+		
+		Main.gameState.getScene().addEntity(arrow);
 	}
 
 	/**
@@ -82,17 +85,22 @@ public class LinkBaseAttack extends Action {
 	@Override
 	public void executeServer(ActorManager actorManager, Application app)
 	{
-		float health = actorManager.getActor(targetId).getHealth() - 10.0f;
-		actorManager.getActor(targetId).setHealth(health);
 		actorManager.getActor(sourceId).getBaseAttack().setCooldown();
 		
-		int netId = app.getNetworkManager().getFreeId();
+		arrowNetId = app.getNetworkManager().getFreeId();
 		
 		Entity arrow = new Entity("Arrow");
-		arrow.addComponent(new NetIdentityComponent(netId, app.getNetworkManager()));
+		arrow.addComponent(new NetIdentityComponent(arrowNetId, app.getNetworkManager()));
 		arrow.addComponent(new NetTransformComponent());
 		arrow.getNetTransform().setPosition(actorManager.getActor(sourceId).getEntity().getNetTransform().getPosition());
-		arrow.addComponent(new HomingComponent(app, actorManager.getActor(targetId).getEntity(), actorManager.getActor(targetId),0.04f));
+		arrow.addComponent(new HomingComponent(app, arrow, actorManager.getActor(targetId), 0.04f)
+		{
+			public void onHit()
+			{
+				float health = actorManager.getActor(targetId).getHealth() - 10.0f;
+				actorManager.getActor(targetId).setHealth(health);
+			}
+		});
 		
 		ServerMain.gameState.getScene().addEntity(arrow);
 	}

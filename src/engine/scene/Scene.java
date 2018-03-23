@@ -33,8 +33,9 @@ import engine.maths.Vec3;
  */
 public class Scene {
 	private ArrayList<Entity> m_Entities;
+	private ArrayList<Entity> m_DeletedEntities;
 	private Renderer2D m_Renderer2D;
-	private Renderer3D m_Renderer3D; // Currently not used
+	private Renderer3D m_Renderer3D;
 	private Camera m_Camera;
 	private Application app;
 	private int m_ID;
@@ -55,6 +56,7 @@ public class Scene {
 	 */
 	public void init() {
 		m_Entities = new ArrayList<Entity>();
+		m_DeletedEntities = new ArrayList<>();
 
 		if (!app.isHeadless()) {
 			float aspectRatio = 4.0f / 3.0f;
@@ -137,7 +139,7 @@ public class Scene {
 	 * @param e
 	 */
 	public void removeEntity(Entity e) {
-		m_Entities.remove(e);
+		m_DeletedEntities.add(e);
 	}
 
 	/**
@@ -190,15 +192,23 @@ public class Scene {
 			}
 
 			if(e.getLifeTime() != -1) {
-				e.changeLifeTime(app.getTimer().getElapsedTime());
+				e.changeLifeTime(app.getTimer().getElapsedTime()/1000.0f);
 				if(e.getLifeTime() < 0) {
 					removeEntity(e);
-
 				}
 			}
 		}
+		
+		removeMarkedEntities();
+		
 		sortEntitiesZ();
 		app.getNetworkManager().synchronize(this);
+	}
+	
+	public void removeMarkedEntities()
+	{
+		m_Entities.removeAll(m_DeletedEntities);
+		m_DeletedEntities.clear();
 	}
 
 	/**

@@ -93,7 +93,7 @@ public class Actor {
 		entity.addComponent(new NetTransformComponent());
 		NetTransformComponent transform = (NetTransformComponent) entity.getComponent(NetTransformComponent.class);
 		transform.setPosition(new Vec3(0.0f, 0.0f, 0.0f));
-
+		
 		netData = new NetDataComponent();
 		netData.addData("MaxHealth", HEALTH_LIMIT);
 		netData.addData("Health", health);

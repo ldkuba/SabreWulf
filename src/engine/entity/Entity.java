@@ -32,6 +32,8 @@ public class Entity {
 		this.id = -1;
 		this.name = name;
 		components = new ArrayList<AbstractComponent>();
+		
+		this.lifetime = -1;
 
 		tags = new ArrayList<>();
 	}
@@ -47,6 +49,8 @@ public class Entity {
 		this.id = -1;
 		this.name = name;
 		components = new ArrayList<AbstractComponent>();
+		
+		this.lifetime = -1;
 
 		tags = new ArrayList<>();
 	}
@@ -228,6 +232,6 @@ public class Entity {
 	}
 
 	public void changeLifeTime(float time) {
-		lifetime = time;
+		lifetime -= time;
 	}
 }

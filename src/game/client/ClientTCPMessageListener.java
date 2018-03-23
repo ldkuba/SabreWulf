@@ -119,11 +119,14 @@ public class ClientTCPMessageListener implements MessageListener
 		{
 			ExecuteActionMessage eam = (ExecuteActionMessage) msg;
 			eam.getAction().executeClient(Main.gameState.getActorManager(), app);
-		} else if(msg instanceof  ExecuteAbilityMessage) {
-			ExecuteAbilityMessage eam = (ExecuteAbilityMessage) msg;
-			eam.getAbility().executeClient(Main.gameState.getActorManager(), app);
 		} else if(msg instanceof ChatMessage){
 			// Do sth with msg.getMsg, msg.getPlayer
+		} else if(msg instanceof RemoveEntityMessage)
+		{
+			RemoveEntityMessage rem = (RemoveEntityMessage) msg;
+			int netId = rem.getNetId();
+			
+			app.getNetworkManager().deleteNetEntity(netId, Main.gameState.getScene());
 		}
 	}
 
