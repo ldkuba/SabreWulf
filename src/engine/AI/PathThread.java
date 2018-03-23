@@ -104,7 +104,7 @@ public class PathThread extends Thread
 		
 		this.pathfinding = new Pathfinding(triangles);
 
-		System.out.println("Triangle Array Size: " + triangles.size());
+		//System.out.println("Triangle Array Size: " + triangles.size());
 
 		for(Triangle t : triangles)
 		{
@@ -141,7 +141,7 @@ public class PathThread extends Thread
 			return;
 		}
 		
-		System.out.println("Path Size:" + pathTrigs.size());
+		//System.out.println("Path Size:" + pathTrigs.size());
 
 		for(int i = 0; i < pathTrigs.size() - 1; i++)
 		{

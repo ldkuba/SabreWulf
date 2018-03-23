@@ -70,20 +70,20 @@ public class LinkBaseAttack extends Action {
 		actorManager.getActor(targetId).update();
 		actorManager.getActor(sourceId).getBaseAttack().setCooldown();
 		
-//		if(arrowNetId == 0)
-//		{
-//			System.out.println("WRONG");
-//		}
-//		
-//		Entity arrow = new Entity("Arrow");
-//		arrow.addComponent(new NetIdentityComponent(arrowNetId, app.getNetworkManager()));
-//		arrow.addComponent(new NetTransformComponent());
-//		arrow.getNetTransform().setPosition(actorManager.getActor(sourceId).getEntity().getNetTransform().getPosition());
-//		arrow.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture("res/actors/link/abilities/basicattack.png"), 2.0f, 1.0f));
-//		
-//		Main.gameState.getScene().addEntity(arrow);
-//		
-//		System.out.println("Arrow Created: " + arrowNetId);
+		if(arrowNetId == 0)
+		{
+			System.out.println("WRONG");
+		}
+		
+		Entity arrow = new Entity("Arrow");
+		arrow.addComponent(new NetIdentityComponent(arrowNetId, app.getNetworkManager()));
+		arrow.addComponent(new NetTransformComponent());
+		arrow.getNetTransform().setPosition(actorManager.getActor(sourceId).getEntity().getNetTransform().getPosition());
+		arrow.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture("res/actors/link/abilities/basicattack.png"), 2.0f, 1.0f));
+		
+		Main.gameState.getScene().addEntity(arrow);
+		
+		System.out.println("Arrow Created: " + arrowNetId);
 	}
 
 	/**
@@ -92,30 +92,30 @@ public class LinkBaseAttack extends Action {
 	@Override
 	public void executeServer(ActorManager actorManager, Application app)
 	{
-		float health = actorManager.getActor(targetId).getHealth() - 10.0f;
-		actorManager.getActor(targetId).setHealth(health);
+//		float health = actorManager.getActor(targetId).getHealth() - 10.0f;
+//		actorManager.getActor(targetId).setHealth(health);
 		
 		
 		actorManager.getActor(sourceId).getBaseAttack().setCooldown();
 		
-//		arrowNetId = app.getNetworkManager().getFreeId();
-//		
-//		Entity arrow = new Entity("Arrow");
-//		arrow.addComponent(new NetIdentityComponent(arrowNetId, app.getNetworkManager()));
-//		arrow.addComponent(new NetTransformComponent());
-//		arrow.getNetTransform().setPosition(actorManager.getActor(sourceId).getEntity().getNetTransform().getPosition());
-//		arrow.addComponent(new HomingComponent(app, arrow, actorManager.getActor(targetId), 0.04f)
-//		{
-//			public void onHit()
-//			{
-//				float health = actorManager.getActor(targetId).getHealth() - 10.0f;
-//				actorManager.getActor(targetId).setHealth(health);
-//			}
-//		});
-//		
-//		ServerMain.gameState.getScene().addEntity(arrow);
-//		
-//		System.out.println("Arrow Created: " + arrowNetId);
+		arrowNetId = app.getNetworkManager().getFreeId();
+		
+		Entity arrow = new Entity("Arrow");
+		arrow.addComponent(new NetIdentityComponent(arrowNetId, app.getNetworkManager()));
+		arrow.addComponent(new NetTransformComponent());
+		arrow.getNetTransform().setPosition(actorManager.getActor(sourceId).getEntity().getNetTransform().getPosition());
+		arrow.addComponent(new HomingComponent(app, arrow, actorManager.getActor(targetId), 0.04f)
+		{
+			public void onHit()
+			{
+				float health = actorManager.getActor(targetId).getHealth() - 10.0f;
+				actorManager.getActor(targetId).setHealth(health);
+			}
+		});
+		
+		ServerMain.gameState.getScene().addEntity(arrow);
+		
+		System.out.println("Arrow Created: " + arrowNetId);
 	}
 
 	/**

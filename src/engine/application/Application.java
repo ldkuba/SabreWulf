@@ -265,8 +265,8 @@ public class Application {
 		double x = xBuffer.get(0);
 		double y = yBuffer.get(0);
 
-		System.out.print(x + " : ");
-		System.out.println(y);
+//		System.out.print(x + " : ");
+//		System.out.println(y);
 
 	}
 

@@ -45,7 +45,7 @@ public class GameInstanceManager extends Thread {
             }
         }
 
-        System.out.println("Starting engine. Wroom!");
+        //System.out.println("Starting engine. Wroom!");
 
         for(NetPlayer player : instance.getPlayersInLobby())
         {

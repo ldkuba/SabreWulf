@@ -20,7 +20,7 @@ public class Timer extends Thread {
         }
         instanceManager.notifyEndOfCountdown();
 
-        System.out.print("is this the end");
+        //System.out.print("is this the end");
     }
 
 }

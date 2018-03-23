@@ -152,7 +152,7 @@ public class NetworkManager
 			}
 		}
 
-		System.out.println();
+		System.out.println("Wrong network setup");
 	}
 
 	private Entity getEntityByNetId(int networkId, Scene scene)

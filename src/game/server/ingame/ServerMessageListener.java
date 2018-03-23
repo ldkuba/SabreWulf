@@ -87,7 +87,7 @@ public class ServerMessageListener implements MessageListener
 			System.out.println("Number of players online: " + pcm.getNoPlayers());
 			app.getSoundManager().invokeSound(soundName, false, true);
 			PeerCountMessage plm = (PeerCountMessage) msg;
-			System.out.println(plm.getNoPlayers());
+			//System.out.println(plm.getNoPlayers());
 			app.getSoundManager().pauseSoundSource(soundName);
 		}else if(msg instanceof DesiredLocationMessage)
 		{

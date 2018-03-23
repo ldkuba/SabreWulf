@@ -15,7 +15,7 @@ public class ServerMain extends Application {
 	
 	public ServerMain(ArrayList<NetPlayer> netPlayers){
 		super(1920, 1080, 1, "SabreWulf", false, true, netPlayers); //window width, window height, vsync interval
-		System.out.println("starting server engine");
+		//System.out.println("starting server engine");
 		gameState = new ServerGameState(this);
 		
 		stateManager.addState(gameState);

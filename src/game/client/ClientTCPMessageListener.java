@@ -128,6 +128,11 @@ public class ClientTCPMessageListener implements MessageListener
 			
 			System.out.println("NET ID: " + netId);
 			
+			if(netId == 0 || netId == 1)
+			{
+				System.out.println("Break");
+			}
+			
 			app.getNetworkManager().deleteNetEntity(netId, Main.gameState.getScene());
 		}
 	}

@@ -23,14 +23,14 @@ public class ParseTriangles {
 		try {
 			input = new FileReader(filename);
 		} catch (FileNotFoundException e) {
-			System.out.println("Error file not found.");
+			//System.out.println("Error file not found.");
 		}
 		BufferedReader bufRead = new BufferedReader(input);
 		String myLine;
 		try {
 			myLine = bufRead.readLine();
 		} catch (IOException e) {
-			System.out.println("Error no verticies found.");
+			//System.out.println("Error no verticies found.");
 		}
 		
 		try {
@@ -40,7 +40,7 @@ public class ParseTriangles {
 				convertArray(array1);
 			}
 		} catch (IOException e) {
-			System.out.println("No more verticies found.");
+			//System.out.println("No more verticies found.");
 		}
 	}
 	
