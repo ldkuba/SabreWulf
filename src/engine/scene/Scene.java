@@ -424,6 +424,12 @@ public class Scene {
 		return result;
 	}
 
+	/**
+	 * Instantiate the timer
+	 * 
+	 * @param e
+	 * @param time
+	 */
 	public void instantiate(Entity e, float time) {
 		e.setLifeTime(time);
 		addEntity(e);

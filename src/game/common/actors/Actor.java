@@ -65,6 +65,7 @@ public class Actor {
 	private Vec3 startPosition;
 	private ArrayList<Vec3> currentPath;
 	private ArrayList<Action> abilities;
+	private boolean shouldHaveStatus = true;
 	private boolean debug = true;
 	private int id;
 	// -1 = stop, 0 = up, 1 = left, 2 = down, 3 = right
@@ -127,7 +128,9 @@ public class Actor {
 			sprite = new SpriteAnimationComponent(app.getAssetManager().getTexture(basePath + "textures/sprite.png"), 4,
 					0, 0, 5.0f, 5.0f, 2);
 			entity.addComponent(sprite);
-			status = new ActorStatus(this, app);
+			if(shouldHaveStatus){
+				status = new ActorStatus(this, app);
+			}
 		}
 	}
 
@@ -608,7 +611,7 @@ public class Actor {
             abilities.get(i).changeCooldown(app.getTimer().getElapsedTime() / 1000.0f);
         }
 		
-		if(!app.isHeadless())
+		if(!app.isHeadless() && shouldHaveStatus)
 		{
 			status.update();
 		} else {
@@ -826,5 +829,13 @@ public class Actor {
 
 	public ArrayList<Vec3> getCurrentPath() {
 		return currentPath;
+	}
+	
+	public void shouldHaveStatus(boolean decision){
+		this.shouldHaveStatus = decision;
+	}
+	
+	public boolean hasStatus(){
+		return shouldHaveStatus;
 	}
 }

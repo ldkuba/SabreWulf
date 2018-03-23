@@ -2,6 +2,7 @@ package game.common.actors;
 
 import engine.application.Application;
 import engine.maths.Vec3;
+import game.client.Main;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -65,10 +66,18 @@ public class NPC extends Actor{
 		return destinationBuffer;
 	}
 
+	/**
+	 * Set target location for the NPC
+	 * @param targetLocation
+	 */
 	public void setTargetLocation(Vec3 targetLocation) {
 		this.targetLocation = targetLocation;
 	}
 
+	/**
+	 * Get target location for the NPC
+	 * @return
+	 */
 	public Vec3 getTargetLocation() {
 		return targetLocation;
 	}

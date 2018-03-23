@@ -18,7 +18,7 @@ public class SlimeClass extends AbstractClass {
 		
 		//Base stats
 		health = 100;
-		moveSpeed = 0.08f;
+		moveSpeed = 0.05f;
 		damage = 40;
 		resistance = 35;
 		energy = 60;

@@ -1,29 +1,32 @@
 package game.client.states;
 
+import game.common.classes.classes.*;
+import game.common.objects.Tower;
+
 import game.common.actors.Actor;
 import game.common.actors.NPC;
 import game.common.classes.classes.CaravanClass;
+
+import java.util.Random;
+
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.ColliderComponent;
+import engine.entity.component.NetTransformComponent;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TransformComponent;
-import engine.gui.components.Button;
 import engine.gui.components.ProgressBar;
 import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
+import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
 import engine.state.AbstractState;
 import game.client.Main;
 import game.client.player.PlayerController;
 import game.common.actors.Player;
-import game.common.classes.classes.GhostClass;
-import game.common.classes.classes.LinkClass;
-import game.common.classes.classes.SlimeClass;
-import game.common.classes.classes.WolfClass;
 import game.common.map.Map;
 import game.common.player.ActorManager;
 
@@ -110,21 +113,21 @@ public class GameState extends AbstractState {
 			System.out.println("Character Selected: " + characterSelection);
 			switch (characterSelection) {
 
-				case 0:
-					player.setRole(new LinkClass());
-					player.setRoleName("Link");
-					attackAudio = "attack/a2";
-					break;
-				case 1:
-					player.setRole(new WolfClass());
-					player.setRoleName("Wolf");
-					attackAudio = "attack/scratch";
-					break;
-				case 2:
-					player.setRole(new GhostClass());
-					player.setRoleName("Ghost");
-					attackAudio = "attack/m2";
-					break;
+			case 0:
+				player.setRole(new LinkClass());
+				player.setRoleName("Link");
+				attackAudio = "attack/a2";
+				break;
+			case 1:
+				player.setRole(new WolfClass());
+				player.setRoleName("Wolf");
+				attackAudio = "attack/scratch";
+				break;
+			case 2:
+				player.setRole(new GhostClass());
+				player.setRoleName("Ghost");
+				attackAudio = "attack/m2";
+				break;
 			}
 
 			if (i >= 0 && i < 3) {
@@ -137,46 +140,56 @@ public class GameState extends AbstractState {
 
 		}
 
-		/*--UPDATE YOUR CARAVAN SPRITE NAME--
-		* res/actors/caravan/textures/sprite.png
-		*
-		//Add Caravan
+		/*
+		 * --UPDATE YOUR CARAVAN SPRITE NAME--
+		 * res/actors/caravan/textures/sprite.png
+		 */
+		// Add Caravan
+		/*
 		NPC caravan = new NPC("Caravan", actorManager.getNextID(), app);
+		caravan.shouldHaveStatus(false);
 		caravan.setRole(new CaravanClass());
 		caravan.setTeam(3);
-		caravan.getEntity().getNetTransform().setPosition(new Vec3(14.0f,-12.0f,0.0f));
+		caravan.getEntity().getNetTransform().setPosition(new Vec3(14.0f, -12.0f, 0.0f));
 		caravan.getEntity().removeTag("Targetable");
 		caravan.getEntity().addTag("Untargetable");
 
 		actorManager.addActor(caravan);
-		*/
+*/
+		/*
+		 * --UPDATE SLIME SPRITE NAME-- res/actors/slime/textures/sprite.png
+		 *
+
+		for (int i = 0; i < 3; i++) {
+			// Add Slime
+			NPC slime = new NPC("Slime" + Integer.toString(i), actorManager.getNextID(), app);
+			slime.setRole(new SlimeClass());
+			slime.setTeam(3);
+
+			actorManager.addActor(slime);
+		}
+		for (int i = 0; i < 3; i++) {
+			// Add Slime
+			NPC goblin = new NPC("Goblin" + Integer.toString(i), actorManager.getNextID(), app);
+			goblin.setRole(new GoblinClass());
+			goblin.setTeam(3);
+
+			actorManager.addActor(goblin);
+		}
 
 		/*
-		 * --UPDATE SLIME SPRITE NAME-- 
-		 * res/actors/slime/textures/sprite.png
+		 * --UPDATE GOBLIN SPRITE NAME-- res/actors/goblin/textures/sprite.png
 		 */
-		/*
-		 * //Add Slime 
-		 * NPC slime = new NPC("Slime", actorManager.getNextID(), app);
-		 * slime.setRole(new SlimeClass()); 
-		 * slime.setTeam(3);
-		 * slime.getEntity().getNetTransform().setPosition(new Vec3(30.0f,-30.0f,0.0f));
-		 * 
-		 * actorManager.addActor(slime);
-		 */
-		/*
-		 * --UPDATE GOBLIN SPRITE NAME--
-		 * res/actors/goblin/textures/sprite.png
-		 */
-		/*
-		 * //Add Goblin
-		 * NPC goblin = new NPC("Goblin", actorManager.getNextID(), app);
-		 * goblin.setRole(new GoblinClass());
-		 * goblin.setTeam(3);
-		 * goblin.getEntity().getTransform().setPosition(new Vec3(30.0f,-30.0f,0.0f));
-		 * 
-		 * actorManager.addActor(goblin);
-		 */
+
+		// Add Goblin
+		// NPC goblin = new NPC("Goblin"+Integer.toString(i),
+		// actorManager.getNextID(), app);
+		// goblin.setRole(new GoblinClass());
+		// goblin.setTeam(3);
+
+		// actorManager.addActor(goblin);
+		// }
+
 		map.init(app.getAssetManager());
 
 		// set up background sound
@@ -195,7 +208,6 @@ public class GameState extends AbstractState {
 				app.getAssetManager().getTexture("res/textures/gui/placeholders/spellbar.png"));
 		app.getGui().add(spellBar);
 
-
 		Sprite abilityOne;
 		Sprite abilityTwo;
 		Sprite abilityThree;
@@ -205,15 +217,15 @@ public class GameState extends AbstractState {
 		float abilityWidth = 3.4f;
 		float abilityHeight = 7.5f;
 
-		//Add ability images for specific roles
+		// Add ability images for specific roles
 		if (actorManager.getLocalPlayer().getRoleName().equals("Link")) {
 
-			abilityOne = new Sprite(abilityX,abilityY,abilityWidth,abilityHeight,
+			abilityOne = new Sprite(abilityX, abilityY, abilityWidth, abilityHeight,
 					app.getAssetManager().getTexture("res/actors/link/abilities/frenzy_icon.png"));
 			app.getGui().add(abilityOne);
 
 			abilityX += 3.15f;
-			abilityTwo = new Sprite(abilityX, abilityY,abilityWidth,abilityHeight,
+			abilityTwo = new Sprite(abilityX, abilityY, abilityWidth, abilityHeight,
 					app.getAssetManager().getTexture("res/actors/link/abilities/multiarrow.png"));
 			app.getGui().add(abilityTwo);
 
@@ -257,6 +269,18 @@ public class GameState extends AbstractState {
 		scene.getCamera().setProjectionMatrix(
 				MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 1.0f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
+
+		//--TOWERS
+		/*--NEED POWER TO UPDATE DROPBOX
+		Tower tower = new Tower(new Vec3(20.0f,-20.0f,0.0f),app.getAssetManager().getTexture("res/components/Tower/sprite.png"),app.getNetworkManager().getFreeId(), app.getNetworkManager(),10.0f,10.0f);
+		scene.addEntity(tower.getEntity());
+		tower = new Tower(new Vec3(164.0f,-159.0f,0.0f),app.getAssetManager().getTexture("res/components/Tower/sprite.png"),app.getNetworkManager().getFreeId(), app.getNetworkManager(),10.0f,10.0f);
+		scene.addEntity(tower.getEntity());
+		tower = new Tower(new Vec3(98.0f,-122.5f,0.0f),app.getAssetManager().getTexture("res/components/Tower/sprite.png"),app.getNetworkManager().getFreeId(), app.getNetworkManager(),10.0f,10.0f);
+		scene.addEntity(tower.getEntity());
+		tower = new Tower(new Vec3(97.0f,-51.5f,0.0f),app.getAssetManager().getTexture("res/components/Tower/sprite.png"),app.getNetworkManager().getFreeId(), app.getNetworkManager(),10.0f,10.0f);
+		scene.addEntity(tower.getEntity());
+		*/
 	}
 
 	@Override

@@ -18,7 +18,7 @@ public class GoblinClass extends AbstractClass {
 		
 		// Base stats
 		health = 100;
-		moveSpeed = 0.08f;
+		moveSpeed = 0.04f;
 		damage = 40;
 		resistance = 35;
 		energy = 60;
