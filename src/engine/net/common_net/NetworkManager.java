@@ -80,6 +80,8 @@ public class NetworkManager
 	
 	public void deleteNetEntity(int netId, Scene scene)
 	{
+		getEntityByNetId(netId, scene).setLifeTime(0.0f);
+		
 		NetworkEntity toRemove = null;
 		
 		for(NetworkEntity e : networkEntities)
@@ -92,8 +94,6 @@ public class NetworkManager
 		}
 		
 		networkEntities.remove(toRemove);	
-		
-		getEntityByNetId(netId, scene).setLifeTime(0.0f);
 	}
 
 	// on server

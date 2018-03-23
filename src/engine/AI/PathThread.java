@@ -148,7 +148,7 @@ public class PathThread extends Thread
 			path.add(new Vec3(pathTrigs.get(i).getMidpoint().getX(), pathTrigs.get(i).getMidpoint().getY(), 0.0f));
 		}
 		
-		path = smoothPath(path, navMesh.getTriangles());
+		//path = smoothPath(path, navMesh.getTriangles());
 		path.add(target);
 		actor.callbackPath(path);
 	}

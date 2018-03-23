@@ -89,6 +89,11 @@ public class LinkBaseAttack extends Action {
 		
 		arrowNetId = app.getNetworkManager().getFreeId();
 		
+		if(arrowNetId == 0)
+		{
+			System.out.println("WRONG");
+		}
+		
 		Entity arrow = new Entity("Arrow");
 		arrow.addComponent(new NetIdentityComponent(arrowNetId, app.getNetworkManager()));
 		arrow.addComponent(new NetTransformComponent());
