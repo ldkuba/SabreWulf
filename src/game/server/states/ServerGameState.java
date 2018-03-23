@@ -3,19 +3,15 @@ package game.server.states;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
-import engine.application.Application;
 import engine.entity.component.NetTransformComponent;
-import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.state.AbstractState;
 import game.common.actors.NPC;
 import game.common.actors.Player;
+import game.common.classes.classes.CaravanClass;
 import game.common.classes.classes.GhostClass;
-import game.common.classes.classes.GoblinClass;
 import game.common.classes.classes.LinkClass;
-import game.common.classes.classes.SlimeClass;
 import game.common.classes.classes.WolfClass;
 import game.common.map.Map;
 import game.common.objects.Tower;
@@ -98,9 +94,9 @@ public class ServerGameState extends AbstractState {
 			actorManager.addActor(player);
 		}
 
-		/*--UPDATE YOUR CARAVAN SPRITE NAME--
-		* res/actors/caravan/textures/sprite.png
-		*
+		//--UPDATE YOUR CARAVAN SPRITE NAME--
+		// res/actors/caravan/textures/sprite.png
+		
 		// Add Caravan
 		NPC caravan = new NPC("Caravan", actorManager.getNextID(), app);
 		caravan.setRole(new CaravanClass());
@@ -123,18 +119,16 @@ public class ServerGameState extends AbstractState {
 
 		actorManager.addActor(caravan);
 
-		*/
+		
 
-		/*--NEED POWER TO UPDATE DROPBOX--
-		Tower tower = new Tower(new Vec3(30.0f,-20.0f,0.0f),app.getNetworkManager().getFreeId(), app.getNetworkManager(),20.0f,40.0f);
+		Tower tower = new Tower(actorManager, new Vec3(30.0f,-20.0f,0.0f),app.getNetworkManager().getFreeId(), app.getNetworkManager(),20.0f,40.0f);
 		scene.addEntity(tower.getEntity());
-		tower = new Tower(new Vec3(164.0f,-159.0f,0.0f),app.getNetworkManager().getFreeId(), app.getNetworkManager(),20.0f,40.0f);
+		tower = new Tower(actorManager, new Vec3(164.0f,-159.0f,0.0f),app.getNetworkManager().getFreeId(), app.getNetworkManager(),20.0f,40.0f);
 		scene.addEntity(tower.getEntity());
-		tower = new Tower(new Vec3(98.0f,-122.5f,0.0f),app.getNetworkManager().getFreeId(), app.getNetworkManager(),20.0f,40.0f);
+		tower = new Tower(actorManager, new Vec3(98.0f,-122.5f,0.0f),app.getNetworkManager().getFreeId(), app.getNetworkManager(),20.0f,40.0f);
 		scene.addEntity(tower.getEntity());
-		tower = new Tower(new Vec3(97.0f,-51.5f,0.0f),app.getNetworkManager().getFreeId(), app.getNetworkManager(),20.0f,40.0f);
+		tower = new Tower(actorManager, new Vec3(97.0f,-51.5f,0.0f),app.getNetworkManager().getFreeId(), app.getNetworkManager(),20.0f,40.0f);
 		scene.addEntity(tower.getEntity());
-		*/
 		
 		// For some reason as a for loop shit doesnt work
 		/*for (int i = 0; i < 6; i++) {

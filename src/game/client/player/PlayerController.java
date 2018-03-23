@@ -58,13 +58,32 @@ public class PlayerController {
 		for (Entity e : scene.getEntities()) {
 			if (e.hasTag("Targetable")) {
 				if (selectedEntities.contains(e)) {
-					if (e.hasComponent(SpriteComponent.class)) {
-						e.getSprite().setOverlayColor(new Vec4(1.0f, 0.0f, 0.0f, 0.4f));
+					
+					if(Main.gameState.getActorManager().getActor(e) == null)
+					{
+						continue;
 					}
-					if (e.hasComponent(SpriteAnimationComponent.class)) {
-						SpriteAnimationComponent spriteAnim = (SpriteAnimationComponent) e
-								.getComponent(SpriteAnimationComponent.class);
-						spriteAnim.setOverlayColor(new Vec4(1.0f, 0.0f, 0.0f, 0.3f));
+					
+					if(Main.gameState.getActorManager().getActor(e).getTeam() == Main.gameState.getActorManager().getLocalPlayer().getTeam())
+					{
+						if (e.hasComponent(SpriteComponent.class)) {
+							e.getSprite().setOverlayColor(new Vec4(0.0f, 0.0f, 0.8f, 0.2f));
+						}
+						if (e.hasComponent(SpriteAnimationComponent.class)) {
+							SpriteAnimationComponent spriteAnim = (SpriteAnimationComponent) e
+									.getComponent(SpriteAnimationComponent.class);
+							spriteAnim.setOverlayColor(new Vec4(0.0f, 0.0f, 0.8f, 0.2f));
+						}
+					}else
+					{
+						if (e.hasComponent(SpriteComponent.class)) {
+							e.getSprite().setOverlayColor(new Vec4(1.0f, 0.0f, 0.0f, 0.3f));
+						}
+						if (e.hasComponent(SpriteAnimationComponent.class)) {
+							SpriteAnimationComponent spriteAnim = (SpriteAnimationComponent) e
+									.getComponent(SpriteAnimationComponent.class);
+							spriteAnim.setOverlayColor(new Vec4(1.0f, 0.0f, 0.0f, 0.3f));
+						}
 					}
 				} else {
 					if (e.hasComponent(SpriteComponent.class)) {

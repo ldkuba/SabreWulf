@@ -69,6 +69,7 @@ public class LinkBaseAttack extends Action {
 	{
 		actorManager.getActor(targetId).update();
 		actorManager.getActor(sourceId).getBaseAttack().setCooldown();
+
 		
 		if(arrowNetId == 0)
 		{

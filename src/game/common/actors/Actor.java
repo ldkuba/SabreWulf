@@ -613,7 +613,7 @@ public class Actor {
 		
 		if(!app.isHeadless() && shouldHaveStatus)
 		{
-			status.update();
+			status.update();			
 		} else {
 			Vec3 currentPos = new Vec3();
 			if (entity.hasComponent(TransformComponent.class)) {

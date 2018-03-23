@@ -44,6 +44,9 @@ public class GameState extends AbstractState {
 
 	private Map map;
 	private Sprite spellBar;
+	private Sprite abilityOne;
+	private Sprite abilityTwo;
+	private Sprite abilityThree;
 
 	private float dirX = 0.0f;
 	private float dirY = 0.0f;
@@ -145,7 +148,7 @@ public class GameState extends AbstractState {
 		 * res/actors/caravan/textures/sprite.png
 		 */
 		// Add Caravan
-		/*
+		
 		NPC caravan = new NPC("Caravan", actorManager.getNextID(), app);
 		caravan.shouldHaveStatus(false);
 		caravan.setRole(new CaravanClass());
@@ -155,7 +158,7 @@ public class GameState extends AbstractState {
 		caravan.getEntity().addTag("Untargetable");
 
 		actorManager.addActor(caravan);
-*/
+
 		/*
 		 * --UPDATE SLIME SPRITE NAME-- res/actors/slime/textures/sprite.png
 		 *
@@ -197,20 +200,11 @@ public class GameState extends AbstractState {
 			app.getSoundManager().invokeSound("background/game", true, true);
 		}
 
-		// ProgressBar healthBar = new ProgressBar(20.0f,20.0f, 20.0f, 20.0f,
-		// app.getAssetManager().getTexture("res/textures/bars/potion.png"),
-		// app.getAssetManager().getTexture("res/textures/bars/progress.png"),
-		// app.getAssetManager().getFont("fontSprite.png"), app.getGui());
-		// healthBar.setMaxProgress(240.0f);
-		// healthBar.setBar(120.0f);
-
 		spellBar = new Sprite(25.0f, 85.0f, 50.0f, 15.0f,
 				app.getAssetManager().getTexture("res/textures/gui/placeholders/spellbar.png"));
 		app.getGui().add(spellBar);
 
-		Sprite abilityOne;
-		Sprite abilityTwo;
-		Sprite abilityThree;
+		
 
 		float abilityX = 33.65f;
 		float abilityY = 92.2f;
@@ -218,7 +212,7 @@ public class GameState extends AbstractState {
 		float abilityHeight = 7.5f;
 
 		// Add ability images for specific roles
-		if (actorManager.getLocalPlayer().getRoleName().equals("Link")) {
+		if (actorManager.getLocalPlayer().getRole() instanceof LinkClass) {
 
 			abilityOne = new Sprite(abilityX, abilityY, abilityWidth, abilityHeight,
 					app.getAssetManager().getTexture("res/actors/link/abilities/frenzy_icon.png"));
@@ -235,10 +229,37 @@ public class GameState extends AbstractState {
 			app.getGui().add(abilityThree);
 			System.out.println("Added ability icon");
 
-		} else if (actorManager.getLocalPlayer().getRole().equals(new GhostClass())) {
+		} else if (actorManager.getLocalPlayer().getRole() instanceof WolfClass) {
 
-		} else if (actorManager.getLocalPlayer().getRole().equals(new WolfClass())) {
+			abilityOne = new Sprite(abilityX, abilityY, abilityWidth, abilityHeight,
+					app.getAssetManager().getTexture("res/actors/link/abilities/frenzy_icon.png"));
+			app.getGui().add(abilityOne);
 
+			abilityX += 3.15f;
+			abilityTwo = new Sprite(abilityX, abilityY, abilityWidth, abilityHeight,
+					app.getAssetManager().getTexture("res/actors/link/abilities/multiarrow.png"));
+			app.getGui().add(abilityTwo);
+
+			abilityX += 3.21f;
+			abilityThree = new Sprite(abilityX, abilityY, abilityWidth, abilityHeight,
+					app.getAssetManager().getTexture("res/actors/link/abilities/rush_icon.png"));
+			app.getGui().add(abilityThree);
+			System.out.println("Added ability icon");
+		} else if (actorManager.getLocalPlayer().getRole() instanceof GhostClass) {
+			abilityOne = new Sprite(abilityX, abilityY, abilityWidth, abilityHeight,
+					app.getAssetManager().getTexture("res/actors/link/abilities/frenzy_icon.png"));
+			app.getGui().add(abilityOne);
+
+			abilityX += 3.15f;
+			abilityTwo = new Sprite(abilityX, abilityY, abilityWidth, abilityHeight,
+					app.getAssetManager().getTexture("res/actors/link/abilities/multiarrow.png"));
+			app.getGui().add(abilityTwo);
+
+			abilityX += 3.21f;
+			abilityThree = new Sprite(abilityX, abilityY, abilityWidth, abilityHeight,
+					app.getAssetManager().getTexture("res/actors/link/abilities/rush_icon.png"));
+			app.getGui().add(abilityThree);
+			System.out.println("Added ability icon");
 		}
 
 		healthBar = new ProgressBar(43.6f, 93.4f, 12.25f, 2.5f,
@@ -271,7 +292,7 @@ public class GameState extends AbstractState {
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
 
 		//--TOWERS
-		/*--NEED POWER TO UPDATE DROPBOX
+
 		Tower tower = new Tower(new Vec3(20.0f,-20.0f,0.0f),app.getAssetManager().getTexture("res/components/Tower/sprite.png"),app.getNetworkManager().getFreeId(), app.getNetworkManager(),10.0f,10.0f);
 		scene.addEntity(tower.getEntity());
 		tower = new Tower(new Vec3(164.0f,-159.0f,0.0f),app.getAssetManager().getTexture("res/components/Tower/sprite.png"),app.getNetworkManager().getFreeId(), app.getNetworkManager(),10.0f,10.0f);
@@ -280,7 +301,7 @@ public class GameState extends AbstractState {
 		scene.addEntity(tower.getEntity());
 		tower = new Tower(new Vec3(97.0f,-51.5f,0.0f),app.getAssetManager().getTexture("res/components/Tower/sprite.png"),app.getNetworkManager().getFreeId(), app.getNetworkManager(),10.0f,10.0f);
 		scene.addEntity(tower.getEntity());
-		*/
+		
 	}
 
 	@Override
@@ -355,6 +376,21 @@ public class GameState extends AbstractState {
 
 	public ActorManager getActorManager() {
 		return this.actorManager;
+	}
+	
+	public Sprite getAbilityOne()
+	{
+		return abilityOne;
+	}
+	
+	public Sprite getAbilityTwo()
+	{
+		return abilityTwo;
+	}
+	
+	public Sprite getAbilityThree()
+	{
+		return abilityThree;
 	}
 
 	public Map getMap() {
