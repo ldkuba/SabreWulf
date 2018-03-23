@@ -189,9 +189,9 @@ public class Scene {
 				}
 			}
 
-			if(e.getLifeTime() != -1) {
+			if (e.getLifeTime() != -1) {
 				e.changeLifeTime(app.getTimer().getElapsedTime());
-				if(e.getLifeTime() < 0) {
+				if (e.getLifeTime() < 0) {
 					removeEntity(e);
 
 				}
@@ -414,6 +414,12 @@ public class Scene {
 		return result;
 	}
 
+	/**
+	 * Instantiate the timer
+	 * 
+	 * @param e
+	 * @param time
+	 */
 	public void instantiate(Entity e, float time) {
 		e.setLifeTime(time);
 		addEntity(e);
