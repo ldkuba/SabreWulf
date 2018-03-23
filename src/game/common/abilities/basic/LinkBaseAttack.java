@@ -32,7 +32,7 @@ public class LinkBaseAttack extends Action {
 	{
 		super(sourceId);
 		this.targetId = targetId;
-		this.maxCooldown = 0.4f;
+		this.maxCooldown = 0.7f;
 		this.cooldown = 0.0f;
 		this.cost = 0.0f;
 	}

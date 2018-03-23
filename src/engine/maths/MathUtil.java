@@ -358,7 +358,7 @@ public class MathUtil {
 
 	public static float dirToAngle(Vec3 direction)
 	{
-		if(direction.getX() >= 0)
+		if(direction.getY() >= 0)
 		{
 			return (float) Math.acos(direction.getX()/direction.getLength());
 		}else
