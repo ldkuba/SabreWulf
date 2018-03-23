@@ -102,9 +102,9 @@ public class GameState extends AbstractState {
 			Player player = null;
 
 			if (app.getNetworkManager().getNetPlayers().get(i).getName().equals(Main.clientName)) {
-				player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app, true);
+				player = new Player(app.getNetworkManager().getNetPlayers().get(i).getPayload().getNetPlayerId(), app.getNetworkManager().getNetPlayers().get(i).getName(), app, true);
 			} else {
-				player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app, false);
+				player = new Player(app.getNetworkManager().getNetPlayers().get(i).getPayload().getNetPlayerId(), app.getNetworkManager().getNetPlayers().get(i).getName(), app, false);
 			}
 			// here we would set up more stuff related to the player like class,
 			// items, starting position, etc.

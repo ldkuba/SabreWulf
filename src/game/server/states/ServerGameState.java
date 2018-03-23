@@ -62,7 +62,7 @@ public class ServerGameState extends AbstractState {
 
 		// Add players
 		for (int i = 0; i < app.getNetworkManager().getNetPlayers().size(); i++) {
-			Player player = new Player(i, app.getNetworkManager().getNetPlayers().get(i).getName(), app, false);
+			Player player = new Player(app.getNetworkManager().getNetPlayers().get(i).getPayload().getNetPlayerId(), app.getNetworkManager().getNetPlayers().get(i).getName(), app, false);
 			// here we would set up more stuff related to the player like class,
 			// items, starting position, etc.
 			NetTransformComponent netTransform = (NetTransformComponent) player.getEntity()
