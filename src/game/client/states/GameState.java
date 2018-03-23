@@ -1,8 +1,7 @@
 package game.client.states;
 
-import game.common.actors.Actor;
-import game.common.actors.NPC;
-import game.common.classes.classes.CaravanClass;
+import game.common.classes.classes.*;
+import game.common.objects.Tower;
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
@@ -10,7 +9,6 @@ import engine.entity.Entity;
 import engine.entity.component.ColliderComponent;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TransformComponent;
-import engine.gui.components.Button;
 import engine.gui.components.ProgressBar;
 import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
@@ -20,10 +18,6 @@ import engine.state.AbstractState;
 import game.client.Main;
 import game.client.player.PlayerController;
 import game.common.actors.Player;
-import game.common.classes.classes.GhostClass;
-import game.common.classes.classes.LinkClass;
-import game.common.classes.classes.SlimeClass;
-import game.common.classes.classes.WolfClass;
 import game.common.map.Map;
 import game.common.player.ActorManager;
 
@@ -177,6 +171,7 @@ public class GameState extends AbstractState {
 		 * 
 		 * actorManager.addActor(goblin);
 		 */
+
 		map.init(app.getAssetManager());
 
 		// set up background sound
@@ -194,7 +189,6 @@ public class GameState extends AbstractState {
 		spellBar = new Sprite(25.0f, 85.0f, 50.0f, 15.0f,
 				app.getAssetManager().getTexture("res/textures/gui/placeholders/spellbar.png"));
 		app.getGui().add(spellBar);
-
 
 		Sprite abilityOne;
 		Sprite abilityTwo;
@@ -257,6 +251,16 @@ public class GameState extends AbstractState {
 		scene.getCamera().setProjectionMatrix(
 				MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 1.0f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
+
+		//Add components
+		Tower tower = new Tower(new Vec3(20.0f,-20.0f,0.0f),app.getAssetManager().getTexture("res/components/Tower/sprite.png"),app.getNetworkManager().getFreeId(), app.getNetworkManager(),10.0f,10.0f);
+		scene.addEntity(tower.getEntity());
+		tower = new Tower(new Vec3(164.0f,-159.0f,0.0f),app.getAssetManager().getTexture("res/components/Tower/sprite.png"),app.getNetworkManager().getFreeId(), app.getNetworkManager(),10.0f,10.0f);
+		scene.addEntity(tower.getEntity());
+		tower = new Tower(new Vec3(98.0f,-122.5f,0.0f),app.getAssetManager().getTexture("res/components/Tower/sprite.png"),app.getNetworkManager().getFreeId(), app.getNetworkManager(),10.0f,10.0f);
+		scene.addEntity(tower.getEntity());
+		tower = new Tower(new Vec3(97.0f,-51.5f,0.0f),app.getAssetManager().getTexture("res/components/Tower/sprite.png"),app.getNetworkManager().getFreeId(), app.getNetworkManager(),10.0f,10.0f);
+		scene.addEntity(tower.getEntity());
 	}
 
 	@Override
