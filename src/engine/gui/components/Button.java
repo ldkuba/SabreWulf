@@ -19,7 +19,7 @@ public class Button extends GuiComponent {
 	private Texture releasedTexture;
 
 	/**
-	 * Create a new button at the given positon, with the given dimensions and
+	 * Create a new button at the given position, with the given dimensions and
 	 * texture
 	 * 
 	 * @param x
@@ -90,6 +90,9 @@ public class Button extends GuiComponent {
 		onClick();
 	}
 
+	/**
+	 * Specify what happens when the button is pressed repeatedly
+	 */
 	@Override
 	public void onRepeat(int button) {
 

@@ -86,4 +86,16 @@ public class Map {
 	public Navmesh getNavmesh() {
 		return navmesh;
 	}
+	
+	public int getMapSize(){
+		return MAP_SIZE;
+	}
+	
+	public float getTileHeight(){
+		return TILE_HEIGHT;
+	}
+	
+	public float getTileWidth(){
+		return TILE_WIDTH;
+	}
 }

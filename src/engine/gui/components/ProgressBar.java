@@ -148,7 +148,6 @@ public class ProgressBar {
 	 * @param progress
 	 * @param maxProgress
 	 */
-	
 	public void setPosition(float newX, float newY, float progress, float maxProgress){
 		
 		this.progress = progress;

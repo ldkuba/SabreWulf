@@ -9,7 +9,7 @@ package game.common;
 public class config {
 
 	/**
-	 * Common
+	 * Common`
 	 */
 	public static int TCPPort = 4555;
 	public static int UDPMaxPacketSize = 1024;

@@ -59,12 +59,13 @@ public class Actor {
 	protected Application app;
 	protected ActorStatus status;
 	protected AbstractClass role;
-	private Action baseAttack;
+	private Action baseAttack = null;
 	private PathThread pathThread;
 
 	private Vec3 startPosition;
 	private ArrayList<Vec3> currentPath;
 	private ArrayList<Action> abilities;
+	private boolean shouldHaveStatus = true;
 	private boolean debug = true;
 	private int id;
 	// -1 = stop, 0 = up, 1 = left, 2 = down, 3 = right
@@ -127,7 +128,9 @@ public class Actor {
 			sprite = new SpriteAnimationComponent(app.getAssetManager().getTexture(basePath + "textures/sprite.png"), 4,
 					0, 0, 5.0f, 5.0f, 2);
 			entity.addComponent(sprite);
-			status = new ActorStatus(this, app);
+			if(shouldHaveStatus){
+				status = new ActorStatus(this, app);
+			}
 		}
 	}
 
@@ -495,6 +498,7 @@ public class Actor {
 	 * Set the actor damage
 	 * 
 	 * @param dmg
+	 *
 	 */
 	public void setDamage(float dmg) {
 		damage = dmg;
@@ -598,14 +602,16 @@ public class Actor {
 	public void update() {
 		updateNetData();
 
-		baseAttack.changeCooldown(app.getTimer().getElapsedTime() / 1000.0f);
+		if(baseAttack != null) {
+			baseAttack.changeCooldown(app.getTimer().getElapsedTime() / 1000.0f);
+		}
 
 		//update cooldown for abilities
         for(int i = 0; i < abilities.size(); i++) {
             abilities.get(i).changeCooldown(app.getTimer().getElapsedTime() / 1000.0f);
         }
 		
-		if(!app.isHeadless())
+		if(!app.isHeadless() && shouldHaveStatus)
 		{
 			status.update();
 		} else {
@@ -752,6 +758,23 @@ public class Actor {
 	}
 
 	/**
+	 * Set name to the role
+	 *
+	 * @param name
+	 */
+	public void setRoleName(String name) {
+		role.setName(name);
+	}
+
+	/**
+	 * Get role name
+	 * @return
+	 */
+	public String getRoleName() {
+		return role.getName();
+	}
+
+	/**
 	 * Get the actors base attack
 	 * 
 	 * @return
@@ -802,5 +825,17 @@ public class Actor {
 	 */
 	public ActorStatus getStatus() {
 		return status;
+	}
+
+	public ArrayList<Vec3> getCurrentPath() {
+		return currentPath;
+	}
+	
+	public void shouldHaveStatus(boolean decision){
+		this.shouldHaveStatus = decision;
+	}
+	
+	public boolean hasStatus(){
+		return shouldHaveStatus;
 	}
 }

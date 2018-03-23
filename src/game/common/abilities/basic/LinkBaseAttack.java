@@ -1,9 +1,16 @@
 package game.common.abilities.basic;
 
+import engine.application.Application;
+import engine.entity.Entity;
+import engine.entity.component.NetIdentityComponent;
+import engine.entity.component.NetTransformComponent;
+import engine.entity.component.SpriteComponent;
 import engine.maths.Vec3;
-import game.common.abilities.AbstractAbility;
+import engine.maths.Vec4;
+import game.common.customComponent.HomingComponent;
 import game.common.logic.actions.Action;
 import game.common.player.ActorManager;
+import game.server.ingame.ServerMain;
 
 /**
  * Base attack class for the Link character
@@ -13,6 +20,7 @@ import game.common.player.ActorManager;
 public class LinkBaseAttack extends Action {
 
 	private int targetId;
+	private int arrowNetId;
 
 	/**
 	 * Set source of attack and target
@@ -56,21 +64,37 @@ public class LinkBaseAttack extends Action {
 	 * Execute attack in client's machine
 	 */
 	@Override
-	public void executeClient(ActorManager actorManager)
+	public void executeClient(ActorManager actorManager, Application app)
 	{
 		actorManager.getActor(targetId).update();
 		actorManager.getActor(sourceId).getBaseAttack().setCooldown();
+		
+		Entity arrow = new Entity("Arrow");
+		arrow.addComponent(new NetIdentityComponent(arrowNetId, app.getNetworkManager()));
+		arrow.addComponent(new NetTransformComponent());
+		arrow.getNetTransform().setPosition(actorManager.getActor(sourceId).getEntity().getNetTransform().getPosition());
+		arrow.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture(""), 2.0f, 1.0f));
 	}
 
 	/**
 	 * Execute attack in the server
 	 */
 	@Override
-	public void executeServer(ActorManager actorManager)
+	public void executeServer(ActorManager actorManager, Application app)
 	{
 		float health = actorManager.getActor(targetId).getHealth() - 10.0f;
 		actorManager.getActor(targetId).setHealth(health);
 		actorManager.getActor(sourceId).getBaseAttack().setCooldown();
+		
+		int netId = app.getNetworkManager().getFreeId();
+		
+		Entity arrow = new Entity("Arrow");
+		arrow.addComponent(new NetIdentityComponent(netId, app.getNetworkManager()));
+		arrow.addComponent(new NetTransformComponent());
+		arrow.getNetTransform().setPosition(actorManager.getActor(sourceId).getEntity().getNetTransform().getPosition());
+		arrow.addComponent(new HomingComponent(app, actorManager.getActor(targetId).getEntity(), actorManager.getActor(targetId),0.04f));
+		
+		ServerMain.gameState.getScene().addEntity(arrow);
 	}
 
 	/**

@@ -3,9 +3,13 @@ package game.common.player;
 import java.util.ArrayList;
 
 import engine.entity.Entity;
+import engine.maths.Vec3;
 import engine.scene.Scene;
+import game.client.Main;
 import game.common.actors.Actor;
+import game.common.actors.NPC;
 import game.common.actors.Player;
+import game.common.map.Map;
 
 /**
  * Manages all actors in the game.
@@ -17,6 +21,8 @@ public class ActorManager
 {
 	private ArrayList<Actor> actors;
 	private Scene scene;
+	private int nextID;
+	private Map map;
 	
 	public ActorManager(Scene scene)
 	{
@@ -34,6 +40,7 @@ public class ActorManager
 	{
 		actors.add(actor);
 		scene.addEntity(actor.getEntity());
+		nextID++;
 	}
 
 	/**
@@ -89,7 +96,44 @@ public class ActorManager
 	{
 		for(Actor actor : actors)
 		{
-			actor.update();
+			if(actor instanceof Player) {
+				actor.update();
+			} else if(actor instanceof NPC) {
+				//Client would not have NPCs netTransform in the beginning
+				if(actor.getEntity().getNetTransform() == null) {
+					actor.update();
+				} else {
+					Vec3 position = actor.getEntity().getNetTransform().getPosition();
+					Vec3 target = ((NPC) actor).getTargetLocation();
+
+					//Check if there is a desired location.
+					if (((NPC) actor).getDestinationBuffer().size() > 0 ) {
+
+						if(target == null) {
+							target = ((NPC) actor).getDestinationBuffer().poll();
+							((NPC) actor).setTargetLocation(target);
+							actor.calculatePath(target, map.getNavmesh());
+							System.out.println("Path Created");
+							System.out.println("To X: " + target.getX());
+							System.out.println("To Y: " + target.getY());
+						}
+
+						//Have I reached my desired location?
+
+					}
+					if(target != null) {
+						if (position.getX() == target.getX() && position.getY() == target.getY()) {
+							actor.stopMovement();
+							actor.clearPath();
+							((NPC) actor).setTargetLocation(null);
+							System.out.println("Reached target");
+							System.out.println("position x: " + position.getX());
+							System.out.println("position y: " + position.getY());
+						}
+					}
+					actor.update();
+				}
+			}
 		}
 	}
 
@@ -114,5 +158,13 @@ public class ActorManager
 		}
 		
 		return null;
+	}
+
+	public int getNextID() {
+		return nextID;
+	}
+
+	public void setMap(Map map) {
+		this.map = map;
 	}
 }

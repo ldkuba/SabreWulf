@@ -45,6 +45,31 @@ public class NetworkManager
 		tick = 0;
 	}
 
+	public int getFreeId()
+	{
+		boolean found = false;
+		int testId = 0;
+		while(!found)
+		{			
+			boolean check = false;
+			for(NetworkEntity e : networkEntities)
+			{
+				if(e.getNetIdentity().getNetworkId() == testId)
+				{
+					check = true;
+					break;
+				}
+			}
+			
+			if(!check)
+				found = true;
+			
+			testId++;
+		}
+		
+		return testId - 1;
+	}
+	
 	public void registerNetEntity(NetIdentityComponent netIdentity)
 	{
 		NetworkEntity netEntity = new NetworkEntity();

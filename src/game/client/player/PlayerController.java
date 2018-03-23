@@ -124,8 +124,13 @@ public class PlayerController {
 
 		if (button == GLFW.GLFW_MOUSE_BUTTON_2 && action == GLFW.GLFW_PRESS) {
 			DesiredLocationMessage msg = new DesiredLocationMessage();
+
 			Vec3 worldPos = scene.getCamera().getWorldCoordinates((float) main.getInputManager().getMouseX(),
 					(float) main.getInputManager().getMouseY());
+
+			System.out.println("X" +worldPos.getX());
+			System.out.println("Y"+worldPos.getY());
+
 			msg.setPos(worldPos);
 			main.getClient().sendTCP(msg);
 			if (!main.getSoundManager().getIsMuted()) {
