@@ -209,7 +209,7 @@ public class ServerGameState extends AbstractState {
 	public void update() {
 		super.update();
 
-		System.out.println("ALIVE");
+		//System.out.println("ALIVE");
 
 		actorManager.update();
 	}

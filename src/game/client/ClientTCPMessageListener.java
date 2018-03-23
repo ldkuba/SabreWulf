@@ -126,6 +126,8 @@ public class ClientTCPMessageListener implements MessageListener
 			RemoveEntityMessage rem = (RemoveEntityMessage) msg;
 			int netId = rem.getNetId();
 			
+			System.out.println("NET ID: " + netId);
+			
 			app.getNetworkManager().deleteNetEntity(netId, Main.gameState.getScene());
 		}
 	}

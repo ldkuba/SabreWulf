@@ -53,7 +53,7 @@ public abstract class AbstractState implements KeyboardListener, MouseListener {
 			// FPS Counter
 			if (GLFW.glfwGetTime() - second >= 1.0f) {
 				second += 1.0f;
-				System.out.println("FPS: " + frame);
+				//System.out.println("FPS: " + frame);
 				frame = 0;
 			}
 			frame++;

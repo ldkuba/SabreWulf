@@ -67,6 +67,11 @@ public class NetworkManager
 			testId++;
 		}
 		
+		if(testId - 1 < 2)
+		{
+			System.out.println("break");
+		}
+		
 		return testId - 1;
 	}
 	
@@ -80,7 +85,8 @@ public class NetworkManager
 	
 	public void deleteNetEntity(int netId, Scene scene)
 	{
-		getEntityByNetId(netId, scene).setLifeTime(0.0f);
+		System.out.println("Deleting entity " + netId);
+		scene.removeEntity(getEntityByNetId(netId, scene));
 		
 		NetworkEntity toRemove = null;
 		

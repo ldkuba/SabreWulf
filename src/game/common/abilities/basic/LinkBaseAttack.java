@@ -70,6 +70,11 @@ public class LinkBaseAttack extends Action {
 		actorManager.getActor(targetId).update();
 		actorManager.getActor(sourceId).getBaseAttack().setCooldown();
 		
+		if(arrowNetId == 0)
+		{
+			System.out.println("WRONG");
+		}
+		
 		Entity arrow = new Entity("Arrow");
 		arrow.addComponent(new NetIdentityComponent(arrowNetId, app.getNetworkManager()));
 		arrow.addComponent(new NetTransformComponent());
@@ -77,6 +82,8 @@ public class LinkBaseAttack extends Action {
 		arrow.addComponent(new SpriteComponent(new Vec4(1.0f, 1.0f, 1.0f, 1.0f), app.getAssetManager().getTexture("res/actors/link/abilities/basicattack.png"), 2.0f, 1.0f));
 		
 		Main.gameState.getScene().addEntity(arrow);
+		
+		System.out.println("Arrow Created: " + arrowNetId);
 	}
 
 	/**
@@ -88,11 +95,6 @@ public class LinkBaseAttack extends Action {
 		actorManager.getActor(sourceId).getBaseAttack().setCooldown();
 		
 		arrowNetId = app.getNetworkManager().getFreeId();
-		
-		if(arrowNetId == 0)
-		{
-			System.out.println("WRONG");
-		}
 		
 		Entity arrow = new Entity("Arrow");
 		arrow.addComponent(new NetIdentityComponent(arrowNetId, app.getNetworkManager()));
@@ -108,6 +110,8 @@ public class LinkBaseAttack extends Action {
 		});
 		
 		ServerMain.gameState.getScene().addEntity(arrow);
+		
+		System.out.println("Arrow Created: " + arrowNetId);
 	}
 
 	/**

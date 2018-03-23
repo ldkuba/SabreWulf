@@ -78,7 +78,6 @@ public class PlayerController {
 				}
 			}
 		}
-		System.out.println("Selected: " + selectedEntities.size());
 	}
 
 	/**
@@ -127,9 +126,6 @@ public class PlayerController {
 
 			Vec3 worldPos = scene.getCamera().getWorldCoordinates((float) main.getInputManager().getMouseX(),
 					(float) main.getInputManager().getMouseY());
-
-			System.out.println("X" +worldPos.getX());
-			System.out.println("Y"+worldPos.getY());
 
 			msg.setPos(worldPos);
 			main.getClient().sendTCP(msg);

@@ -162,6 +162,9 @@ public class Scene {
 	 * Update the scene
 	 */
 	public void update() {
+		
+		removeMarkedEntities();
+		
 		for (Entity e : m_Entities) {
 			if (e.hasComponent(NetSpriteAnimationComponent.class)) {
 				NetSpriteAnimationComponent animation = (NetSpriteAnimationComponent) e
@@ -172,7 +175,6 @@ public class Scene {
 					localAnim.update(animation);
 				} else {
 					animation.update();
-					System.out.println("Frame: " + animation.getCurrentFrame());
 				}
 			} else if (e.hasComponent(SpriteAnimationComponent.class)) {
 				SpriteAnimationComponent animation = (SpriteAnimationComponent) e
@@ -198,8 +200,6 @@ public class Scene {
 				}
 			}
 		}
-		
-		removeMarkedEntities();
 		
 		sortEntitiesZ();
 		app.getNetworkManager().synchronize(this);

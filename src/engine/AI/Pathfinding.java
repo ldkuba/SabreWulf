@@ -48,7 +48,7 @@ public class Pathfinding {
 		resetTriangles();
 		
 		path.clear();
-		System.out.println("Finding new path...");
+		//System.out.println("Finding new path...");
 		Triangle current = start;
 
 		Comparator<Triangle> hcomp = new DistanceComparator();
@@ -101,13 +101,13 @@ public class Pathfinding {
 				temp.setF(temp.getG() + temp.getHeuristic());
 			}
 
-			System.out.println("Checking Next.");
+			//System.out.println("Checking Next.");
 		}
 		return path;
 	}
 
 	private void reconstructList(Triangle goal) {
-		System.out.println("Reconstructing path.");
+		//System.out.println("Reconstructing path.");
 		Triangle next = goal.getLast();
 		ArrayList<Triangle> tempPath = new ArrayList<Triangle>();
 		tempPath.add(goal);
@@ -120,7 +120,7 @@ public class Pathfinding {
 			//System.out.println("Triangle F value: " + next.getF());
 			//System.out.println("Next Triangle");
 		}
-		System.out.println("Reversing Path.");
+		//System.out.println("Reversing Path.");
 		for (int i = 0; i < tempPath.size(); i++) {
 			path.add(tempPath.get(tempPath.size() - (i + 1)));
 		}

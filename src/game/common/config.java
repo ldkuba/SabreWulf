@@ -25,7 +25,7 @@ public class config {
 	/**
 	 * Client specific
 	 */
-	public static String host = "192.168.0.102";
+	public static String host = "localhost";
 	public static String dhost = "34.241.78.38";
 	public static String windowName = "Sabrewulf";
 	public static boolean clientFullScreen = false;

@@ -73,6 +73,8 @@ public class HomingComponent extends CustomComponent
 				RemoveEntityMessage rem = new RemoveEntityMessage();
 				rem.setNetId(id);
 				
+				System.out.println("Removing Arrow: " + id);
+				
 				app.getNetworkManager().broadcast(rem);
 			}
 		}
