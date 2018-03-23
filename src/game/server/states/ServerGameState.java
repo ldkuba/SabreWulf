@@ -83,14 +83,13 @@ public class ServerGameState extends AbstractState {
 				break;
 			}
 
-			// if (i >= 0 && i < 3) {
-			// player.setTeam(1);
-			//
-			// }else {
-			// player.setTeam(2);
-			// }
+			 if (i >= 0 && i < 3) {
+			 player.setTeam(1);
+			
+			 }else {
+			 player.setTeam(2);
+			 }
 
-			player.setTeam((i % 2) + 1);
 			actorManager.addActor(player);
 		}
 
