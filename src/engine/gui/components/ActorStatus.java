@@ -31,7 +31,7 @@ public class ActorStatus {
 
 	private float paddingHealth = 80.0f;
 	private float paddingEnergy = 40.0f;
-	private float paddingName = 0.0f;
+	private float paddingName = -20.0f;
 
 	/**
 	 * Create a health and energy bar for the given actor
@@ -56,7 +56,7 @@ public class ActorStatus {
 				app.getAssetManager().getTexture("res/textures/gui/bars/energy_bar.png"),
 				app.getAssetManager().getFont("fontSprite.png"), this.gui);
 		playerName = new Label(screen.getX(), screen.getY() + paddingName,
-				app.getAssetManager().getFont("fontSprite.png"), 4.0f, 0.6f, new Vec4(1.0f, 1.0f, 1.0f, 1.0f));
+				app.getAssetManager().getFont("fontSprite.png"), 4.0f, 6.0f, new Vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
 		if (actor instanceof Player) {
 			Player player = (Player) actor;
@@ -81,7 +81,7 @@ public class ActorStatus {
 		health.setPosition(newPos.getX(), newPos.getY() + paddingEnergy / Application.s_Viewport.getX(), newHealth,
 				maxHealth);
 		/* name label */
-		playerName.setPosition(newPos.getX(), newPos.getY() + paddingName / Application.s_Viewport.getX());
+		playerName.setPosition(newPos.getX(), newPos.getY() + paddingName / Application.s_Viewport.getY());
 	}
 
 	/**

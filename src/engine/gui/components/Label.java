@@ -97,6 +97,11 @@ public class Label extends GuiComponent {
 	 * @param newY
 	 */
 	public void setPosition(float newX, float newY) {
-		this.entity.getTransform().setPosition(new Vec3(newX, newY, -1.0f));
+		
+		this.x = newX;
+		this.y = newY;
+		
+		setSpread(this.spread / Application.s_Viewport.getY());
+		setSize(this.size / Application.s_Viewport.getX());
 	}
 }

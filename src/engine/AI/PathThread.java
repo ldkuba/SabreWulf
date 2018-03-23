@@ -53,7 +53,7 @@ public class PathThread extends Thread
 		ArrayList<Vec3> smoothedPath = new ArrayList<Vec3>();
 		smoothedPath.add(path.get(0));
 		path.remove(0);
-		while(path.size() > 1){
+		while(path.size() > 2){
 			A = path.get(0);
 			B = path.get(1);
 			C = averagePoint(A, B);
@@ -148,7 +148,7 @@ public class PathThread extends Thread
 			path.add(new Vec3(pathTrigs.get(i).getMidpoint().getX(), pathTrigs.get(i).getMidpoint().getY(), 0.0f));
 		}
 		
-		//path = smoothPath(path, navMesh.getTriangles());
+		path = smoothPath(path, navMesh.getTriangles());
 		path.add(target);
 		actor.callbackPath(path);
 	}
