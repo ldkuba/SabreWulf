@@ -15,6 +15,8 @@ public class NetSpriteAnimationComponent extends AbstractComponent implements Se
 	private int m_TimeOfFrame;
 	private int m_CurrentTime;
 
+	private boolean m_PlayOnce;
+	
 	public NetSpriteAnimationComponent(int firstIndex, int lastIndex, int speed)
 	{
 		m_StartFrame = firstIndex;
@@ -23,6 +25,8 @@ public class NetSpriteAnimationComponent extends AbstractComponent implements Se
 
 		m_CurrentTime = 0;
 
+		m_PlayOnce = false;
+		
 		m_TimeOfFrame = speed;
 	}
 
@@ -38,7 +42,14 @@ public class NetSpriteAnimationComponent extends AbstractComponent implements Se
 
 			if(m_CurrentFrame > m_EndFrame)
 			{
-				m_CurrentFrame = m_StartFrame;
+				if(m_PlayOnce)
+				{
+					m_CurrentFrame = m_EndFrame;
+				}else
+				{
+					m_CurrentFrame = m_StartFrame;
+				}
+				
 				onEndPlayback();
 			}
 		}
@@ -50,9 +61,18 @@ public class NetSpriteAnimationComponent extends AbstractComponent implements Se
 		m_EndFrame = lastIndex;
 		m_CurrentFrame = firstIndex;
 		
-		
+		m_PlayOnce = false;
 	}
 
+	public void playOnce(int firstIndex, int lastIndex)
+	{
+		m_StartFrame = firstIndex;
+		m_EndFrame = lastIndex;
+		m_CurrentFrame = firstIndex;
+		
+		m_PlayOnce = true;
+	}
+	
 	public void stopAnimation()
 	{
 		m_CurrentFrame = m_StartFrame;
@@ -88,5 +108,10 @@ public class NetSpriteAnimationComponent extends AbstractComponent implements Se
 	public int getCurrentTime()
 	{
 		return m_CurrentTime;
+	}
+	
+	public boolean getPlayOnce()
+	{
+		return m_PlayOnce;
 	}
 }

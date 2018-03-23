@@ -17,6 +17,8 @@ public class SpriteAnimationComponent extends AbstractComponent
 	private int m_TimeOfFrame;
 	private int m_CurrentTime;
 	
+	private boolean m_PlayOnce = false;
+	
 	public SpriteAnimationComponent(Texture texture, int framesPerRow, int firstIndex, int lastIndex, float width, float height, int speed)
 	{
 		m_StartFrame = firstIndex;
@@ -43,7 +45,14 @@ public class SpriteAnimationComponent extends AbstractComponent
 			
 			if(m_CurrentFrame > m_EndFrame)
 			{
-				m_CurrentFrame = m_StartFrame;
+				if(m_PlayOnce)
+				{
+					m_CurrentFrame = m_EndFrame;
+				}else
+				{
+					m_CurrentFrame = m_StartFrame;
+				}
+				
 				onEndPlayback();
 			}
 			
@@ -58,6 +67,7 @@ public class SpriteAnimationComponent extends AbstractComponent
 		m_CurrentFrame = netAnim.getCurrentFrame();
 		m_TimeOfFrame = netAnim.getTimeOfFrame();
 		m_CurrentTime = netAnim.getCurrentTime();
+		m_PlayOnce = netAnim.getPlayOnce();
 		
 		if(m_CurrentFrame > m_EndFrame)
 		{
@@ -77,6 +87,17 @@ public class SpriteAnimationComponent extends AbstractComponent
 		m_StartFrame = firstIndex;
 		m_EndFrame = lastIndex;
 		m_CurrentFrame = firstIndex;
+		
+		m_PlayOnce = false;
+	}
+	
+	public void playOnce(int firstIndex, int lastIndex)
+	{
+		m_StartFrame = firstIndex;
+		m_EndFrame = lastIndex;
+		m_CurrentFrame = firstIndex;
+		
+		m_PlayOnce = true;
 	}
 	
 	public void stopAnimation()
