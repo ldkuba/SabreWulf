@@ -13,14 +13,23 @@ import engine.gui.components.ToggleButton;
 import engine.application.Application;
 import engine.graphics.texture.Texture;
 
+/**
+ * Set up an end state for the game - currently not accessed
+ * @author SabreWulf
+ *
+ */
 public class EndState extends AbstractState {
-	private Main app;
 	
+	private Main app;
 	private Sprite endBackground;
 	private Button exitButton;
 	private Button replayButton;
 	private ToggleButton muteButton;
 
+	/**
+	 * Create an end state for the app
+	 * @param app
+	 */
 	public EndState(Main app) {
 		super(app);
 		this.app = app;
@@ -41,19 +50,21 @@ public class EndState extends AbstractState {
 
 	}
 
+	/**
+	 * Initialise the buttons, sound and texture for the end state
+	 */
 	@Override
 	public void init() {
 		if(!app.getSoundManager().getIsMuted()){
 			app.getSoundManager().invokeSound("background/end", true, true);
 		}
-		//to change
+		
 		super.init();
 		Texture endBackgroundTexture = app.getAssetManager().getTexture("res/textures/gui/backgrounds/end_background.png");
 		endBackground = new Sprite(0, 0, 100.0f, 100.0f, endBackgroundTexture);
 		app.getGui().add(endBackground);
 		
 		Texture replayButtonReleasedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/replay_button_released.png");
-		//change
 		Texture replayButtonPressedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/replay_button_pressed.png");
 		replayButton = new Button(45.0f, 90.0f, 10.0f, 6.0f, replayButtonPressedTexture, replayButtonReleasedTexture) {
 
@@ -68,7 +79,7 @@ public class EndState extends AbstractState {
 		};
 		app.getGui().add(replayButton);
 		
-		//mute button
+		/*mute button*/
 		String muteReleasedPath;
 		String mutePressedPath;
 		if(app.getSoundManager().getIsMuted()){
@@ -99,7 +110,7 @@ public class EndState extends AbstractState {
 		};
 		app.getGui().add(muteButton);
 		
-		//exit button
+		/*exit button*/
 		Texture exitButtonReleasedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/exit_button_released.png");
 		Texture exitButtonPressedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/exit_button_pressed.png");
 		exitButton = new Button(95.0f, 93.0f, 4.0f, 6.0f, exitButtonPressedTexture, exitButtonReleasedTexture) {
@@ -120,11 +131,17 @@ public class EndState extends AbstractState {
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
 	}
 
+	/**
+	 * Render the end state
+	 */
 	@Override
 	public void render() {
 		super.render();
 	}
 
+	/**
+	 * Update the end state
+	 */
 	@Override
 	public void update() {
 		super.update();

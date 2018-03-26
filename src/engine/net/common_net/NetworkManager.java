@@ -18,7 +18,7 @@ import game.common.config;
 
 public class NetworkManager {
 
-	private boolean networkType; // False is Client, True is Server
+	private boolean networkType; /* False is Client, True is Server */
 	private MessageListener messageListener;
 	private ConnectionListener connectionListener;
 	private ArrayList<NetPlayer> players;
@@ -141,14 +141,20 @@ public class NetworkManager {
 		return null;
 	}
 
-	// sending on the server in-game
+	/**
+	 *  sending on the server in-game
+	 * @param msg
+	 */
 	public void broadcast(AbstractMessage msg) {
 		for (NetPlayer player : players) {
 			player.addMsg(msg);
 		}
 	}
 
-	// updates local snapshot if on client or sends snapshot is on server
+	/**
+	 *  updates local snapshot if on client or sends snapshot is on server
+	 * @param scene
+	 */
 	public void synchronize(Scene scene) {
 		if (scene == null)
 			return;

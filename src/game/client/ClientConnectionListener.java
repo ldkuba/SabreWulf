@@ -1,12 +1,8 @@
 package game.client;
 
-import engine.net.client.Client;
 import engine.net.common_net.ConnectionListener;
 import engine.net.server.core.NetPlayer;
-
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientConnectionListener implements ConnectionListener
 {

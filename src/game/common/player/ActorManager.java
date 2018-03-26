@@ -113,9 +113,9 @@ public class ActorManager
 							target = ((NPC) actor).getDestinationBuffer().poll();
 							((NPC) actor).setTargetLocation(target);
 							actor.calculatePath(target, map.getNavmesh());
-//							System.out.println("Path Created");
-//							System.out.println("To X: " + target.getX());
-//							System.out.println("To Y: " + target.getY());
+//							System.err.println("Path Created");
+//							System.err.println("To X: " + target.getX());
+//							System.err.println("To Y: " + target.getY());
 						}
 
 						//Have I reached my desired location?
@@ -126,9 +126,9 @@ public class ActorManager
 							actor.stopMovement();
 							actor.clearPath();
 							((NPC) actor).setTargetLocation(null);
-//							System.out.println("Reached target");
-//							System.out.println("position x: " + position.getX());
-//							System.out.println("position y: " + position.getY());
+//							System.err.println("Reached target");
+//							System.err.println("position x: " + position.getX());
+//							System.err.println("position y: " + position.getY());
 						}
 					}
 					actor.update();

@@ -13,9 +13,16 @@ import engine.net.common_net.networking_messages.LobbyConnectionRequestMessage;
 import engine.state.AbstractState;
 import game.client.Main;
 
+/**
+ * Create the menu state for the game and deal with transitions to the next
+ * state
+ * 
+ * @author SabreWulf
+ *
+ */
 public class MenuState extends AbstractState {
+	
 	private Main app;
-
 	private Sprite menuBackground;
 	private Button playButton;
 	private ToggleButton muteButton;
@@ -23,6 +30,10 @@ public class MenuState extends AbstractState {
 	private Button exitButton;
 	private TextField playerNameField;
 
+	/**
+	 * Create a new menu state for the give main methods
+	 * @param app
+	 */
 	public MenuState(Main app) {
 		super(app);
 		this.app = app;
@@ -38,32 +49,38 @@ public class MenuState extends AbstractState {
 
 	}
 
+	/**
+	 * Initialise the menu state by setting up sound, textures and buttons
+	 */
 	@Override
 	public void init() {
 		super.init();
-		
-		if(!app.getSoundManager().getIsMuted()){
+
+		if (!app.getSoundManager().getIsMuted()) {
 			app.getSoundManager().invokeSound("background/menu", true, true);
 			app.getSoundManager().getSoundSource("background/menu").setGain(0.8f);
 		}
-		Texture menuBackgroundTexture = app.getAssetManager().getTexture("res/textures/gui/backgrounds/mainmenu_background.png");
+		Texture menuBackgroundTexture = app.getAssetManager()
+				.getTexture("res/textures/gui/backgrounds/mainmenu_background.png");
 		menuBackground = new Sprite(0, 0, 100.0f, 100.0f, menuBackgroundTexture);
 		app.getGui().add(menuBackground);
 
-		Texture playButtonReleasedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/play_button_released.png");
-		Texture playButtonPressedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/play_button_pressed.png");
+		Texture playButtonReleasedTexture = app.getAssetManager()
+				.getTexture("res/textures/gui/buttons/play_button_released.png");
+		Texture playButtonPressedTexture = app.getAssetManager()
+				.getTexture("res/textures/gui/buttons/play_button_pressed.png");
 		playButton = new Button(45.0f, 90.0f, 10.0f, 6.0f, playButtonPressedTexture, playButtonReleasedTexture) {
 
 			@Override
 			public void onClick() {
-				if(!app.getSoundManager().getIsMuted()){
+				if (!app.getSoundManager().getIsMuted()) {
 					app.getSoundManager().invokeSound("click", false, true);
 				}
 				LobbyConnectionRequestMessage cnm = new LobbyConnectionRequestMessage();
 				cnm.setName(playerNameField.getText());
 				Main.clientName = playerNameField.getText();
 				app.getClient().sendTCP(cnm);
-				if(!app.getSoundManager().getIsMuted()){
+				if (!app.getSoundManager().getIsMuted()) {
 					app.getSoundManager().stopSoundSource("background/menu");
 				}
 			}
@@ -72,22 +89,20 @@ public class MenuState extends AbstractState {
 
 		String muteReleasedPath;
 		String mutePressedPath;
-		if(app.getSoundManager().getIsMuted()){
+		if (app.getSoundManager().getIsMuted()) {
 			muteReleasedPath = "res/textures/gui/buttons/mute_button_pressed.png";
 			mutePressedPath = "res/textures/gui/buttons/mute_button_released.png";
 		} else {
 			muteReleasedPath = "res/textures/gui/buttons/mute_button_released.png";
 			mutePressedPath = "res/textures/gui/buttons/mute_button_pressed.png";
 		}
-		
-		Texture muteButtonReleasedTexture = app.getAssetManager()
-				.getTexture(muteReleasedPath);
-		Texture muteButtonPressedTexture = app.getAssetManager()
-				.getTexture(mutePressedPath);
+
+		Texture muteButtonReleasedTexture = app.getAssetManager().getTexture(muteReleasedPath);
+		Texture muteButtonPressedTexture = app.getAssetManager().getTexture(mutePressedPath);
 		muteButton = new ToggleButton(85.0f, 93.0f, 4.0f, 6.0f, muteButtonPressedTexture, muteButtonReleasedTexture) {
 			@Override
 			public void onClick(boolean toggled) {
-				if(toggled && !app.getSoundManager().getIsMuted()) {
+				if (toggled && !app.getSoundManager().getIsMuted()) {
 					app.getSoundManager().invokeSound("click", false, true);
 					app.getSoundManager().stopSoundSource("background/menu");
 					app.getSoundManager().muteSounds();
@@ -99,7 +114,7 @@ public class MenuState extends AbstractState {
 			}
 		};
 		app.getGui().add(muteButton);
-	
+
 		Texture settingButtonReleasedTexture = app.getAssetManager()
 				.getTexture("res/textures/gui/buttons/settings_button_released.png");
 		Texture settingButtonPressedTexture = app.getAssetManager()
@@ -108,19 +123,21 @@ public class MenuState extends AbstractState {
 				settingButtonReleasedTexture) {
 			@Override
 			public void onClick() {
-				if(!app.getSoundManager().getIsMuted()){
+				if (!app.getSoundManager().getIsMuted()) {
 					app.getSoundManager().invokeSound("click", false, true);
 				}
 			}
 		};
 		app.getGui().add(settingsButton);
 
-		Texture exitButtonReleasedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/exit_button_released.png");
-		Texture exitButtonPressedTexture = app.getAssetManager().getTexture("res/textures/gui/buttons/exit_button_pressed.png");
+		Texture exitButtonReleasedTexture = app.getAssetManager()
+				.getTexture("res/textures/gui/buttons/exit_button_released.png");
+		Texture exitButtonPressedTexture = app.getAssetManager()
+				.getTexture("res/textures/gui/buttons/exit_button_pressed.png");
 		exitButton = new Button(95.0f, 93.0f, 4.0f, 6.0f, exitButtonPressedTexture, exitButtonReleasedTexture) {
 			@Override
 			public void onClick() {
-				if(!app.getSoundManager().getIsMuted()){
+				if (!app.getSoundManager().getIsMuted()) {
 					app.getSoundManager().invokeSound("quit", false, true);
 				}
 				app.exit();
@@ -129,20 +146,28 @@ public class MenuState extends AbstractState {
 			}
 		};
 		app.getGui().add(exitButton);
-		
-		playerNameField = new TextField(38.0f, 10.0f, app.getAssetManager().getFont("fontSprite.png"), 4.0f, 0.6f, 20, new Vec4(1.0f, 0.0f, 0.0f, 1.0f));
+
+		playerNameField = new TextField(38.0f, 10.0f, app.getAssetManager().getFont("fontSprite.png"), 4.0f, 0.6f, 20,
+				new Vec4(1.0f, 0.0f, 0.0f, 1.0f));
 		app.getGui().add(playerNameField);
 
 		float aspectRatio = Application.s_WindowSize.getX() / Application.s_WindowSize.getY();
-		scene.getCamera().setProjectionMatrix(MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.1f, 100.0f));
+		scene.getCamera().setProjectionMatrix(
+				MathUtil.orthoProjMat(-10.0f, 10.0f, 10.0f * aspectRatio, -10.0f * aspectRatio, 0.1f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
 	}
 
+	/**
+	 * Render the menu state
+	 */
 	@Override
 	public void render() {
 		super.render();
 	}
 
+	/**
+	 * Update the menu state
+	 */
 	@Override
 	public void update() {
 		super.update();

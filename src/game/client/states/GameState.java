@@ -1,35 +1,35 @@
 package game.client.states;
 
-import game.common.classes.classes.*;
-import game.common.objects.Tower;
-
-import game.common.actors.Actor;
-import game.common.actors.NPC;
-import game.common.classes.classes.CaravanClass;
-
-import java.util.Random;
-
 import org.lwjgl.glfw.GLFW;
 
 import engine.application.Application;
 import engine.entity.Entity;
 import engine.entity.component.ColliderComponent;
-import engine.entity.component.NetTransformComponent;
 import engine.entity.component.SpriteComponent;
 import engine.entity.component.TransformComponent;
 import engine.gui.components.ProgressBar;
 import engine.gui.components.Sprite;
 import engine.maths.MathUtil;
-import engine.maths.Vec2;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
 import engine.state.AbstractState;
+
 import game.client.Main;
 import game.client.player.PlayerController;
 import game.common.actors.Player;
 import game.common.map.Map;
 import game.common.player.ActorManager;
+import game.common.classes.classes.*;
+import game.common.objects.Tower;
+import game.common.actors.NPC;
+import game.common.classes.classes.CaravanClass;
 
+/**
+ * Create the actual game state for the game
+ * 
+ * @author SabreWulf
+ *
+ */
 public class GameState extends AbstractState {
 
 	private final int SCROLL_MARGIN = 10;
@@ -50,15 +50,18 @@ public class GameState extends AbstractState {
 
 	private float dirX = 0.0f;
 	private float dirY = 0.0f;
-
 	private float zoom = 10.0f;
 	private float aspectRatio = Application.s_WindowSize.getX() / Application.s_WindowSize.getY();
-
 	private String attackAudio;
 
+	/**
+	 * Create a new game state for the given application and set up the actor
+	 * manager, map and player controller
+	 * 
+	 * @param app
+	 */
 	public GameState(Main app) {
 		super(app);
-
 		this.app = app;
 
 		actorManager = new ActorManager(scene);
@@ -68,6 +71,10 @@ public class GameState extends AbstractState {
 
 	}
 
+	/**
+	 * When a key is pressed carry out the relevant task Z -> zoom in X -> Zoom
+	 * Out D -> Debug
+	 */
 	@Override
 	public void keyAction(int key, int action) {
 		playerController.onKeyPress(key, action);
@@ -91,23 +98,35 @@ public class GameState extends AbstractState {
 		}
 	}
 
+	/**
+	 * When a mouse button is clicked, call the player controller as all mouse
+	 * clicks are related to player interaction
+	 */
 	@Override
 	public void mouseAction(int button, int action) {
 		playerController.mouseAction(button, action);
 	}
 
+	/**
+	 * Initialise the game state by adding all players details via the network
+	 * manager. This is also responsible for setting up teams and AI controlled
+	 * features. It also sets up elements of the GUI such as the spell bar and
+	 * status bars, and items specific go each character such as abilities.
+	 */
 	@Override
 	public void init() {
 		super.init();
-		// Add players
+		/* Add players */
 		for (int i = 0; i < app.getNetworkManager().getNetPlayers().size(); i++) {
 
 			Player player = null;
 
 			if (app.getNetworkManager().getNetPlayers().get(i).getName().equals(Main.clientName)) {
-				player = new Player(app.getNetworkManager().getNetPlayers().get(i).getPayload().getNetPlayerId(), app.getNetworkManager().getNetPlayers().get(i).getName(), app, true);
+				player = new Player(app.getNetworkManager().getNetPlayers().get(i).getPayload().getNetPlayerId(),
+						app.getNetworkManager().getNetPlayers().get(i).getName(), app, true);
 			} else {
-				player = new Player(app.getNetworkManager().getNetPlayers().get(i).getPayload().getNetPlayerId(), app.getNetworkManager().getNetPlayers().get(i).getName(), app, false);
+				player = new Player(app.getNetworkManager().getNetPlayers().get(i).getPayload().getNetPlayerId(),
+						app.getNetworkManager().getNetPlayers().get(i).getName(), app, false);
 			}
 			// here we would set up more stuff related to the player like class,
 			// items, starting position, etc.
@@ -138,17 +157,10 @@ public class GameState extends AbstractState {
 			} else {
 				player.setTeam(2);
 			}
-
 			actorManager.addActor(player);
-
 		}
 
-		/*
-		 * --UPDATE YOUR CARAVAN SPRITE NAME--
-		 * res/actors/caravan/textures/sprite.png
-		 */
-		// Add Caravan
-		
+		/* Add Caravan */
 		NPC caravan = new NPC("Caravan", actorManager.getNextID(), app);
 		caravan.shouldHaveStatus(false);
 		caravan.setRole(new CaravanClass());
@@ -156,46 +168,26 @@ public class GameState extends AbstractState {
 		caravan.getEntity().getNetTransform().setPosition(new Vec3(14.0f, -12.0f, 0.0f));
 		caravan.getEntity().removeTag("Targetable");
 		caravan.getEntity().addTag("Untargetable");
-
 		actorManager.addActor(caravan);
 
-		/*
-		 * --UPDATE SLIME SPRITE NAME-- res/actors/slime/textures/sprite.png
-		 *
-
-		for (int i = 0; i < 3; i++) {
-			// Add Slime
+		/* Sadly the AI is not working
+		for (int i = 0; i < 6; i++) { // Add Slime
 			NPC slime = new NPC("Slime" + Integer.toString(i), actorManager.getNextID(), app);
 			slime.setRole(new SlimeClass());
 			slime.setTeam(3);
-
 			actorManager.addActor(slime);
 		}
-		for (int i = 0; i < 3; i++) {
-			// Add Slime
+
+		for (int i = 0; i < 6; i++) { // Add goblins
 			NPC goblin = new NPC("Goblin" + Integer.toString(i), actorManager.getNextID(), app);
 			goblin.setRole(new GoblinClass());
 			goblin.setTeam(3);
-
 			actorManager.addActor(goblin);
-		}
-
-		/*
-		 * --UPDATE GOBLIN SPRITE NAME-- res/actors/goblin/textures/sprite.png
-		 */
-
-		// Add Goblin
-		// NPC goblin = new NPC("Goblin"+Integer.toString(i),
-		// actorManager.getNextID(), app);
-		// goblin.setRole(new GoblinClass());
-		// goblin.setTeam(3);
-
-		// actorManager.addActor(goblin);
-		// }
+		}*/
 
 		map.init(app.getAssetManager());
 
-		// set up background sound
+		/* set up background sound */
 		if (!app.getSoundManager().getIsMuted()) {
 			app.getSoundManager().invokeSound("background/game", true, true);
 		}
@@ -204,16 +196,13 @@ public class GameState extends AbstractState {
 				app.getAssetManager().getTexture("res/textures/gui/placeholders/spellbar.png"));
 		app.getGui().add(spellBar);
 
-		
-
 		float abilityX = 33.65f;
 		float abilityY = 92.2f;
 		float abilityWidth = 3.4f;
 		float abilityHeight = 7.5f;
 
-		// Add ability images for specific roles
+		/* Add ability images for specific roles */
 		if (actorManager.getLocalPlayer().getRole() instanceof LinkClass) {
-
 			abilityOne = new Sprite(abilityX, abilityY, abilityWidth, abilityHeight,
 					app.getAssetManager().getTexture("res/actors/link/abilities/frenzy_icon.png"));
 			app.getGui().add(abilityOne);
@@ -230,7 +219,6 @@ public class GameState extends AbstractState {
 			System.out.println("Added ability icon");
 
 		} else if (actorManager.getLocalPlayer().getRole() instanceof WolfClass) {
-
 			abilityOne = new Sprite(abilityX, abilityY, abilityWidth, abilityHeight,
 					app.getAssetManager().getTexture("res/actors/link/abilities/frenzy_icon.png"));
 			app.getGui().add(abilityOne);
@@ -262,6 +250,7 @@ public class GameState extends AbstractState {
 			System.out.println("Added ability icon");
 		}
 
+		/* set up progress bars */
 		healthBar = new ProgressBar(43.6f, 93.4f, 12.25f, 2.5f,
 				app.getAssetManager().getTexture("res/textures/gui/bars/health_bar_background.png"),
 				app.getAssetManager().getTexture("res/textures/gui/bars/health_bar.png"),
@@ -291,63 +280,68 @@ public class GameState extends AbstractState {
 				MathUtil.orthoProjMat(-zoom, zoom, zoom * aspectRatio, -zoom * aspectRatio, 1.0f, 100.0f));
 		scene.getCamera().setPosition(new Vec3(0.0f, 0.0f, -5.0f));
 
-		//--TOWERS
+		/* Set up towers */
+		Tower tower = new Tower(new Vec3(20.0f, -20.0f, 0.0f),
+				app.getAssetManager().getTexture("res/components/Tower/sprite.png"),
+				app.getNetworkManager().getFreeId(), app.getNetworkManager(), 10.0f, 10.0f);
+		scene.addEntity(tower.getEntity());
+		tower = new Tower(new Vec3(164.0f, -159.0f, 0.0f),
+				app.getAssetManager().getTexture("res/components/Tower/sprite.png"),
+				app.getNetworkManager().getFreeId(), app.getNetworkManager(), 10.0f, 10.0f);
+		scene.addEntity(tower.getEntity());
+		tower = new Tower(new Vec3(98.0f, -122.5f, 0.0f),
+				app.getAssetManager().getTexture("res/components/Tower/sprite.png"),
+				app.getNetworkManager().getFreeId(), app.getNetworkManager(), 10.0f, 10.0f);
+		scene.addEntity(tower.getEntity());
+		tower = new Tower(new Vec3(97.0f, -51.5f, 0.0f),
+				app.getAssetManager().getTexture("res/components/Tower/sprite.png"),
+				app.getNetworkManager().getFreeId(), app.getNetworkManager(), 10.0f, 10.0f);
+		scene.addEntity(tower.getEntity());
 
-		Tower tower = new Tower(new Vec3(20.0f,-20.0f,0.0f),app.getAssetManager().getTexture("res/components/Tower/sprite.png"),app.getNetworkManager().getFreeId(), app.getNetworkManager(),10.0f,10.0f);
-		scene.addEntity(tower.getEntity());
-		tower = new Tower(new Vec3(164.0f,-159.0f,0.0f),app.getAssetManager().getTexture("res/components/Tower/sprite.png"),app.getNetworkManager().getFreeId(), app.getNetworkManager(),10.0f,10.0f);
-		scene.addEntity(tower.getEntity());
-		tower = new Tower(new Vec3(98.0f,-122.5f,0.0f),app.getAssetManager().getTexture("res/components/Tower/sprite.png"),app.getNetworkManager().getFreeId(), app.getNetworkManager(),10.0f,10.0f);
-		scene.addEntity(tower.getEntity());
-		tower = new Tower(new Vec3(97.0f,-51.5f,0.0f),app.getAssetManager().getTexture("res/components/Tower/sprite.png"),app.getNetworkManager().getFreeId(), app.getNetworkManager(),10.0f,10.0f);
-		scene.addEntity(tower.getEntity());
-		
 	}
 
+	/**
+	 * Render the game state
+	 */
 	@Override
 	public void render() {
 		super.render();
 	}
 
+	/**
+	 * Update the game state
+	 */
 	@Override
 	public void update() {
 		super.update();
-
 		float cameraSpeed = 0.3f;
 
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
 			scene.getCamera().move(new Vec3(-cameraSpeed, 0.0f, 0.0f));
 		}
-
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
 			scene.getCamera().move(new Vec3(cameraSpeed, 0.0f, 0.0f));
 		}
-
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_UP)) {
 			scene.getCamera().move(new Vec3(0.0f, cameraSpeed, 0.0f));
 		}
-
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
 			scene.getCamera().move(new Vec3(0.0f, -cameraSpeed, 0.0f));
 		}
-
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_A)) {
 			dirX -= 0.04f;
 		}
-
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_F)) {
 			dirX += 0.04f;
 		}
-
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_W)) {
 			dirY -= 0.04f;
 		}
-
 		if (app.getInputManager().isKeyPressed(GLFW.GLFW_KEY_S)) {
 			dirY += 0.04f;
 		}
 
-		// Mouse Scroll
+		/* Implement mouse scroll */
 		if (app.getInputManager().getMouseX() < SCROLL_MARGIN) {
 			scene.getCamera().move(new Vec3(-SCROLL_SPEED * Application.s_Viewport.getX(), 0.0f, 0.0f));
 		}
@@ -364,7 +358,7 @@ public class GameState extends AbstractState {
 			scene.getCamera().move(new Vec3(0.0f, -SCROLL_SPEED * Application.s_Viewport.getX(), 0.0f));
 		}
 
-		// STATS UPDATE:
+		/* update player stats */
 		healthBar.setBar(actorManager.getLocalPlayer().getHealth());
 		healthBar.setMaxProgress(actorManager.getLocalPlayer().getHealthLimit());
 		energyBar.setBar(actorManager.getLocalPlayer().getEnergy());
@@ -374,29 +368,56 @@ public class GameState extends AbstractState {
 		playerController.update();
 	}
 
+	/**
+	 * Get actor manager
+	 * 
+	 * @return
+	 */
 	public ActorManager getActorManager() {
 		return this.actorManager;
 	}
-	
-	public Sprite getAbilityOne()
-	{
+
+	/**
+	 * Get players ability 1
+	 * 
+	 * @return
+	 */
+	public Sprite getAbilityOne() {
 		return abilityOne;
 	}
-	
-	public Sprite getAbilityTwo()
-	{
+
+	/**
+	 * Get players ability 2
+	 * 
+	 * @return
+	 */
+	public Sprite getAbilityTwo() {
 		return abilityTwo;
 	}
-	
-	public Sprite getAbilityThree()
-	{
+
+	/**
+	 * Get players ability 3
+	 * 
+	 * @return
+	 */
+	public Sprite getAbilityThree() {
 		return abilityThree;
 	}
 
+	/**
+	 * Get the map
+	 * 
+	 * @return
+	 */
 	public Map getMap() {
 		return this.map;
 	}
 
+	/**
+	 * Get the attack sound file path
+	 * 
+	 * @return
+	 */
 	public String getAttackSoundPath() {
 		return this.attackAudio;
 	}
