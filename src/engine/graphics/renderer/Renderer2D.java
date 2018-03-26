@@ -29,7 +29,7 @@ import engine.maths.Vec4;
  */
 public class Renderer2D 
 {
-	private final int MAX_SPRITES = 1000;
+	private final int MAX_SPRITES = 10000;
 	private final int MAX_VERTS = MAX_SPRITES * 4;
 	private final int MAX_INDEX = MAX_SPRITES * 6;
 	
@@ -111,7 +111,7 @@ public class Renderer2D
 	}
 
 	/**
-	 * Submits a renderable2D to be drawin in this frame
+	 * Submits a renderable2D to be drawn in this frame
 	 * @param renderable - sprite to be drawn
 	 * @param transformation - the combined location rotation and scale of the sprite
 	 */

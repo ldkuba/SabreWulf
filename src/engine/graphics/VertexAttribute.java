@@ -31,7 +31,7 @@ public class VertexAttribute {
 	 */
 	public VertexAttribute(AttributeTypes type, int count, boolean normalized) {
 		m_Type = type;
-		// m_Count = count;
+		m_Count = count;
 		m_Normalized = normalized;
 	}
 
