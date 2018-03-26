@@ -8,11 +8,9 @@ import engine.maths.Vec3;
  * @author nawro
  *
  */
-public class Renderer3D extends Renderer
-{	
+public class Renderer3D {
 	private Vec3 m_AmbientLight;
-	
-	private Camera m_CurrentCamera;	
+	private Camera m_CurrentCamera;
 	
 	/**
 	 * Creates the renderer and sets the current camera

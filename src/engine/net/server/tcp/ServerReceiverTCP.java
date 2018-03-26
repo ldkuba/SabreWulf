@@ -11,10 +11,12 @@ public class ServerReceiverTCP extends Thread{
     ObjectInputStream ois = null;
     NetPlayer player;
     GameServer gameServer;
+    
     public ServerReceiverTCP(NetPlayer player, GameServer gameServer) {
         this.player = player;
         this.gameServer = gameServer;
     }
+    
     public void run(){
         try {
             ois = new ObjectInputStream(player.getSocket().getInputStream());

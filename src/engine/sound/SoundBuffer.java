@@ -16,7 +16,7 @@ import static org.lwjgl.system.MemoryUtil.*;
  * Create a sound buffer for any given sound. The buffer is used to store audio
  * data.
  * 
- * @author bhavi
+ * @author SabreWulf
  *
  */
 public class SoundBuffer {

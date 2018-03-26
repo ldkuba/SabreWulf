@@ -2,7 +2,6 @@ package engine.net.server.core;
 import game.common.config;
 import game.server.GameServer;
 
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

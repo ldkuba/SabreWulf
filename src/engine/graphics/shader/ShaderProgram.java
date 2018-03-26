@@ -68,7 +68,7 @@ public class ShaderProgram
 	{
 		m_UniformLayout.locateUniforms(m_ID);
 	}
-	
+
 	/**
 	 * Loads the vertex and fragment shaders into this shader program. This function parses, compiles and verifies the correctness of the shaders.
 	 * @param filepath - path to the shader file
@@ -78,12 +78,10 @@ public class ShaderProgram
 		String vertexShaderSource = "";
 		String fragmentShaderSource = "";
 		boolean readingVertexShader = true;
-		
+
 		try {
-			
 			File file = new File(filepath);
 			BufferedReader br = new BufferedReader(new FileReader(file));
-			
 			String readLine = "";
 			
 			while ((readLine = br.readLine()) != null) 
@@ -91,23 +89,17 @@ public class ShaderProgram
 				if(readLine.equals("<SEPARATOR>")) 
 				{
 					readingVertexShader = false;
-				}else
-				{
-					if(readingVertexShader)
-					{
+				} else {
+					if (readingVertexShader) {
 						vertexShaderSource += (readLine + "\n");
-					}else
-					{
+					} else {
 						fragmentShaderSource += (readLine + "\n");
 					}
 				}
-	        }
-			
-		} catch(IOException e)
-		{
+			}
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		m_ID = CreateShader(vertexShaderSource, fragmentShaderSource);
 	}
 	
@@ -120,18 +112,16 @@ public class ShaderProgram
 	private int CreateShader(final String vertexShader, final String fragmentShader)
 	{
 		int program = GL20.glCreateProgram();
-		
 		int vs = CompileShader(vertexShader, GL20.GL_VERTEX_SHADER);
 		int fs = CompileShader(fragmentShader, GL20.GL_FRAGMENT_SHADER);
-		
+
 		GL20.glAttachShader(program, vs);
 		GL20.glAttachShader(program, fs);
 		GL20.glLinkProgram(program);
 		GL20.glValidateProgram(program);
-		
 		GL20.glDeleteShader(vs);
 		GL20.glDeleteShader(fs);
-		
+
 		return program;
 	}
 	
@@ -147,20 +137,18 @@ public class ShaderProgram
 		CharSequence cs = source;
 		GL20.glShaderSource(id, cs);
 		GL20.glCompileShader(id);
-		
 		int[] result = new int[1];
 		GL20.glGetShaderiv(id, GL20.GL_COMPILE_STATUS, result);
-		
-		if(result[0] == GL_FALSE)
-		{
+
+		if (result[0] == GL_FALSE) {
 			String message;
 			message = GL20.glGetShaderInfoLog(id);
-			System.out.println("Failed to compile " + ((id == GL20.GL_VERTEX_SHADER) ? "vertex" : "fragment") + " shader: ");
+			System.out.println(
+					"Failed to compile " + ((id == GL20.GL_VERTEX_SHADER) ? "vertex" : "fragment") + " shader: ");
 			System.out.println(message);
 			GL20.glDeleteShader(id);
 			return 0;
 		}
-		
 		return id;
 	}
 

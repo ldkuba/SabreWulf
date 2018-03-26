@@ -16,7 +16,7 @@ import static org.lwjgl.BufferUtils.*;
 /**
  * Contains helper methods that are used in other classes in the same package.
  * 
- * @author bhavi
+ * @author SabreWulf
  *
  */
 public class SoundUtils {

@@ -21,12 +21,13 @@ import engine.maths.MathUtil;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
 
+
 /**
  * Batch renderer for 2D sprites
- * @author nawro
+ * @author SabreWulf
  *
  */
-public class Renderer2D extends Renderer
+public class Renderer2D 
 {
 	private final int MAX_SPRITES = 1000;
 	private final int MAX_VERTS = MAX_SPRITES * 4;

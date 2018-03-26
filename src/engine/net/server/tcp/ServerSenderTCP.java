@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.SocketException;
 
-import engine.application.Timer;
 import engine.net.common_net.networking_messages.AbstractMessage;
 import engine.net.common_net.networking_messages.QuitMessage;
 import engine.net.server.core.NetPlayer;
@@ -14,6 +13,7 @@ public class ServerSenderTCP extends Thread{
     NetPlayer player;
     GameServer gameServer;
     ObjectOutputStream oos;
+    
     public ServerSenderTCP(NetPlayer player, GameServer gameServer){
         this.player = player;
         this.gameServer = gameServer;
@@ -46,9 +46,7 @@ public class ServerSenderTCP extends Thread{
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-            
-            
+            }      
         }
     }
 }

@@ -17,7 +17,7 @@ public class ShaderUniformLayout
 		Vec4,
 		Mat4
 	};
-	
+
 	private ArrayList<ShaderUniform> m_ShaderUniforms;
 	private int m_Count;
 	
@@ -38,10 +38,11 @@ public class ShaderUniformLayout
 	public void addShaderUniform(ShaderUniform uniform, int count)
 	{
 		m_Count += 1;
-		
-		for(int i = 0; i < count; i++)
+
+		for (int i = 0; i < count; i++)
 			m_ShaderUniforms.add(uniform);
 	}
+	
 	/**
 	 * Locates the uniforms stored in this layout, in the given shader
 	 * @param programID - the id of the shader program
@@ -78,7 +79,6 @@ public class ShaderUniformLayout
 				return uniform.getLocation();
 			}
 		}
-		
 		return -2;
 	}
 }

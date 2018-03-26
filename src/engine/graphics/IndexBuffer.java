@@ -30,7 +30,7 @@ public class IndexBuffer
 	public IndexBuffer(int[] data)
 	{
 		m_Count = data.length;
-		
+
 		m_ID = GL15.glGenBuffers();
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, m_ID);
 		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, data, GL15.GL_STATIC_DRAW);
@@ -44,7 +44,7 @@ public class IndexBuffer
 	public void updateData(IntBuffer data, int count)
 	{
 		m_Count = count;
-		
+
 		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, data, GL15.GL_DYNAMIC_DRAW);
 	}
 	

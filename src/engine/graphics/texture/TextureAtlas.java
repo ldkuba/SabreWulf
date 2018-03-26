@@ -26,7 +26,6 @@ public class TextureAtlas {
 		m_Texture = texture;
 		m_ElementWidth = m_Texture.getWidth() / m_ElementCountX;
 		m_ElementHeight = m_Texture.getHeight() / m_ElementCountY;
-
 	}
 
 	/**
@@ -35,12 +34,9 @@ public class TextureAtlas {
 	 * @return the UV coordinates of the requested element
 	 */
 	public Vec2[] getElementUVs(int i) {
-
 		int ix = i % m_ElementCountX;
 		int iy = i / m_ElementCountY;
-
 		Vec2[] resultUVs = new Vec2[4];
-
 		int topLeftX = m_ElementWidth * ix;
 		int topLeftY = m_ElementHeight * iy;
 		Vec2 topLeft = new Vec2(topLeftX, topLeftY);
