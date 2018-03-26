@@ -107,8 +107,8 @@ public class Texture
 	}
 
 	/**
-	 * Unbinds 
-	 * @param slot
+	 * Unbinds texture at the specified slot
+	 * @param slot - the slot which should be unbound
 	 */
 	public void unbind(int slot)
 	{
@@ -116,21 +116,37 @@ public class Texture
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 	}
 
+	/**
+	 * Gets the width of this texture
+	 * @return the width of this texture
+	 */
 	public int getWidth()
 	{
 		return m_Width;
 	}
 
+	/**
+	 * Gets the height of this texture
+	 * @return the height of this texture
+	 */
 	public int getHeight()
 	{
 		return m_Height;
 	}
 
+	/**
+	 * Returns the OpenGL id for this texture
+	 * @return the id for this texture
+	 */
 	public int getID()
 	{
 		return m_ID;
 	}
 
+	/**
+	 * Returns the resource path for this texture
+	 * @return
+	 */
 	public String getPath()
 	{
 		return m_Path;

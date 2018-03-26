@@ -9,41 +9,70 @@ import java.io.IOException;
 
 import org.lwjgl.opengl.GL20;
 
+/**
+ * A representation of shader programs. Used to handle both vertex and fragment programs
+ * @author nawro
+ *
+ */
 public class ShaderProgram
 {
 	private int m_ID;
 	private ShaderUniformLayout m_UniformLayout;
 	
+	/**
+	 * Creates a shader program and initialises an empty uniform layout
+	 */
 	public ShaderProgram() 
 	{
 		m_UniformLayout = new ShaderUniformLayout();
 	}
 	
+	/**
+	 * Gets the OpenGL id for this shader program
+	 * @return the id of this shader program
+	 */
 	public int getID()
 	{
 		return m_ID;
 	}
 	
+	/**
+	 * Sets this shader program as the currently used shader
+	 */
 	public void bind()
 	{
 		GL20.glUseProgram(m_ID);
 	}
 	
+	/**
+	 * Unbinds this shader program
+	 */
 	public void unbind()
 	{
 		GL20.glUseProgram(0);
 	}
 	
+	/**
+	 * Gets the layout of uniforms for this shader program
+	 * @return the uniform layout of this shader program
+	 */
 	public ShaderUniformLayout getUniformLayout()
 	{
 		return m_UniformLayout;
 	}
 	
+	/**
+	 * Sets the locations of all uniforms specified in the uniform layout for this shader program
+	 */
 	public void locateUniforms()
 	{
 		m_UniformLayout.locateUniforms(m_ID);
 	}
 	
+	/**
+	 * Loads the vertex and fragment shaders into this shader program. This function parses, compiles and verifies the correctness of the shaders.
+	 * @param filepath - path to the shader file
+	 */
 	public void loadShader(final String filepath)
 	{
 		String vertexShaderSource = "";
@@ -59,7 +88,7 @@ public class ShaderProgram
 			
 			while ((readLine = br.readLine()) != null) 
 			{
-				if(readLine.equals("<SEPARATOR>"))
+				if(readLine.equals("<SEPARATOR>")) 
 				{
 					readingVertexShader = false;
 				}else
@@ -82,6 +111,12 @@ public class ShaderProgram
 		m_ID = CreateShader(vertexShaderSource, fragmentShaderSource);
 	}
 	
+	/**
+	 * Creates the shader program from the parsed source code
+	 * @param vertexShader - source code of the vertex shader
+	 * @param fragmentShader - source code of the fragment shader
+	 * @return the OpenGL id of the created shader program
+	 */
 	private int CreateShader(final String vertexShader, final String fragmentShader)
 	{
 		int program = GL20.glCreateProgram();
@@ -100,6 +135,12 @@ public class ShaderProgram
 		return program;
 	}
 	
+	/**
+	 * Compiles the shader from its source code
+	 * @param source - source code of the shder
+	 * @param type - type of the shader
+	 * @return the id of the generated shader
+	 */
 	private int CompileShader(final String source, int type)
 	{
 		int id = GL20.glCreateShader(type);
@@ -123,6 +164,9 @@ public class ShaderProgram
 		return id;
 	}
 
+	/**
+	 * Deletes the shader
+	 */
 	public void close()
 	{
 		GL20.glDeleteProgram(m_ID);
