@@ -2,7 +2,7 @@ package engine.logic;
 
 /**
  * Extended by all actions
- * @author bhavi
+ * @author SabreWulf
  *
  */
 public class AbstractAction {

@@ -9,53 +9,51 @@ import java.util.ArrayList;
 import engine.maths.Vec2;
 
 public class ParseTriangles {
-	
+
 	private ArrayList<Triangle> verticies;
-	
-	public ParseTriangles()
-	{
+
+	public ParseTriangles() {
 		verticies = new ArrayList<>();
 	}
-	
-	public void readFile(String filename){
+
+	public void readFile(String filename) {
 		FileReader input = null;
 		String[] array1 = null;
 		try {
 			input = new FileReader(filename);
 		} catch (FileNotFoundException e) {
-			//System.out.println("Error file not found.");
+			e.getMessage();
 		}
 		BufferedReader bufRead = new BufferedReader(input);
 		String myLine;
 		try {
 			myLine = bufRead.readLine();
 		} catch (IOException e) {
-			//System.out.println("Error no verticies found.");
+			e.getMessage();
 		}
-		
+
 		try {
-			while ( (myLine = bufRead.readLine()) != null)
-			{    
+			while ((myLine = bufRead.readLine()) != null) {
 				array1 = myLine.split(" ");
 				convertArray(array1);
 			}
 		} catch (IOException e) {
-			//System.out.println("No more verticies found.");
+			e.getMessage();
 		}
 	}
-	
-	public void convertArray(String[] strings){
+
+	public void convertArray(String[] strings) {
 		Triangle tri;
 		Vec2 x = new Vec2();
 		Vec2 y = new Vec2();
 		Vec2 z = new Vec2();
 		int j = 0;
 		float[] floats = new float[6];
-		for(int i = 0; i < strings.length; i++){
-			if(i != 2 && i != 5 && i != 8){
-				//add verticies to array except z coodinates because we have no height.
+		for (int i = 0; i < strings.length; i++) {
+			if (i != 2 && i != 5 && i != 8) {
+				// add verticies to array except z coodinates because we have no
+				// height.
 				floats[j++] = Float.parseFloat(strings[i]);
-				
 			}
 		}
 		x.setX(floats[0]);
@@ -67,8 +65,8 @@ public class ParseTriangles {
 		tri = new Triangle(x, y, z);
 		verticies.add(tri);
 	}
-	
-	public ArrayList<Triangle> getTriangles(){
+
+	public ArrayList<Triangle> getTriangles() {
 		return verticies;
 	}
 }

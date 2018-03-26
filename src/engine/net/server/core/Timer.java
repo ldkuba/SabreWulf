@@ -3,6 +3,7 @@ package engine.net.server.core;
 public class Timer extends Thread {
     int time;
     GameInstanceManager instanceManager;
+    
     public Timer(int time, GameInstanceManager GIManager){
         this.instanceManager = GIManager;
         this.setName("lobby timer");
@@ -19,8 +20,6 @@ public class Timer extends Thread {
             instanceManager.notifyTick(i);
         }
         instanceManager.notifyEndOfCountdown();
-
-        //System.out.print("is this the end");
     }
 
 }

@@ -10,7 +10,7 @@ import static org.lwjgl.openal.AL10.*;
  * Sound Sources are used to emit sound and alter various components of the
  * sound such as its expected position and gain,
  * 
- * @author bhavi
+ * @author SabreWulf
  *
  */
 public class SoundSource {

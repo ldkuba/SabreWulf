@@ -3,12 +3,10 @@ package engine.net.server.core;
 import java.io.Serializable;
 import java.net.DatagramSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import engine.net.common_net.networking_messages.AbstractMessage;
-import game.common.config;
 
 public class NetPlayer implements Serializable {
 

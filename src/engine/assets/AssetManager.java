@@ -141,7 +141,7 @@ public class AssetManager {
 	}
 
 	/**
-	 * 
+	 * Process the materials
 	 * @param aiMaterials
 	 * @param numMaterials
 	 * @param texture
@@ -186,7 +186,7 @@ public class AssetManager {
 	}
 
 	/**
-	 * 
+	 * Process the mesh
 	 * @param mesh
 	 * @param materials
 	 * @param shaderProgram

@@ -17,12 +17,9 @@ public class InputManager {
 
 	private KeyboardHandler keyboardHandler;
 	private MouseButtonHandler mouseButtonHandler;
-
 	private DoubleBuffer mouseXBuff;
 	private DoubleBuffer mouseYBuff;
-
 	private Application app;
-
 	private long window;
 
 	/**

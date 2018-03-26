@@ -1,45 +1,52 @@
 package engine.graphics;
 
-import java.util.ArrayList;
-
 import org.lwjgl.opengl.GL30;
 
-public class VertexArray
-{
+public class VertexArray {
 	private int m_ID;
-	
+
 	private VertexBuffer m_VertexBuffer;
-	
-	public VertexArray()
-	{
+
+	public VertexArray() {
 		m_ID = GL30.glGenVertexArrays();
 	}
 
-	//THE VAO MUST BE BOUND WHEN CALLING THIS FUNCTION
-	public void addVertexBuffer(VertexBuffer buffer)
-	{
+	/**
+	 * Add vertex buffer
+	 * THE VAO MUST BE BOUND WHEN CALLING THIS FUNCTION
+	 * @param buffer
+	 */
+	public void addVertexBuffer(VertexBuffer buffer) {
 		m_VertexBuffer = buffer;
 	}
-	
-	public VertexBuffer getVertexBuffer()
-	{
+
+	/**
+	 * Get vertx buffer
+	 * @return
+	 */
+	public VertexBuffer getVertexBuffer() {
 		return m_VertexBuffer;
 	}
-	
-	public void bind()
-	{
+
+	/**
+	 * Bind the array
+	 */
+	public void bind() {
 		GL30.glBindVertexArray(m_ID);
 	}
-	
-	public void unbind()
-	{
+
+	/**
+	 * Unbind the array
+	 */
+	public void unbind() {
 		GL30.glBindVertexArray(0);
 	}
-	
-	public void close()
-	{
+
+	/**
+	 * Delete
+	 */
+	public void close() {
 		m_VertexBuffer.close();
-		
 		GL30.glDeleteVertexArrays(m_ID);
 	}
 }

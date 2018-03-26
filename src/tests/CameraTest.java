@@ -46,8 +46,8 @@ public class CameraTest {
 		Vec3 world = new Vec3(4.0f, 8.0f, 17.0f);
 		Vec2 calcScreen = camera.getScreenCoordinates(world);
 		Vec3 calcWorld = camera.getWorldCoordinates(calcScreen.getX(), calcScreen.getY());
-		assertEquals(world.getX(), calcScreen.getX(), 0.0f);
-		assertEquals(world.getY(), calcScreen.getY(), 0.0f);
+		assertEquals(world.getX(), calcWorld.getX(), 0.0f);
+		assertEquals(world.getY(), calcWorld.getY(), 0.0f);
 		assertEquals(world.getZ(), calcWorld.getZ(), 0.0f);
 	}
 }

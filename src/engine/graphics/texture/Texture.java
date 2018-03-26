@@ -11,16 +11,14 @@ import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.stb.STBImage;
 
-public class Texture
-{
+public class Texture {
 	private int m_ID;
 	private ByteBuffer m_ImageData;
 	private int m_Width, m_Height, m_ColourChannels;
 
 	private String m_Path;
 
-	public Texture(String filename)
-	{
+	public Texture(String filename) {
 		IntBuffer x = BufferUtils.createIntBuffer(1);
 		IntBuffer y = BufferUtils.createIntBuffer(1);
 		IntBuffer colourChannels = BufferUtils.createIntBuffer(1);
@@ -53,13 +51,11 @@ public class Texture
 		m_Path = filename;
 	}
 
-	public Texture(ByteBuffer data, int width, int height, String name)
-	{
+	public Texture(ByteBuffer data, int width, int height, String name) {
 
 		m_ImageData = data;
-
 		m_ImageData.flip();
-
+		
 		m_Width = width;
 		m_Height = height;
 		m_ColourChannels = 4;
@@ -80,35 +76,29 @@ public class Texture
 		m_Path = name;
 	}
 
-	public void bind(int slot)
-	{
+	public void bind(int slot) {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0 + slot);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, m_ID);
 	}
 
-	public void unbind(int slot)
-	{
+	public void unbind(int slot) {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0 + slot);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 	}
 
-	public int getWidth()
-	{
+	public int getWidth() {
 		return m_Width;
 	}
 
-	public int getHeight()
-	{
+	public int getHeight() {
 		return m_Height;
 	}
 
-	public int getID()
-	{
+	public int getID() {
 		return m_ID;
 	}
 
-	public String getPath()
-	{
+	public String getPath() {
 		return m_Path;
 	}
 }

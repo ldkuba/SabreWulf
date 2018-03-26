@@ -6,7 +6,7 @@ import engine.application.Application;
 
 /**
  * Manage the states that are registered to the game
- * @author bhavi
+ * @author SabreWulf
  *
  */
 public class StateManager {
