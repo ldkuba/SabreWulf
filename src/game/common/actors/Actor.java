@@ -17,6 +17,8 @@ import engine.entity.component.TransformComponent;
 import engine.gui.components.ActorStatus;
 import engine.maths.MathUtil;
 import engine.maths.Vec3;
+import game.client.Main;
+import game.common.abilities.effects.Effect;
 import game.common.classes.AbstractClass;
 import game.common.inventory.Inventory;
 import game.common.inventory.Item;
@@ -62,6 +64,8 @@ public class Actor {
 	private Action baseAttack = null;
 	private PathThread pathThread;
 
+	private ArrayList<Effect> effects;
+	
 	private Vec3 startPosition;
 	private ArrayList<Vec3> currentPath;
 	private ArrayList<Action> abilities;
@@ -116,6 +120,8 @@ public class Actor {
 		stopMovement();
 		entity.addComponent(netSprite);
 		entity.addTag("Targetable");
+		
+		effects = new ArrayList<>();
 	}
 
 	/**
@@ -557,7 +563,24 @@ public class Actor {
 	public void setEnergyRegen(float energyRegen) {
 		this.energyRegen = energyRegen;
 	}
+	
+	/**
+	 * Add effect to actor
+	 */
+	public void addEffect(Effect effect)
+	{
+		this.effects.add(effect);
+	}
 
+	/**
+	 * Remove effect from actor
+	 */
+	public void removeEffect(Effect effect)
+	{
+		if(effects.contains(effect))
+			effects.remove(effect);
+	}
+	
 	/**
 	 * Update the network data for the given player
 	 */
@@ -600,8 +623,7 @@ public class Actor {
 	 * position
 	 */
 	public void update() {
-		updateNetData();
-
+		
 		if(baseAttack != null) {
 			baseAttack.changeCooldown(app.getTimer().getElapsedTime() / 1000.0f);
 		}
@@ -611,10 +633,21 @@ public class Actor {
             abilities.get(i).changeCooldown(app.getTimer().getElapsedTime() / 1000.0f);
         }
 		
-		if(!app.isHeadless() && shouldHaveStatus)
+		if(!app.isHeadless())
 		{
-			status.update();			
+			if(shouldHaveStatus)
+			{
+				status.update();		
+			}
 		} else {
+			
+			//Update effects
+			for(Effect effect : effects)
+			{
+				effect.update(app.getTimer().getElapsedTime());
+			}
+			
+			//Move to destination
 			Vec3 currentPos = new Vec3();
 			if (entity.hasComponent(TransformComponent.class)) {
 				if (!currentPath.isEmpty()) {
@@ -672,6 +705,8 @@ public class Actor {
 			}
 			currentPos.scale(-1.0f);
 		}
+		
+		updateNetData();
 	}
 
 	/**
@@ -721,6 +756,24 @@ public class Actor {
 		if (movingDir != 3) {
 			netSprite.changeAnimationFrames(MOVE_ANIMATION_RIGHT, MOVE_ANIMATION_RIGHT + MOVE_ANIMATION_LENGTH);
 			movingDir = 3;
+		}
+	}
+	
+	/**
+	 * Auto attack 
+	 */
+	public void attack()
+	{
+		if(app.isHeadless())
+		{
+			//change animation
+			
+		}else
+		{	
+			//play sound
+			if (!app.getSoundManager().getIsMuted()) {
+				app.getSoundManager().invokeSound(Main.gameState.getAttackSoundPath(), false, true);
+			}
 		}
 	}
 
@@ -791,7 +844,7 @@ public class Actor {
 	public ArrayList<Action> getAbilities() {
 		return abilities;
 	}
-
+	
 	/**
 	 * Set the statistics for the actor - dependant on character chouse
 	 */

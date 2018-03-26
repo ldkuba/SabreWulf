@@ -67,14 +67,8 @@ public class LinkBaseAttack extends Action {
 	@Override
 	public void executeClient(ActorManager actorManager, Application app)
 	{
-		actorManager.getActor(targetId).update();
+		//actorManager.getActor(targetId).update();
 		actorManager.getActor(sourceId).getBaseAttack().setCooldown();
-
-		
-		if(arrowNetId == 0)
-		{
-			System.out.println("WRONG");
-		}
 		
 		Entity arrow = new Entity("Arrow");
 		arrow.addComponent(new NetIdentityComponent(arrowNetId, app.getNetworkManager()));
@@ -84,7 +78,7 @@ public class LinkBaseAttack extends Action {
 		
 		Main.gameState.getScene().addEntity(arrow);
 		
-		System.out.println("Arrow Created: " + arrowNetId);
+		actorManager.getActor(sourceId).attack();
 	}
 
 	/**
@@ -124,7 +118,7 @@ public class LinkBaseAttack extends Action {
 	 */
 	@Override
 	public boolean verify(ActorManager actorManager)
-	{
+	{		
 		Vec3 sourcePos = actorManager.getActor(sourceId).getEntity().getNetTransform().getPosition();
 		Vec3 targetPos = actorManager.getActor(targetId).getEntity().getNetTransform().getPosition();
 

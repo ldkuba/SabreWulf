@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
+/**
+ * Representation of the layout of vertex data
+ * @author nawro
+ *
+ */
 public class VertexLayout
 {
 	public enum AttributeTypes 
@@ -31,12 +36,20 @@ public class VertexLayout
 	
 	private ArrayList<VertexAttribute> m_Layout;
 	
+	/**
+	 * Creates an empty vertex layout
+	 */
 	public VertexLayout()
 	{
 		m_Layout = new ArrayList<>();
 		m_Count = 0;
 	}
 	
+	/**
+	 * Adds an attribute to the vertex layout
+	 * @param attrib - the attribute to add
+	 * @param count - number of attributes of this type to add
+	 */
 	public void addAttribute(VertexAttribute attrib, int count)
 	{
 		m_Count += 1;
@@ -45,16 +58,29 @@ public class VertexLayout
 			m_Layout.add(attrib);
 	}
 	
+	/**
+	 * 
+	 * @return number of attributes per vertex
+	 */
 	public int getAttributeCount()
 	{
 		return m_Count;
 	}
 	
+	/**
+	 * Gets vertex attribute at index
+	 * @param index - index of attribute
+	 * @return vertex attribute at index
+	 */
 	public VertexAttribute getVertexAttribute(int index)
 	{
 		return m_Layout.get(index);
 	}
 
+	/**
+	 * Gets the size of one vertex in bytes
+	 * @return size of vertex in bytes
+	 */
 	public int getVertexSizeInBytes()
 	{
 		int size = 0;
