@@ -59,11 +59,6 @@ public class NetworkManager {
 
 			testId++;
 		}
-
-		if (testId - 1 < 2) {
-			System.out.println("break");
-		}
-
 		return testId - 1;
 	}
 

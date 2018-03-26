@@ -31,6 +31,8 @@ public class GhostClass extends AbstractClass {
 		moveAnimationRight = 4;
 		moveAnimationUp = 10;
 		moveAnimationDown = 13;
+		
+		// waiting for mihai attackAnimation = 
 
 		//Regeneration values
 		energyReg = 0.2f;

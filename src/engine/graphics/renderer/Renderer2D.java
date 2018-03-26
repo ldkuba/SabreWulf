@@ -21,7 +21,13 @@ import engine.maths.MathUtil;
 import engine.maths.Vec3;
 import engine.maths.Vec4;
 
-public class Renderer2D
+
+/**
+ * Batch renderer for 2D sprites
+ * @author SabreWulf
+ *
+ */
+public class Renderer2D 
 {
 	private final int MAX_SPRITES = 1000;
 	private final int MAX_VERTS = MAX_SPRITES * 4;
@@ -44,6 +50,9 @@ public class Renderer2D
 
 	private ShaderProgram m_Shader;
 
+	/**
+	 * Creates and initializes the renderer
+	 */
 	public Renderer2D()
 	{
 		m_VertexArray = new VertexArray();
@@ -68,7 +77,10 @@ public class Renderer2D
 		m_Shader.unbind();
 	}
 
-	// called every frame before submitting sprites
+	/**
+	 * Begins drawing for the current frame and sets up the needed components. Called every frame before submitting sprites
+	 * @param camera - the camera used for rendering
+	 */
 	public void init(Camera camera)
 	{
 		m_CurrentCamera = camera;
@@ -82,22 +94,27 @@ public class Renderer2D
 
 		m_Shader.bind();
 		
-		// Set Shader uniforms
-		//Model matrix
+		/* Set Shader uniforms */
+		/* Model matrix */
 		int modelLoc = m_Shader.getUniformLayout().getUniformLocation(0);
 		GL20.glUniformMatrix4fv(modelLoc, true, Mat4.identity().getElements());
 		
-		//View matrix
+		/* View matrix */
 		int viewLoc = m_Shader.getUniformLayout().getUniformLocation(1);
 		GL20.glUniformMatrix4fv(viewLoc, true, camera.getViewMatrix().getElements());
 		
-		//Projection matrix
+		/* Projection matrix */
 		int projLoc = m_Shader.getUniformLayout().getUniformLocation(2);
 		GL20.glUniformMatrix4fv(projLoc, true, camera.getProjectionMatrix().getElements());	
 		
 		m_Shader.unbind();	
 	}
 
+	/**
+	 * Submits a renderable2D to be drawin in this frame
+	 * @param renderable - sprite to be drawn
+	 * @param transformation - the combined location rotation and scale of the sprite
+	 */
 	public void submit(Renderable2D renderable, Mat4 transformation)
 	{	
 		float textureSlot = -1;
@@ -165,6 +182,9 @@ public class Renderer2D
 		m_SpriteCount++;
 	}
 
+	/**
+	 * Draws all buffered renderables onto the sreen. Called after all sprites have been submitted for rendering.
+	 */
 	public void drawAll()
 	{			
 		m_Shader.bind();
@@ -178,22 +198,18 @@ public class Renderer2D
 		m_IndexBuffer.bind();
 		m_IndexBuffer.updateData(m_IndexData, m_SpriteCount * 6);	
 		
-		//bind textures
+		/* bind textures */
 		for(int i = 0; i < m_Textures.size(); i++)
 			m_Textures.get(i).bind(i);
 		
-		//set texture units
+		/* set texture units */
 		for(int i = 0; i < m_Textures.size(); i++)
 		{
 			int loc = GL20.glGetUniformLocation(m_Shader.getID(), "texture[" + i + "]");
 			GL20.glUniform1i(loc, i);
 		}
 		
-		while(GL11.glGetError() != GL11.GL_NO_ERROR)
-		{}
-		
 		GL11.glDrawElements(GL11.GL_TRIANGLES, m_SpriteCount * 6, GL11.GL_UNSIGNED_INT, 0);
-		//System.out.println(GL11.glGetError());
 		
 		for(int i = 0; i < m_Textures.size(); i++)
 			m_Textures.get(i).unbind(i);

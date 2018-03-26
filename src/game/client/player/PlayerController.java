@@ -151,10 +151,6 @@ public class PlayerController {
 			if (!main.getSoundManager().getIsMuted()) {
 				main.getSoundManager().getSoundSource("background/game").setGain(0.5f);
 			}
-		} else if (button == GLFW.GLFW_MOUSE_BUTTON_1 && action == GLFW.GLFW_PRESS) {
-			if (!main.getSoundManager().getIsMuted()) {
-				main.getSoundManager().invokeSound(gamestate.getAttackSoundPath(), false, true);
-			}
 		}
 	}
 }

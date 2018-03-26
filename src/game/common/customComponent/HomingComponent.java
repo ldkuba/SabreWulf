@@ -66,7 +66,7 @@ public class HomingComponent extends CustomComponent
 					}
 				}
 				
-				int id = ((NetIdentityComponent) ownerEntity.getComponent(NetIdentityComponent.class)).getNetworkId();
+				int id = ((NetIdentityComponent) ownerEntity.getComponent(NetIdentityComponent.class)).getNetworkId();					
 				
 				app.getNetworkManager().deleteNetEntity(id, scene);
 				

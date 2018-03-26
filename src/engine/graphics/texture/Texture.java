@@ -11,6 +11,12 @@ import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.stb.STBImage;
 
+/**
+ * Representation of a texture
+ * 
+ * @author nawro
+ *
+ */
 public class Texture {
 	private int m_ID;
 	private ByteBuffer m_ImageData;
@@ -18,6 +24,11 @@ public class Texture {
 
 	private String m_Path;
 
+	/**
+	 * Creates a texture from the specified file
+	 * 
+	 * @param filename
+	 */
 	public Texture(String filename) {
 		IntBuffer x = BufferUtils.createIntBuffer(1);
 		IntBuffer y = BufferUtils.createIntBuffer(1);
@@ -51,11 +62,22 @@ public class Texture {
 		m_Path = filename;
 	}
 
+	/**
+	 * Creates a texture from the provided data
+	 * 
+	 * @param data
+	 *            - texture data
+	 * @param width
+	 *            - width of the texture
+	 * @param height
+	 *            - height of the texture
+	 * @param name
+	 *            - reference name for the asset loader
+	 */
 	public Texture(ByteBuffer data, int width, int height, String name) {
-
 		m_ImageData = data;
 		m_ImageData.flip();
-		
+
 		m_Width = width;
 		m_Height = height;
 		m_ColourChannels = 4;
@@ -76,11 +98,22 @@ public class Texture {
 		m_Path = name;
 	}
 
+	/**
+	 * Binds this material to a given slot
+	 * 
+	 * @param slot
+	 *            - slot to bind this material to
+	 */
 	public void bind(int slot) {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0 + slot);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, m_ID);
 	}
 
+	/**
+	 * Unbinds
+	 * 
+	 * @param slot
+	 */
 	public void unbind(int slot) {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0 + slot);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);

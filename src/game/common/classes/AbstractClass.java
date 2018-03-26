@@ -30,6 +30,12 @@ public class AbstractClass {
 	protected int moveAnimationRight = 0;
 	protected int moveAnimationUp = 0;
 	protected int moveAnimationDown = 0;
+	
+	protected int attackAnimationLength = 0;
+	protected int attackAnimationLeft = 0;
+	protected int attackAnimationRight = 0;
+	protected int attackAnimationUp = 0;
+	protected int attackAnimationDown = 0;
 
 	// Regeneration
 	protected float energyReg = 0;

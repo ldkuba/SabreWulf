@@ -3,30 +3,58 @@ package engine.graphics.renderer;
 import engine.graphics.camera.Camera;
 import engine.maths.Vec3;
 
+/**
+ * 3D Renderer with basic lighting capabilities
+ * @author nawro
+ *
+ */
 public class Renderer3D {
-	// Lighting for future goes here, UPDATE: The future is now
 	private Vec3 m_AmbientLight;
-
 	private Camera m_CurrentCamera;
-
-	public Renderer3D(Camera camera) {
+	
+	/**
+	 * Creates the renderer and sets the current camera
+	 * @param camera - current cumera to use
+	 */
+	public Renderer3D(Camera camera)
+	{
 		m_CurrentCamera = camera;
 		m_AmbientLight = new Vec3(0.8f, 0.8f, 0.8f);
 	}
-
-	public void setCamera(Camera camera) {
+	
+	/**
+	 * Sets the current camera to use
+	 * @param camera - current camera to use
+	 */
+	public void setCamera(Camera camera)
+	{
 		m_CurrentCamera = camera;
 	}
-
-	public Camera getCamera() {
+	
+	/**
+	 * Gets the currently used camera
+	 * @return currently used camera
+	 */
+	public Camera getCamera()
+	{
 		return m_CurrentCamera;
 	}
-
-	public void setAmbientLight(Vec3 ambientLight) {
+	
+	/**
+	 * Sets the ambient light value for light calculations
+	 * @param ambientLight - the ambient light value
+	 */
+	public void setAmbientLight(Vec3 ambientLight)
+	{
 		m_AmbientLight = ambientLight;
 	}
-
-	public Vec3 getAmbientLight() {
+	
+	/**
+	 * Gets the ambient light value
+	 * @return ambient light value
+	 */
+	public Vec3 getAmbientLight()
+	{
 		return m_AmbientLight;
 	}
 }

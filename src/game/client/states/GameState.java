@@ -33,7 +33,7 @@ import game.common.player.ActorManager;
 public class GameState extends AbstractState {
 
 	private final int SCROLL_MARGIN = 10;
-	private final float SCROLL_SPEED = 0.03f;
+	private final float SCROLL_SPEED = 0.00f;
 
 	private Main app;
 	private PlayerController playerController;

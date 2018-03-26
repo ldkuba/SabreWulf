@@ -4,42 +4,80 @@ import java.nio.IntBuffer;
 
 import org.lwjgl.opengl.GL15;
 
-public class IndexBuffer {
+/**
+ * Stores indices of verticies for rendering
+ * @author nawro
+ *
+ */
+public class IndexBuffer
+{
 	private int m_ID;
 	private int m_Count;
-
-	public IndexBuffer() {
+	
+	/**
+	 * Creates an empty index buffer
+	 */
+	public IndexBuffer()
+	{
 		m_Count = 0;
 		m_ID = GL15.glGenBuffers();
 	}
-
-	public IndexBuffer(int[] data) {
+	
+	/**
+	 * Creates an index buffer and fills it with data
+	 * @param data - information to fill the buffer with
+	 */
+	public IndexBuffer(int[] data)
+	{
 		m_Count = data.length;
 
 		m_ID = GL15.glGenBuffers();
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, m_ID);
 		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, data, GL15.GL_STATIC_DRAW);
 	}
-
-	public void updateData(IntBuffer data, int count) {
+	
+	/**
+	 * Updates the index buffer with data
+	 * @param data - information about indices
+	 * @param count - number of indices
+	 */
+	public void updateData(IntBuffer data, int count)
+	{
 		m_Count = count;
 
 		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, data, GL15.GL_DYNAMIC_DRAW);
 	}
-
-	public void bind() {
+	
+	/**
+	 * Binds the index buffer
+	 */
+	public void bind()
+	{
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, m_ID);
 	}
-
-	public void unbind() {
+	
+	/**
+	 * Unbinds the index buffer
+	 */
+	public void unbind()
+	{
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
-
-	public int getCount() {
+	
+	/**
+	 *
+	 * @return number of indices
+	 */
+	public int getCount()
+	{
 		return m_Count;
 	}
-
-	public void close() {
+	
+	/**
+	 * Deletes the buffer
+	 */
+	public void close()
+	{
 		GL15.glDeleteBuffers(m_ID);
 	}
 }
